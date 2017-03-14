@@ -1,0 +1,45 @@
+{
+  "name": "rainbow-cli-sdk",
+  "version": "0.1.0",
+  "description": "Rainbow SDK for Shell on top of Node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.openrainbow.org/cloud-services/Rainbow-CLI-SDK.git"
+  },
+  "keywords": [
+    "ALE",
+    "SDK",
+    "Node.js",
+    "CLI",
+    "Rainbow"
+  ],
+  "author": "Olivier Anguenot <olivier.anguenot@al-enterprise.com>",
+  "license": "MIT",
+  "bin": {
+    "rainbow": "./index.js"
+  },
+  "dependencies": {
+    "chalk": "^1.1.3",
+    "clear": "0.0.1",
+    "clui": "^0.3.1",
+    "co": "^4.6.0",
+    "co-prompt": "^1.0.0",
+    "colors": "^1.1.2",
+    "commander": "^2.9.0",
+    "figlet": "^1.2.0",
+    "inquirer": "^3.0.6",
+    "lodash": "^4.17.4",
+    "log-update": "^1.0.2",
+    "minimist": "^1.2.0",
+    "node-notifier": "^5.0.2",
+    "preferences": "^0.2.1",
+    "prompt": "^1.0.0",
+    "rainbow-node-sdk": "^0.9.1",
+    "text-table": "^0.2.0",
+    "touch": "^1.0.0"
+  }
+}
