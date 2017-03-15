@@ -160,23 +160,35 @@ program
 program
   .command('whoami')
   .action(function () {
+    print('Welcome to '.grey + 'Rainbow'.magenta);
+    
+    
+    
     if(prefs.token && prefs.user) {
+      print('You are logged in as'.grey + " " + prefs.account.email.magenta);
+      print('');
+      print(prefs.account.email.grey);
+      print('------------------------------------');
+      var status = new Spinner('In progress, please wait...');
+      status.start();
       start(prefs.account.email, prefs.account.password).then(function() {
         return getUserInfo(prefs.user.id, prefs.token);
       }).then(function(json) {
-        
+        status.stop();  
         var array = [];
         for (var key in json.data) {
           //console.log("Key", key, json.data[key]);
           var data = json.data[key];
           if(typeof data !== "object") {
-            array.push([ '›'.grey, key.toString().magenta, data.toString().cyan ]);
+            array.push([ key.toString().cyan, data.toString().white ]);
           }
         }
 
         var t = table(array);
         printProgress(t);
         print('');
+        print('');
+        success('whoami successfully executed.');
       });
     }
 });
