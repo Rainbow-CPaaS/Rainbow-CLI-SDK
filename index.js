@@ -50,6 +50,14 @@ var config = {
   }
 };
 
+function isArray(a) {
+    return (!!a) && (a.constructor === Array);
+};
+
+function isObject(a) {
+    return (!!a) && (a.constructor === Object);
+};
+
 function print(text) {
   console.log(text.white);
 }
@@ -179,9 +187,42 @@ program
         for (var key in json.data) {
           //console.log("Key", key, json.data[key]);
           var data = json.data[key];
-          if(typeof data !== "object") {
-            array.push([ key.toString().cyan, data.toString().white ]);
-          }
+          //if(typeof data !== "object") {
+            if(data === null) {
+              array.push([ key.toString().cyan, 'null'.red ]);  
+            } else if(typeof data === "string" && data.length === 0) {
+              array.push([ key.toString().cyan, "''".white ]);  
+            }
+            else if(isArray(data) && data.length === 0) {
+              array.push([ key.toString().cyan, "[]".white ]);  
+            }
+            else if((isArray(data)) && data.length === 1) {
+              array.push([ key.toString().cyan, "[".white + JSON.stringify(data[0]).white + "]".white]);  
+            }
+            else if((isArray(data)) && data.length > 1) {
+              var item = ""
+              for (var i=0; i < data.length; i++) {
+                if(typeof data[i] === "string") {
+                  item +=  JSON.stringify(data[i]).white;
+                  if(i < data.length -1) {
+                    item += ","
+                  }
+                }
+                else {
+                  item += "[" + JSON.stringify(data[i]).white + "]";
+                  if(i < data.length -1) {
+                    item += ","
+                  }
+                }
+              }
+              array.push([ key.toString().cyan, "[".white + item.white + "]" ]);  
+            }
+            else if(isObject(data)) {
+              array.push([ key.toString().cyan, JSON.stringify(data).white ]);  
+            }
+            else {
+              array.push([ key.toString().cyan, data.toString().white ]);
+            }
         }
 
         var t = table(array);
