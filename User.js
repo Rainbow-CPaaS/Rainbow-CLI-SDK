@@ -40,6 +40,7 @@ class User {
         var that = this;
 
         this._program.command('whoami')
+            .description("Display information about the connected user")
             .action(function () {
             
             Screen.print('Welcome to '.grey + 'Rainbow'.magenta);
@@ -111,6 +112,7 @@ class User {
         });
 
         this._program.command('login [email] [password]')
+            .description("Log in to Rainbow")
             .action(function (email, password) {
 
             Screen.print('Welcome to ' + 'Rainbow'.magenta);

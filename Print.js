@@ -16,7 +16,7 @@ class Print {
     }
 
     error(text) {
-        this.print('[' + 'Error'.red + '] ' + text);
+        this.print('x'.red + ' ' + text.white);
     }
 
     table(text) {

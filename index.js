@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 var Preferences = require('preferences');
-var program     = require('commander');
+var program     = require('commander-plus');
 var colors      = require('colors');
 
 var pkg = require('./package.json')
@@ -22,6 +22,12 @@ start = function() {
 
   user.start();
   company.start();
+
+  program
+  .command('*')
+  .action(function () {
+    Screen.print('Command not found.')
+  })
 
   program.parse(process.argv);
 }

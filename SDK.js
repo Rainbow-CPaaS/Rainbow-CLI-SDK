@@ -84,7 +84,33 @@ class SDK {
                 reject(err);
             });
         });
-    } 
+    }
+
+    post(url, token, data) {
+        var that = this;
+
+        return new Promise(function(resolve, reject) {
+
+            that._nodeSDK.rest.post(url, token, data).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
+    delete(url, token, data) {
+        var that = this;
+
+        return new Promise(function(resolve, reject) {
+
+            that._nodeSDK.rest.delete(url, token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
 }
 
 module.exports = new SDK();

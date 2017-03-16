@@ -57,10 +57,14 @@ Here is the complete list of commands:
 
 | Commands | Options | Details
 |------|------------|-------- |
+| USER| | |
 | **login** [host] [email] [password] | | Log-in to Rainbow | 
 | **whoami** |  | Display information about the user connected |
-| | | |
+| COMPANIES| | |
+| **company** <id>| | Display information on a company |
 | **company list** | -p <page> -a | Display the list of companies per page of the full list |
+| **company create** <name>| | Create a new company |
+| **company delete** <id>| | Delete an existing company |
 
 
 
