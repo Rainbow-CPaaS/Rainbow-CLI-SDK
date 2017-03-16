@@ -1,240 +1,49 @@
 #!/usr/bin/env node
-var chalk       = require('chalk');
-var clear       = require('clear');
-var CLI         = require('clui');
+//var chalk       = require('chalk');
+//var clear       = require('clear');
+
 //var figlet      = require('figlet');
 //var inquirer    = require('inquirer');
 var Preferences = require('preferences');
-var Spinner     = CLI.Spinner;
+
 //var _           = require('lodash');
 //var touch       = require('touch');
 var program     = require('commander');
 //const notifier  = require('node-notifier');
-var table       = require('text-table');
+
 //var prompt      = require('prompt');
-const NodeSDK   = require('rainbow-node-sdk');
+
 var colors      = require('colors');
 //const logUpdate = require('log-update');
-
-var co = require('co');
-var prompt = require('co-prompt');
+//var co = require('co');
+//var prompt = require('co-prompt');
 
 var pkg = require('./package.json')
-var version = pkg.version;
+
+var User = require('./User');
+var Company = require('./Company');
+var Screen = require('./Print');
 
 var prefs = null;
 
-var intervalId = null;
+start = function() {
+  // Get the prefs
+  prefs = new Preferences('rainbow');
 
-var nodeSDK = null;
+  // initiate the program
+  program.version(pkg.version);
 
-var config = {
-  rainbow: {
-      "host": "sandbox",
-      "mode": "cli"
-  },
-  credentials: {
-      "login": "",
-      "password": ""
-  },
-  logs: {
-      enableConsoleLogs: false,
-      enableFileLogs: false,
-      file: {
-        path: '/var/tmp/rainbowsdk/',
-        level: 'debug'
-      }
-  },
-  im: {
-      sendReadReceipt: false  //false to not send a read receipt automatically
-  }
-};
+  var user = new User(program, prefs);
+  var company = new Company(program, prefs);
 
-function isArray(a) {
-    return (!!a) && (a.constructor === Array);
-};
+  user.start();
+  company.start();
 
-function isObject(a) {
-    return (!!a) && (a.constructor === Object);
-};
-
-function print(text) {
-  console.log(text.white);
+  program.parse(process.argv);
 }
 
-function success(text) {
-  print('✓'.green + ' ' + text.white);
-}
+start();
 
-function error(text) {
-  print('[' + 'Error'.red + '] ' + text);
-}
-
-function printProgress(text) {
-   process.stdout.write(text);
-}
-
-
-
-var start = function(login, password) {
-    return new Promise(function(resolve, reject) {
-
-      config.credentials.login = login;
-      config.credentials.password = password;
-      nodeSDK = new NodeSDK(config);
-      
-      nodeSDK.events.once('rainbow_onerror', function(jsonMessage) {
-        console.log("ERROR", jsonMessage);
-        reject();
-      });
-
-      nodeSDK.startCLI().then(function() {
-      }).then(function() {
-        resolve();
-      }).catch(function(err) {
-        reject(err);
-      });
-  });  
-}
-
-var signin = function signin(login, password) {
-
-  return new Promise(function(resolve, reject) {
-
-      nodeSDK.events.once('rainbow_onconnectionerror', function(err) {
-        console.log("ERROR2", err);
-        reject();
-      });
-
-      nodeSDK.signinCLI().then(function(json) {
-        resolve(json);
-      }).catch(function(err) {
-        reject(err);
-      });
-  });  
-}  
-
-getUserInfo = function getUserInfo(id, token) {
-
-  return new Promise(function(resolve, reject) {
-    nodeSDK.rest.get('/api/rainbow/enduser/v1.0/users/' + id, token).then(function(json) {
-          resolve(json);
-      }).catch(function(err) {
-          reject(err);
-      });
-  });
-}
-
-var prefs = new Preferences('rainbow');
-
-program.version(version);
-
-program
-  .command('login [email] [password]')
-  .action(function (email, password) {
-
-    print('Welcome to ' + 'Rainbow'.magenta);
-    print('Version ' + version.yellow);
-
-    if(!email || !password) {
-      if(prefs.account) {
-        email = prefs.account.email;
-        password = prefs.account.password;
-      } 
-    }
-
-    var status = new Spinner('Authenticating you, please wait...');
-    status.start();
-
-    start(email, password).then(function() {
-      return signin();
-    }).then(function(json) {
-      status.stop();
-      success('Signed in as'.grey + " " + email.cyan);
-      prefs.account= {
-        email: email,
-        password: password
-      }
-      prefs.token = json.token;
-      prefs.user =  json.loggedInUser;
-
-    }).catch(function(err) {
-      status.stop();
-      error("Can't login to Rainbow!".grey);
-      console.log("ERR", err);
-    });
-});
-
-program
-  .command('whoami')
-  .action(function () {
-    print('Welcome to '.grey + 'Rainbow'.magenta);
-    
-    
-    
-    if(prefs.token && prefs.user) {
-      print('You are logged in as'.grey + " " + prefs.account.email.magenta);
-      print('');
-      print(prefs.account.email.grey);
-      print('------------------------------------');
-      var status = new Spinner('In progress, please wait...');
-      status.start();
-      start(prefs.account.email, prefs.account.password).then(function() {
-        return getUserInfo(prefs.user.id, prefs.token);
-      }).then(function(json) {
-        status.stop();  
-        var array = [];
-        for (var key in json.data) {
-          //console.log("Key", key, json.data[key]);
-          var data = json.data[key];
-          //if(typeof data !== "object") {
-            if(data === null) {
-              array.push([ key.toString().cyan, 'null'.red ]);  
-            } else if(typeof data === "string" && data.length === 0) {
-              array.push([ key.toString().cyan, "''".white ]);  
-            }
-            else if(isArray(data) && data.length === 0) {
-              array.push([ key.toString().cyan, "[]".white ]);  
-            }
-            else if((isArray(data)) && data.length === 1) {
-              array.push([ key.toString().cyan, "[".white + JSON.stringify(data[0]).white + "]".white]);  
-            }
-            else if((isArray(data)) && data.length > 1) {
-              var item = ""
-              for (var i=0; i < data.length; i++) {
-                if(typeof data[i] === "string") {
-                  item +=  JSON.stringify(data[i]).white;
-                  if(i < data.length -1) {
-                    item += ","
-                  }
-                }
-                else {
-                  item += "[" + JSON.stringify(data[i]).white + "]";
-                  if(i < data.length -1) {
-                    item += ","
-                  }
-                }
-              }
-              array.push([ key.toString().cyan, "[".white + item.white + "]" ]);  
-            }
-            else if(isObject(data)) {
-              array.push([ key.toString().cyan, JSON.stringify(data).white ]);  
-            }
-            else {
-              array.push([ key.toString().cyan, data.toString().white ]);
-            }
-        }
-
-        var t = table(array);
-        printProgress(t);
-        print('');
-        print('');
-        success('whoami successfully executed.');
-      });
-    }
-});
-
-program.parse(process.argv);
 
       /*
       nodeSDK.events.on('rainbow_onmessagereceived', function(message) {
