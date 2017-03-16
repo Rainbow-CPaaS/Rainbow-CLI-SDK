@@ -2,18 +2,20 @@
 
 Here is the list of the changes and features provided by the Rainbow-CLI
 
-### v0.2.4
+### v0.2.5
 
- - [COMPANY] New command ***company** to retrieve information about a company
+ - [COMPANY] List the users of a company
 
- - [COMPANY] New command ***company delete** to remove an existing company
+ - [COMPANY] Retrieve information about a company
 
- - [COMPANY] New command ***company create** to create a new company
+ - [COMPANY] Delete a company
 
- - [COMPANY] New command ***company list** to retrieve the list of companies (pagined and full list)
+ - [COMPANY] Create a new company
+
+ - [COMPANY] List the companies
 
 ### v0.1.0
 
- - [USER] New command **whoami** to get the information of the connected user
+ - [USER] Retrieve the information about the connected user
 
- - [USER] New command **login** to log in to Rainbow
+ - [USER] Log-in to Rainbow
