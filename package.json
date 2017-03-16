@@ -1,14 +1,13 @@
 {
-  "name": "rainbow-cli-sdk",
-  "version": "0.1.0",
-  "description": "Rainbow SDK for Shell on top of Node.js",
+  "name": "rainbow-cli",
+  "version": "0.2.1",
+  "description": "Rainbow CLI application based on the Rainbow SDK for Node.js",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-    "type": "git",
-    "url": "https://git.openrainbow.org/cloud-services/Rainbow-CLI-SDK.git"
+    "type": "git"
   },
   "keywords": [
     "ALE",
@@ -38,7 +37,7 @@
     "node-notifier": "^5.0.2",
     "preferences": "^0.2.1",
     "prompt": "^1.0.0",
-    "rainbow-node-sdk": "^0.9.1",
+    "rainbow-node-sdk": "^0.9.2",
     "text-table": "^0.2.0",
     "touch": "^1.0.0"
   }
