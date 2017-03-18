@@ -2,6 +2,10 @@
 
 Here is the list of the changes and features provided by the Rainbow-CLI
 
+### v0.3.0
+
+ - [USER] Create a new user
+
 ### v0.2.7
 
  - [STATUS] Get the status of the API

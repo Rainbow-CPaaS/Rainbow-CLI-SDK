@@ -7,6 +7,7 @@ var pkg = require('./package.json')
 var Account = require('./routes/Account');
 var Company = require('./routes/Company');
 var Status = require('./routes/Status');
+var User = require('./routes/User');
 var Screen = require('./Print');
 
 var prefs = null;
@@ -21,10 +22,12 @@ start = function() {
   var account = new Account(program, prefs);
   var company = new Company(program, prefs);
   var status = new Status(program, prefs);
+  var user = new User(program, prefs);
 
   account.start();
   company.start();
   status.start();
+  user.start();
 
   program
   .command('*')

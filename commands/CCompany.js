@@ -204,12 +204,16 @@ class CCompany {
             }).catch(function(err) {
                 status.stop();
                 Screen.print('');
-                Screen.error("Can't list the companies".white);
-                if(err.details) {
-                    Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray + ": " + err.details.gray);
+                if(err.code === 401) {
+                    Screen.print("Your session has expired. You need to log-in again".white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
                 }
                 else {
-                    Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray);
+                    if(err.details) {
+                        Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                    }
+                    else {
+                        Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                    }
                 }
             });
         }
@@ -237,16 +241,20 @@ class CCompany {
                 }).then(function(json) {
                     status.stop();
                     Screen.print('');
-                Screen.success('Company'.white + " '".yellow + name.yellow + "'".yellow + " has been successfully created.".white);
-            }).catch(function(err) {
+                    Screen.success('Company'.white + " '".yellow + name.yellow + "'".yellow + " has been successfully created.".white);
+                }).catch(function(err) {
                     status.stop();
                     Screen.print('');
-                    Screen.error("Can't create the company".white + " '" + name.yellow);
-                    if(err.details) {
-                        Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray + ": " + err.details.gray);
+                    if(err.code === 401) {
+                        Screen.print("Your session has expired. You need to log-in again".white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
                     }
                     else {
-                        Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray);
+                        if(err.details) {
+                            Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                        }
+                        else {
+                            Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                        }
                     }
                 });
             }
@@ -278,12 +286,16 @@ class CCompany {
             }).catch(function(err) {
                     status.stop();
                     Screen.print('');
-                    Screen.error("Can't delete the company".white + " '" + id.yellow);
-                    if(err.details) {
-                        Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray + ": " + err.details.gray);
+                    if(err.code === 401) {
+                        Screen.print("Your session has expired. You need to log-in again".white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
                     }
                     else {
-                        Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray);
+                        if(err.details) {
+                            Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                        }
+                        else {
+                            Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                        }
                     }
                 });
             }
@@ -357,15 +369,18 @@ class CCompany {
                     Screen.success(json.total + ' users found.');
 
                 }).catch(function(err) {
-
                     status.stop();
                     Screen.print('');
-                    Screen.error("Can't list the users".white + " '" + id.yellow +"'");
-                    if(err.details) {
-                        Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray + ": " + err.details.gray);
+                    if(err.code === 401) {
+                        Screen.print("Your session has expired. You need to log-in again".white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
                     }
                     else {
-                        Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray);
+                        if(err.details) {
+                            Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                        }
+                        else {
+                            Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                        }
                     }
                 });
             }
@@ -447,12 +462,16 @@ class CCompany {
                 }).catch(function(err) {
                     status.stop();
                     Screen.print('');
-                    Screen.error("Can't delete the company".white + " '" + id.yellow);
-                    if(err.details) {
-                        Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray + ": " + err.details.gray);
+                    if(err.code === 401) {
+                        Screen.print("Your session has expired. You need to log-in again".white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
                     }
                     else {
-                        Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray);
+                        if(err.details) {
+                            Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                        }
+                        else {
+                            Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                        }
                     }
                 });
             }
