@@ -55,10 +55,10 @@ Read the next paragraph for the complete list of available commands and options
 
 Here is the complete list of commands:
 
-| Commands | Details
-|------|-------- |
+| Commands | Details |
+|------|--------|
 | USER| |
-| **login** [email] [password] | Log-in to Rainbow | 
+| **login** | Log-in to Rainbow | 
 | **whoami** | Display information about the user connected |
 | COMPANIES| |
 | **company** <id>| Display information on a company |
@@ -66,7 +66,9 @@ Here is the complete list of commands:
 | **company create** <name>| Create a new company |
 | **company delete** <id>| Delete an existing company |
 | USERS| |
-| **users company <id> | List the users of a company |
+| **users company** <id> | List the users of a company |
+| STATUS| |
+| **status** | Get the API status |
 
 
 

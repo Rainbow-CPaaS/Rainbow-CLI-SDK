@@ -93,6 +93,7 @@ class Company {
             NodeSDK.get('/api/rainbow/admin/v1.0/users?format=full' + offset + limit + '&companyId=' + id, token).then(function(json) {
                 resolve(json);
             }).catch(function(err) {
+                console.log(err);
                 reject(err);
             });
         });
@@ -304,7 +305,12 @@ class Company {
                                 active = "false".red;
                             }
 
-                            array.push([ (i+1).toString().white, users[i].displayName.white, accountType, roles.white, active, users[i].id.white]);  
+                            var name = ""
+                            if(users[i].lastName && users[i].firstName) {
+                                name = users[i].lastName + " " + users[i].firstName
+                            }
+
+                            array.push([ (i+1).toString().white, name.white, accountType, roles.white, active, users[i].id.white]);  
                         }
 
                         var t = table(array);
@@ -313,9 +319,10 @@ class Company {
                         Screen.success(json.total + ' users found.');
 
                     }).catch(function(err) {
+
                         status.stop();
                         Screen.print('');
-                        Screen.error("Can't list the users".white + " '" + id.yellow);
+                        Screen.error("Can't list the users".white + " '" + id.yellow +"'");
                         if(err.details) {
                             Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray + ": " + err.details.gray);
                         }
