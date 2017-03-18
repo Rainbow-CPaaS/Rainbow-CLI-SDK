@@ -57,16 +57,19 @@ Here is the complete list of commands:
 
 | Commands | Details |
 |------|--------|
-| USER| |
+| CONNECTED USED | |
 | **login** | Log-in to Rainbow | 
 | **whoami** | Display information about the user connected |
-| COMPANIES| |
+| COMPANY| |
 | **company** <id>| Display information on a company |
-| **company list** | Display the list of companies per page of the full list |
 | **company create** <name>| Create a new company |
 | **company delete** <id>| Delete an existing company |
+| COMPANIES | |
+| **companies** | Display the list of companies per page of the full list |
 | USERS| |
 | **users company** <id> | List the users of a company |
+| USER | |
+| **user create** | Create a new user |
 | STATUS| |
 | **status** | Get the API status |
 
