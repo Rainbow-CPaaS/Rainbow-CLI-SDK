@@ -4,10 +4,10 @@ var CLI         = require('clui');
 var Spinner     = CLI.Spinner;
 var table       = require('text-table');
 
-var pkg = require('./package.json')
-var Screen = require("./Print");
-var NodeSDK = require('./SDK');
-const Tools = require('./Tools');
+var pkg = require('../package.json')
+var Screen = require("../Print");
+var NodeSDK = require('../SDK');
+const Tools = require('../Tools');
 
 class Company {
 

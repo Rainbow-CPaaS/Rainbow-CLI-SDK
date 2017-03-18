@@ -4,8 +4,9 @@ var program     = require('commander-plus');
 var colors      = require('colors');
 
 var pkg = require('./package.json')
-var User = require('./User');
-var Company = require('./Company');
+var User = require('./routes/User');
+var Company = require('./routes/Company');
+var Status = require('./routes/Status');
 var Screen = require('./Print');
 
 var prefs = null;
@@ -19,9 +20,11 @@ start = function() {
 
   var user = new User(program, prefs);
   var company = new Company(program, prefs);
+  var status = new Status(program, prefs);
 
   user.start();
   company.start();
+  status.start();
 
   program
   .command('*')
