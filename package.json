@@ -19,7 +19,7 @@
   "author": "Olivier Anguenot <olivier.anguenot@al-enterprise.com>",
   "license": "MIT",
   "bin": {
-    "rainbow": "./index.js"
+    "rbw": "./index.js"
   },
   "dependencies": {
     "colors": "^1.1.2",

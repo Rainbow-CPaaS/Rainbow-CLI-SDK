@@ -32,7 +32,7 @@ class SDK {
         this.nodeSDK = null;
     }
 
-    start(login, password) {
+    start(login, password, platform) {
 
         var that = this;
     
@@ -40,6 +40,8 @@ class SDK {
 
             config.credentials.login = login;
             config.credentials.password = password;
+            config.rainbow.host = platform;
+
             that._nodeSDK = new NodeSDK(config);
         
             that._nodeSDK.events.once('rainbow_onerror', function(jsonMessage) {

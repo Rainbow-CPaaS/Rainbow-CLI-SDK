@@ -53,7 +53,7 @@ class User {
                 
                 var status = new Spinner('In progress, please wait...');
                 status.start();
-                NodeSDK.start(that._prefs.account.email, that._prefs.account.password).then(function() {
+                NodeSDK.start(that._prefs.account.email, that._prefs.account.password, that._prefs.rainbow).then(function() {
                     return that._getUserInfo(that._prefs.user.id, that._prefs.token);
                 }).then(function(json) {
                     status.stop();  
@@ -106,29 +106,53 @@ class User {
                     Screen.table(t);
                     Screen.print('');
                     Screen.success('whoami successfully executed.');
+                }).catch(function(err) {
+                    status.stop();
+                    Screen.print('');
+                    Screen.error("Can't execute the command".white);
+                    if(err.code === 401) {
+                        Screen.print("Error ".red + err.code.toString().gray + " - Your session has expired. You need to log-in again".gray);
+                    }
+                    else {
+                        if(err.details) {
+                            Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray + ": " + err.details.gray);
+                        }
+                        else {
+                            Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray);
+                        }
+                    }
+                    
                 });
             }
             
         });
 
-        this._program.command('login [email] [password]')
+        this._program.command('login')
             .description("Log in to Rainbow")
-            .action(function (email, password) {
+            .option('-u, --username [value]', 'The username (email) to log in with.')
+            .option('-p, --password [value]', 'The password to use when logging in.')
+            .option('-o, --official', 'Use the Rainbow official environment.')
+            .action(function (command) {
+
+            var email = command.username || "";
+            var password = command.password || "";
+            var platform = command.official ? "official" : "sandbox";
 
             Screen.print('Welcome to ' + 'Rainbow'.magenta);
             Screen.print('Version ' + pkg.version.yellow);
             
-            if(!email || !password) {
+            if(email.length === 0 || password.length === 0) {
                 if(that._prefs.account) {
                     email = that._prefs.account.email;
                     password = that._prefs.account.password;
+                    platform = that._prefs.rainbow;
                 } 
             }
 
             var status = new Spinner('Authenticating you, please wait...');
             status.start();
 
-            NodeSDK.start(email, password).then(function() {
+            NodeSDK.start(email, password, platform).then(function() {
                 return NodeSDK.signin();
             }).then(function(json) {
                 status.stop();
@@ -139,10 +163,17 @@ class User {
                 }
                 that._prefs.token = json.token;
                 that._prefs.user =  json.loggedInUser;
+                that._prefs.rainbow = platform; 
 
             }).catch(function(err) {
                 status.stop();
                 Screen.error("Can't login to Rainbow!".grey);
+                if(err.details) {
+                    Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray + ": " + err.details.gray);
+                }
+                else {
+                    Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray);
+                }
             });
             
         });

@@ -53,6 +53,8 @@ class Company {
                 }).catch(function(err) {
                     reject(err);
                 });
+            }).catch(function(err) {
+                reject(err);
             });
         });
     }
@@ -163,7 +165,7 @@ class Company {
                         Screen.print("Request informaton for company".white + " '".yellow + id.yellow + "'".yellow);
                         var status = new Spinner('In progress, please wait...');
                         status.start();
-                        NodeSDK.start(that._prefs.account.email, that._prefs.account.password).then(function() {
+                        NodeSDK.start(that._prefs.account.email, that._prefs.account.password, that._prefs.rainbow).then(function() {
                             return that._getCompany(that._prefs.token, id);
                         }).then(function(json) {
 
@@ -265,7 +267,7 @@ class Company {
                     Screen.print("Current users from company".white + " '".yellow + id.yellow + "'".yellow);
                     var status = new Spinner('In progress, please wait...');
                     status.start();
-                    NodeSDK.start(that._prefs.account.email, that._prefs.account.password).then(function() {
+                    NodeSDK.start(that._prefs.account.email, that._prefs.account.password, that._prefs.rainbow).then(function() {
                         return that._getUsersFromCompany(that._prefs.token, id);
                     }).then(function(json) {
 
@@ -313,7 +315,7 @@ class Company {
                     }).catch(function(err) {
                         status.stop();
                         Screen.print('');
-                        Screen.error("Can't delete the company".white + " '" + id.yellow);
+                        Screen.error("Can't list the users".white + " '" + id.yellow);
                         if(err.details) {
                             Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray + ": " + err.details.gray);
                         }
@@ -343,7 +345,7 @@ class Company {
                         Screen.print("Request to delete company".white + " '".yellow + id.yellow + "'".yellow);
                         var status = new Spinner('In progress, please wait...');
                         status.start();
-                        NodeSDK.start(that._prefs.account.email, that._prefs.account.password).then(function() {
+                        NodeSDK.start(that._prefs.account.email, that._prefs.account.password, that._prefs.rainbow).then(function() {
                             return that._deleteCompany(that._prefs.token, id);
                         }).then(function(json) {
                             status.stop();
@@ -383,7 +385,7 @@ class Company {
                         Screen.print("Request to create company".white + " '".yellow + name.yellow + "'".yellow);
                         var status = new Spinner('In progress, please wait...');
                         status.start();
-                        NodeSDK.start(that._prefs.account.email, that._prefs.account.password).then(function() {
+                        NodeSDK.start(that._prefs.account.email, that._prefs.account.password, that._prefs.rainbow).then(function() {
                             return that._createCompany(that._prefs.token, name);
                         }).then(function(json) {
                             status.stop();
@@ -429,10 +431,9 @@ class Company {
                 Screen.print('');
                 Screen.print("Current Companies:".white);
                 
-                
                 var status = new Spinner('In progress, please wait...');
                 status.start();
-                NodeSDK.start(that._prefs.account.email, that._prefs.account.password).then(function() {
+                NodeSDK.start(that._prefs.account.email, that._prefs.account.password, that._prefs.rainbow).then(function() {
                     return that._getListOfCompanies(that._prefs.token, page);
                 }).then(function(json) {
                     status.stop();  
@@ -488,12 +489,19 @@ class Company {
                     Screen.table(t);
                     Screen.print('');
                     Screen.success(json.companies.total + ' companies found.');
+                }).catch(function(err) {
+                    status.stop();
+                    Screen.print('');
+                    Screen.error("Can't list the companies".white);
+                    if(err.details) {
+                        Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray + ": " + err.details.gray);
+                    }
+                    else {
+                        Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray);
+                    }
                 });
             }
-            
         });
-
-        
     }
 }
 
