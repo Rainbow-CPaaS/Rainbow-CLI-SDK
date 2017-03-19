@@ -28,26 +28,6 @@ class Company {
             that._company.GetCompany(id);
         });
 
-        this._program.command('users company', '<id>')
-        .description("List the users of a company")
-        .option('-p, --page <n>', 'Display a specific page')
-        .option('-a, --all', 'Display all companies in a single page')
-        .action(function (id, commands) {
-
-            var page = 0;
-            if("page" in commands) {
-                if(commands.page > 1) {
-                    page = commands.page;
-                }
-            }
-        
-            if("all" in commands && commands.all) {
-                page = -1
-            }
-
-            that._company.getUsersInCompany(id, page);
-        });
-
         this._program.command('company delete', '<id>')
         .description("Delete an existing company")
         .action(function (id) {
