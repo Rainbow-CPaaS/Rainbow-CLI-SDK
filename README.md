@@ -69,7 +69,7 @@ Here is the complete list of commands:
 | USERS| |
 | **users** <id> | List the users |
 | USER | |
-| **user create** <username> <password> | Create a new user |
+| **create** <username> <password> | Create a new user |
 | STATUS| |
 | **status** | Get the API status |
 
