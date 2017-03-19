@@ -65,9 +65,9 @@ Here is the complete list of commands:
 | **company create** <name>| Create a new company |
 | **company delete** <id>| Delete an existing company |
 | COMPANIES | |
-| **companies** | Display the list of companies per page of the full list |
+| **companies** | List the companies |
 | USERS| |
-| **users company** <id> | List the users of a company |
+| **users** <id> | List the users |
 | USER | |
 | **user create** <username> <password> | Create a new user |
 | STATUS| |
