@@ -55,25 +55,18 @@ Read the next paragraph for the complete list of available commands and options
 
 Here is the complete list of commands:
 
-| Commands | Details |
-|------|--------|
-| CONNECTED USED | |
-| **login** | Log-in to Rainbow | 
-| **whoami** | Display information about the user connected |
-| COMPANY| |
-| **company** <id>| Display information on a company |
-| **company create** <name>| Create a new company |
-| **company delete** <id>| Delete an existing company |
-| COMPANIES | |
-| **companies** | List the companies |
-| USERS| |
-| **users** <id> | List the users |
-| USER | |
-| **create** <username> <password> | Create a new user |
-| STATUS| |
-| **status** | Get the API status |
-| MASS PROVISIONNING | |
-| **import** | Import a CSV (users) file |
+| Category | Commands | Details |
+|----------|----------|---------|
+| Connected User | **login** | Log-in to Rainbow | 
+| | **whoami** | Display information about the user connected |
+| User | **create** <username> <password> | Create a new user |
+| Users | **users** <id> | List the users |
+| Company | **company** <id>| Display information on a company |
+| | **company create** <name>| Create a new company |
+| | **company delete** <id>| Delete an existing company |
+| Companies | **companies** | List the companies |
+| Status | **status** | Get the API status |
+| Mass Provisionning | **import** | Import a CSV (users) file |
 
 
 
