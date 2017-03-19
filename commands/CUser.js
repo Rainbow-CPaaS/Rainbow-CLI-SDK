@@ -16,7 +16,7 @@ class CUser {
         this._prefs = prefs;
     }
 
-    _create(token, email, password, firstname, lastname, company) {
+    _create(token, email, password, firstname, lastname, companyId, isAdmin) {
 
         return new Promise(function(resolve, reject) {
 
@@ -26,8 +26,21 @@ class CUser {
                 firstName: firstname,
                 lastName: lastname,
                 isActive: true,
-                isInitialized: true
+                isInitialized: false,
+                language: "en",
+                adminType: "undefined",
+                roles: ["user"],
+                accountType: "free",
             };
+        
+            if(companyId) {
+                user.companyId = companyId;
+            }
+
+            if(isAdmin) {
+                user.roles.push("admin")
+                user.adminType = ["company_admin"];
+            }
 
             NodeSDK.post('/api/rainbow/admin/v1.0/users', token, user).then(function(json) {
                 resolve(json);
@@ -37,14 +50,12 @@ class CUser {
         });
     }
 
-    create(email, password, firstname, lastname, company) {
+    create(email, password, firstname, lastname, companyId, isAdmin) {
         var that = this;
         Screen.print('Welcome to '.grey + 'Rainbow'.magenta);
                 
         if(this._prefs.token && this._prefs.user) {
             Screen.print('You are logged in as'.grey + " " + that._prefs.account.email.magenta);
-            Screen.print('');
-            Screen.print("Current API status information:".white);
             Screen.print('');
             
             if ((typeof email !== 'string') || (email.length === 0)) {
@@ -55,7 +66,7 @@ class CUser {
                 var status = new Spinner('In progress, please wait...');
                 status.start();
                 NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
-                    return that._create(that._prefs.token, email, password, firstname, lastname, company);
+                    return that._create(that._prefs.token, email, password, firstname, lastname, companyId, isAdmin);
                 }).then(function(json) {
                     status.stop();
                     Screen.print('');
