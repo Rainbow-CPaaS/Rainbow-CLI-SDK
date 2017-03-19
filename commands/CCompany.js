@@ -176,16 +176,11 @@ class CCompany {
             }).catch(function(err) {
                 status.stop();
                 Screen.print('');
-                if(err.code === 401) {
-                    Screen.print("Your session has expired. You need to log-in again".white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                if(err.details) {
+                    Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
                 }
                 else {
-                    if(err.details) {
-                        Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                    }
-                    else {
-                        Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                    }
+                    Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
                 }
             });
         }
@@ -217,16 +212,11 @@ class CCompany {
                 }).catch(function(err) {
                     status.stop();
                     Screen.print('');
-                    if(err.code === 401) {
-                        Screen.print("Your session has expired. You need to log-in again".white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                    if(err.details) {
+                        Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
                     }
                     else {
-                        if(err.details) {
-                            Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                        }
-                        else {
-                            Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                        }
+                        Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
                     }
                 });
             }
@@ -254,20 +244,15 @@ class CCompany {
                 }).then(function(json) {
                     status.stop();
                     Screen.print('');
-                Screen.success('Company'.white + " '".yellow + id.yellow + "'".yellow + " has been successfully deleted.".white);
-            }).catch(function(err) {
+                    Screen.success('Company'.white + " '".yellow + id.yellow + "'".yellow + " has been successfully deleted.".white);
+                }).catch(function(err) {
                     status.stop();
                     Screen.print('');
-                    if(err.code === 401) {
-                        Screen.print("Your session has expired. You need to log-in again".white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                    if(err.details) {
+                        Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
                     }
                     else {
-                        if(err.details) {
-                            Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                        }
-                        else {
-                            Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                        }
+                        Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
                     }
                 });
             }
@@ -351,16 +336,11 @@ class CCompany {
                 }).catch(function(err) {
                     status.stop();
                     Screen.print('');
-                    if(err.code === 401) {
-                        Screen.print("Your session has expired. You need to log-in again".white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                    if(err.details) {
+                        Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
                     }
                     else {
-                        if(err.details) {
-                            Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                        }
-                        else {
-                            Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                        }
+                        Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
                     }
                 });
             }

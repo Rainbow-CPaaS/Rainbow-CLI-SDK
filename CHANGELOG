@@ -2,11 +2,13 @@
 
 Here is the list of the changes and features provided by the Rainbow-CLI
 
-### v0.3.2
+### v0.3.4
 
  - [USER] Create a new user
 
  - [USER] Lit of users
+
+ - [MASS PRO] Import CSV file of users
 
 ### v0.2.7
 

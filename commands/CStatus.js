@@ -76,16 +76,11 @@ class CStatus {
                 status.stop();
                 Screen.print('');
                 Screen.error("Can't execute the command".white);
-                if(err.code === 401) {
-                    Screen.print("Your session has expired. You need to log-in again".white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                if(err.details) {
+                    Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
                 }
                 else {
-                    if(err.details) {
-                        Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                    }
-                    else {
-                        Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                    }
+                    Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
                 }
             });
         }

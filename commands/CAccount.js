@@ -97,16 +97,11 @@ class CAccount {
                 status.stop();
                 Screen.print('');
                 Screen.error("Can't execute the command".white);
-                if(err.code === 401) {
-                    Screen.print("Error ".red + err.code.toString().gray + " - Your session has expired. You need to log-in again".gray);
+                if(err.details) {
+                    Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray + ": " + err.details.gray);
                 }
                 else {
-                    if(err.details) {
-                        Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray + ": " + err.details.gray);
-                    }
-                    else {
-                        Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray);
-                    }
+                    Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray);
                 }
             });
         }

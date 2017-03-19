@@ -72,6 +72,8 @@ Here is the complete list of commands:
 | **create** <username> <password> | Create a new user |
 | STATUS| |
 | **status** | Get the API status |
+| MASS PROVISIONNING | |
+| **import** | Import a CSV (users) file |
 
 
 

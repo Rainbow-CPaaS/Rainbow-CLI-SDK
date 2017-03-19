@@ -42,7 +42,7 @@ class Company {
 
         this._program.command('companies')
         .description("List all existing companies")
-        .option('-p, --page <n>', 'Display a specific page')
+        .option('-p, --page [number]', 'Display a specific page')
         .option('-a, --all', 'Display all companies in a single page')
         .action(function (commands) {
 

@@ -22,9 +22,10 @@ class User {
 
         this._program.command('users')
         .description("List the users")
-        .option('-p, --page <n>', 'Display a specific page')
+        .option('-p, --page [number]', 'Display a specific page')
         .option('-m, --max', 'Display up to max result per page (1000)')
         .option('-t, --terminated', 'Limit to terminated users')
+        .option('-c, --company [id]', 'limit to company')
         .action(function (commands) {
 
             var page = 0;
@@ -38,9 +39,11 @@ class User {
                 page = -1
             }
 
+            var companyId = commands.company || "";
+
             var restrictToTerminated = commands.terminated || false;
 
-            that._user.getUsers(page, restrictToTerminated);
+            that._user.getUsers(page, restrictToTerminated, companyId);
         });
 
         this._program.command('create', '<username> <password>')
@@ -55,6 +58,19 @@ class User {
             var lastname = commands.lastname || "";
             var isAdmin = commands.admin || false;
             that._user.create(email, password, firstname, lastname, company, isAdmin); 
+        });
+
+        this._program.command('import')
+        .description("Import a list of users from a file")
+        .option('--csv [path]', 'Import from a CSV file')
+        .option('-c, --company [id]', 'Import to a specific company')
+        //.option('-n, --new [name]', 'Import to a new company')
+        .action(function (commands) {
+            var filePath = commands.csv || "";
+            var companyId = commands.company || "";
+            var companyName = commands.new || "";
+            var format = commands.csv ? "csv" : "";
+            that._user.import(filePath, format, companyId, companyName); 
         });
     }
 }
