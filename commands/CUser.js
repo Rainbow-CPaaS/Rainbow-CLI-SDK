@@ -184,7 +184,7 @@ class CUser {
                         name = users[i].lastName + " " + users[i].firstName
                     }
 
-                    array.push([ (i+1).toString().white, name.white, users[i].companyName, accountType, roles.white, active, users[i].id.white]);  
+                    array.push([ (i+1).toString().white, name.cyan, users[i].companyName, accountType, roles.white, active, users[i].id.white]);  
                 }
 
                 var t = table(array);
