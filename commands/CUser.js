@@ -55,38 +55,42 @@ class CUser {
         });
     }
 
-    _create(token, email, password, firstname, lastname, companyId, isAdmin) {
+    _create(token, data) {
 
         return new Promise(function(resolve, reject) {
-
-            var user = {
-                loginEmail: email,
-                password: password,
-                firstName: firstname,
-                lastName: lastname,
-                isActive: true,
-                isInitialized: false,
-                language: "en",
-                adminType: "undefined",
-                roles: ["user"],
-                accountType: "free",
-            };
-        
-            if(companyId) {
-                user.companyId = companyId;
-            }
-
-            if(isAdmin) {
-                user.roles.push("admin")
-                user.adminType = ["company_admin"];
-            }
-
-            NodeSDK.post('/api/rainbow/admin/v1.0/users', token, user).then(function(json) {
+            NodeSDK.post('/api/rainbow/admin/v1.0/users', token, data).then(function(json) {
                 resolve(json);
             }).catch(function(err) {
                 reject(err);
             });
         });
+    }
+
+    _createSimple(token, email, password, firstname, lastname, companyId, isAdmin) {
+
+        var user = {
+            loginEmail: email,
+            password: password,
+            firstName: firstname,
+            lastName: lastname,
+            isActive: true,
+            isInitialized: false,
+            language: "en",
+            adminType: "undefined",
+            roles: ["user"],
+            accountType: "free",
+        };
+    
+        if(companyId) {
+            user.companyId = companyId;
+        }
+
+        if(isAdmin) {
+            user.roles.push("admin")
+            user.adminType = ["company_admin"];
+        }
+
+        return this._create(token, user);
     }
 
     _import(token, filePath, format, companyId, companyName) {
@@ -96,27 +100,52 @@ class CUser {
         return new Promise(function(resolve, reject) {
 
             let parse = csv.parse;
-            let stream = fs.createReadStream(filePath).pipe(parse({ delimiter : ';' }));
+            let stream = fs.createReadStream(filePath).pipe(parse({ delimiter : ';', columns: true }));
 
             var promises = [];
             var nbSuccess = 0;
 
+            var firstLine = true;
+
             stream.on('data', function (data) {
-                let username = data[0];
-                let password = data[1];
-                let firstname = data[2];
-                let lastname = data[3];
-                let rolesString = data[4];
-                let isAdmin = false
-                if(rolesString.includes("admin")) {
-                    isAdmin = true;
+
+                var roles = ["user"];
+                if(data.roles && data.roles.includes('admin')) {
+                    roles.push("admin");
+                    data.adminType = "company_admin";
+                }
+                data.roles = roles;
+
+                data.isActive= true;
+                data.isInitialized= false;
+
+                // remove empty value (that )
+                for (var key in data) {
+                    if(!data[key]) {
+                        delete data[key];
+                    }
                 }
 
-                promises.push(that._create(token, username, password, firstname, lastname, companyId, isAdmin).then(function(res) {
-                    Screen.success(username.yellow + " imported");
+                promises.push(that._create(token, data).then(function(res) {
+                    Screen.success(data.loginEmail.yellow + " imported");
                     nbSuccess++;
                 }).catch(function(err) {
-                    Screen.error(username.red + " not imported " + err.details.white);
+                    var email = data.loginEmail || "Unknown";
+
+                    if(typeof err.details === "string") {
+                        Screen.error(email.red + " not imported - " + err.details);
+                    }
+                    else {
+                        var param = "";
+                        err.details.forEach(function(detail) {
+                            param += "'" + detail.param + "' ";
+                        });
+
+                        Screen.error(email.red + " not imported " + "- Incorrect parameters: " + param.yellow);
+
+                    }
+
+                    
                 }));
             })
             .on("end", function () {
@@ -221,7 +250,7 @@ class CUser {
                 var status = new Spinner('In progress, please wait...');
                 status.start();
                 NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
-                    return that._create(that._prefs.token, email, password, firstname, lastname, companyId, isAdmin);
+                    return that._createSimple(that._prefs.token, email, password, firstname, lastname, companyId, isAdmin);
                 }).then(function(json) {
                     status.stop();
                     Screen.print('');
@@ -266,6 +295,7 @@ class CUser {
                     Screen.print('');
                     Screen.success(json.nbUsers.toString().yellow + " users imported successfully.".white);
                 }).catch(function(err) {
+                    console.log("ERROR", err);
                     //status.stop();
                     Screen.print('');
                     Screen.error("Error".red);
