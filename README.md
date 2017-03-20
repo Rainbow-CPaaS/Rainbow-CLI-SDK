@@ -1,7 +1,7 @@
-ALE Rainbow CLI Application for Node.js
-=======================================
+ALE Rainbow CLI Application
+===========================
 
-Welcome to the Alcatel-Lucent Enterprise **Rainbow CLI Application for Node.js**!
+Welcome to the Alcatel-Lucent Enterprise **Rainbow CLI Application**!
 
 The Alcatel-Lucent Enterprise (ALE) Rainbow CLI Application is an npm package for connecting to Rainbow and do administrative tasks.
 
@@ -48,7 +48,7 @@ Once the Rainbow CLI Application is installed, you have access to the following 
 $ rainbow <command> [<option>...]
 ```
 
-Read the next paragraph for the complete list of available commands and options
+Read the next paragraph for the complete list of available commands
 
 
 ## Commands
