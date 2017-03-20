@@ -25,16 +25,16 @@ class Company {
         this._program.command('company', '<id>')
         .description("Retrieve information about an existing company")
         .action(function (id) {
-            that._company.GetCompany(id);
+            that._company.getCompany(id);
         });
 
-        this._program.command('company delete', '<id>')
+        this._program.command('delete company', '<id>')
         .description("Delete an existing company")
         .action(function (id) {
             that._company.deleteCompany(id);
         });
 
-        this._program.command('company create', '<name>')
+        this._program.command('create company', '<name>')
         .description("Create a new company")
         .action(function (name) {
             that._company.createCompany(name);
@@ -43,7 +43,7 @@ class Company {
         this._program.command('companies')
         .description("List all existing companies")
         .option('-p, --page [number]', 'Display a specific page')
-        .option('-a, --all', 'Display all companies in a single page')
+        .option('-m, --max', 'Display up to max result per page (max=1000)')
         .action(function (commands) {
 
             var page = 0;
@@ -53,7 +53,7 @@ class Company {
                 }
             }
         
-            if("all" in commands && commands.all) {
+            if("max" in commands && commands.max) {
                 page = -1
             }
 

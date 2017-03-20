@@ -2,13 +2,17 @@
 
 Here is the list of the changes and features provided by the Rainbow-CLI
 
-### v0.3.5
+### v0.3.7
 
  - [USER] Create a new user
 
- - [USER] Lit of users
+ - [USER] List of users
+
+ - [USER] Delete a user
 
  - [MASS PRO] Import CSV file of users
+
+ - [COMPANY] Remove all users from a company
 
 ### v0.2.7
 

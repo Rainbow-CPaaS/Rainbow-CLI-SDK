@@ -46,14 +46,16 @@ class User {
             that._user.getUsers(page, restrictToTerminated, companyId);
         });
 
-        this._program.command('create', '<username> <password>')
+        this._program.command('create', '<username>')
         .description("Create a new user")
         .option('-c, --company [id]', 'Create the user in an existing company')
+        .option('-p, --password [value]', 'Add a password')
         .option('-f, --firstname [value]', 'Add a firstname')
         .option('-l, --lastname [value]', 'Add a lastname')
         .option('-a, --admin', 'Add an administrator role')
-        .action(function (email, password, commands) {
+        .action(function (email, commands) {
             var company = commands.company || "";
+            var password = commands.password || "";
             var firstname = commands.firstname || "";
             var lastname = commands.lastname || "";
             var isAdmin = commands.admin || false;
@@ -63,14 +65,18 @@ class User {
         this._program.command('import')
         .description("Import a list of users from a file")
         .option('--csv [path]', 'Import from a CSV file')
-        .option('-c, --company [id]', 'Import to a specific company')
         //.option('-n, --new [name]', 'Import to a new company')
         .action(function (commands) {
             var filePath = commands.csv || "";
-            var companyId = commands.company || "";
             var companyName = commands.new || "";
             var format = commands.csv ? "csv" : "";
-            that._user.import(filePath, format, companyId, companyName); 
+            that._user.import(filePath, format, companyName); 
+        });
+
+        this._program.command('delete', '<id>')
+        .description("Delete an existing user")
+        .action(function (id) {
+            that._user.delete(id); 
         });
     }
 }

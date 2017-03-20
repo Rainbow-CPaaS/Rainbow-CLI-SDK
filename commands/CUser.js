@@ -3,6 +3,7 @@
 const CLI         = require('clui');
 const Spinner     = CLI.Spinner;
 const table       = require('text-table');
+const colors      = require('colors');
 
 const csv = require('csv');
 const fs = require('fs');
@@ -19,8 +20,10 @@ class CUser {
         this._prefs = prefs;
     }
 
-    _getUsers(token, page, restrictToTerminated, companyId) {
+    _getUsers(token, page, restrictToTerminated, companyId, _isSmall) {
         return new Promise(function(resolve, reject) {
+
+            var isSmall = _isSmall || false;
 
             var offset = "";
             if(page > -1) {
@@ -46,7 +49,12 @@ class CUser {
                 company = "&companyId=" + companyId;
             }
 
-            NodeSDK.get('/api/rainbow/admin/v1.0/users?format=full&isTerminated=' + restrictToTerminated + company + offset + limit, token).then(function(json) {
+            var format = "full";
+            if(isSmall) {
+                format = "small"
+            }
+
+            NodeSDK.get('/api/rainbow/admin/v1.0/users?format=' + format + '&isTerminated=' + restrictToTerminated + company + offset + limit, token).then(function(json) {
                 resolve(json);
             }).catch(function(err) {
                 console.log(err);
@@ -66,13 +74,22 @@ class CUser {
         });
     }
 
+    _delete(token, id) {
+
+        return new Promise(function(resolve, reject) {
+            NodeSDK.delete('/api/rainbow/admin/v1.0/users/' + id, token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
     _createSimple(token, email, password, firstname, lastname, companyId, isAdmin) {
 
         var user = {
             loginEmail: email,
             password: password,
-            firstName: firstname,
-            lastName: lastname,
             isActive: true,
             isInitialized: false,
             language: "en",
@@ -80,6 +97,14 @@ class CUser {
             roles: ["user"],
             accountType: "free",
         };
+
+        if(firstname) {
+            user.firstName = firstname;
+        }
+
+        if(lastname) {
+            user.lastName = lastname;
+        }
     
         if(companyId) {
             user.companyId = companyId;
@@ -93,7 +118,7 @@ class CUser {
         return this._create(token, user);
     }
 
-    _import(token, filePath, format, companyId, companyName) {
+    _import(token, filePath, format, companyName) {
 
         var that = this;
 
@@ -127,13 +152,13 @@ class CUser {
                 }
 
                 promises.push(that._create(token, data).then(function(res) {
-                    Screen.success(data.loginEmail.yellow + " imported");
+                    Screen.success("Imported ".white + data.loginEmail.yellow);
                     nbSuccess++;
                 }).catch(function(err) {
                     var email = data.loginEmail || "Unknown";
 
                     if(typeof err.details === "string") {
-                        Screen.error(email.red + " not imported - " + err.details);
+                        Screen.error("Skipped ".white + email.red + err.details);
                     }
                     else {
                         var param = "";
@@ -141,11 +166,8 @@ class CUser {
                             param += "'" + detail.param + "' ";
                         });
 
-                        Screen.error(email.red + " not imported " + "- Incorrect parameters: " + param.yellow);
-
+                        Screen.error("Skipped +.white " + email.red  + " - Incorrect parameters: " + param.yellow);
                     }
-
-                    
                 }));
             })
             .on("end", function () {
@@ -162,7 +184,7 @@ class CUser {
     getUsers(page, restrictToTerminated, companyId) {
         var that = this;
 
-        Screen.print('Welcome to '.grey + 'Rainbow'.magenta);
+        Screen.print('Welcome to '.grey + 'Rainbow'.rainbow);
     
         if(this._prefs.token && this._prefs.user) {
             Screen.print('You are logged in as'.grey + " " + this._prefs.account.email.magenta);
@@ -205,15 +227,15 @@ class CUser {
 
                     var active = "true".white;
                     if(!users[i].isActive) {
-                        active = "false".red;
+                        active = "false".yellow;
                     }
 
-                    var name = ""
+                    var name = "";
                     if(users[i].lastName && users[i].firstName) {
-                        name = users[i].lastName + " " + users[i].firstName
+                        name = users[i].lastName + " " + users[i].firstName;
                     }
 
-                    array.push([ (i+1).toString().white, name.cyan, users[i].companyName, accountType, roles.white, active, users[i].id.white]);  
+                    array.push([ (i+1).toString().white, name.cyan, users[i].companyName.white, accountType, roles.white, active, users[i].id.white]);  
                 }
 
                 var t = table(array);
@@ -242,8 +264,14 @@ class CUser {
             Screen.print('You are logged in as'.grey + " " + that._prefs.account.email.magenta);
             Screen.print('');
             
-            if ((typeof email !== 'string') || (email.length === 0)) {
-                Screen.error('A username (email) is required');
+            if ((typeof password !== 'string') || (password.length === 0)) {
+                Screen.error("Error: missing required argument '--password'");
+            }
+            else if ((typeof firstname !== 'string') || (firstname.length === 0)) {
+                Screen.error("Error: missing required argument '--firstname'");
+            }
+            else if ((typeof lastname !== 'string') || (lastname.length === 0)) {
+                Screen.error("Error: missing required argument '--lastname'");
             }
             else {
                 Screen.print("Request to create user".white + " '".yellow + email.yellow + "'".yellow);
@@ -259,8 +287,20 @@ class CUser {
                     status.stop();
                     Screen.print('');
                     Screen.error("Error".red);
+
+
                     if(err.details) {
-                        Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                        if(typeof err.details === "string") {
+                            Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                        }
+                        else {
+                            var param = "";
+                            err.details.forEach(function(detail) {
+                                param += "'" + detail.param + "' ";
+                            });
+
+                            Screen.error("Incorrect value for ".white + param.white + '('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                        }
                     }
                     else {
                         Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
@@ -270,7 +310,40 @@ class CUser {
         }
     }
 
-    import(filePath, format, companyId, companyName) {
+    delete(id) {
+        var that = this;
+        Screen.print('Welcome to '.grey + 'Rainbow'.magenta);
+                
+        if(this._prefs.token && this._prefs.user) {
+            Screen.print('You are logged in as'.grey + " " + that._prefs.account.email.magenta);
+            Screen.print('');
+            
+            Screen.print("Request to delete user".white + " '".yellow + id.yellow + "'".yellow);
+            var status = new Spinner('In progress, please wait...');
+            status.start();
+            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+                return that._delete(that._prefs.token, id);
+            }).then(function(json) {
+                status.stop();
+                Screen.print('');
+                Screen.success('User'.white + " '".yellow + id.yellow + "'".yellow + " has been successfully deleted.".white);
+            }).catch(function(err) {
+                status.stop();
+                Screen.print('');
+                Screen.error("Error".red);
+                if(err.details) {
+                    Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                }
+                else {
+                    Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                }
+            });
+        }
+    }
+
+
+
+    import(filePath, format, companyName) {
         var that = this;
         Screen.print('Welcome to '.grey + 'Rainbow'.magenta);
                 
@@ -289,13 +362,12 @@ class CUser {
                 //var status = new Spinner('In progress, please wait...');
                 //status.start();
                 NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
-                    return that._import(that._prefs.token, filePath, format, companyId, companyName);
+                    return that._import(that._prefs.token, filePath, format, companyName);
                 }).then(function(json) {
                     //status.stop();
                     Screen.print('');
                     Screen.success(json.nbUsers.toString().yellow + " users imported successfully.".white);
                 }).catch(function(err) {
-                    console.log("ERROR", err);
                     //status.stop();
                     Screen.print('');
                     Screen.error("Error".red);

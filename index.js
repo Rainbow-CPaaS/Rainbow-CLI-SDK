@@ -8,6 +8,7 @@ var Account = require('./routes/Account');
 var Company = require('./routes/Company');
 var Status = require('./routes/Status');
 var User = require('./routes/User');
+var Free = require('./routes/Free');
 var Screen = require('./Print');
 
 var prefs = null;
@@ -23,11 +24,13 @@ start = function() {
   var company = new Company(program, prefs);
   var status = new Status(program, prefs);
   var user = new User(program, prefs);
+  var free = new Free(program, prefs);
 
   account.start();
   company.start();
   status.start();
   user.start();
+  free.start();
 
   program
   .command('*')

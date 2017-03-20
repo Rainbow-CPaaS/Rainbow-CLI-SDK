@@ -59,14 +59,16 @@ Here is the complete list of commands:
 |----------|----------|---------|
 | Connected User | **login** | Log-in to Rainbow | 
 | | **whoami** | Display information about the user connected |
-| User | **create** <username> <password> | Create a new user |
-| Users | **users** <id> | List the users |
-| Company | **company** <id>| Display information on a company |
-| | **company create** <name>| Create a new company |
-| | **company delete** <id>| Delete an existing company |
+| User | **create** <username> | Create a new user |
+| | **delete** <id> | Delete a user |
+| Company | **company** <id> | Display information on a company |
+| | **free company** <id> | Remove all users from a company |
+| | **create company** <name>| Create a new company |
+| | **delete company** <id>| Delete an existing company |
+| Users | **users** | List the users |
 | Companies | **companies** | List the companies |
 | Status | **status** | Get the API status |
-| Mass Provisionning | **import** | Import a CSV (users) file |
+| Mass Provisionning | **import** | Import a list of users from a CSV file |
 
 
 

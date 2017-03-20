@@ -38,6 +38,9 @@ class CCompany {
                 if(page > -1) {
                     limit = "&limit=25";
                 }
+                else {
+                    limit = "&limit=1000";
+                }
 
                 NodeSDK.get('/api/rainbow/admin/v1.0/companies?format=full' + offset + limit, token).then(function(jsonC) {
                     var companies = jsonC;
