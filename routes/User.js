@@ -26,6 +26,7 @@ class User {
         .option('-m, --max', 'Display up to max result per page (1000)')
         .option('-t, --terminated', 'Limit to terminated users')
         .option('-c, --company [id]', 'limit to company')
+        .option('-f, --file [filename]', 'Print result to a file in CSV')
         .action(function (commands) {
 
             var page = 0;
@@ -43,7 +44,10 @@ class User {
 
             var restrictToTerminated = commands.terminated || false;
 
-            that._user.getUsers(page, restrictToTerminated, companyId);
+            var csvFile = commands.file || "";
+            var useCSV = commands.file ? true : false;
+
+            that._user.getUsers(page, restrictToTerminated, companyId, useCSV, csvFile);
         });
 
         this._program.command('create', '<username>')
@@ -64,13 +68,10 @@ class User {
 
         this._program.command('import')
         .description("Import a list of users from a file")
-        .option('--csv [path]', 'Import from a CSV file')
-        //.option('-n, --new [name]', 'Import to a new company')
+        .option('--file [filename]', 'Import from a CSV file')
         .action(function (commands) {
-            var filePath = commands.csv || "";
-            var companyName = commands.new || "";
-            var format = commands.csv ? "csv" : "";
-            that._user.import(filePath, format, companyName); 
+            var filePath = commands.file || "";
+            that._user.import(filePath); 
         });
 
         this._program.command('delete', '<id>')

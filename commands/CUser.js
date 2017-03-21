@@ -14,16 +14,15 @@ const NodeSDK = require('../common/SDK');
 const Tools = require('../common/Tools');
 const Message = require('../common/Message');
 
+
 class CUser {
 
     constructor(prefs) {
         this._prefs = prefs;
     }
 
-    _getUsers(token, page, restrictToTerminated, companyId, _isSmall) {
+    _getUsers(token, page, restrictToTerminated, companyId, typeOfInfo) {
         return new Promise(function(resolve, reject) {
-
-            var isSmall = _isSmall || false;
 
             var offset = "";
             if(page > -1) {
@@ -50,8 +49,8 @@ class CUser {
             }
 
             var format = "full";
-            if(isSmall) {
-                format = "small"
+            if(typeOfInfo) {
+                format = typeOfInfo;
             }
 
             NodeSDK.get('/api/rainbow/admin/v1.0/users?format=' + format + '&isTerminated=' + restrictToTerminated + company + offset + limit, token).then(function(json) {
@@ -118,7 +117,7 @@ class CUser {
         return this._create(token, user);
     }
 
-    _import(token, filePath, format, companyName) {
+    _import(token, filePath) {
 
         var that = this;
 
@@ -155,6 +154,7 @@ class CUser {
                     Screen.success("Imported ".white + data.loginEmail.yellow);
                     nbSuccess++;
                 }).catch(function(err) {
+
                     var email = data.loginEmail || "Unknown";
 
                     if(typeof err.details === "string") {
@@ -163,10 +163,13 @@ class CUser {
                     else {
                         var param = "";
                         err.details.forEach(function(detail) {
-                            param += "'" + detail.param + "' ";
+                            if(!param.includes(detail.param)) {
+                                param += "'" + detail.param + "' ";
+                            }
+                            
                         });
 
-                        Screen.error("Skipped +.white " + email.red  + " - Incorrect parameters: " + param.yellow);
+                        Screen.error("Skipped ".white + email.red  + " - Incorrect parameters: " + param.yellow);
                     }
                 }));
             })
@@ -181,71 +184,102 @@ class CUser {
         });
     }
 
-    getUsers(page, restrictToTerminated, companyId) {
+    getUsers(page, restrictToTerminated, companyId, exportToCSV, csvFile) {
         var that = this;
 
         Message.welcome();
-    
+
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs.account.email);
-        
-            Screen.print("Current users:".white);
-            var status = new Spinner('In progress, please wait...');
-            status.start();
-            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
-                return that._getUsers(that._prefs.token, page, restrictToTerminated, companyId);
-            }).then(function(json) {
 
-                status.stop();
-                
-                if(json.total > json.limit) {
-                    var page = Math.floor(json.offset / json.limit) + 1
-                    var totalPage = Math.floor(json.total / json.limit) + 1;
-                    
-                    Screen.print('Displaying Page '.white + page.toString().yellow + " on ".white + totalPage.toString().yellow);
+            if (exportToCSV && ((typeof csvFile !== 'string') || (csvFile.length === 0))) {
+                Screen.error("Error: missing required value 'filename'");
+            }
+            else {
+                if(!exportToCSV) {
+                    Screen.print("Current users:".white);
                 }
-                Screen.print('');
+                var status = new Spinner('In progress, please wait...');
+                status.start();
+                NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+                    var typeOfInfo = exportToCSV ? "medium" : "full";
+                    return that._getUsers(that._prefs.token, page, restrictToTerminated, companyId, typeOfInfo);
+                }).then(function(json) {
 
-                var array = [];
-                array.push([ "#".gray, "Name".gray, "Company".gray, "Account".gray, "Roles".gray, "Active".gray, "ID".gray]);
-                array.push([ "-".gray, "----".gray, "-------".gray, "-------".gray, "-----".gray, "------".gray, "--".gray]);  
+                    status.stop();
+                    if(exportToCSV) {
+                        
+                        let stringify = csv.stringify;
+                        var writeStream = fs.createWriteStream(csvFile, { flags : 'w' });
 
-                var users = json.data;
-
-                for(var i = 0; i < users.length; i++) {
-
-                    var accountType = users[i].accountType;
-                    if(accountType === "free") {
-                        accountType = accountType.white;
+                        stringify(json.data, {
+                            formatters: {
+                                date: function(value) {
+                                    return moment(value).format('YYYY-MM-DD');
+                                }
+                            },
+                            delimiter: ";",
+                            header: true
+                        }).pipe(writeStream);
+                        writeStream.on('close', function () {
+                            Screen.success("Successfully saved".white + " " + json.total.toString().magenta + " user(s) to".white + " '".white + csvFile.yellow + "'".white);
+                        });
+                        writeStream.on('error', function (err) {
+                            console.log('Error!', err);
+                        });
                     }
                     else {
-                        accountType = accountType.yellow;
+
+                        if(json.total > json.limit) {
+                            var page = Math.floor(json.offset / json.limit) + 1
+                            var totalPage = Math.floor(json.total / json.limit) + 1;
+                            
+                            Screen.print('Displaying Page '.white + page.toString().yellow + " on ".white + totalPage.toString().yellow);
+                        }
+                        Screen.print('');
+
+                        var array = [];
+                        array.push([ "#".gray, "Name".gray, "LoginEmail".gray, "Company".gray, "Account".gray, "Roles".gray, "Active".gray, "ID".gray]);
+                        array.push([ "-".gray, "----".gray, "----------".gray, "-------".gray, "-------".gray, "-----".gray, "------".gray, "--".gray]);  
+
+                        var users = json.data;
+
+                        for(var i = 0; i < users.length; i++) {
+
+                            var accountType = users[i].accountType;
+                            if(accountType === "free") {
+                                accountType = accountType.white;
+                            }
+                            else {
+                                accountType = accountType.yellow;
+                            }
+
+                            var roles = users[i].roles.join();
+
+                            var active = "true".white;
+                            if(!users[i].isActive) {
+                                active = "false".yellow;
+                            }
+
+                            var name = "";
+                            if(users[i].lastName && users[i].firstName) {
+                                name = users[i].lastName + " " + users[i].firstName;
+                            }
+
+                            array.push([ (i+1).toString().white, name.cyan, users[i].loginEmail.white, users[i].companyName.white, accountType, roles.white, active, users[i].id.white]);  
+                        }
+
+                        var t = table(array);
+                        Screen.table(t);
+                        Screen.print('');
+                        Screen.success(json.total + ' users found.');
                     }
 
-                    var roles = users[i].roles.join();
-
-                    var active = "true".white;
-                    if(!users[i].isActive) {
-                        active = "false".yellow;
-                    }
-
-                    var name = "";
-                    if(users[i].lastName && users[i].firstName) {
-                        name = users[i].lastName + " " + users[i].firstName;
-                    }
-
-                    array.push([ (i+1).toString().white, name.cyan, users[i].companyName.white, accountType, roles.white, active, users[i].id.white]);  
-                }
-
-                var t = table(array);
-                Screen.table(t);
-                Screen.print('');
-                Screen.success(json.total + ' users found.');
-
-            }).catch(function(err) {
-                status.stop();
-                Message.error(err);
-            });
+                }).catch(function(err) {
+                    status.stop();
+                    Message.error(err);
+                });
+            }
         }
         else {
             Message.notLoggedIn();
@@ -319,9 +353,9 @@ class CUser {
 
 
 
-    import(filePath, format, companyName) {
+    import(filePath) {
         var that = this;
-        
+
         Message.welcome();
                 
         if(this._prefs.token && this._prefs.user) {
@@ -336,7 +370,7 @@ class CUser {
             else {
                 Screen.print("Request to import".white + " '".yellow + filePath.yellow + "'".yellow);
                 NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
-                    return that._import(that._prefs.token, filePath, format, companyName);
+                    return that._import(that._prefs.token, filePath);
                 }).then(function(json) {
                     Screen.print('');
                     Screen.success(json.nbUsers.toString().yellow + " users imported successfully.".white);

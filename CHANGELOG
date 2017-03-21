@@ -12,6 +12,8 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
  - [MASS PRO] Import CSV file of users
 
+ - [MASS PRO] Export users to CSV file
+
  - [COMPANY] Remove all users from a company
 
 ### v0.2.7

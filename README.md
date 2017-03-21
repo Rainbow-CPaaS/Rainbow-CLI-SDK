@@ -45,7 +45,7 @@ $ npm install -g rainbow-cli
 Once the Rainbow CLI Application is installed, you have access to the following command:
 
 ```bash
-$ rainbow <command> [<option>...]
+$ rbw <command> [<option>...]
 ```
 
 Read the next paragraph for the complete list of available commands
@@ -68,7 +68,128 @@ Here is the complete list of commands:
 | Users | **users** | List the users |
 | Companies | **companies** | List the companies |
 | Status | **status** | Get the API status |
-| Mass Provisionning | **import** | Import a list of users from a CSV file |
+| IMPORT | **import** | Import a list of users from a CSV file |
 
 
+### Command **LOGIN**
 
+This command allows to log-in to Rainbow
+
+```bash
+$ rbw login -u "rford@westworld.com" -p "Password_12345"
+```
+
+By default the connection is done on the sandbox platform. To log to the official Rainbow platform, simply add the option **--official**
+
+
+Once this command is done, you're connected to Rainbow and you can launch other command until your session expires.
+
+### Command **WHOAMI**
+
+This command allows to retrieve information on the connected user
+
+```bash
+$ rainbow whoami
+```
+
+### Command **CREATE**
+
+This command allows to create a new user
+
+The following example creates a user in a specific company
+
+```bash
+$ rainbow create "jdoe@mycompany.com" -p "Password_123" -f "John" -l "Doe" -c 58cd966fd45e61221b5711c0
+```
+
+### Command **DELETE**
+
+This command allows to delete an existing user
+
+```bash
+$ rainbow delete 58cd966fddfd61221b57145f
+```
+
+### Command **COMPANY**
+
+This command allows to retrieve information on a specific company
+
+```bash
+$ rainbow company 58cd966fd45e61221b5711c0
+```
+
+### Command **DELETE COMPANY**
+
+This command allows to delete an existing company
+
+```bash
+$ rainbow delete company 58cd966fd45e61221b5711c0
+```
+
+### Command **CREATE COMPANY**
+
+This command allows to create a new company
+
+```bash
+$ rainbow create company "My New Company"
+```
+
+### Command **FREE COMPANY**
+
+This command allows to remove all users from a company
+
+```bash
+$ rainbow free company 58cd966fd45e61221b5711c0
+```
+
+### Command **USERS**
+
+This command allows to list all the existing users
+
+```bash
+$ rainbow users
+```
+
+If there is more that 25 users, the result is paginated. use the option **--max** to display up to 1000 results or the option **--p** to display a specific page
+
+```bash
+$ rainbow users --page 4
+```
+
+The list can be restricted to a company
+
+```bash
+$ rainbow users -c 58cd966fd45e61221b5711c0
+```
+
+Finally, this list of users can be exported to a CSV file (with a limited set of attributes for each user)
+
+```bash
+$ rainbow users -c 58cd966fd45e61221b5711c0 --file "export.csv"
+```
+
+### Command **COMPANIES**
+
+This command allows to list all the existing companies
+
+```bash
+$ rainbow companies
+```
+
+The same option **--max** and **--page** can be used in case of a large number of companies found
+
+### Command **STATUS**
+
+This command allows to retrieve the status of the Rainbow Services
+
+```bash
+$ rainbow status
+```
+
+### Command **IMPORT**
+
+This command allows to import a CSV file containing a list of users to a company
+
+```bash
+$ rainbow import --file "import.csv"
+```

@@ -8,7 +8,7 @@ class Message {
     }
 
     welcome() {
-        Screen.print('Welcome to ' + 'Rainbow'.rainbow);
+        Screen.print('Welcome to '.white + 'Rainbow CLI'.rainbow);
     }
 
     loggedin(username) {

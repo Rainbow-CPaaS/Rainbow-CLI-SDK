@@ -25,7 +25,7 @@ class CFree {
 
         return new Promise(function(resolve, reject) {
 
-            that._user._getUsers(token, -1, false, id, true).then(function(json) {
+            that._user._getUsers(token, -1, false, id, "small").then(function(json) {
 
                 var promises = []
                 var nbDeleted = 0;
