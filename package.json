@@ -28,7 +28,7 @@
     "commander-plus": "0.0.6",
     "csv": "^1.1.1",
     "preferences": "^0.2.1",
-    "rainbow-node-sdk": "^0.9.6",
+    "rainbow-node-sdk": "0.9.7",
     "text-table": "^0.2.0"
   }
 }
