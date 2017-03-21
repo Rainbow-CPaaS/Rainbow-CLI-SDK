@@ -4,11 +4,11 @@ var CLI         = require('clui');
 var Spinner     = CLI.Spinner;
 var table       = require('text-table');
 
-var pkg = require('../package.json')
-var Screen = require("../Print");
-var NodeSDK = require('../SDK');
-const Tools = require('../Tools');
-
+const pkg = require('../package.json');
+const Screen = require("../common/Print");
+const NodeSDK = require('../common/SDK');
+const Tools = require('../common/Tools');
+const Message = require('../common/Message');
 
 class CAccount {
 
@@ -30,7 +30,7 @@ class CAccount {
     getConnectedUserInformation() {
         var that = this;
 
-        Screen.print('Welcome to '.grey + 'Rainbow'.magenta);
+        Message.welcome();
             
         if(this._prefs.token && this._prefs.user) {
             Screen.print('You are logged in as'.grey + " " + this._prefs.account.email.magenta);
@@ -95,14 +95,7 @@ class CAccount {
                 Screen.success('whoami successfully executed.');
             }).catch(function(err) {
                 status.stop();
-                Screen.print('');
-                Screen.error("Can't execute the command".white);
-                if(err.details) {
-                    Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray + ": " + err.details.gray);
-                }
-                else {
-                    Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray);
-                }
+                Message.error(err);
             });
         }
     }
@@ -110,7 +103,7 @@ class CAccount {
     login(email, password, platform) {
         var that = this;
 
-        Screen.print('Welcome to ' + 'Rainbow'.magenta);
+        Message.welcome();
         Screen.print('Version ' + pkg.version.yellow);
         
         if(email.length === 0 || password.length === 0) {
@@ -139,13 +132,7 @@ class CAccount {
 
         }).catch(function(err) {
             status.stop();
-            Screen.error("Can't login to Rainbow!".grey);
-            if(err.details) {
-                Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray + ": " + err.details.gray);
-            }
-            else {
-                Screen.print("Error ".red + err.code.toString().gray + " - ".white + err.msg.gray);
-            }
+            Message.error(err);
         });
     }
     

@@ -4,13 +4,13 @@ var CLI         = require('clui');
 var Spinner     = CLI.Spinner;
 var table       = require('text-table');
 
-var pkg = require('../package.json')
-var Screen = require("../Print");
-var NodeSDK = require('../SDK');
-const Tools = require('../Tools');
+const pkg = require('../package.json');
+const Screen = require("../common/Print");
+const NodeSDK = require('../common/SDK');
+const Tools = require('../common/Tools');
+const Message = require('../common/Message');
 
 var CUser = require('./CUser');
-
 
 class CFree {
 
@@ -58,7 +58,8 @@ class CFree {
 
     removeAllUsersFromACompany(id) {
         var that = this;
-        Screen.print('Welcome to '.grey + 'Rainbow'.magenta);
+        
+        Message.welcome();
                 
         if(this._prefs.token && this._prefs.user) {
             Screen.print('You are logged in as'.grey + " " + that._prefs.account.email.magenta);
@@ -71,14 +72,7 @@ class CFree {
                 Screen.print('');
                 Screen.success(json.nbDeleted.toString().yellow + ' user(s) deleted.');
             }).catch(function(err) {
-                Screen.print('');
-                Screen.error("Can't execute the command".white);
-                if(err.details) {
-                    Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                }
-                else {
-                    Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                }
+                Message.error(err);
             });
         }
     }

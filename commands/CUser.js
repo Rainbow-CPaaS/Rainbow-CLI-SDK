@@ -8,11 +8,11 @@ const colors      = require('colors');
 const csv = require('csv');
 const fs = require('fs');
 
-var pkg = require('../package.json')
-var Screen = require("../Print");
-var NodeSDK = require('../SDK');
-const Tools = require('../Tools');
-
+const pkg = require('../package.json');
+const Screen = require("../common/Print");
+const NodeSDK = require('../common/SDK');
+const Tools = require('../common/Tools');
+const Message = require('../common/Message');
 
 class CUser {
 
@@ -184,7 +184,7 @@ class CUser {
     getUsers(page, restrictToTerminated, companyId) {
         var that = this;
 
-        Screen.print('Welcome to '.grey + 'Rainbow'.rainbow);
+        Message.welcome();
     
         if(this._prefs.token && this._prefs.user) {
             Screen.print('You are logged in as'.grey + " " + this._prefs.account.email.magenta);
@@ -245,20 +245,15 @@ class CUser {
 
             }).catch(function(err) {
                 status.stop();
-                Screen.print('');
-                if(err.details) {
-                    Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                }
-                else {
-                    Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                }
+                Message.error(err);
             });
         }
     }
 
     create(email, password, firstname, lastname, companyId, isAdmin) {
         var that = this;
-        Screen.print('Welcome to '.grey + 'Rainbow'.magenta);
+        
+        Message.welcome();
                 
         if(this._prefs.token && this._prefs.user) {
             Screen.print('You are logged in as'.grey + " " + that._prefs.account.email.magenta);
@@ -285,26 +280,7 @@ class CUser {
                     Screen.success('User'.white + " '".yellow + email.yellow + "'".yellow + " has been successfully created.".white);
                 }).catch(function(err) {
                     status.stop();
-                    Screen.print('');
-                    Screen.error("Error".red);
-
-
-                    if(err.details) {
-                        if(typeof err.details === "string") {
-                            Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                        }
-                        else {
-                            var param = "";
-                            err.details.forEach(function(detail) {
-                                param += "'" + detail.param + "' ";
-                            });
-
-                            Screen.error("Incorrect value for ".white + param.white + '('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                        }
-                    }
-                    else {
-                        Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                    }
+                    Message.error(err);
                 });
             }
         }
@@ -312,7 +288,8 @@ class CUser {
 
     delete(id) {
         var that = this;
-        Screen.print('Welcome to '.grey + 'Rainbow'.magenta);
+        
+        Message.welcome();
                 
         if(this._prefs.token && this._prefs.user) {
             Screen.print('You are logged in as'.grey + " " + that._prefs.account.email.magenta);
@@ -329,14 +306,7 @@ class CUser {
                 Screen.success('User'.white + " '".yellow + id.yellow + "'".yellow + " has been successfully deleted.".white);
             }).catch(function(err) {
                 status.stop();
-                Screen.print('');
-                Screen.error("Error".red);
-                if(err.details) {
-                    Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                }
-                else {
-                    Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                }
+                Message.error(err);
             });
         }
     }
@@ -345,7 +315,8 @@ class CUser {
 
     import(filePath, format, companyName) {
         var that = this;
-        Screen.print('Welcome to '.grey + 'Rainbow'.magenta);
+        
+        Message.welcome();
                 
         if(this._prefs.token && this._prefs.user) {
             Screen.print('You are logged in as'.grey + " " + that._prefs.account.email.magenta);
@@ -359,24 +330,13 @@ class CUser {
             }
             else {
                 Screen.print("Request to import".white + " '".yellow + filePath.yellow + "'".yellow);
-                //var status = new Spinner('In progress, please wait...');
-                //status.start();
                 NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
                     return that._import(that._prefs.token, filePath, format, companyName);
                 }).then(function(json) {
-                    //status.stop();
                     Screen.print('');
                     Screen.success(json.nbUsers.toString().yellow + " users imported successfully.".white);
                 }).catch(function(err) {
-                    //status.stop();
-                    Screen.print('');
-                    Screen.error("Error".red);
-                    if(err.details) {
-                        Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                    }
-                    else {
-                        Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                    }
+                    Message.error(err);
                 });
             }
         }

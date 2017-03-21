@@ -24,8 +24,8 @@ class Account {
 
         this._program.command('whoami')
             .description("Display information about the connected user")
-            .action(function () {
-            
+            .action(function (command) {
+
             that._account.getConnectedUserInformation();
         });
 

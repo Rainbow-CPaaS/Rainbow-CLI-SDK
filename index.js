@@ -9,7 +9,7 @@ var Company = require('./routes/Company');
 var Status = require('./routes/Status');
 var User = require('./routes/User');
 var Free = require('./routes/Free');
-var Screen = require('./Print');
+var Screen = require('./common/Print');
 
 var prefs = null;
 

@@ -4,11 +4,11 @@ var CLI         = require('clui');
 var Spinner     = CLI.Spinner;
 var table       = require('text-table');
 
-var pkg = require('../package.json')
-var Screen = require("../Print");
-var NodeSDK = require('../SDK');
-const Tools = require('../Tools');
-
+const pkg = require('../package.json');
+const Screen = require("../common/Print");
+const NodeSDK = require('../common/SDK');
+const Tools = require('../common/Tools');
+const Message = require('../common/Message');
 
 class CCompany {
 
@@ -111,7 +111,7 @@ class CCompany {
     getCompanies(page) {
         var that = this;
 
-        Screen.print('Welcome to '.grey + 'Rainbow'.magenta);
+        Message.welcome();
         
         if(this._prefs.token && this._prefs.user) {
             Screen.print('You are logged in as'.grey + " " + this._prefs.account.email.magenta);
@@ -178,13 +178,7 @@ class CCompany {
                 Screen.success(json.companies.total + ' companies found.');
             }).catch(function(err) {
                 status.stop();
-                Screen.print('');
-                if(err.details) {
-                    Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                }
-                else {
-                    Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                }
+                Message.error(err);
             });
         }
     }
@@ -192,7 +186,7 @@ class CCompany {
     createCompany(name) {
         var that = this;
 
-        Screen.print('Welcome to '.grey + 'Rainbow'.magenta);
+        Message.welcome();
             
         if(this._prefs.token && this._prefs.user) {
             Screen.print('You are logged in as'.grey + " " + this._prefs.account.email.magenta);
@@ -214,13 +208,7 @@ class CCompany {
                     Screen.success('Company'.white + " '".yellow + name.yellow + "'".yellow + " has been successfully created.".white);
                 }).catch(function(err) {
                     status.stop();
-                    Screen.print('');
-                    if(err.details) {
-                        Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                    }
-                    else {
-                        Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                    }
+                    Message.error(err);
                 });
             }
         }
@@ -229,7 +217,7 @@ class CCompany {
     deleteCompany(id) {
         var that = this;
 
-        Screen.print('Welcome to '.grey + 'Rainbow'.magenta);
+        Message.welcome();
             
         if(this._prefs.token && this._prefs.user) {
             Screen.print('You are logged in as'.grey + " " + this._prefs.account.email.magenta);
@@ -250,13 +238,7 @@ class CCompany {
                     Screen.success('Company'.white + " '".yellow + id.yellow + "'".yellow + " has been successfully deleted.".white);
                 }).catch(function(err) {
                     status.stop();
-                    Screen.print('');
-                    if(err.details) {
-                        Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                    }
-                    else {
-                        Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                    }
+                    Message.error(err);
                 });
             }
         }
@@ -267,7 +249,7 @@ class CCompany {
     getCompany(id) {
         var that = this;
 
-        Screen.print('Welcome to '.grey + 'Rainbow'.magenta);
+        Message.welcome();
             
         if(this._prefs.token && this._prefs.user) {
             Screen.print('You are logged in as'.grey + " " + this._prefs.account.email.magenta);
@@ -338,13 +320,7 @@ class CCompany {
                     Screen.success('Company information retrieved successfully.');
                 }).catch(function(err) {
                     status.stop();
-                    Screen.print('');
-                    if(err.details) {
-                        Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                    }
-                    else {
-                        Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
-                    }
+                    Message.error(err);
                 });
             }
         }
