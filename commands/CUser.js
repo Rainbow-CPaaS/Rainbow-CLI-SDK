@@ -187,8 +187,7 @@ class CUser {
         Message.welcome();
     
         if(this._prefs.token && this._prefs.user) {
-            Screen.print('You are logged in as'.grey + " " + this._prefs.account.email.magenta);
-            Screen.print('');
+            Message.loggedin(this._prefs.account.email);
         
             Screen.print("Current users:".white);
             var status = new Spinner('In progress, please wait...');
@@ -248,6 +247,9 @@ class CUser {
                 Message.error(err);
             });
         }
+        else {
+            Message.notLoggedIn();
+        }
     }
 
     create(email, password, firstname, lastname, companyId, isAdmin) {
@@ -256,8 +258,7 @@ class CUser {
         Message.welcome();
                 
         if(this._prefs.token && this._prefs.user) {
-            Screen.print('You are logged in as'.grey + " " + that._prefs.account.email.magenta);
-            Screen.print('');
+            Message.loggedin(this._prefs.account.email);
             
             if ((typeof password !== 'string') || (password.length === 0)) {
                 Screen.error("Error: missing required argument '--password'");
@@ -284,6 +285,9 @@ class CUser {
                 });
             }
         }
+        else {
+            Message.notLoggedIn();
+        }
     }
 
     delete(id) {
@@ -292,8 +296,7 @@ class CUser {
         Message.welcome();
                 
         if(this._prefs.token && this._prefs.user) {
-            Screen.print('You are logged in as'.grey + " " + that._prefs.account.email.magenta);
-            Screen.print('');
+            Message.loggedin(this._prefs.account.email);
             
             Screen.print("Request to delete user".white + " '".yellow + id.yellow + "'".yellow);
             var status = new Spinner('In progress, please wait...');
@@ -309,6 +312,9 @@ class CUser {
                 Message.error(err);
             });
         }
+        else {
+            Message.notLoggedIn();
+        }
     }
 
 
@@ -319,8 +325,7 @@ class CUser {
         Message.welcome();
                 
         if(this._prefs.token && this._prefs.user) {
-            Screen.print('You are logged in as'.grey + " " + that._prefs.account.email.magenta);
-            Screen.print('');
+            Message.loggedin(this._prefs.account.email);
             
             if ((typeof filePath !== 'string') || (filePath.length === 0)) {
                 Screen.error('A path to a file is required');
@@ -339,6 +344,9 @@ class CUser {
                     Message.error(err);
                 });
             }
+        }
+        else {
+            Message.notLoggedIn();
         }
     }
 }

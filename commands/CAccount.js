@@ -33,8 +33,8 @@ class CAccount {
         Message.welcome();
             
         if(this._prefs.token && this._prefs.user) {
-            Screen.print('You are logged in as'.grey + " " + this._prefs.account.email.magenta);
-            Screen.print('');
+            Message.loggedin(this._prefs.account.email);
+
             Screen.print("Current account information:".white);
             Screen.print('');
             
@@ -97,6 +97,9 @@ class CAccount {
                 status.stop();
                 Message.error(err);
             });
+        }
+        else {
+            Message.notLoggedIn();
         }
     }
 

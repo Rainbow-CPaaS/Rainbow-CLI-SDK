@@ -41,8 +41,8 @@ class CStatus {
         Message.welcome();
                 
         if(this._prefs.token && this._prefs.user) {
-            Screen.print('You are logged in as'.grey + " " + that._prefs.account.email.magenta);
-            Screen.print('');
+            Message.loggedin(this._prefs.account.email);
+
             Screen.print("Current API status information:".white);
             Screen.print('');
             
@@ -77,6 +77,9 @@ class CStatus {
                 status.stop();
                 Message.error(err);
             });
+        }
+        else {
+            Message.notLoggedIn();
         }
     }
 }

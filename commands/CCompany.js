@@ -114,8 +114,8 @@ class CCompany {
         Message.welcome();
         
         if(this._prefs.token && this._prefs.user) {
-            Screen.print('You are logged in as'.grey + " " + this._prefs.account.email.magenta);
-            Screen.print('');
+            Message.loggedin(this._prefs.account.email);
+
             Screen.print("Current Companies:".white);
             
             var status = new Spinner('In progress, please wait...');
@@ -181,6 +181,9 @@ class CCompany {
                 Message.error(err);
             });
         }
+        else {
+            Message.notLoggedIn();
+        }
     }
 
     createCompany(name) {
@@ -189,8 +192,7 @@ class CCompany {
         Message.welcome();
             
         if(this._prefs.token && this._prefs.user) {
-            Screen.print('You are logged in as'.grey + " " + this._prefs.account.email.magenta);
-            Screen.print('');
+            Message.loggedin(this._prefs.account.email);
             
         
             if ((typeof name !== 'string') || (name.length === 0)) {
@@ -212,6 +214,9 @@ class CCompany {
                 });
             }
         }
+        else {
+            Message.notLoggedIn();
+        }
     }
 
     deleteCompany(id) {
@@ -220,8 +225,7 @@ class CCompany {
         Message.welcome();
             
         if(this._prefs.token && this._prefs.user) {
-            Screen.print('You are logged in as'.grey + " " + this._prefs.account.email.magenta);
-            Screen.print('');
+           Message.loggedin(this._prefs.account.email);
         
             if ((typeof id !== 'string') || (id.length === 0)) {
                 Screen.error('An ID name of a company is required');
@@ -242,6 +246,9 @@ class CCompany {
                 });
             }
         }
+        else {
+            Message.notLoggedIn();
+        }
     }
 
     
@@ -252,8 +259,7 @@ class CCompany {
         Message.welcome();
             
         if(this._prefs.token && this._prefs.user) {
-            Screen.print('You are logged in as'.grey + " " + this._prefs.account.email.magenta);
-            Screen.print('');
+            Message.loggedin(this._prefs.account.email);
         
             if ((typeof id !== 'string') || (id.length === 0)) {
                 Screen.error('An ID name of a company is required');
@@ -323,6 +329,9 @@ class CCompany {
                     Message.error(err);
                 });
             }
+        }
+        else {
+            Message.notLoggedIn();
         }
     }
 }

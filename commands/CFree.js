@@ -62,8 +62,8 @@ class CFree {
         Message.welcome();
                 
         if(this._prefs.token && this._prefs.user) {
-            Screen.print('You are logged in as'.grey + " " + that._prefs.account.email.magenta);
-            Screen.print('');
+            Message.loggedin(this._prefs.account.email);
+
             Screen.print("Free company:".white + " '".white + id.yellow + "'".white);
             Screen.print('');
             NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
@@ -74,6 +74,9 @@ class CFree {
             }).catch(function(err) {
                 Message.error(err);
             });
+        }
+        else {
+            Message.notLoggedIn();
         }
     }
 }
