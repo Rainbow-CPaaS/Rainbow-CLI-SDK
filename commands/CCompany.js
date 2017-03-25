@@ -48,12 +48,23 @@ class CCompany {
                     limit = "&limit=1000";
                 }
 
-                NodeSDK.get('/api/rainbow/admin/v1.0/companies?format=full' + filterToApply + offset + limit, token).then(function(jsonC) {
-                    var companies = jsonC;
-                    resolve({organisations: organisations, companies: companies});
-                }).catch(function(err) {
-                    reject(err);
-                });
+                if(filter.org) {
+                    NodeSDK.get('/api/rainbow/admin/v1.0/organisations/' + filter.org + '/companies?format=full' + filterToApply + offset + limit, token).then(function(jsonC) {
+                        var companies = jsonC;
+                        resolve({organisations: organisations, companies: companies});
+                    }).catch(function(err) {
+                        reject(err);
+                    });
+                } else {
+                    NodeSDK.get('/api/rainbow/admin/v1.0/companies?format=full' + filterToApply + offset + limit, token).then(function(jsonC) {
+                        var companies = jsonC;
+                        resolve({organisations: organisations, companies: companies});
+                    }).catch(function(err) {
+                        reject(err);
+                    });
+                }
+
+                
             }).catch(function(err) {
                 reject(err);
             });

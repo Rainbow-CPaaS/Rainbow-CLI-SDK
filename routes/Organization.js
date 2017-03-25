@@ -20,7 +20,7 @@ class Organization {
     listOfCommands() {
         var that = this;
 
-        this._program.command('org')
+        this._program.command('orgs')
         .description("List all existing organizations")
         .option('-p, --page <number>', 'Display a specific page')
         .option('-m, --max', 'Display up to max result per page (max=1000)')
