@@ -20,6 +20,32 @@ class User {
     listOfCommands() {
         var that = this;
 
+        this._program.command('create', '<username> <password> <firstname> <lastname>')
+        .description("Create a new user")
+        .option('-c, --company <id>', 'Create the user in an existing company')
+        .option('-a, --admin', 'Add an administrator role')
+        .action(function (email, password, firstname, lastname, listOfCommands) {
+
+            var options = {
+                company: commands.company || "",
+                isAdmin: commands.admin || false
+            }
+
+            that._user.create(email, password, firstname, lastname, options); 
+        });
+
+        this._program.command('delete', '<id>')
+        .description("Delete an existing user")
+        .option('-f, --force', 'Do not ask confirmation')
+        .action(function (id) {
+
+            var options = {
+                force: commands.force || false
+            };
+
+            that._user.delete(id, options); 
+        });
+
         this._program.command('users')
         .description("List the users")
         .option('-p, --page <number>', 'Display a specific page')
@@ -40,44 +66,20 @@ class User {
                 page = -1
             }
 
-            var companyId = commands.company || "";
+            var options = {
+                companyId: commands.company || "",
+                onlyTerminated: commands.terminated || false,
+                csv: commands.file || "",
+                page: page
+            };
 
-            var restrictToTerminated = commands.terminated || false;
-
-            var csvFile = commands.file || "";
-            var useCSV = commands.file ? true : false;
-
-            that._user.getUsers(page, restrictToTerminated, companyId, useCSV, csvFile);
+            that._user.getUsers(options);
         });
 
-        this._program.command('create', '<username>')
-        .description("Create a new user")
-        .option('-c, --company <id>', 'Create the user in an existing company')
-        .option('-p, --password <value>', 'Add a password')
-        .option('-f, --firstname <value>', 'Add a firstname')
-        .option('-l, --lastname <value>', 'Add a lastname')
-        .option('-a, --admin', 'Add an administrator role')
-        .action(function (email, commands) {
-            var company = commands.company || "";
-            var password = commands.password || "";
-            var firstname = commands.firstname || "";
-            var lastname = commands.lastname || "";
-            var isAdmin = commands.admin || false;
-            that._user.create(email, password, firstname, lastname, company, isAdmin); 
-        });
-
-        this._program.command('import')
+        this._program.command('import file', '<filename>')
         .description("Import a list of users from a file")
-        .option('--file <filename>', 'Import from a CSV file')
-        .action(function (commands) {
-            var filePath = commands.file || "";
+        .action(function (filePath) {
             that._user.import(filePath); 
-        });
-
-        this._program.command('delete', '<id>')
-        .description("Delete an existing user")
-        .action(function (id) {
-            that._user.delete(id); 
         });
     }
 }

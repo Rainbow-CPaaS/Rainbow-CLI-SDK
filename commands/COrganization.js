@@ -94,7 +94,7 @@ class COrganization {
     deleteOrganization(id, options) {
         var that = this;
 
-        var confirmDeleteOrganization = function(id) {
+        var confirmDelete = function(id) {
             Screen.print("Request to delete organization".white + " '".yellow + id.yellow + "'".yellow);
             var status = new Spinner('In progress, please wait...');
             status.start();
@@ -116,12 +116,12 @@ class COrganization {
             Message.loggedin(this._prefs.account.email);
 
             if(options.force) {
-                confirmDeleteOrganization(id);
+                confirmDelete(id);
             }
             else {
                 Message.confirm('Are-you sure ? It will unlink existing linked companies').then(function(confirm) {
                     if(confirm) {
-                        confirmDeleteOrganization(id);
+                        confirmDelete(id);
                     }
                     else {
                         Message.canceled();

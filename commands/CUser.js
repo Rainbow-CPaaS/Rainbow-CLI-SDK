@@ -21,14 +21,14 @@ class CUser {
         this._prefs = prefs;
     }
 
-    _getUsers(token, page, restrictToTerminated, companyId, typeOfInfo) {
+    _getUsers(token, options) {
         return new Promise(function(resolve, reject) {
 
             var offset = "";
-            if(page > -1) {
+            if(options.page > -1) {
                 offset = "&offset=";
-                if(page > 1) {
-                    offset += (25 * (page - 1));
+                if(options.page > 1) {
+                    offset += (25 * (options.page - 1));
                 }
                 else {
                     offset +=0;
@@ -36,7 +36,7 @@ class CUser {
             }
 
             var limit = "";
-            if(page > -1) {
+            if(options.page > -1) {
                 limit = "&limit=25";
             }
             else {
@@ -44,16 +44,17 @@ class CUser {
             }
 
             var company = "";
-            if(companyId) {
-                company = "&companyId=" + companyId;
+            if(options.companyId) {
+                company = "&companyId=" + options.companyId;
             }
 
             var format = "full";
-            if(typeOfInfo) {
-                format = typeOfInfo;
+            if(options.csv) {
+                format = "medium";
             }
 
-            NodeSDK.get('/api/rainbow/admin/v1.0/users?format=' + format + '&isTerminated=' + restrictToTerminated + company + offset + limit, token).then(function(json) {
+            NodeSDK.get('/api/rainbow/admin/v1.0/users?format=' + format + '&isTerminated=' + options.onlyTerminated + company + offset + limit, token).then(function(json) {
+
                 resolve(json);
             }).catch(function(err) {
                 console.log(err);
@@ -84,11 +85,13 @@ class CUser {
         });
     }
 
-    _createSimple(token, email, password, firstname, lastname, companyId, isAdmin) {
+    _createSimple(token, email, password, firstname, lastname, options) {
 
         var user = {
             loginEmail: email,
             password: password,
+            firstname: firstname,
+            lastname: lastname,
             isActive: true,
             isInitialized: false,
             language: "en",
@@ -97,19 +100,11 @@ class CUser {
             accountType: "free",
         };
 
-        if(firstname) {
-            user.firstName = firstname;
+        if(options.companyId) {
+            user.companyId = options.companyId;
         }
 
-        if(lastname) {
-            user.lastName = lastname;
-        }
-    
-        if(companyId) {
-            user.companyId = companyId;
-        }
-
-        if(isAdmin) {
+        if(options.isAdmin) {
             user.roles.push("admin")
             user.adminType = ["company_admin"];
         }
@@ -158,7 +153,7 @@ class CUser {
                     var email = data.loginEmail || "Unknown";
 
                     if(typeof err.details === "string") {
-                        Screen.error("Skipped ".white + email.red + err.details);
+                        Screen.error("Skipped ".white + email.red + ' ('.white + err.details.white + ')'.white);
                     }
                     else {
                         var param = "";
@@ -169,7 +164,7 @@ class CUser {
                             
                         });
 
-                        Screen.error("Skipped ".white + email.red  + " - Incorrect parameters: " + param.yellow);
+                        Screen.error("Skipped ".white + email.red  + " (Incorrect parameters: ".white + param.yellow + ')'.white);
                     }
                 }));
             })
@@ -184,7 +179,7 @@ class CUser {
         });
     }
 
-    getUsers(page, restrictToTerminated, companyId, exportToCSV, csvFile) {
+    getUsers(options) {
         var that = this;
 
         Message.welcome();
@@ -192,139 +187,98 @@ class CUser {
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs.account.email);
 
-            if (exportToCSV && ((typeof csvFile !== 'string') || (csvFile.length === 0))) {
-                Screen.error("Error: missing required value 'filename'");
+            if(!options.csv) {
+                Screen.print("Current users:".white);
             }
-            else {
-                if(!exportToCSV) {
-                    Screen.print("Current users:".white);
+            var status = new Spinner('In progress, please wait...');
+            status.start();
+            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+                return that._getUsers(that._prefs.token, options);
+            }).then(function(json) {
+                status.stop();
+                if(options.csv) {
+                    let stringify = csv.stringify;
+                    var writeStream = fs.createWriteStream(options.csv, { flags : 'w' });
+
+                    stringify(json.data, {
+                        formatters: {
+                            date: function(value) {
+                                return moment(value).format('YYYY-MM-DD');
+                            }
+                        },
+                        delimiter: ";",
+                        header: true
+                    }).pipe(writeStream);
+                    writeStream.on('close', function () {
+                        Screen.success("Successfully saved".white + " " + json.total.toString().magenta + " user(s) to".white + " '".white + options.csv.yellow + "'".white);
+                    });
+                    writeStream.on('error', function (err) {
+                        console.log('Error!', err);
+                    });
                 }
-                var status = new Spinner('In progress, please wait...');
-                status.start();
-                NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
-                    var typeOfInfo = exportToCSV ? "medium" : "full";
-                    return that._getUsers(that._prefs.token, page, restrictToTerminated, companyId, typeOfInfo);
-                }).then(function(json) {
+                else {
 
-                    status.stop();
-                    if(exportToCSV) {
+                    if(json.total > json.limit) {
+                        var page = Math.floor(json.offset / json.limit) + 1
+                        var totalPage = Math.floor(json.total / json.limit) + 1;
                         
-                        let stringify = csv.stringify;
-                        var writeStream = fs.createWriteStream(csvFile, { flags : 'w' });
-
-                        stringify(json.data, {
-                            formatters: {
-                                date: function(value) {
-                                    return moment(value).format('YYYY-MM-DD');
-                                }
-                            },
-                            delimiter: ";",
-                            header: true
-                        }).pipe(writeStream);
-                        writeStream.on('close', function () {
-                            Screen.success("Successfully saved".white + " " + json.total.toString().magenta + " user(s) to".white + " '".white + csvFile.yellow + "'".white);
-                        });
-                        writeStream.on('error', function (err) {
-                            console.log('Error!', err);
-                        });
+                        Screen.print('Displaying Page '.white + page.toString().yellow + " on ".white + totalPage.toString().yellow);
                     }
-                    else {
-
-                        if(json.total > json.limit) {
-                            var page = Math.floor(json.offset / json.limit) + 1
-                            var totalPage = Math.floor(json.total / json.limit) + 1;
-                            
-                            Screen.print('Displaying Page '.white + page.toString().yellow + " on ".white + totalPage.toString().yellow);
-                        }
-                        Screen.print('');
-
-                        var array = [];
-                        array.push([ "#".gray, "Name".gray, "LoginEmail".gray, "Company".gray, "Account".gray, "Roles".gray, "Active".gray, "ID".gray]);
-                        array.push([ "-".gray, "----".gray, "----------".gray, "-------".gray, "-------".gray, "-----".gray, "------".gray, "--".gray]);  
-
-                        var users = json.data;
-
-                        for(var i = 0; i < users.length; i++) {
-
-                            var accountType = users[i].accountType;
-                            if(accountType === "free") {
-                                accountType = accountType.white;
-                            }
-                            else {
-                                accountType = accountType.yellow;
-                            }
-
-                            var roles = users[i].roles.join();
-
-                            var active = "true".white;
-                            if(!users[i].isActive) {
-                                active = "false".yellow;
-                            }
-
-                            var name = "";
-                            if(users[i].lastName && users[i].firstName) {
-                                name = users[i].lastName + " " + users[i].firstName;
-                            }
-
-                            array.push([ (i+1).toString().white, name.cyan, users[i].loginEmail.white, users[i].companyName.white, accountType, roles.white, active, users[i].id.white]);  
-                        }
-
-                        var t = table(array);
-                        Screen.table(t);
-                        Screen.print('');
-                        Screen.success(json.total + ' users found.');
-                    }
-
-                }).catch(function(err) {
-                    status.stop();
-                    Message.error(err);
-                });
-            }
-        }
-        else {
-            Message.notLoggedIn();
-        }
-    }
-
-    create(email, password, firstname, lastname, companyId, isAdmin) {
-        var that = this;
-        
-        Message.welcome();
-                
-        if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.account.email);
-            
-            if ((typeof password !== 'string') || (password.length === 0)) {
-                Screen.error("Error: missing required argument '--password'");
-            }
-            else if ((typeof firstname !== 'string') || (firstname.length === 0)) {
-                Screen.error("Error: missing required argument '--firstname'");
-            }
-            else if ((typeof lastname !== 'string') || (lastname.length === 0)) {
-                Screen.error("Error: missing required argument '--lastname'");
-            }
-            else {
-                Screen.print("Request to create user".white + " '".yellow + email.yellow + "'".yellow);
-                var status = new Spinner('In progress, please wait...');
-                status.start();
-                NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
-                    return that._createSimple(that._prefs.token, email, password, firstname, lastname, companyId, isAdmin);
-                }).then(function(json) {
-                    status.stop();
                     Screen.print('');
-                    Screen.success('User'.white + " '".yellow + email.yellow + "'".yellow + " has been successfully created.".white);
-                }).catch(function(err) {
-                    status.stop();
-                    Message.error(err);
-                });
-            }
+
+                    var array = [];
+                    array.push([ "#".gray, "Name".gray, "LoginEmail".gray, "Company".gray, "Account".gray, "Roles".gray, "Active".gray, "ID".gray]);
+                    array.push([ "-".gray, "----".gray, "----------".gray, "-------".gray, "-------".gray, "-----".gray, "------".gray, "--".gray]);  
+
+                    var users = json.data;
+
+                    for(var i = 0; i < users.length; i++) {
+
+                        var accountType = users[i].accountType;
+                        if(accountType === "free") {
+                            accountType = accountType.white;
+                        }
+                        else {
+                            accountType = accountType.yellow;
+                        }
+
+                        var roles = users[i].roles.join();
+
+                        var active = "true".white;
+                        if(!users[i].isActive) {
+                            active = "false".yellow;
+                        }
+
+                        var name = "";
+                        if(users[i].lastName && users[i].firstName) {
+                            name = users[i].lastName + " " + users[i].firstName;
+                        }
+
+                        var number = (i+1);
+                        if(options.page > 0) {
+                            number = ((options.page-1) * json.limit) + (i+1);
+                        }
+
+                        array.push([ number.toString().white, name.cyan, users[i].loginEmail.white, users[i].companyName.white, accountType, roles.white, active, users[i].id.white]);  
+                    }
+
+                    var t = table(array);
+                    Screen.table(t);
+                    Screen.print('');
+                    Screen.success(json.total + ' users found.');
+                }
+
+            }).catch(function(err) {
+                status.stop();
+                Message.error(err);
+            });
         }
         else {
             Message.notLoggedIn();
         }
     }
 
-    delete(id) {
+    create(email, password, firstname, lastname, options) {
         var that = this;
         
         Message.welcome();
@@ -332,6 +286,29 @@ class CUser {
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs.account.email);
             
+            Screen.print("Request to create user".white + " '".yellow + email.yellow + "'".yellow);
+            var status = new Spinner('In progress, please wait...');
+            status.start();
+            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+                return that._createSimple(that._prefs.token, email, password, firstname, lastname, options);
+            }).then(function(json) {
+                status.stop();
+                Screen.print('');
+                Screen.success('User'.white + " '".yellow + email.yellow + "'".yellow + " has been successfully created.".white);
+            }).catch(function(err) {
+                status.stop();
+                Message.error(err);
+            });
+        }
+        else {
+            Message.notLoggedIn();
+        }
+    }
+
+    delete(id, options) {
+        var that = this;
+
+        var confirmDelete = function(id) {
             Screen.print("Request to delete user".white + " '".yellow + id.yellow + "'".yellow);
             var status = new Spinner('In progress, please wait...');
             status.start();
@@ -346,12 +323,30 @@ class CUser {
                 Message.error(err);
             });
         }
+        
+        Message.welcome();
+                
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs.account.email);
+
+            if(options.force) {
+                confirmDelete(id);
+            }
+            else {
+                Message.confirm('Are-you sure ? It will remote it completely').then(function(confirm) {
+                    if(confirm) {
+                        confirmDelete(id);
+                    }
+                    else {
+                        Message.canceled();
+                    }
+                });
+            }
+        }
         else {
             Message.notLoggedIn();
         }
     }
-
-
 
     import(filePath) {
         var that = this;
@@ -361,10 +356,7 @@ class CUser {
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs.account.email);
             
-            if ((typeof filePath !== 'string') || (filePath.length === 0)) {
-                Screen.error('A path to a file is required');
-            }
-            else if(!fs.existsSync(filePath)) {
+            if(!fs.existsSync(filePath)) {
                 Screen.error('File not found!');
             }
             else {
