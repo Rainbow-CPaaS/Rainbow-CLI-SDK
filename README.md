@@ -68,7 +68,7 @@ Here is the complete list of commands:
 | Users | **users** | List the users |
 | Companies | **companies** | List the companies |
 | Status | **status** | Get the API status |
-| IMPORT | **import** | Import a list of users from a CSV file |
+| Import | **import** | Import a list of users from a CSV file |
 
 
 ### Command **LOGIN**

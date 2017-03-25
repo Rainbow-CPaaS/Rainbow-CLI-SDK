@@ -16,9 +16,15 @@ class CCompany {
         this._prefs = prefs;
     }
 
-    _getListOfCompanies(token, page) {
+    _getListOfCompanies(token, page, filter) {
 
         return new Promise(function(resolve, reject) {
+
+            var filterToApply = "";
+
+            if(filter.bp) {
+                filterToApply += "&isBP=true";
+            }
 
             NodeSDK.get('/api/rainbow/admin/v1.0/organisations?format=small', token).then(function(jsonO) {
                 var organisations = jsonO;
@@ -42,7 +48,7 @@ class CCompany {
                     limit = "&limit=1000";
                 }
 
-                NodeSDK.get('/api/rainbow/admin/v1.0/companies?format=full' + offset + limit, token).then(function(jsonC) {
+                NodeSDK.get('/api/rainbow/admin/v1.0/companies?format=full' + filterToApply + offset + limit, token).then(function(jsonC) {
                     var companies = jsonC;
                     resolve({organisations: organisations, companies: companies});
                 }).catch(function(err) {
@@ -108,7 +114,7 @@ class CCompany {
         });
     }
 
-    getCompanies(page) {
+    getCompanies(page, filter) {
         var that = this;
 
         Message.welcome();
@@ -121,7 +127,7 @@ class CCompany {
             var status = new Spinner('In progress, please wait...');
             status.start();
             NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
-                return that._getListOfCompanies(that._prefs.token, page);
+                return that._getListOfCompanies(that._prefs.token, page, filter);
             }).then(function(json) {
                 status.stop();  
 

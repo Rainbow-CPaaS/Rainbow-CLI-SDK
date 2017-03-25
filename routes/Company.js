@@ -44,6 +44,7 @@ class Company {
         .description("List all existing companies")
         .option('-p, --page [number]', 'Display a specific page')
         .option('-m, --max', 'Display up to max result per page (max=1000)')
+        .option('--bp', 'Filter only bp companies')
         .action(function (commands) {
 
             var page = 0;
@@ -57,7 +58,11 @@ class Company {
                 page = -1
             }
 
-            that._company.getCompanies(page);
+            var filter = {
+                bp: commands.bp || false
+            };
+
+            that._company.getCompanies(page, filter);
         });
     }
 }
