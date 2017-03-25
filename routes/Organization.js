@@ -30,6 +30,7 @@ class Organization {
         .description("List all existing organizations")
         .option('-p, --page <number>', 'Display a specific page')
         .option('-m, --max', 'Display up to max result per page (max=1000)')
+        .option('-f, --file <filename>', 'Print result to a file in CSV')
         .action(function (commands) {
             var page = 0;
             if("page" in commands) {
@@ -42,10 +43,12 @@ class Organization {
                 page = -1
             }
 
-            var filter = {
+            var options = {
+                page: page,
+                csv: commands.file || "",
             };
 
-            that._organization.getOrganizations(page, filter);
+            that._organization.getOrganizations(options);
         });
 
         this._program.command('create org', '<name>')

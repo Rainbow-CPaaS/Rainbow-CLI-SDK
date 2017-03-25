@@ -233,6 +233,11 @@ The list of companies can be filtered to limit to companies that belong to the s
 $ rainbow companies --org 587d2caca9cf7a40559ec8dd
 ```
 
+Companies can be exported to a CSV file 
+
+```bash
+$ rainbow companies --file "companies.csv"
+```
 
 The same option **--max** and **--page** can be used in case of a large number of companies found
 
@@ -242,7 +247,13 @@ The same option **--max** and **--page** can be used in case of a large number o
 This command allows to list all the existing organizations
 
 ```bash
-$ rainbow org
+$ rainbow orgs
+```
+
+Organizations can be exported to a CSV file 
+
+```bash
+$ rainbow orgs --file "orgs.csv"
 ```
 
 The same option **--max** and **--page** can be used in case of a large number of organizations found

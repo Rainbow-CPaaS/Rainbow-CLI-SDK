@@ -4,6 +4,9 @@ var CLI         = require('clui');
 var Spinner     = CLI.Spinner;
 var table       = require('text-table');
 
+const csv = require('csv');
+const fs = require('fs');
+
 const pkg = require('../package.json');
 const Screen = require("../common/Print");
 const NodeSDK = require('../common/SDK');
@@ -60,15 +63,15 @@ class COrganization {
         });
     }
 
-    _getListOfOrganizations(token, page, filter) {
+    _getListOfOrganizations(token, options) {
 
         return new Promise(function(resolve, reject) {
 
             var offset = "";
-            if(page > -1) {
+            if(options.page > -1) {
                 offset = "&offset=";
-                if(page > 1) {
-                    offset += (25 * (page - 1));
+                if(options.page > 1) {
+                    offset += (25 * (options.page - 1));
                 }
                 else {
                     offset +=0;
@@ -76,7 +79,7 @@ class COrganization {
             }
 
             var limit = "";
-            if(page > -1) {
+            if(options.page > -1) {
                 limit = "&limit=25";
             }
             else {
@@ -134,7 +137,7 @@ class COrganization {
         }
     }
 
-    getOrganizations(page, filter) {
+    getOrganizations(options) {
         var that = this;
 
         Message.welcome();
@@ -142,45 +145,70 @@ class COrganization {
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs.account.email);
 
-            Screen.print("Current Organizations:".white);
-            
+            if(!options.csv) {
+                Screen.print("Current Organizations:".white);
+            }
             var status = new Spinner('In progress, please wait...');
             status.start();
             NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
-                return that._getListOfOrganizations(that._prefs.token, page, filter);
+                return that._getListOfOrganizations(that._prefs.token, options);
             }).then(function(json) {
                 status.stop(); 
+                if(options.csv) {
+                    let stringify = csv.stringify;
+                    var writeStream = fs.createWriteStream(options.csv, { flags : 'w' });
 
-                if(json.total > json.limit) {
-                    var page = Math.floor(json.offset / json.limit) + 1
-                    var totalPage = Math.floor(json.total / json.limit) + 1;
-                    
-                    Screen.print('Displaying Page '.white + page.toString().yellow + " on ".white + totalPage.toString().yellow);
+                    stringify(json.data, {
+                        formatters: {
+                            date: function(value) {
+                                return moment(value).format('YYYY-MM-DD');
+                            }
+                        },
+                        delimiter: ";",
+                        header: true
+                    }).pipe(writeStream);
+                    writeStream.on('close', function () {
+                        Screen.success("Successfully saved".white + " " + json.total.toString().magenta + " organization(s) to".white + " '".white + options.csv.yellow + "'".white);
+                    });
+                    writeStream.on('error', function (err) {
+                        console.log('Error!', err);
+                    });
                 }
-                Screen.print('');
-
-                var array = [];
-
-                array.push([ "#".gray, "Organization name".gray, "Visibility".gray, "Identifier".gray]);
-                array.push([ "-".gray, "-----------------".gray, "----------".gray, "----------".gray]);  
-
-                for (var i = 0; i < json.data.length; i++) {
-                    var org = json.data[i];
-                    
-                    var visibility = "private".white;
-                    if(org.visibility === "public") {
-                        visibility = "public".yellow;
+                else {
+                    if(json.total > json.limit) {
+                        var page = Math.floor(json.offset / json.limit) + 1
+                        var totalPage = Math.floor(json.total / json.limit) + 1;
+                        
+                        Screen.print('Displaying Page '.white + page.toString().yellow + " on ".white + totalPage.toString().yellow);
                     }
-                    
-                    var number = i+1+json.offset;
+                    Screen.print('');
 
-                    array.push([ number.toString().white, org.name.cyan, visibility, org.id.white]); 
+                    var array = [];
+
+                    array.push([ "#".gray, "Organization name".gray, "Visibility".gray, "Identifier".gray]);
+                    array.push([ "-".gray, "-----------------".gray, "----------".gray, "----------".gray]);  
+
+                    for (var i = 0; i < json.data.length; i++) {
+                        var org = json.data[i];
+                        
+                        var visibility = "private".white;
+                        if(org.visibility === "public") {
+                            visibility = "public".yellow;
+                        }
+                        
+                        var number = (i+1);
+                        if(options.page > 0) {
+                            number = ((options.page-1) * json.limit) + (i+1);
+                        }
+
+                        array.push([ number.toString().white, org.name.cyan, visibility, org.id.white]); 
+                    }
+
+                    var t = table(array);
+                    Screen.table(t);
+                    Screen.print('');
+                    Screen.success(json.total + ' organizations found.');
                 }
-
-                var t = table(array);
-                Screen.table(t);
-                Screen.print('');
-                Screen.success(json.total + ' organizations found.');
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);

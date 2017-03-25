@@ -4,6 +4,9 @@ var CLI         = require('clui');
 var Spinner     = CLI.Spinner;
 var table       = require('text-table');
 
+const csv = require('csv');
+const fs = require('fs');
+
 const pkg = require('../package.json');
 const Screen = require("../common/Print");
 const NodeSDK = require('../common/SDK');
@@ -16,13 +19,13 @@ class CCompany {
         this._prefs = prefs;
     }
 
-    _getListOfCompanies(token, page, filter) {
+    _getListOfCompanies(token, options) {
 
         return new Promise(function(resolve, reject) {
 
             var filterToApply = "";
 
-            if(filter.bp) {
+            if(options.bp) {
                 filterToApply += "&isBP=true";
             }
 
@@ -30,10 +33,10 @@ class CCompany {
                 var organisations = jsonO;
 
                 var offset = "";
-                if(page > -1) {
+                if(options.page > -1) {
                     offset = "&offset=";
-                    if(page > 1) {
-                        offset += (25 * (page - 1));
+                    if(options.page > 1) {
+                        offset += (25 * (options.page - 1));
                     }
                     else {
                         offset +=0;
@@ -41,15 +44,15 @@ class CCompany {
                 }
 
                 var limit = "";
-                if(page > -1) {
+                if(options.page > -1) {
                     limit = "&limit=25";
                 }
                 else {
                     limit = "&limit=1000";
                 }
 
-                if(filter.org) {
-                    NodeSDK.get('/api/rainbow/admin/v1.0/organisations/' + filter.org + '/companies?format=full' + filterToApply + offset + limit, token).then(function(jsonC) {
+                if(options.org) {
+                    NodeSDK.get('/api/rainbow/admin/v1.0/organisations/' + options.org + '/companies?format=full' + filterToApply + offset + limit, token).then(function(jsonC) {
                         var companies = jsonC;
                         resolve({organisations: organisations, companies: companies});
                     }).catch(function(err) {
@@ -125,7 +128,7 @@ class CCompany {
         });
     }
 
-    getCompanies(page, filter) {
+    getCompanies(options) {
         var that = this;
 
         Message.welcome();
@@ -133,66 +136,92 @@ class CCompany {
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs.account.email);
 
-            Screen.print("Current Companies:".white);
-            
+            if(!options.csv) {
+                Screen.print("Current Companies:".white);
+            }
             var status = new Spinner('In progress, please wait...');
             status.start();
             NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
-                return that._getListOfCompanies(that._prefs.token, page, filter);
+                return that._getListOfCompanies(that._prefs.token, options);
             }).then(function(json) {
                 status.stop();  
 
-                if(json.companies.total > json.companies.limit) {
-                    var page = Math.floor(json.companies.offset / json.companies.limit) + 1
-                    var totalPage = Math.floor(json.companies.total / json.companies.limit) + 1;
-                    
-                    Screen.print('Displaying Page '.white + page.toString().yellow + " on ".white + totalPage.toString().yellow);
+                if(options.csv) {
+                    let stringify = csv.stringify;
+                    var writeStream = fs.createWriteStream(options.csv, { flags : 'w' });
+
+                    stringify(json.companies.data, {
+                        formatters: {
+                            date: function(value) {
+                                return moment(value).format('YYYY-MM-DD');
+                            }
+                        },
+                        delimiter: ";",
+                        header: true
+                    }).pipe(writeStream);
+                    writeStream.on('close', function () {
+                        Screen.success("Successfully saved".white + " " + json.companies.total.toString().magenta + " companie(s) to".white + " '".white + options.csv.yellow + "'".white);
+                    });
+                    writeStream.on('error', function (err) {
+                        console.log('Error!', err);
+                    });
                 }
-                Screen.print('');
-
-                var array = [];
-
-                array.push([ "#".gray, "Company name".gray, "Type".gray, "Visibility".gray, "Active".gray, "Organization".gray, "Identifier".gray]);
-                array.push([ "-".gray, "------------".gray, "----".gray, "----------".gray, "------".gray, "-----------".gray, "----------".gray]);  
-
-                for (var i = 0; i < json.companies.data.length; i++) {
-                    var company = json.companies.data[i];
-                    
-                    var visibility = "private".white;
-                    if(company.visibility === "public") {
-                        visibility = "public".yellow;
+                else {
+                    if(json.companies.total > json.companies.limit) {
+                        var page = Math.floor(json.companies.offset / json.companies.limit) + 1
+                        var totalPage = Math.floor(json.companies.total / json.companies.limit) + 1;
+                        
+                        Screen.print('Displaying Page '.white + page.toString().yellow + " on ".white + totalPage.toString().yellow);
                     }
+                    Screen.print('');
 
-                    var offerType = "freemium".white;
-                    if(company.offerType === "premium") {
-                        offerType = "premium".yellow;
-                    }
+                    var array = [];
 
-                    var active = "true".white;
-                    if(company.status !== "active") {
-                        active = "false".red;
-                    }
+                    array.push([ "#".gray, "Company name".gray, "Type".gray, "Visibility".gray, "Active".gray, "Organization".gray, "Identifier".gray]);
+                    array.push([ "-".gray, "------------".gray, "----".gray, "----------".gray, "------".gray, "-----------".gray, "----------".gray]);  
 
-                    var organisation = "".white;
-                    if(company.organisationId !== null) {
-                        for(var j = 0; j < json.organisations.data.length; j++) {
-                            var org = json.organisations.data[j];
-                            if(org.id === company.organisationId) {
-                                organisation = org.id.white;
-                                break;
+                    for (var i = 0; i < json.companies.data.length; i++) {
+                        var company = json.companies.data[i];
+                        
+                        var visibility = "private".white;
+                        if(company.visibility === "public") {
+                            visibility = "public".yellow;
+                        }
+
+                        var offerType = "freemium".white;
+                        if(company.offerType === "premium") {
+                            offerType = "premium".yellow;
+                        }
+
+                        var active = "true".white;
+                        if(company.status !== "active") {
+                            active = "false".red;
+                        }
+
+                        var organisation = "".white;
+                        if(company.organisationId !== null) {
+                            for(var j = 0; j < json.organisations.data.length; j++) {
+                                var org = json.organisations.data[j];
+                                if(org.id === company.organisationId) {
+                                    organisation = org.id.white;
+                                    break;
+                                }
                             }
                         }
+                        
+                        var number = (i+1);
+                        if(options.page > 0) {
+                            number = ((options.page-1) * json.limit) + (i+1);
+                        }
+
+                        array.push([ number.toString().white, company.name.cyan, offerType, visibility, active ,organisation, company.id.white]); 
                     }
-                    
-                    var number = i+1+json.companies.offset;
 
-                    array.push([ number.toString().white, company.name.cyan, offerType, visibility, active ,organisation, company.id.white]); 
+                    var t = table(array);
+                    Screen.table(t);
+                    Screen.print('');
+                    Screen.success(json.companies.total + ' companies found.');
                 }
-
-                var t = table(array);
-                Screen.table(t);
-                Screen.print('');
-                Screen.success(json.companies.total + ' companies found.');
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);

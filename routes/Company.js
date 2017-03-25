@@ -46,6 +46,7 @@ class Company {
         .option('-m, --max', 'Display up to max result per page (max=1000)')
         .option('--bp', 'Filter only bp companies')
         .option('-o, --org <id>', 'Filter on an organization')
+        .option('-f, --file <filename>', 'Print result to a file in CSV')
         .action(function (commands) {
 
             var page = 0;
@@ -59,12 +60,14 @@ class Company {
                 page = -1
             }
 
-            var filter = {
+            var options = {
                 bp: commands.bp || false,
-                org: commands.org ? commands.org : ""
+                org: commands.org ? commands.org : "",
+                csv: commands.file || "",
+                page: page
             };
 
-            that._company.getCompanies(page, filter);
+            that._company.getCompanies(options);
         });
     }
 }
