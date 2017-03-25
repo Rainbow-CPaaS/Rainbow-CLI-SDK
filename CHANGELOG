@@ -2,7 +2,11 @@
 
 Here is the list of the changes and features provided by the Rainbow-CLI
 
-### v0.3.10
+### v0.4.0
+
+ - [ORGANIZATION] List the organizations 
+
+### v0.3.11
 
  - [USER] Create a new user
 

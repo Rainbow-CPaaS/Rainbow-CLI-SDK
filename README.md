@@ -67,6 +67,7 @@ Here is the complete list of commands:
 | | **delete company** <id>| Delete an existing company |
 | Users | **users** | List the users |
 | Companies | **companies** | List the companies |
+| Organizations | **org** | List the organizations |
 | Status | **status** | Get the API status |
 | Import | **import** | Import a list of users from a CSV file |
 
@@ -176,7 +177,27 @@ This command allows to list all the existing companies
 $ rainbow companies
 ```
 
+The list of companies can be filtered to limit to **BP** companies
+
+```bash
+$ rainbow companies --bp
+```
+
+
 The same option **--max** and **--page** can be used in case of a large number of companies found
+
+
+### Command **ORG**
+
+This command allows to list all the existing organizations
+
+```bash
+$ rainbow org
+```
+
+
+The same option **--max** and **--page** can be used in case of a large number of organizations found
+
 
 ### Command **STATUS**
 
