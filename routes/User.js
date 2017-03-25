@@ -22,11 +22,11 @@ class User {
 
         this._program.command('users')
         .description("List the users")
-        .option('-p, --page [number]', 'Display a specific page')
+        .option('-p, --page <number>', 'Display a specific page')
         .option('-m, --max', 'Display up to max result per page (1000)')
         .option('-t, --terminated', 'Limit to terminated users')
-        .option('-c, --company [id]', 'limit to company')
-        .option('-f, --file [filename]', 'Print result to a file in CSV')
+        .option('-c, --company <id>', 'limit to company')
+        .option('-f, --file <filename>', 'Print result to a file in CSV')
         .action(function (commands) {
 
             var page = 0;
@@ -52,10 +52,10 @@ class User {
 
         this._program.command('create', '<username>')
         .description("Create a new user")
-        .option('-c, --company [id]', 'Create the user in an existing company')
-        .option('-p, --password [value]', 'Add a password')
-        .option('-f, --firstname [value]', 'Add a firstname')
-        .option('-l, --lastname [value]', 'Add a lastname')
+        .option('-c, --company <id>', 'Create the user in an existing company')
+        .option('-p, --password <value>', 'Add a password')
+        .option('-f, --firstname <value>', 'Add a firstname')
+        .option('-l, --lastname <value>', 'Add a lastname')
         .option('-a, --admin', 'Add an administrator role')
         .action(function (email, commands) {
             var company = commands.company || "";
@@ -68,7 +68,7 @@ class User {
 
         this._program.command('import')
         .description("Import a list of users from a file")
-        .option('--file [filename]', 'Import from a CSV file')
+        .option('--file <filename>', 'Import from a CSV file')
         .action(function (commands) {
             var filePath = commands.file || "";
             that._user.import(filePath); 

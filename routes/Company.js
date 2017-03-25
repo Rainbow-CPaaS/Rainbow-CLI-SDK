@@ -42,9 +42,10 @@ class Company {
 
         this._program.command('companies')
         .description("List all existing companies")
-        .option('-p, --page [number]', 'Display a specific page')
+        .option('-p, --page <number>', 'Display a specific page')
         .option('-m, --max', 'Display up to max result per page (max=1000)')
         .option('--bp', 'Filter only bp companies')
+        .option('-o, --org <id>', 'Filter on an organization')
         .action(function (commands) {
 
             var page = 0;
@@ -59,7 +60,8 @@ class Company {
             }
 
             var filter = {
-                bp: commands.bp || false
+                bp: commands.bp || false,
+                org: commands.org ? commands.org : ""
             };
 
             that._company.getCompanies(page, filter);

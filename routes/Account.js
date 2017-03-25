@@ -31,8 +31,8 @@ class Account {
 
         this._program.command('login')
             .description("Log in to Rainbow")
-            .option('-u, --username [value]', 'The username (email) to log in with.')
-            .option('-p, --password [value]', 'The password to use when logging in.')
+            .option('-u, --username <email>', 'The username (email) to log in with.')
+            .option('-p, --password <value>', 'The password to use when logging in.')
             .option('-o, --official', 'Use the Rainbow official environment.')
             .action(function (command) {
 

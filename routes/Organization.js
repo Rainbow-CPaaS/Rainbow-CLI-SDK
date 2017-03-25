@@ -22,7 +22,7 @@ class Organization {
 
         this._program.command('org')
         .description("List all existing organizations")
-        .option('-p, --page [number]', 'Display a specific page')
+        .option('-p, --page <number>', 'Display a specific page')
         .option('-m, --max', 'Display up to max result per page (max=1000)')
         .action(function (commands) {
             var page = 0;
