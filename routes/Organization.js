@@ -20,6 +20,12 @@ class Organization {
     listOfCommands() {
         var that = this;
 
+        this._program.command('org', '<id>')
+        .description("Retrieve information about an existing organization")
+        .action(function (id) {
+            that._organization.getOrganization(id);
+        });
+
         this._program.command('orgs')
         .description("List all existing organizations")
         .option('-p, --page <number>', 'Display a specific page')
@@ -40,6 +46,30 @@ class Organization {
             };
 
             that._organization.getOrganizations(page, filter);
+        });
+
+        this._program.command('create org', '<name>')
+        .description("Create a new organization")
+        .option('-p, --public', 'Create a public organization')
+        .action(function (name, commands) {
+
+            var options = {
+                public: commands.public || false
+            };
+
+            that._organization.createOrganization(name, options);
+        });
+
+        this._program.command('delete org', '<id>')
+        .description("Delete an existing organization")
+        .option('-f, --force', 'Do not ask confirmation')
+        .action(function (id, commands) {
+
+            var options = {
+                force: commands.force || false
+            };
+
+            that._organization.deleteOrganization(id, options);
         });
     }
 }

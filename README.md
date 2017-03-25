@@ -65,6 +65,9 @@ Here is the complete list of commands:
 | | **free company** <id> | Remove all users from a company |
 | | **create company** <name>| Create a new company |
 | | **delete company** <id>| Delete an existing company |
+| Organization | **org** <id> | Display information on a organization |
+| | **create org** <name> | Create a new organization |
+| | **delete org** <id> | Delete an existing organization |
 | Users | **users** | List the users |
 | Companies | **companies** | List the companies |
 | Organizations | **orgs** | List the organizations |
@@ -85,6 +88,7 @@ By default the connection is done on the sandbox platform. To log to the officia
 
 Once this command is done, you're connected to Rainbow and you can launch other command until your session expires.
 
+
 ### Command **WHOAMI**
 
 This command allows to retrieve information on the connected user
@@ -92,6 +96,7 @@ This command allows to retrieve information on the connected user
 ```bash
 $ rainbow whoami
 ```
+
 
 ### Command **CREATE**
 
@@ -103,6 +108,7 @@ The following example creates a user in a specific company
 $ rainbow create "jdoe@mycompany.com" -p "Password_123" -f "John" -l "Doe" -c 58cd966fd45e61221b5711c0
 ```
 
+
 ### Command **DELETE**
 
 This command allows to delete an existing user
@@ -110,6 +116,7 @@ This command allows to delete an existing user
 ```bash
 $ rainbow delete 58cd966fddfd61221b57145f
 ```
+
 
 ### Command **COMPANY**
 
@@ -119,6 +126,7 @@ This command allows to retrieve information on a specific company
 $ rainbow company 58cd966fd45e61221b5711c0
 ```
 
+
 ### Command **DELETE COMPANY**
 
 This command allows to delete an existing company
@@ -126,6 +134,7 @@ This command allows to delete an existing company
 ```bash
 $ rainbow delete company 58cd966fd45e61221b5711c0
 ```
+
 
 ### Command **CREATE COMPANY**
 
@@ -135,6 +144,7 @@ This command allows to create a new company
 $ rainbow create company "My New Company"
 ```
 
+
 ### Command **FREE COMPANY**
 
 This command allows to remove all users from a company
@@ -142,6 +152,40 @@ This command allows to remove all users from a company
 ```bash
 $ rainbow free company 58cd966fd45e61221b5711c0
 ```
+
+
+### Command **ORG**
+
+This command allows to retrieve information on a specific organization
+
+```bash
+$ rainbow organization 58cd966fd45e61221b5711c0
+```
+
+
+### Command **CREATE ORG**
+
+This command allows to create a new organization
+
+```bash
+$ rainbow create organization "My New organization"
+```
+
+
+### Command **DELETE ORG**
+
+This command allows to delete an existing organization
+
+```bash
+$ rainbow delete organization 58cd966fd45e61221b5711c0
+```
+
+You will be prompted to confirm your choice. You can force the command to avoid the confirmation:
+
+```bash
+$ rainbow delete organization 58cd966fd45e61221b5711c0 --force
+```
+
 
 ### Command **USERS**
 
@@ -200,7 +244,6 @@ This command allows to list all the existing organizations
 ```bash
 $ rainbow org
 ```
-
 
 The same option **--max** and **--page** can be used in case of a large number of organizations found
 

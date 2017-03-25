@@ -1,5 +1,7 @@
 "use strict";
 
+var inquirer = require('inquirer');
+
 var Screen = require("./Print");
 
 class Message {
@@ -19,6 +21,11 @@ class Message {
 
     notLoggedIn() {
         Screen.error('Please, you have to log-in before executing other commands');
+    }
+
+    canceled() {
+        Screen.print('Your command has been canceled');
+        Screen.print('');
     }
 
     error(err) {
@@ -45,6 +52,23 @@ class Message {
                 Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
             }
         }
+    }
+
+    confirm(message) {
+        return new Promise(function(resolve, reject) {
+
+            var question = {
+                type: 'list',
+                message: message,
+                choices: [{name: 'Yes', value:true}, {name: 'Damned!, forget my command...', value: false}],
+                name: 'confirmation'
+            };
+
+            inquirer.prompt([question]).then(function (answer) {
+                resolve(answer.confirmation);        
+            });
+
+        });
     }
 }
 

@@ -2,7 +2,13 @@
 
 Here is the list of the changes and features provided by the Rainbow-CLI
 
-### v0.4.1
+### v0.4.2
+
+ - [ORGANIZATION] Retrieve information about an organization
+
+ - [ORGANIZATION] Create a new organization
+
+ - [ORGANIZATION] Delete an organization
 
  - [ORGANIZATION] List the organizations 
 
@@ -10,9 +16,9 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
  - [USER] Create a new user
 
- - [USER] List of users
-
  - [USER] Delete a user
+
+ - [USER] List of users
 
  - [MASS PRO] Import CSV file of users
 
