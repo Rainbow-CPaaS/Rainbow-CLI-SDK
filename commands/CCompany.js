@@ -119,12 +119,47 @@ class CCompany {
                     }).catch(function(err) {
                         reject(err);
                     });
-                    resolve();
                 }
             }).catch(function(err){
                 reject(err);
             });
             
+        });
+    }
+
+    _linkCompany(token, id, orgid) {
+
+        var that = this;
+
+        return new Promise(function(resolve, reject) {
+
+            NodeSDK.post('/api/rainbow/admin/v1.0/organisations/' + orgid + '/companies', token, {companyId: id}).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+            resolve();
+        });
+    }
+
+    _unlinkCompany(token, id) {
+
+        var that = this;
+
+        return new Promise(function(resolve, reject) {
+
+            that._getCompany(token, id).then(function(company) {
+
+                var organisationId = company.data.organisationId;
+                
+                NodeSDK.delete('/api/rainbow/admin/v1.0/organisations/' + organisationId + '/companies/' + id, token).then(function(json) {
+                    resolve(json);
+                }).catch(function(err) {
+                    reject(err);
+                });
+            }).catch(function(err){
+                reject(err);
+            });
         });
     }
 
@@ -273,31 +308,78 @@ class CCompany {
         if(this._prefs.token && this._prefs.user) {
            Message.loggedin(this._prefs.account.email);
         
-            if ((typeof id !== 'string') || (id.length === 0)) {
-                Screen.error('An ID name of a company is required');
-            }
-            else {
-                Screen.print("Request to delete company".white + " '".yellow + id.yellow + "'".yellow);
-                var status = new Spinner('In progress, please wait...');
-                status.start();
-                NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
-                    return that._deleteCompany(that._prefs.token, id);
-                }).then(function(json) {
-                    status.stop();
-                    Screen.print('');
-                    Screen.success('Company'.white + " '".yellow + id.yellow + "'".yellow + " has been successfully deleted.".white);
-                }).catch(function(err) {
-                    status.stop();
-                    Message.error(err);
-                });
-            }
+            Screen.print("Request to delete company".white + " '".yellow + id.yellow + "'".yellow);
+            var status = new Spinner('In progress, please wait...');
+            status.start();
+            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+                return that._deleteCompany(that._prefs.token, id);
+            }).then(function(json) {
+                status.stop();
+                Screen.print('');
+                Screen.success('Company'.white + " '".yellow + id.yellow + "'".yellow + " has been successfully deleted.".white);
+            }).catch(function(err) {
+                status.stop();
+                Message.error(err);
+            });
         }
         else {
             Message.notLoggedIn();
         }
     }
 
-    
+    linkCompany(id, orgid) {
+        var that = this;
+
+        Message.welcome();
+            
+        if(this._prefs.token && this._prefs.user) {
+           Message.loggedin(this._prefs.account.email);
+        
+            Screen.print("Request to link company".white + " '".yellow + id.yellow + "'".yellow + " to organization".white + " '".yellow + orgid.yellow + "'".yellow);
+            var status = new Spinner('In progress, please wait...');
+            status.start();
+            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+                return that._linkCompany(that._prefs.token, id, orgid);
+            }).then(function(json) {
+                status.stop();
+                Screen.print('');
+                Screen.success('Company'.white + " '".yellow + id.yellow + "'".yellow + " has been successfully linked to organization".white + " '".yellow + orgid.yellow + "'".yellow);
+            }).catch(function(err) {
+                status.stop();
+                Message.error(err);
+            });
+        }
+        else {
+            Message.notLoggedIn();
+        }
+    }
+
+    unlinkCompany(id) {
+        var that = this;
+
+        Message.welcome();
+            
+        if(this._prefs.token && this._prefs.user) {
+           Message.loggedin(this._prefs.account.email);
+        
+            Screen.print("Request to unlink company".white + " '".yellow + id.yellow + "'".yellow);
+            var status = new Spinner('In progress, please wait...');
+            status.start();
+            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+                return that._unlinkCompany(that._prefs.token, id);
+            }).then(function(json) {
+                status.stop();
+                Screen.print('');
+                Screen.success('Company'.white + " '".yellow + id.yellow + "'".yellow + " has been successfully unlinked");
+            }).catch(function(err) {
+                status.stop();
+                Message.error(err);
+            });
+        }
+        else {
+            Message.notLoggedIn();
+        }
+    }
 
     getCompany(id) {
         var that = this;
@@ -307,74 +389,69 @@ class CCompany {
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs.account.email);
         
-            if ((typeof id !== 'string') || (id.length === 0)) {
-                Screen.error('An ID name of a company is required');
-            }
-            else {
-                Screen.print("Request informaton for company".white + " '".yellow + id.yellow + "'".yellow);
-                var status = new Spinner('In progress, please wait...');
-                status.start();
-                NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
-                    return that._getCompany(that._prefs.token, id);
-                }).then(function(json) {
+            Screen.print("Request informaton for company".white + " '".yellow + id.yellow + "'".yellow);
+            var status = new Spinner('In progress, please wait...');
+            status.start();
+            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+                return that._getCompany(that._prefs.token, id);
+            }).then(function(json) {
 
-                    status.stop();
-                    Screen.print('');
+                status.stop();
+                Screen.print('');
 
-                    var array = [];
-                    array.push([ "#".gray, "Attribute".gray, "Value".gray]);
-                    array.push([ "-".gray, "---------".gray, "-----".gray]);  
-                    var index = 1;
-                    for (var key in json.data) {
-                        var data = json.data[key];
-                        if(data === null) {
-                            array.push([ index.toString().white, key.toString().cyan, 'null'.white ]);  
-                        } 
-                        else if(typeof data === "string" && data.length === 0) {
-                            array.push([  index.toString().white, key.toString().cyan, "''".white ]);  
-                        }
-                        else if(Tools.isArray(data) && data.length === 0) {
-                            array.push([  index.toString().white, key.toString().cyan, "[ ]".white ]);  
-                        }
-                        else if((Tools.isArray(data)) && data.length === 1) {
-                            array.push([  index.toString().white, key.toString().cyan, "[ ".white + JSON.stringify(data[0]).white + " ]".white]);  
-                        }
-                        else if((Tools.isArray(data)) && data.length > 1) {
-                            var item = ""
-                            for (var i=0; i < data.length; i++) {
-                                if(typeof data[i] === "string") {
-                                    item +=  JSON.stringify(data[i]).white;
-                                    if(i < data.length -1) {
-                                        item += ","
-                                    }
-                                }
-                                else {
-                                    item += "[ " + JSON.stringify(data[i]).white + " ]";
-                                    if(i < data.length -1) {
-                                        item += ","
-                                    }
+                var array = [];
+                array.push([ "#".gray, "Attribute".gray, "Value".gray]);
+                array.push([ "-".gray, "---------".gray, "-----".gray]);  
+                var index = 1;
+                for (var key in json.data) {
+                    var data = json.data[key];
+                    if(data === null) {
+                        array.push([ index.toString().white, key.toString().cyan, 'null'.white ]);  
+                    } 
+                    else if(typeof data === "string" && data.length === 0) {
+                        array.push([  index.toString().white, key.toString().cyan, "''".white ]);  
+                    }
+                    else if(Tools.isArray(data) && data.length === 0) {
+                        array.push([  index.toString().white, key.toString().cyan, "[ ]".white ]);  
+                    }
+                    else if((Tools.isArray(data)) && data.length === 1) {
+                        array.push([  index.toString().white, key.toString().cyan, "[ ".white + JSON.stringify(data[0]).white + " ]".white]);  
+                    }
+                    else if((Tools.isArray(data)) && data.length > 1) {
+                        var item = ""
+                        for (var i=0; i < data.length; i++) {
+                            if(typeof data[i] === "string") {
+                                item +=  JSON.stringify(data[i]).white;
+                                if(i < data.length -1) {
+                                    item += ","
                                 }
                             }
-                            array.push([  index.toString().white, key.toString().cyan, "[ ".white + item.white + " ]" ]);  
+                            else {
+                                item += "[ " + JSON.stringify(data[i]).white + " ]";
+                                if(i < data.length -1) {
+                                    item += ","
+                                }
+                            }
                         }
-                        else if(Tools.isObject(data)) {
-                            array.push([  index.toString().white, key.toString().cyan, JSON.stringify(data).white ]);  
-                        }
-                        else {
-                            array.push([  index.toString().white, key.toString().cyan, data.toString().white ]);
-                        }
-                        index+=1;
+                        array.push([  index.toString().white, key.toString().cyan, "[ ".white + item.white + " ]" ]);  
                     }
+                    else if(Tools.isObject(data)) {
+                        array.push([  index.toString().white, key.toString().cyan, JSON.stringify(data).white ]);  
+                    }
+                    else {
+                        array.push([  index.toString().white, key.toString().cyan, data.toString().white ]);
+                    }
+                    index+=1;
+                }
 
-                    var t = table(array);
-                    Screen.table(t);
-                    Screen.print('');
-                    Screen.success('Company information retrieved successfully.');
-                }).catch(function(err) {
-                    status.stop();
-                    Message.error(err);
-                });
-            }
+                var t = table(array);
+                Screen.table(t);
+                Screen.print('');
+                Screen.success('Company information retrieved successfully.');
+            }).catch(function(err) {
+                status.stop();
+                Message.error(err);
+            });
         }
         else {
             Message.notLoggedIn();

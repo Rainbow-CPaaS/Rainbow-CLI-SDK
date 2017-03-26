@@ -40,6 +40,18 @@ class Company {
             that._company.createCompany(name);
         });
 
+        this._program.command('link company', '<id> <orgid>')
+        .description("Link the company to an organization")
+        .action(function (id, orgid) {
+            that._company.linkCompany(id, orgid);
+        });
+
+        this._program.command('unlink company', '<id>')
+        .description("unlink a company from its organization")
+        .action(function (id, orgid) {
+            that._company.unlinkCompany(id);
+        });
+
         this._program.command('companies')
         .description("List all existing companies")
         .option('-p, --page <number>', 'Display a specific page')

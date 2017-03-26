@@ -63,8 +63,10 @@ Here is the complete list of commands:
 | | **delete** <id> | Delete a user |
 | Company | **company** <id> | Display information on a company |
 | | **free company** <id> | Remove all users from a company |
-| | **create company** <name>| Create a new company |
-| | **delete company** <id>| Delete an existing company |
+| | **create company** <name> | Create a new company |
+| | **delete company** <id> | Delete an existing company |
+| | **link company** <id> <orgid> | Link a company to an organization |
+| | **unlink company** <id> | Unlink a company from its organization |
 | Organization | **org** <id> | Display information on a organization |
 | | **create org** <name> | Create a new organization |
 | | **delete org** <id> | Delete an existing organization |
@@ -151,6 +153,24 @@ This command allows to remove all users from a company
 
 ```bash
 $ rainbow free company 58cd966fd45e61221b5711c0
+```
+
+
+### Command **LINK COMPANY**
+
+This command allows to link a company to an organization
+
+```bash
+$ rainbow link company 58cd966fd45e61221b5711c0 58cd966fddfd61221b57145f
+```
+
+
+### Command **UNLINK COMPANY**
+
+This command allows to unlink a company from its organization
+
+```bash
+$ rainbow unlink company 58cd966fd45e61221b5711c0
 ```
 
 
