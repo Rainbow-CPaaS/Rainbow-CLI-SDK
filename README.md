@@ -72,6 +72,7 @@ Here is the complete list of commands:
 | | **delete org** <id> | Delete an existing organization |
 | Users | **users** | List the users |
 | Companies | **companies** | List the companies |
+| Sites | **sites** | List the sites |
 | Organizations | **orgs** | List the organizations |
 | Status | **status** | Get the API status |
 | Import | **import** | Import a list of users from a CSV file |
@@ -209,7 +210,7 @@ $ rainbow delete organization 58cd966fd45e61221b5711c0 --force
 
 ### Command **USERS**
 
-This command allows to list all the existing users
+This command allows to list all the existing users (limited to your admin right)
 
 ```bash
 $ rainbow users
@@ -235,7 +236,7 @@ $ rainbow users -c 58cd966fd45e61221b5711c0 --file "export.csv"
 
 ### Command **COMPANIES**
 
-This command allows to list all the existing companies
+This command allows to list all the existing companies (limited to your admin right)
 
 ```bash
 $ rainbow companies
@@ -247,24 +248,26 @@ The list of companies can be filtered to limit to **BP** companies
 $ rainbow companies --bp
 ```
 
-The list of companies can be filtered to limit to companies that belong to the same **organization**.
+### Command **SITES**
+
+This command allows to list all the existing sites (limited to your admin right)
 
 ```bash
-$ rainbow companies --org 587d2caca9cf7a40559ec8dd
+$ rainbow sites
 ```
 
-Companies can be exported to a CSV file 
+Sites can be exported to a CSV file 
 
 ```bash
-$ rainbow companies --file "companies.csv"
+$ rainbow sites --file "sites.csv"
 ```
 
-The same option **--max** and **--page** can be used in case of a large number of companies found
+The same option **--max** and **--page** can be used in case of a large number of sites found
 
 
 ### Command **ORGS**
 
-This command allows to list all the existing organizations
+This command allows to list all the existing organizations (limited to your admin right)
 
 ```bash
 $ rainbow orgs
