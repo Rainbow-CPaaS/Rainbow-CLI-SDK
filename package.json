@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-    "type": "git"
+    "type": "git",
+    "url": "https://github.com/Rainbow-CPaaS/Rainbow-CLI-SDK.git"
   },
   "keywords": [
     "ALE",
@@ -18,6 +19,7 @@
   ],
   "author": "Olivier Anguenot <olivier.anguenot@al-enterprise.com>",
   "license": "MIT",
+  "homepage": "https://github.com/Rainbow-CPaaS/Rainbow-CLI-SDK.git",
   "bin": {
     "rbw": "./index.js"
   },
