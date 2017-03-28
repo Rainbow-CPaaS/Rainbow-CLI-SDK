@@ -67,6 +67,9 @@ Here is the complete list of commands:
 | | **delete company** <id> | Delete an existing company |
 | | **link company** <id> <orgid> | Link a company to an organization |
 | | **unlink company** <id> | Unlink a company from its organization |
+| Site | **site** <id> | Display information on a site |
+| | **create site** <name> <id> | Create a new site |
+| | **delete site** <id> | Delete an existing site |
 | Organization | **org** <id> | Display information on a organization |
 | | **create org** <name> | Create a new organization |
 | | **delete org** <id> | Delete an existing organization |
@@ -172,6 +175,33 @@ This command allows to unlink a company from its organization
 
 ```bash
 $ rainbow unlink company 58cd966fd45e61221b5711c0
+```
+
+
+### Command **SITE**
+
+This command allows to retrieve information on a specific site
+
+```bash
+$ rainbow site 58cd966fd45e61221b5711c0
+```
+
+
+### Command **DELETE SITE**
+
+This command allows to delete an existing site
+
+```bash
+$ rainbow delete site 58cd966fd45e61221b5711c0
+```
+
+
+### Command **CREATE SITE**
+
+This command allows to create a new site. You have to specify the company id where to create this site.
+
+```bash
+$ rainbow create site "My New site" 58cd966fd45e61221b5714fc
 ```
 
 

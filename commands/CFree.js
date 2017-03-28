@@ -25,15 +25,23 @@ class CFree {
 
         return new Promise(function(resolve, reject) {
 
-            that._user._getUsers(token, -1, false, id, "small").then(function(json) {
+            var options = {
+                page: -1,
+                onlyTerminated: false,
+                companyId: id,
+                format: 'small'
+            };
+
+            that._user._getUsers(token, options).then(function(json) {
 
                 var promises = []
                 var nbDeleted = 0;
 
                 if(json.total > 0) {
                     json.data.forEach(function(user) {
+
                         promises.push(that._user._delete(token, user.id).then(function() {
-                            Screen.success("Deleted user '".white + user.id.yellow + "'".white);
+                            Screen.success("Deleted user ".white + user.loginEmail.yellow + " '" + user.id.white + "'".white);
                             nbDeleted++;
                         }).catch(function() {
                             Screen.error("Skipped user '".white + user.id.red + "'".white);

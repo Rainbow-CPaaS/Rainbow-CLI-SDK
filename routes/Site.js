@@ -20,16 +20,15 @@ class Site {
     listOfCommands() {
         var that = this;
 
-        /*
+        
         this._program.command('site', '<id>')
         .description("Retrieve information about an existing site")
         .action(function (id) {
             that._site.getSite(id);
         });
-        */
 
         this._program.command('sites')
-        .description("List all existing organizations")
+        .description("List all existing sites")
         .option('-p, --page <number>', 'Display a specific page')
         .option('-m, --max', 'Display up to max result per page (max=1000)')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
@@ -53,21 +52,22 @@ class Site {
             that._site.getSites(options);
         });
 
-        /*
-        this._program.command('create site', '<name>')
-        .description("Create a new organization")
-        .option('-p, --public', 'Create a public organization')
-        .action(function (name, commands) {
+        
+        this._program.command('create site', '<name>, <companyId>')
+        .description("Create a new site")
+        .option('-p, --public', 'Create a public site')
+        .action(function (name, companyId) {
+
+            console.log("param", name, companyId);
 
             var options = {
-                public: commands.public || false
             };
 
-            that._organization.createOrganization(name, options);
+            that._site.createSite(name, companyId, options);
         });
 
-        this._program.command('delete org', '<id>')
-        .description("Delete an existing organization")
+        this._program.command('delete site', '<id>')
+        .description("Delete an existing site")
         .option('-f, --force', 'Do not ask confirmation')
         .action(function (id, commands) {
 
@@ -75,9 +75,8 @@ class Site {
                 force: commands.force || false
             };
 
-            that._organization.deleteOrganization(id, options);
+            that._site.deleteSite(id, options);
         });
-        */
     }
 }
 

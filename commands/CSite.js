@@ -19,17 +19,18 @@ class CSite {
         this._prefs = prefs;
     }
 
-    /*
-    _createOrganization(token, name, option) {
+    
+    _createSite(token, name, companyId) {
 
         return new Promise(function(resolve, reject) {
 
             var data = {
                 name: name,
-                visibility: option.public ? "public" : "private"
+                companyId: companyId,
+                status: 'active'
             };
 
-            NodeSDK.post('/api/rainbow/admin/v1.0/organisations', token, data).then(function(json) {
+            NodeSDK.post('/api/rainbow/admin/v1.0/sites', token, data).then(function(json) {
                 resolve(json);
             }).catch(function(err) {
                 reject(err);
@@ -37,11 +38,11 @@ class CSite {
         });
     }
 
-    _getOrganization(token, id) {
+    _getSite(token, id) {
 
         return new Promise(function(resolve, reject) {
 
-            NodeSDK.get('/api/rainbow/admin/v1.0/organisations/' + id, token).then(function(json) {
+            NodeSDK.get('/api/rainbow/admin/v1.0/sites/' + id, token).then(function(json) {
                 resolve(json);
             }).catch(function(err) {
                 reject(err);
@@ -49,12 +50,12 @@ class CSite {
         });
     }
 
-    _deleteOrganization(token, id) {
+    _deleteSite(token, id) {
 
         var that = this;
 
         return new Promise(function(resolve, reject) {
-            NodeSDK.delete('/api/rainbow/admin/v1.0/organisations/' + id, token).then(function(json) {
+            NodeSDK.delete('/api/rainbow/admin/v1.0/sites/' + id, token).then(function(json) {
                 resolve(json);
             }).catch(function(err) {
                 reject(err);
@@ -62,7 +63,6 @@ class CSite {
             resolve();
         });
     }
-    */
 
     _getListOfSites(token, options) {
 
@@ -95,20 +95,20 @@ class CSite {
         });
     }
 
-    /*
-    deleteOrganization(id, options) {
+    
+    deleteSite(id, options) {
         var that = this;
 
         var confirmDelete = function(id) {
-            Screen.print("Request to delete organization".white + " '".yellow + id.yellow + "'".yellow);
+            Screen.print("Request to delete site".white + " '".yellow + id.yellow + "'".yellow);
             var status = new Spinner('In progress, please wait...');
             status.start();
             NodeSDK.start(that._prefs.account.email, that._prefs.account.password, that._prefs.rainbow).then(function() {
-                return that._deleteOrganization(that._prefs.token, id);
+                return that._deleteSite(that._prefs.token, id);
             }).then(function(json) {
                 status.stop();
                 Screen.print('');
-                Screen.success('Organization'.white + " '".yellow + id.yellow + "'".yellow + " has been successfully deleted.".white);
+                Screen.success('Site'.white + " '".yellow + id.yellow + "'".yellow + " has been successfully deleted.".white);
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
@@ -124,7 +124,7 @@ class CSite {
                 confirmDelete(id);
             }
             else {
-                Message.confirm('Are-you sure ? It will unlink existing linked companies').then(function(confirm) {
+                Message.confirm('Are-you sure ? It will remove definitively this site').then(function(confirm) {
                     if(confirm) {
                         confirmDelete(id);
                     }
@@ -138,7 +138,6 @@ class CSite {
             Message.notLoggedIn();
         }
     }
-    */
 
     getSites(options) {
         var that = this;
@@ -223,8 +222,7 @@ class CSite {
         }
     }
 
-    /*
-    getOrganization(id) {
+    getSite(id) {
         var that = this;
 
         Message.welcome();
@@ -232,11 +230,11 @@ class CSite {
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs.account.email);
         
-            Screen.print("Request informaton for organization".white + " '".yellow + id.yellow + "'".yellow);
+            Screen.print("Request informaton for site".white + " '".yellow + id.yellow + "'".yellow);
             var status = new Spinner('In progress, please wait...');
             status.start();
             NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
-                return that._getOrganization(that._prefs.token, id);
+                return that._getSite(that._prefs.token, id);
             }).then(function(json) {
 
                 status.stop();
@@ -290,7 +288,7 @@ class CSite {
                 var t = table(array);
                 Screen.table(t);
                 Screen.print('');
-                Screen.success('Organization information retrieved successfully.');
+                Screen.success('Site information retrieved successfully.');
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
@@ -301,7 +299,7 @@ class CSite {
         }
     }
 
-    createOrganization(name, option) {
+    createSite(name, companyId, option) {
         var that = this;
 
         Message.welcome();
@@ -310,15 +308,15 @@ class CSite {
             Message.loggedin(this._prefs.account.email);
             
         
-            Screen.print("Request to create organization".white + " '".yellow + name.yellow + "'".yellow);
+            Screen.print("Request to create site".white + " '".yellow + name.yellow + "'".yellow + ' for company'.white + " '".yellow + companyId.yellow + "'".yellow);
             var status = new Spinner('In progress, please wait...');
             status.start();
             NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
-                return that._createOrganization(that._prefs.token, name, option);
+                return that._createSite(that._prefs.token, name, companyId, option);
             }).then(function(json) {
                 status.stop();
                 Screen.print('');
-                Screen.success('Organization'.white + " '".yellow + name.yellow + "'".yellow + " has been successfully created.".white);
+                Screen.success('Site'.white + " '".yellow + name.yellow + "'".yellow + " has been successfully created.".white);
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
@@ -328,7 +326,7 @@ class CSite {
             Message.notLoggedIn();
         }
     }
-    */
+
 }
 
 module.exports = CSite;

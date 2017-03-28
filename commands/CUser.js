@@ -49,8 +49,8 @@ class CUser {
             }
 
             var format = "full";
-            if(options.csv) {
-                format = "medium";
+            if(options.format) {
+                format = options.format;
             }
 
             NodeSDK.get('/api/rainbow/admin/v1.0/users?format=' + format + '&isTerminated=' + options.onlyTerminated + company + offset + limit, token).then(function(json) {

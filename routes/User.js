@@ -66,11 +66,17 @@ class User {
                 page = -1
             }
 
+            var format = "full";
+            if(commands.csv) {
+                format = "medium";
+            }
+
             var options = {
                 companyId: commands.company || "",
                 onlyTerminated: commands.terminated || false,
                 csv: commands.file || "",
-                page: page
+                page: page,
+                format: format
             };
 
             that._user.getUsers(options);
