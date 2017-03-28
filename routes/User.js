@@ -24,10 +24,10 @@ class User {
         .description("Create a new user")
         .option('-c, --company <id>', 'Create the user in an existing company')
         .option('-a, --admin', 'Add an administrator role')
-        .action(function (email, password, firstname, lastname, listOfCommands) {
+        .action(function (email, password, firstname, lastname, commands) {
 
             var options = {
-                company: commands.company || "",
+                companyId: commands.company || "",
                 isAdmin: commands.admin || false
             }
 
@@ -37,7 +37,7 @@ class User {
         this._program.command('delete', '<id>')
         .description("Delete an existing user")
         .option('-f, --force', 'Do not ask confirmation')
-        .action(function (id) {
+        .action(function (id, commands) {
 
             var options = {
                 force: commands.force || false

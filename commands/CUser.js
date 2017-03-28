@@ -90,8 +90,8 @@ class CUser {
         var user = {
             loginEmail: email,
             password: password,
-            firstname: firstname,
-            lastname: lastname,
+            firstName: firstname,
+            lastName: lastname,
             isActive: true,
             isInitialized: false,
             language: "en",
@@ -312,7 +312,7 @@ class CUser {
             Screen.print("Request to delete user".white + " '".yellow + id.yellow + "'".yellow);
             var status = new Spinner('In progress, please wait...');
             status.start();
-            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+            NodeSDK.start(that._prefs.account.email, that._prefs.account.password, that._prefs.rainbow).then(function() {
                 return that._delete(that._prefs.token, id);
             }).then(function(json) {
                 status.stop();
