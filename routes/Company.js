@@ -30,8 +30,16 @@ class Company {
 
         this._program.command('delete company', '<id>')
         .description("Delete an existing company")
-        .action(function (id) {
-            that._company.deleteCompany(id);
+        .option('--nc', 'Do not ask confirmation')
+        .option('-f, --force', 'Do not ask confirmation')
+        .action(function (id, commands) {
+
+            var options = {
+                noconfirmation: commands.nc || false,
+                force: commands.force || false
+            };
+
+            that._company.deleteCompany(id, options);
         });
 
         this._program.command('create company', '<name>')

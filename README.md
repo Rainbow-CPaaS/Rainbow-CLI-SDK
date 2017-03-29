@@ -123,6 +123,12 @@ This command allows to delete an existing user
 $ rainbow delete 58cd966fddfd61221b57145f
 ```
 
+A user can be deleted without having to confirm
+
+```bash
+$ rainbow delete 58cd966fddfd61221b57145f --nc
+```
+
 
 ### Command **COMPANY**
 
@@ -139,6 +145,18 @@ This command allows to delete an existing company
 
 ```bash
 $ rainbow delete company 58cd966fd45e61221b5711c0
+```
+
+A company can be deleted without having to confirm
+
+```bash
+$ rainbow delete company 58cd966fddfd61221b57145f --nc
+```
+
+If the company contains users, add the following parameter to remove the users first and then remove the company
+
+```bash
+$ rainbow delete 58cd966fddfd61221b57145f --nc --force
 ```
 
 
@@ -195,6 +213,12 @@ This command allows to delete an existing site
 $ rainbow delete site 58cd966fd45e61221b5711c0
 ```
 
+A site can be deleted without having to confirm
+
+```bash
+$ rainbow delete site 58cd966fd45e61221b5711c0 --nc
+```
+
 
 ### Command **CREATE SITE**
 
@@ -231,10 +255,10 @@ This command allows to delete an existing organization
 $ rainbow delete organization 58cd966fd45e61221b5711c0
 ```
 
-You will be prompted to confirm your choice. You can force the command to avoid the confirmation:
+An organization can be deleted without having to confirm
 
 ```bash
-$ rainbow delete organization 58cd966fd45e61221b5711c0 --force
+$ rainbow delete org 58cd966fd45e61221b5711c0 --nc
 ```
 
 

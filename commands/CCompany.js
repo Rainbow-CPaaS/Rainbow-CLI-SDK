@@ -13,10 +13,13 @@ const NodeSDK = require('../common/SDK');
 const Tools = require('../common/Tools');
 const Message = require('../common/Message');
 
+const CFree = require('./CFree');
+
 class CCompany {
 
     constructor(prefs) {
         this._prefs = prefs;
+        this._free = new CFree(this._prefs);
     }
 
     _getListOfCompanies(token, options) {
@@ -98,31 +101,45 @@ class CCompany {
         });
     }
 
-    _deleteCompany(token, id) {
+    _deleteCompany(token, id, options) {
 
         var that = this;
 
         return new Promise(function(resolve, reject) {
 
-            that._getCompany(token, id).then(function(company) {
-                
-                if(company.data.numberUsers > 0) {
-                    reject({
-                        code: 401,
-                        msg: 'At least one user exists in that company',
-                        details: ''
-                    });
-                }
-                else {
+            if(options.force) {
+
+                that._free._removeAllUsersFromACompany(token, id).then(function() {
                     NodeSDK.delete('/api/rainbow/admin/v1.0/companies/' + id, token).then(function(json) {
                         resolve(json);
                     }).catch(function(err) {
                         reject(err);
                     });
-                }
-            }).catch(function(err){
-                reject(err);
-            });
+                }).catch(function(err) {
+                    reject(err)
+                });
+            }
+            else {
+                that._getCompany(token, id).then(function(company) {
+                
+                    if(company.data.numberUsers > 0) {
+                        reject({
+                            code: 401,
+                            msg: 'At least one user exists in that company',
+                            details: ''
+                        });
+                    }
+                    else {
+                        NodeSDK.delete('/api/rainbow/admin/v1.0/companies/' + id, token).then(function(json) {
+                            resolve(json);
+                        }).catch(function(err) {
+                            reject(err);
+                        });
+                    }
+                }).catch(function(err){
+                    reject(err);
+                });
+            }
             
         });
     }
@@ -300,27 +317,39 @@ class CCompany {
         }
     }
 
-    deleteCompany(id) {
+    deleteCompany(id, options) {
         var that = this;
+
+        var doDelete = function(id) {
+            Screen.print("Request to delete company".white + " '".yellow + id.yellow + "'".yellow);
+            NodeSDK.start(that._prefs.account.email, that._prefs.account.password, that._prefs.rainbow).then(function() {
+                return that._deleteCompany(that._prefs.token, id, options);
+            }).then(function(json) {
+                Screen.print('');
+                Screen.success('Company'.white + " '".yellow + id.yellow + "'".yellow + " has been successfully deleted.".white);
+            }).catch(function(err) {
+                Message.error(err);
+            });
+        }
 
         Message.welcome();
             
         if(this._prefs.token && this._prefs.user) {
            Message.loggedin(this._prefs.account.email);
-        
-            Screen.print("Request to delete company".white + " '".yellow + id.yellow + "'".yellow);
-            var status = new Spinner('In progress, please wait...');
-            status.start();
-            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
-                return that._deleteCompany(that._prefs.token, id);
-            }).then(function(json) {
-                status.stop();
-                Screen.print('');
-                Screen.success('Company'.white + " '".yellow + id.yellow + "'".yellow + " has been successfully deleted.".white);
-            }).catch(function(err) {
-                status.stop();
-                Message.error(err);
-            });
+
+            if(options.noconfirmation) {
+                doDelete(id);
+            }
+            else {
+                Message.confirm('Are-you sure ? It will remote it completely').then(function(confirm) {
+                    if(confirm) {
+                        doDelete(id);
+                    }
+                    else {
+                        Message.canceled();
+                    }
+                });
+            }
         }
         else {
             Message.notLoggedIn();

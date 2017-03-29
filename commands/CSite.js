@@ -99,7 +99,7 @@ class CSite {
     deleteSite(id, options) {
         var that = this;
 
-        var confirmDelete = function(id) {
+        var doDelete = function(id) {
             Screen.print("Request to delete site".white + " '".yellow + id.yellow + "'".yellow);
             var status = new Spinner('In progress, please wait...');
             status.start();
@@ -120,13 +120,13 @@ class CSite {
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs.account.email);
 
-            if(options.force) {
-                confirmDelete(id);
+            if(options.noconfirmation) {
+                doDelete(id);
             }
             else {
                 Message.confirm('Are-you sure ? It will remove definitively this site').then(function(confirm) {
                     if(confirm) {
-                        confirmDelete(id);
+                        doDelete(id);
                     }
                     else {
                         Message.canceled();

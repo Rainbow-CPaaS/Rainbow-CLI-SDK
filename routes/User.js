@@ -36,11 +36,11 @@ class User {
 
         this._program.command('delete', '<id>')
         .description("Delete an existing user")
-        .option('-f, --force', 'Do not ask confirmation')
+        .option('--nc', 'Do not ask confirmation')
         .action(function (id, commands) {
 
             var options = {
-                force: commands.force || false
+                noconfirmation: commands.nc || false
             };
 
             that._user.delete(id, options); 
