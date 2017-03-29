@@ -313,7 +313,7 @@ class COrganization {
             }).then(function(json) {
                 status.stop();
                 Screen.print('');
-                Screen.success('Organization'.white + " '".yellow + name.yellow + "'".yellow + " has been successfully created.".white);
+                Screen.success('Organization'.white + " '".yellow + name.yellow + "'".yellow + " has been successfully created and associated to ID ".white + json.data.id.cyan);
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);

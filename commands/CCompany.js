@@ -291,7 +291,6 @@ class CCompany {
             
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs.account.email);
-            
         
             if ((typeof name !== 'string') || (name.length === 0)) {
                 Screen.error('A company name is required');
@@ -305,7 +304,7 @@ class CCompany {
                 }).then(function(json) {
                     status.stop();
                     Screen.print('');
-                    Screen.success('Company'.white + " '".yellow + name.yellow + "'".yellow + " has been successfully created.".white);
+                    Screen.success('Company'.white + " '".yellow + name.yellow + "'".yellow + " has been successfully created and associated to ID ".white + json.data.id.cyan);
                 }).catch(function(err) {
                     status.stop();
                     Message.error(err);

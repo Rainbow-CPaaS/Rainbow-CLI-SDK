@@ -294,7 +294,7 @@ class CUser {
             }).then(function(json) {
                 status.stop();
                 Screen.print('');
-                Screen.success('User'.white + " '".yellow + email.yellow + "'".yellow + " has been successfully created.".white);
+                Screen.success('User'.white + " '".yellow + email.yellow + "'".yellow + " has been successfully created and assigned to ID ".white + json.data.id.cyan);
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);

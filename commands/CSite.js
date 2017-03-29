@@ -306,7 +306,6 @@ class CSite {
             
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs.account.email);
-            
         
             Screen.print("Request to create site".white + " '".yellow + name.yellow + "'".yellow + ' for company'.white + " '".yellow + companyId.yellow + "'".yellow);
             var status = new Spinner('In progress, please wait...');
@@ -316,7 +315,7 @@ class CSite {
             }).then(function(json) {
                 status.stop();
                 Screen.print('');
-                Screen.success('Site'.white + " '".yellow + name.yellow + "'".yellow + " has been successfully created.".white);
+                Screen.success('Site'.white + " '".yellow + name.yellow + "'".yellow + " has been successfully created and associated to ID ".white + json.data.id.cyan);
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
