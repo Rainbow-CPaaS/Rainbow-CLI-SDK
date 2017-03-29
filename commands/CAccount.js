@@ -33,7 +33,7 @@ class CAccount {
         Message.welcome();
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.account.email);
+            Message.loggedin(this._prefs.user);
 
             Screen.print("Current account information:".white);
             Screen.print('');
@@ -131,7 +131,7 @@ class CAccount {
             }
             that._prefs.token = json.token;
             that._prefs.user =  json.loggedInUser;
-            that._prefs.rainbow = platform; 
+            that._prefs.rainbow = platform;
 
         }).catch(function(err) {
             status.stop();

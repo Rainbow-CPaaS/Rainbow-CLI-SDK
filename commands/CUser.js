@@ -197,7 +197,7 @@ class CUser {
         Message.welcome();
 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.account.email);
+            Message.loggedin(this._prefs.user);
 
             if(!options.csv) {
                 Screen.print("Current users:".white);
@@ -296,7 +296,7 @@ class CUser {
         Message.welcome();
                 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.account.email);
+            Message.loggedin(this._prefs.user);
             
             Screen.print("Request to create user".white + " '".yellow + email.yellow + "'".yellow);
             var status = new Spinner('In progress, please wait...');
@@ -339,7 +339,7 @@ class CUser {
         Message.welcome();
                 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.account.email);
+            Message.loggedin(this._prefs.user);
 
             if(options.noconfirmation) {
                 doDelete(id);
@@ -366,7 +366,7 @@ class CUser {
         Message.welcome();
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.account.email);
+            Message.loggedin(this._prefs.user);
         
             Screen.print("Request informaton for user".white + " '".yellow + id.yellow + "'".yellow);
             var status = new Spinner('In progress, please wait...');
@@ -443,7 +443,7 @@ class CUser {
         Message.welcome();
                 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.account.email);
+            Message.loggedin(this._prefs.user);
             
             if(!fs.existsSync(filePath)) {
                 Screen.error('File not found!');

@@ -41,7 +41,7 @@ class CStatus {
         Message.welcome();
                 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.account.email);
+            Message.loggedin(this._prefs.user);
 
             Screen.print("Current API status information:".white);
             Screen.print('');

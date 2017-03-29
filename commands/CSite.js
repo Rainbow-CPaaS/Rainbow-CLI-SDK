@@ -118,7 +118,7 @@ class CSite {
         Message.welcome();
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.account.email);
+            Message.loggedin(this._prefs.user);
 
             if(options.noconfirmation) {
                 doDelete(id);
@@ -145,7 +145,7 @@ class CSite {
         Message.welcome();
         
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.account.email);
+            Message.loggedin(this._prefs.user);
 
             if(!options.csv) {
                 Screen.print("Current Sites:".white);
@@ -228,7 +228,7 @@ class CSite {
         Message.welcome();
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.account.email);
+            Message.loggedin(this._prefs.user);
         
             Screen.print("Request informaton for site".white + " '".yellow + id.yellow + "'".yellow);
             var status = new Spinner('In progress, please wait...');
@@ -305,7 +305,7 @@ class CSite {
         Message.welcome();
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.account.email);
+            Message.loggedin(this._prefs.user);
         
             Screen.print("Request to create site".white + " '".yellow + name.yellow + "'".yellow + ' for company'.white + " '".yellow + companyId.yellow + "'".yellow);
             var status = new Spinner('In progress, please wait...');

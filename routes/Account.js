@@ -22,16 +22,12 @@ class Account {
 
         var that = this;
 
-        this._program.command('login')
-            .description("Log in to Rainbow")
-            .option('-u, --username <email>', 'The username (email) to log in with.')
-            .option('-p, --password <value>', 'The password to use when logging in.')
+        this._program.command('login', '<email> <password>')
+            .description("Log-in to Rainbow")
             .option('-o, --official', 'Use the Rainbow official environment.')
-            .action(function (command) {
+            .action(function (email, password, commands) {
 
-            var email = command.username || "";
-            var password = command.password || "";
-            var platform = command.official ? "official" : "sandbox";
+            var platform = commands.official ? "official" : "sandbox";
 
             that._account.login(email, password, platform);
         });

@@ -13,9 +13,9 @@ class Message {
         Screen.print('Welcome to '.white + 'Rainbow CLI'.rainbow);
     }
 
-    loggedin(username) {
-        username = username || "unknown";
-        Screen.print('You are logged in as'.grey + " " + username.magenta);
+    loggedin(user) {
+        Screen.print('You are logged in as'.grey + " " + user.loginEmail.magenta);
+        Screen.print('With the roles of'.grey + " " + user.roles.join(' | ').cyan);
         Screen.print('');
     }
 

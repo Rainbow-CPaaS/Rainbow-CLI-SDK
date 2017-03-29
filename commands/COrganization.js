@@ -116,7 +116,7 @@ class COrganization {
         Message.welcome();
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.account.email);
+            Message.loggedin(this._prefs.user);
 
             if(options.noconfirmation) {
                 doDelete(id);
@@ -143,7 +143,7 @@ class COrganization {
         Message.welcome();
         
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.account.email);
+            Message.loggedin(this._prefs.user);
 
             if(!options.csv) {
                 Screen.print("Current Organizations:".white);
@@ -225,7 +225,7 @@ class COrganization {
         Message.welcome();
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.account.email);
+            Message.loggedin(this._prefs.user);
         
             Screen.print("Request informaton for organization".white + " '".yellow + id.yellow + "'".yellow);
             var status = new Spinner('In progress, please wait...');
@@ -302,7 +302,7 @@ class COrganization {
         Message.welcome();
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.account.email);
+            Message.loggedin(this._prefs.user);
             
         
             Screen.print("Request to create organization".white + " '".yellow + name.yellow + "'".yellow);

@@ -186,7 +186,7 @@ class CCompany {
         Message.welcome();
         
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.account.email);
+            Message.loggedin(this._prefs.user);
 
             if(!options.csv) {
                 Screen.print("Current Companies:".white);
@@ -290,7 +290,7 @@ class CCompany {
         Message.welcome();
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.account.email);
+            Message.loggedin(this._prefs.user);
         
             if ((typeof name !== 'string') || (name.length === 0)) {
                 Screen.error('A company name is required');
@@ -334,7 +334,7 @@ class CCompany {
         Message.welcome();
             
         if(this._prefs.token && this._prefs.user) {
-           Message.loggedin(this._prefs.account.email);
+           Message.loggedin(this._prefs.user);
 
             if(options.noconfirmation) {
                 doDelete(id);
@@ -361,7 +361,7 @@ class CCompany {
         Message.welcome();
             
         if(this._prefs.token && this._prefs.user) {
-           Message.loggedin(this._prefs.account.email);
+           Message.loggedin(this._prefs.user);
         
             Screen.print("Request to link company".white + " '".yellow + id.yellow + "'".yellow + " to organization".white + " '".yellow + orgid.yellow + "'".yellow);
             var status = new Spinner('In progress, please wait...');
@@ -388,7 +388,7 @@ class CCompany {
         Message.welcome();
             
         if(this._prefs.token && this._prefs.user) {
-           Message.loggedin(this._prefs.account.email);
+           Message.loggedin(this._prefs.user);
         
             Screen.print("Request to unlink company".white + " '".yellow + id.yellow + "'".yellow);
             var status = new Spinner('In progress, please wait...');
@@ -415,7 +415,7 @@ class CCompany {
         Message.welcome();
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.account.email);
+            Message.loggedin(this._prefs.user);
         
             Screen.print("Request informaton for company".white + " '".yellow + id.yellow + "'".yellow);
             var status = new Spinner('In progress, please wait...');
