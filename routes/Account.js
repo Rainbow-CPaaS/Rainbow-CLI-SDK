@@ -22,13 +22,6 @@ class Account {
 
         var that = this;
 
-        this._program.command('whoami')
-            .description("Display information about the connected user")
-            .action(function (command) {
-
-            that._account.getConnectedUserInformation();
-        });
-
         this._program.command('login')
             .description("Log in to Rainbow")
             .option('-u, --username <email>', 'The username (email) to log in with.')
@@ -41,7 +34,13 @@ class Account {
             var platform = command.official ? "official" : "sandbox";
 
             that._account.login(email, password, platform);
+        });
+        
+        this._program.command('whoami')
+            .description("Display information about the connected user")
+            .action(function (command) {
 
+            that._account.getConnectedUserInformation();
         });
     }
 }

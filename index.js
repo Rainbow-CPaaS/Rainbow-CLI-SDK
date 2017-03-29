@@ -36,10 +36,10 @@ start = function() {
   account.start();
   user.start();
   company.start();
+  free.start();
   site.start();
   organization.start();
   status.start();
-  free.start();
 
   program
   .command('*')

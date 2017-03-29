@@ -26,32 +26,6 @@ class Site {
         .action(function (id) {
             that._site.getSite(id);
         });
-
-        this._program.command('sites')
-        .description("List all existing sites")
-        .option('-p, --page <number>', 'Display a specific page')
-        .option('-m, --max', 'Display up to max result per page (max=1000)')
-        .option('-f, --file <filename>', 'Print result to a file in CSV')
-        .action(function (commands) {
-            var page = 0;
-            if("page" in commands) {
-                if(commands.page > 1) {
-                    page = commands.page;
-                }
-            }
-        
-            if("max" in commands && commands.max) {
-                page = -1
-            }
-
-            var options = {
-                page: page,
-                csv: commands.file || "",
-            };
-
-            that._site.getSites(options);
-        });
-
         
         this._program.command('create site', '<name>, <companyId>')
         .description("Create a new site")
@@ -76,6 +50,31 @@ class Site {
             };
 
             that._site.deleteSite(id, options);
+        });
+
+        this._program.command('sites')
+        .description("List all existing sites")
+        .option('-p, --page <number>', 'Display a specific page')
+        .option('-m, --max', 'Display up to max result per page (max=1000)')
+        .option('-f, --file <filename>', 'Print result to a file in CSV')
+        .action(function (commands) {
+            var page = 0;
+            if("page" in commands) {
+                if(commands.page > 1) {
+                    page = commands.page;
+                }
+            }
+        
+            if("max" in commands && commands.max) {
+                page = -1
+            }
+
+            var options = {
+                page: page,
+                csv: commands.file || "",
+            };
+
+            that._site.getSites(options);
         });
     }
 }

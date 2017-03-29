@@ -28,6 +28,12 @@ class Company {
             that._company.getCompany(id);
         });
 
+        this._program.command('create company', '<name>')
+        .description("Create a new company")
+        .action(function (name) {
+            that._company.createCompany(name);
+        });
+
         this._program.command('delete company', '<id>')
         .description("Delete an existing company")
         .option('--nc', 'Do not ask confirmation')
@@ -40,12 +46,6 @@ class Company {
             };
 
             that._company.deleteCompany(id, options);
-        });
-
-        this._program.command('create company', '<name>')
-        .description("Create a new company")
-        .action(function (name) {
-            that._company.createCompany(name);
         });
 
         this._program.command('link company', '<id> <orgid>')

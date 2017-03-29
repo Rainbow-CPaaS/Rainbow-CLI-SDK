@@ -26,6 +26,30 @@ class Organization {
             that._organization.getOrganization(id);
         });
 
+        this._program.command('create org', '<name>')
+        .description("Create a new organization")
+        .option('-p, --public', 'Create a public organization')
+        .action(function (name, commands) {
+
+            var options = {
+                public: commands.public || false
+            };
+
+            that._organization.createOrganization(name, options);
+        });
+
+        this._program.command('delete org', '<id>')
+        .description("Delete an existing organization")
+        .option('--nc', 'Do not ask confirmation')
+        .action(function (id, commands) {
+
+            var options = {
+                noconfirmation: commands.nc || false
+            };
+
+            that._organization.deleteOrganization(id, options);
+        });
+
         this._program.command('orgs')
         .description("List all existing organizations")
         .option('-p, --page <number>', 'Display a specific page')
@@ -49,30 +73,6 @@ class Organization {
             };
 
             that._organization.getOrganizations(options);
-        });
-
-        this._program.command('create org', '<name>')
-        .description("Create a new organization")
-        .option('-p, --public', 'Create a public organization')
-        .action(function (name, commands) {
-
-            var options = {
-                public: commands.public || false
-            };
-
-            that._organization.createOrganization(name, options);
-        });
-
-        this._program.command('delete org', '<id>')
-        .description("Delete an existing organization")
-        .option('--nc', 'Do not ask confirmation')
-        .action(function (id, commands) {
-
-            var options = {
-                noconfirmation: commands.nc || false
-            };
-
-            that._organization.deleteOrganization(id, options);
         });
     }
 }
