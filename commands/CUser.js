@@ -14,7 +14,6 @@ const NodeSDK = require('../common/SDK');
 const Tools = require('../common/Tools');
 const Message = require('../common/Message');
 
-
 class CUser {
 
     constructor(prefs) {

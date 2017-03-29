@@ -57,7 +57,7 @@ Here is the complete list of commands:
 
 | Category | Commands | Details |
 |----------|----------|---------|
-| Connected User | **login** | Log-in to Rainbow | 
+| Connected User | **login** <username> <password> | Log-in to Rainbow | 
 | | **whoami** | Display information about the user connected |
 | User | **user** <id> | Display information about a user |
 | | **create** <username> | Create a new user |
@@ -87,13 +87,12 @@ Here is the complete list of commands:
 This command allows to log-in to Rainbow
 
 ```bash
-$ rbw login -u "rford@westworld.com" -p "Password_12345"
+$ rbw login "rford@westworld.com" "Password_12345"
 ```
 
 By default the connection is done on the sandbox platform. To log to the official Rainbow platform, simply add the option **--official**
 
-
-Once this command is done, you're connected to Rainbow and you can launch other command until your session expires.
+Once this command is done, you're connected to Rainbow and you can launch other commands until your session expires.
 
 
 ### Command **WHOAMI**
@@ -101,7 +100,7 @@ Once this command is done, you're connected to Rainbow and you can launch other 
 This command allows to retrieve information on the connected user
 
 ```bash
-$ rainbow whoami
+$ rbw whoami
 ```
 
 
@@ -110,7 +109,7 @@ $ rainbow whoami
 This command allows to retrieve information on a specific user
 
 ```bash
-$ rainbow user 58cd966fd45e61221b57576c0
+$ rbw user 58cd966fd45e61221b57576c0
 ```
 
 
@@ -121,7 +120,7 @@ This command allows to create a new user
 The following example creates a user in a specific company
 
 ```bash
-$ rainbow create "jdoe@mycompany.com" -p "Password_123" -f "John" -l "Doe" -c 58cd966fd45e61221b5711c0
+$ rbw create "jdoe@mycompany.com" -p "Password_123" -f "John" -l "Doe" -c 58cd966fd45e61221b5711c0
 ```
 
 
@@ -130,13 +129,13 @@ $ rainbow create "jdoe@mycompany.com" -p "Password_123" -f "John" -l "Doe" -c 58
 This command allows to delete an existing user
 
 ```bash
-$ rainbow delete 58cd966fddfd61221b57145f
+$ rbw delete 58cd966fddfd61221b57145f
 ```
 
 A user can be deleted without having to confirm
 
 ```bash
-$ rainbow delete 58cd966fddfd61221b57145f --nc
+$ rbw delete 58cd966fddfd61221b57145f --nc
 ```
 
 
@@ -145,7 +144,7 @@ $ rainbow delete 58cd966fddfd61221b57145f --nc
 This command allows to retrieve information on a specific company
 
 ```bash
-$ rainbow company 58cd966fd45e61221b5711c0
+$ rbw company 58cd966fd45e61221b5711c0
 ```
 
 
@@ -154,19 +153,19 @@ $ rainbow company 58cd966fd45e61221b5711c0
 This command allows to delete an existing company
 
 ```bash
-$ rainbow delete company 58cd966fd45e61221b5711c0
+$ rbw delete company 58cd966fd45e61221b5711c0
 ```
 
 A company can be deleted without having to confirm
 
 ```bash
-$ rainbow delete company 58cd966fddfd61221b57145f --nc
+$ rbw delete company 58cd966fddfd61221b57145f --nc
 ```
 
 If the company contains users, add the following parameter to remove the users first and then remove the company
 
 ```bash
-$ rainbow delete 58cd966fddfd61221b57145f --nc --force
+$ rbw delete 58cd966fddfd61221b57145f --nc --force
 ```
 
 
@@ -175,7 +174,7 @@ $ rainbow delete 58cd966fddfd61221b57145f --nc --force
 This command allows to create a new company
 
 ```bash
-$ rainbow create company "My New Company"
+$ rbw create company "My New Company"
 ```
 
 
@@ -184,7 +183,7 @@ $ rainbow create company "My New Company"
 This command allows to remove all users from a company
 
 ```bash
-$ rainbow free company 58cd966fd45e61221b5711c0
+$ rbw free company 58cd966fd45e61221b5711c0
 ```
 
 
@@ -193,7 +192,7 @@ $ rainbow free company 58cd966fd45e61221b5711c0
 This command allows to link a company to an organization
 
 ```bash
-$ rainbow link company 58cd966fd45e61221b5711c0 58cd966fddfd61221b57145f
+$ rbw link company 58cd966fd45e61221b5711c0 58cd966fddfd61221b57145f
 ```
 
 
@@ -202,7 +201,7 @@ $ rainbow link company 58cd966fd45e61221b5711c0 58cd966fddfd61221b57145f
 This command allows to unlink a company from its organization
 
 ```bash
-$ rainbow unlink company 58cd966fd45e61221b5711c0
+$ rbw unlink company 58cd966fd45e61221b5711c0
 ```
 
 
@@ -211,7 +210,7 @@ $ rainbow unlink company 58cd966fd45e61221b5711c0
 This command allows to retrieve information on a specific site
 
 ```bash
-$ rainbow site 58cd966fd45e61221b5711c0
+$ rbw site 58cd966fd45e61221b5711c0
 ```
 
 
@@ -220,13 +219,13 @@ $ rainbow site 58cd966fd45e61221b5711c0
 This command allows to delete an existing site
 
 ```bash
-$ rainbow delete site 58cd966fd45e61221b5711c0
+$ rbw delete site 58cd966fd45e61221b5711c0
 ```
 
 A site can be deleted without having to confirm
 
 ```bash
-$ rainbow delete site 58cd966fd45e61221b5711c0 --nc
+$ rbw delete site 58cd966fd45e61221b5711c0 --nc
 ```
 
 
@@ -235,7 +234,7 @@ $ rainbow delete site 58cd966fd45e61221b5711c0 --nc
 This command allows to create a new site. You have to specify the company id where to create this site.
 
 ```bash
-$ rainbow create site "My New site" 58cd966fd45e61221b5714fc
+$ rbw create site "My New site" 58cd966fd45e61221b5714fc
 ```
 
 
@@ -244,7 +243,7 @@ $ rainbow create site "My New site" 58cd966fd45e61221b5714fc
 This command allows to retrieve information on a specific organization
 
 ```bash
-$ rainbow organization 58cd966fd45e61221b5711c0
+$ rbw organization 58cd966fd45e61221b5711c0
 ```
 
 
@@ -253,7 +252,7 @@ $ rainbow organization 58cd966fd45e61221b5711c0
 This command allows to create a new organization
 
 ```bash
-$ rainbow create organization "My New organization"
+$ rbw create organization "My New organization"
 ```
 
 
@@ -262,13 +261,13 @@ $ rainbow create organization "My New organization"
 This command allows to delete an existing organization
 
 ```bash
-$ rainbow delete organization 58cd966fd45e61221b5711c0
+$ rbw delete organization 58cd966fd45e61221b5711c0
 ```
 
 An organization can be deleted without having to confirm
 
 ```bash
-$ rainbow delete org 58cd966fd45e61221b5711c0 --nc
+$ rbw delete org 58cd966fd45e61221b5711c0 --nc
 ```
 
 
@@ -277,25 +276,25 @@ $ rainbow delete org 58cd966fd45e61221b5711c0 --nc
 This command allows to list all the existing users (limited to your admin right)
 
 ```bash
-$ rainbow users
+$ rbw users
 ```
 
 If there is more that 25 users, the result is paginated. use the option **--max** to display up to 1000 results or the option **--p** to display a specific page
 
 ```bash
-$ rainbow users --page 4
+$ rbw users --page 4
 ```
 
 The list can be restricted to a company
 
 ```bash
-$ rainbow users -c 58cd966fd45e61221b5711c0
+$ rbw users -c 58cd966fd45e61221b5711c0
 ```
 
 Finally, this list of users can be exported to a CSV file (with a limited set of attributes for each user)
 
 ```bash
-$ rainbow users -c 58cd966fd45e61221b5711c0 --file "export.csv"
+$ rbw users -c 58cd966fd45e61221b5711c0 --file "export.csv"
 ```
 
 ### Command **COMPANIES**
@@ -303,13 +302,13 @@ $ rainbow users -c 58cd966fd45e61221b5711c0 --file "export.csv"
 This command allows to list all the existing companies (limited to your admin right)
 
 ```bash
-$ rainbow companies
+$ rbw companies
 ```
 
 The list of companies can be filtered to limit to **BP** companies
 
 ```bash
-$ rainbow companies --bp
+$ rbw companies --bp
 ```
 
 ### Command **SITES**
@@ -317,13 +316,13 @@ $ rainbow companies --bp
 This command allows to list all the existing sites (limited to your admin right)
 
 ```bash
-$ rainbow sites
+$ rbw sites
 ```
 
 Sites can be exported to a CSV file 
 
 ```bash
-$ rainbow sites --file "sites.csv"
+$ rbw sites --file "sites.csv"
 ```
 
 The same option **--max** and **--page** can be used in case of a large number of sites found
@@ -334,13 +333,13 @@ The same option **--max** and **--page** can be used in case of a large number o
 This command allows to list all the existing organizations (limited to your admin right)
 
 ```bash
-$ rainbow orgs
+$ rbw orgs
 ```
 
 Organizations can be exported to a CSV file 
 
 ```bash
-$ rainbow orgs --file "orgs.csv"
+$ rbw orgs --file "orgs.csv"
 ```
 
 The same option **--max** and **--page** can be used in case of a large number of organizations found
@@ -351,7 +350,7 @@ The same option **--max** and **--page** can be used in case of a large number o
 This command allows to retrieve the status of the Rainbow Services
 
 ```bash
-$ rainbow status
+$ rbw status
 ```
 
 ### Command **IMPORT**
@@ -359,5 +358,5 @@ $ rainbow status
 This command allows to import a CSV file containing a list of users to a company
 
 ```bash
-$ rainbow import --file "import.csv"
+$ rbw import --file "import.csv"
 ```
