@@ -59,18 +59,19 @@ Here is the complete list of commands:
 |----------|----------|---------|
 | Connected User | **login** | Log-in to Rainbow | 
 | | **whoami** | Display information about the user connected |
-| User | **create** <username> | Create a new user |
+| User | **user** <id> | Display information about a user |
+| | **create** <username> | Create a new user |
 | | **delete** <id> | Delete a user |
-| Company | **company** <id> | Display information on a company |
+| Company | **company** <id> | Display information about a company |
 | | **free company** <id> | Remove all users from a company |
 | | **create company** <name> | Create a new company |
 | | **delete company** <id> | Delete an existing company |
 | | **link company** <id> <orgid> | Link a company to an organization |
 | | **unlink company** <id> | Unlink a company from its organization |
-| Site | **site** <id> | Display information on a site |
+| Site | **site** <id> | Display information about a site |
 | | **create site** <name> <id> | Create a new site |
 | | **delete site** <id> | Delete an existing site |
-| Organization | **org** <id> | Display information on a organization |
+| Organization | **org** <id> | Display information about an organization |
 | | **create org** <name> | Create a new organization |
 | | **delete org** <id> | Delete an existing organization |
 | Users | **users** | List the users |
@@ -101,6 +102,15 @@ This command allows to retrieve information on the connected user
 
 ```bash
 $ rainbow whoami
+```
+
+
+### Command **USER**
+
+This command allows to retrieve information on a specific user
+
+```bash
+$ rainbow user 58cd966fd45e61221b57576c0
 ```
 
 

@@ -20,6 +20,12 @@ class User {
     listOfCommands() {
         var that = this;
 
+        this._program.command('user', '<id>')
+        .description("Retrieve information about an existing user")
+        .action(function (id) {
+            that._user.getUser(id);
+        });
+
         this._program.command('create', '<username> <password> <firstname> <lastname>')
         .description("Create a new user")
         .option('-c, --company <id>', 'Create the user in an existing company')

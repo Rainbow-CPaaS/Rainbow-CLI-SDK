@@ -2,7 +2,7 @@
 
 Here is the list of the changes and features provided by the Rainbow-CLI
 
-### v0.5.2
+### v0.5.3
 
  - [SITE] List the sites
 
@@ -11,6 +11,8 @@ Here is the list of the changes and features provided by the Rainbow-CLI
  - [SITE] Create a new site associated to a company
 
  - [SITE] DELETE a site
+
+ - [USER] Retrieve information about a user
 
 ### v0.4.4
 

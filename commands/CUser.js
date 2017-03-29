@@ -85,6 +85,18 @@ class CUser {
         });
     }
 
+    _getUser(token, id) {
+
+        return new Promise(function(resolve, reject) {
+
+            NodeSDK.get('/api/rainbow/admin/v1.0/users/' + id, token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
     _createSimple(token, email, password, firstname, lastname, options) {
 
         var user = {
@@ -342,6 +354,83 @@ class CUser {
                     }
                 });
             }
+        }
+        else {
+            Message.notLoggedIn();
+        }
+    }
+
+    getUser(id) {
+        var that = this;
+
+        Message.welcome();
+            
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs.account.email);
+        
+            Screen.print("Request informaton for user".white + " '".yellow + id.yellow + "'".yellow);
+            var status = new Spinner('In progress, please wait...');
+            status.start();
+            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+                return that._getUser(that._prefs.token, id);
+            }).then(function(json) {
+
+                status.stop();
+                Screen.print('');
+
+                var array = [];
+                array.push([ "#".gray, "Attribute".gray, "Value".gray]);
+                array.push([ "-".gray, "---------".gray, "-----".gray]);  
+                var index = 1;
+                for (var key in json.data) {
+                    var data = json.data[key];
+                    if(data === null) {
+                        array.push([ index.toString().white, key.toString().cyan, 'null'.white ]);  
+                    } 
+                    else if(typeof data === "string" && data.length === 0) {
+                        array.push([  index.toString().white, key.toString().cyan, "''".white ]);  
+                    }
+                    else if(Tools.isArray(data) && data.length === 0) {
+                        array.push([  index.toString().white, key.toString().cyan, "[ ]".white ]);  
+                    }
+                    else if((Tools.isArray(data)) && data.length === 1) {
+                        array.push([  index.toString().white, key.toString().cyan, "[ ".white + JSON.stringify(data[0]).white + " ]".white]);  
+                    }
+                    else if((Tools.isArray(data)) && data.length > 1) {
+                        var item = ""
+                        for (var i=0; i < data.length; i++) {
+                            if(typeof data[i] === "string") {
+                                item +=  JSON.stringify(data[i]).white;
+                                if(i < data.length -1) {
+                                    item += ","
+                                }
+                            }
+                            else {
+                                item += "[ " + JSON.stringify(data[i]).white + " ]";
+                                if(i < data.length -1) {
+                                    item += ","
+                                }
+                            }
+                        }
+                        array.push([  index.toString().white, key.toString().cyan, "[ ".white + item.white + " ]" ]);  
+                    }
+                    else if(Tools.isObject(data)) {
+                        array.push([  index.toString().white, key.toString().cyan, JSON.stringify(data).white ]);  
+                    }
+                    else {
+                        array.push([  index.toString().white, key.toString().cyan, data.toString().white ]);
+                    }
+                    index+=1;
+                }
+
+                var t = table(array);
+                Screen.table(t);
+                Screen.print('');
+                Screen.success('User information retrieved successfully.');
+            }).catch(function(err) {
+                status.stop();
+                Message.error(err);
+            });
         }
         else {
             Message.notLoggedIn();
