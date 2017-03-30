@@ -24,10 +24,10 @@ class Account {
 
         this._program.command('login', '<email> <password>')
             .description("Log-in to Rainbow")
-            .option('-o, --official', 'Use the Rainbow official environment.')
+            .option('-h, --host <hostname>', "Log-in to a specific host. 'hostname' can be 'official' or any hostname. If no --host, 'sandbox' is used")
             .action(function (email, password, commands) {
 
-            var platform = commands.official ? "official" : "sandbox";
+            var platform = commands.host ? commands.host : "sandbox";
 
             that._account.login(email, password, platform);
         });

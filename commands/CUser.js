@@ -56,7 +56,6 @@ class CUser {
 
                 resolve(json);
             }).catch(function(err) {
-                console.log(err);
                 reject(err);
             });
         });
