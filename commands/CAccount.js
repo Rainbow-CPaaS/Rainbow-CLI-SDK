@@ -138,6 +138,27 @@ class CAccount {
             Message.error(err);
         });
     }
+
+    logout() {
+        Message.welcome();
+        Screen.print('Version ' + pkg.version.yellow);
+        var email = "";
+        if(this._prefs.user) {
+            email = this._prefs.user.loginEmail;
+        }
+
+        this._prefs.account = null;
+        this._prefs.token = null;
+        this._prefs.user =  null;
+        this._prefs.rainbow = null;
+
+        if(email) {
+            Screen.success('You have signed out from '.grey + email.cyan);
+        }
+        else {
+            Screen.error('You are not signed-in');
+        }
+    }
     
 }
 

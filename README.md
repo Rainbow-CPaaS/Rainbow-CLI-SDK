@@ -57,7 +57,8 @@ Here is the complete list of commands:
 
 | Category | Commands | Details |
 |----------|----------|---------|
-| Connected User | **login** <username> <password> | Log-in to Rainbow | 
+| Account | **login** <username> <password> | Log-in to Rainbow |
+| | **logout** | Log-out from Rainbow | 
 | | **whoami** | Display information about the user connected |
 | User | **user** <id> | Display information about a user |
 | | **create** <username> | Create a new user |
@@ -89,6 +90,19 @@ This command allows to log-in to Rainbow
 ```bash
 $ rbw login "rford@westworld.com" "Password_12345"
 ```
+
+By default the connection is done on the sandbox platform. To log to the official Rainbow platform, simply add the option **--official**
+
+Once this command is done, you're connected to Rainbow and you can launch other commands until your session expires.
+
+### Command **LOGOUT**
+
+This command allows to log-out from Rainbow
+
+```bash
+$ rbw logout 
+```
+
 
 By default the connection is done on the sandbox platform. To log to the official Rainbow platform, simply add the option **--official**
 

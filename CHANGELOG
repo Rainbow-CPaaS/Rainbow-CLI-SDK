@@ -2,7 +2,7 @@
 
 Here is the list of the changes and features provided by the Rainbow-CLI
 
-### v0.5.4
+### v0.5.5
 
  - [SITE] List the sites
 
@@ -13,6 +13,8 @@ Here is the list of the changes and features provided by the Rainbow-CLI
  - [SITE] DELETE a site
 
  - [USER] Retrieve information about a user
+
+ - [ACCOUNT] Sign-out from Rainbow
 
 ### v0.4.4
 
@@ -42,7 +44,7 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 ### v0.2.7
 
- - [STATUS] Get the status of the API
+ - [SERVICEABILITY] Get the status of the API
 
  - [COMPANY] Retrieve information about a company
 
@@ -54,6 +56,6 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 ### v0.1.0
 
- - [USER] Retrieve the information about the connected user
+ - [ACCOUNT] Retrieve the information about the connected user
 
- - [USER] Log-in to Rainbow
+ - [ACCOUNT] Sign-in to Rainbow

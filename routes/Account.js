@@ -31,6 +31,13 @@ class Account {
 
             that._account.login(email, password, platform);
         });
+
+        this._program.command('logout')
+            .description("Log-out to Rainbow")
+            .action(function () {
+
+            that._account.logout();
+        });
         
         this._program.command('whoami')
             .description("Display information about the connected user")
