@@ -31,7 +31,7 @@
     "csv": "^1.1.1",
     "inquirer": "^3.0.6",
     "preferences": "^0.2.1",
-    "rainbow-node-sdk": "^0.10.4",
+    "rainbow-node-sdk": "^0.10.6",
     "text-table": "^0.2.0"
   }
 }
