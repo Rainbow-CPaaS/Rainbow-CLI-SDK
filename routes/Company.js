@@ -24,12 +24,24 @@ class Company {
 
         this._program.command('company', '<id>')
         .description("Retrieve information about an existing company")
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw company 57ea7475d78f3ba5aae98935');
+            console.log('');
+        })
         .action(function (id) {
             that._company.getCompany(id);
         });
 
         this._program.command('create company', '<name>')
         .description("Create a new company")
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw create company "A new company"');
+            console.log('');
+        })
         .action(function (name) {
             that._company.createCompany(name);
         });
@@ -38,6 +50,12 @@ class Company {
         .description("Delete an existing company")
         .option('--nc', 'Do not ask confirmation')
         .option('-f, --force', 'Do not ask confirmation')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw delete company 57ea7475d78f3ba5aae98935');
+            console.log('');
+        })
         .action(function (id, commands) {
 
             var options = {
@@ -50,12 +68,24 @@ class Company {
 
         this._program.command('link company', '<id> <orgid>')
         .description("Link the company to an organization")
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw link company 57ea7475d78f3ba5aae98935 57ea7475d78f3ba5aae98935');
+            console.log('');
+        })
         .action(function (id, orgid) {
             that._company.linkCompany(id, orgid);
         });
 
         this._program.command('unlink company', '<id>')
         .description("unlink a company from its organization")
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw unlink company 57ea7475d78f3ba5aae98935');
+            console.log('');
+        })
         .action(function (id, orgid) {
             that._company.unlinkCompany(id);
         });
@@ -67,6 +97,15 @@ class Company {
         .option('--bp', 'Filter only bp companies')
         .option('-o, --org <id>', 'Filter on an organization')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw companies');
+            console.log('    $ rbw companies -p 3');
+            console.log('    $ rbw companies --org 57ea7475d78f3ba5aae98935');
+            console.log('    $ rbw companies --file output.csv');
+            console.log('');
+        })
         .action(function (commands) {
 
             var page = 0;
