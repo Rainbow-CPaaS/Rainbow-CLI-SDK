@@ -87,11 +87,20 @@ class CSite {
                 limit = "&limit=1000";
             }
 
-            NodeSDK.get('/api/rainbow/admin/v1.0/sites?format=full' + offset + limit, token).then(function(json) {
-                resolve(json);
-            }).catch(function(err) {
-                reject(err);
-            });
+            if(options.company) {
+                NodeSDK.get('/api/rainbow/admin/v1.0/companies/' + options.company + '/sites?format=full' + offset + limit, token).then(function(json) {
+                    resolve(json);
+                }).catch(function(err) {
+                    reject(err);
+                });
+            }
+            else {
+                NodeSDK.get('/api/rainbow/admin/v1.0/sites?format=full' + offset + limit, token).then(function(json) {
+                    resolve(json);
+                }).catch(function(err) {
+                    reject(err);
+                });
+            }
         });
     }
 

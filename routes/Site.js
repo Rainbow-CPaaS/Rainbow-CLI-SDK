@@ -32,8 +32,6 @@ class Site {
         .option('-p, --public', 'Create a public site')
         .action(function (name, companyId) {
 
-            console.log("param", name, companyId);
-
             var options = {
             };
 
@@ -56,6 +54,7 @@ class Site {
         .description("List all existing sites")
         .option('-p, --page <number>', 'Display a specific page')
         .option('-m, --max', 'Display up to max result per page (max=1000)')
+        .option('-c, --company <companyid>', 'Limit to a company')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
         .action(function (commands) {
             var page = 0;
@@ -72,6 +71,7 @@ class Site {
             var options = {
                 page: page,
                 csv: commands.file || "",
+                company: commands.company || ""
             };
 
             that._site.getSites(options);
