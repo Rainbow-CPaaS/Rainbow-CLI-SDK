@@ -8,6 +8,7 @@ var Account = require('./routes/Account');
 var Company = require('./routes/Company');
 var Organization = require('./routes/Organization');
 var Site = require('./routes/Site');
+var System = require('./routes/System');
 var Status = require('./routes/Status');
 var User = require('./routes/User');
 var Free = require('./routes/Free');
@@ -28,6 +29,7 @@ start = function() {
   var user = new User(program, prefs);
   var company = new Company(program, prefs);
   var site = new Site(program, prefs);
+  var system = new System(program, prefs);
   var organization = new Organization(program, prefs);
   var status = new Status(program, prefs);
   var free = new Free(program, prefs);
@@ -38,6 +40,7 @@ start = function() {
   company.start();
   free.start();
   site.start();
+  system.start();
   organization.start();
   status.start();
 

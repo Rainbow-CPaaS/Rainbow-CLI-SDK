@@ -72,12 +72,14 @@ Here is the complete list of commands:
 | Site | **site** <id> | Display information about a site |
 | | **create site** <name> <id> | Create a new site |
 | | **delete site** <id> | Delete an existing site |
+| System | **system** <id> | Display information about a system |
 | Organization | **org** <id> | Display information about an organization |
 | | **create org** <name> | Create a new organization |
 | | **delete org** <id> | Delete an existing organization |
 | Users | **users** | List the users |
 | Companies | **companies** | List the companies |
 | Sites | **sites** | List the sites |
+| Systems | **systems** | List the systems |
 | Organizations | **orgs** | List the organizations |
 | Status | **status** | Get the API status |
 | Import | **import** | Import a list of users from a CSV file |
@@ -257,6 +259,15 @@ $ rbw create site "My New site" 58cd966fd45e61221b5714fc
 ```
 
 
+### Command **SYSTEM**
+
+This command allows to retrieve information on a specific system
+
+```bash
+$ rbw system 58cd966fd45e61221b575423
+```
+
+
 ### Command **ORG**
 
 This command allows to retrieve information on a specific organization
@@ -345,6 +356,23 @@ $ rbw sites --file "sites.csv"
 ```
 
 The same option **--max** and **--page** can be used in case of a large number of sites found
+
+
+### Command **SYSTEMS**
+
+This command allows to list all the existing systems (limited to your admin right)
+
+```bash
+$ rbw systems
+```
+
+Sites can be exported to a CSV file 
+
+```bash
+$ rbw systems --file "systems.csv"
+```
+
+The same option **--max** and **--page** can be used in case of a large number of systems found
 
 
 ### Command **ORGS**

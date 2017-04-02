@@ -2,6 +2,12 @@
 
 Here is the list of the changes and features provided by the Rainbow-CLI
 
+### v0.6.0
+
+ - [SYSTEM] List the systems
+
+ - [SYSTEM] Retrieve information about a system 
+
 ### v0.5.7
 
  - [SITE] List the sites
