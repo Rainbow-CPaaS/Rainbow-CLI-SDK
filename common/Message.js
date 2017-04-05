@@ -54,6 +54,23 @@ class Message {
         }
     }
 
+    choices(message, choices) {
+        return new Promise(function(resolve, reject) {
+
+            var question = {
+                type: 'list',
+                message: message,
+                choices: choices,
+                name: 'confirmation'
+            };
+
+            inquirer.prompt([question]).then(function (answer) {
+                resolve(answer.confirmation);        
+            });
+
+        });
+    }
+
     confirm(message) {
         return new Promise(function(resolve, reject) {
 

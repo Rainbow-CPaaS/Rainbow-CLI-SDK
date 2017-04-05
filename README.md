@@ -73,6 +73,8 @@ Here is the complete list of commands:
 | | **create site** <name> <id> | Create a new site |
 | | **delete site** <id> | Delete an existing site |
 | System | **system** <id> | Display information about a system |
+| | **create system** <name> <id> | Create a new system |
+| | **delete system** <id> | Delete an existing system |
 | Organization | **org** <id> | Display information about an organization |
 | | **create org** <name> | Create a new organization |
 | | **delete org** <id> | Delete an existing organization |
@@ -266,6 +268,32 @@ This command allows to retrieve information on a specific system
 ```bash
 $ rbw system 58cd966fd45e61221b575423
 ```
+
+
+### Command **DELETE SYSTEM**
+
+This command allows to delete an existing system
+
+```bash
+$ rbw delete system 58cd966fd45e61221b571445
+```
+
+A site can be deleted without having to confirm
+
+```bash
+$ rbw delete system 58cd966fd45e61221b571445 --nc
+```
+
+
+### Command **CREATE SYSTEM**
+
+This command allows to create a new system. You have to specify the site id where to create this site and a name.
+
+```bash
+$ rbw create system "My New site" 58cd966fd45e61221b5714fc
+```
+
+Then the system will ask to choice a type of system to create and the country associated to this system.
 
 
 ### Command **ORG**

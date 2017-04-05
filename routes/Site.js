@@ -35,7 +35,7 @@ class Site {
         
         this._program.command('create site', '<name>, <companyId>')
         .description("Create a new site")
-        .option('-p, --public', 'Create a public site')
+        //.option('-p, --public', 'Create a public site')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');

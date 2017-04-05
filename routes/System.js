@@ -19,7 +19,6 @@ class System {
     }
     listOfCommands() {
         var that = this;
-
         
         this._program.command('system', '<id>')
         .description("Retrieve information about an existing system")
@@ -33,31 +32,29 @@ class System {
             that._system.getSystem(id);
         });
         
-        /*
-        this._program.command('create site', '<name>, <companyId>')
-        .description("Create a new site")
-        .option('-p, --public', 'Create a public site')
+        this._program.command('create system', '<name>, <siteId>')
+        .description("Create a new system")
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log('    $ rbw create site 58920e130bbe4b2f703bd382 589dc6ba0bbe4b2f703bd67d');
+            console.log('    $ rbw create system PBX-1 58920e130bbe4b2f703bd382');
             console.log('');
         })
-        .action(function (name, companyId) {
+        .action(function (name, siteId) {
 
             var options = {
             };
 
-            that._site.createSite(name, companyId, options);
+            that._system.createSystem(name, siteId, options);
         });
 
-        this._program.command('delete site', '<id>')
-        .description("Delete an existing site")
+        this._program.command('delete system', '<id>')
+        .description("Delete an existing system")
         .option('--nc', 'Do not ask confirmation')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log('    $ rbw delete site 58920e130bbe4b2f703bd382');
+            console.log('    $ rbw delete system 58920e130bbe4b2f703bd382');
             console.log('');
         })
         .action(function (id, commands) {
@@ -66,9 +63,8 @@ class System {
                 noconfirmation: commands.nc || false
             };
 
-            that._site.deleteSite(id, options);
+            that._system.deleteSystem(id, options);
         });
-        */
 
         this._program.command('systems')
         .description("List all existing systems")

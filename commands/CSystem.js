@@ -12,32 +12,34 @@ const Screen = require("../common/Print");
 const NodeSDK = require('../common/SDK');
 const Tools = require('../common/Tools');
 const Message = require('../common/Message');
+const Helper = require('../common/Helper');
 
 class CSystem {
 
     constructor(prefs) {
         this._prefs = prefs;
     }
-
-    /*
-    _createSite(token, name, companyId) {
+    
+    _createSystem(token, name, siteId, pbxType, country) {
 
         return new Promise(function(resolve, reject) {
 
             var data = {
                 name: name,
-                companyId: companyId,
-                status: 'active'
+                siteId: siteId,
+                type: pbxType,
+                country: country,
+                pbxMainBundlePrefix: ["0"]
             };
 
-            NodeSDK.post('/api/rainbow/admin/v1.0/sites', token, data).then(function(json) {
+            NodeSDK.post('/api/rainbow/admin/v1.0/systems', token, data).then(function(json) {
                 resolve(json);
             }).catch(function(err) {
                 reject(err);
             });
         });
     }
-    */
+    
     _getSystem(token, id) {
 
         return new Promise(function(resolve, reject) {
@@ -50,13 +52,12 @@ class CSystem {
         });
     }
 
-    /*
-    _deleteSite(token, id) {
+    _deleteSystem(token, id) {
 
         var that = this;
 
         return new Promise(function(resolve, reject) {
-            NodeSDK.delete('/api/rainbow/admin/v1.0/sites/' + id, token).then(function(json) {
+            NodeSDK.delete('/api/rainbow/admin/v1.0/systems/' + id, token).then(function(json) {
                 resolve(json);
             }).catch(function(err) {
                 reject(err);
@@ -64,7 +65,6 @@ class CSystem {
             resolve();
         });
     }
-    */
 
     _getListOfSystems(token, options) {
 
@@ -108,20 +108,19 @@ class CSystem {
         });
     }
 
-    /*
-    deleteSite(id, options) {
+    deleteSystem(id, options) {
         var that = this;
 
         var doDelete = function(id) {
-            Screen.print("Request to delete site".white + " '".yellow + id.yellow + "'".yellow);
+            Screen.print("Request to delete system".white + " '".yellow + id.yellow + "'".yellow);
             var status = new Spinner('In progress, please wait...');
             status.start();
             NodeSDK.start(that._prefs.account.email, that._prefs.account.password, that._prefs.rainbow).then(function() {
-                return that._deleteSite(that._prefs.token, id);
+                return that._deleteSystem(that._prefs.token, id);
             }).then(function(json) {
                 status.stop();
                 Screen.print('');
-                Screen.success('Site'.white + " '".yellow + id.yellow + "'".yellow + " has been successfully deleted.".white);
+                Screen.success('System'.white + " '".yellow + id.yellow + "'".yellow + " has been successfully deleted.".white);
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
@@ -137,7 +136,7 @@ class CSystem {
                 doDelete(id);
             }
             else {
-                Message.confirm('Are-you sure ? It will remove definitively this site').then(function(confirm) {
+                Message.confirm('Are-you sure ? It will remove definitively this system').then(function(confirm) {
                     if(confirm) {
                         doDelete(id);
                     }
@@ -151,7 +150,6 @@ class CSystem {
             Message.notLoggedIn();
         }
     }
-    */
 
     getSystems(options) {
         var that = this;
@@ -169,8 +167,6 @@ class CSystem {
             NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
                 return that._getListOfSystems(that._prefs.token, options);
             }).then(function(json) {
-
-                
 
                 status.stop(); 
                 if(options.csv) {
@@ -313,34 +309,44 @@ class CSystem {
         }
     }
 
-    /*
-    createSite(name, companyId, option) {
+    createSystem(name, siteId, option) {
         var that = this;
 
-        Message.welcome();
-            
-        if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user);
-        
-            Screen.print("Request to create site".white + " '".yellow + name.yellow + "'".yellow + ' for company'.white + " '".yellow + companyId.yellow + "'".yellow);
+        function doCreate(pbxType, country) {
             var status = new Spinner('In progress, please wait...');
             status.start();
-            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
-                return that._createSite(that._prefs.token, name, companyId, option);
+            NodeSDK.start(that._prefs.account.email, that._prefs.account.password, that._prefs.rainbow).then(function() {
+                return that._createSystem(that._prefs.token, name, siteId, pbxType, country, option);
             }).then(function(json) {
                 status.stop();
                 Screen.print('');
-                Screen.success('Site'.white + " '".yellow + name.yellow + "'".yellow + " has been successfully created and associated to ID ".white + json.data.id.cyan);
+                Screen.success('System'.white + " '".yellow + name.yellow + "'".yellow + " has been successfully created and associated to ID ".white + json.data.id.cyan);
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
             });
         }
+
+        Message.welcome();
+
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs.user);
+        
+            Screen.print("Request to create system".white + " '".yellow + name.yellow + "'".yellow + ' for site'.white + " '".yellow + siteId.yellow + "'".yellow);
+
+             Message.choices('What kind of PBX you want to create ?', Helper.PABX_list).then(function(pbxType) {
+                    
+                Message.choices('For which country do you want to create it ?', Helper.country_list).then(function(country) {
+                    doCreate(pbxType, country);
+                });
+
+            });
+            
+        }
         else {
             Message.notLoggedIn();
         }
     }
-    */
 }
 
 module.exports = CSystem;
