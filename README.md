@@ -75,6 +75,8 @@ Here is the complete list of commands:
 | System | **system** <id> | Display information about a system |
 | | **create system** <name> <id> | Create a new system |
 | | **delete system** <id> | Delete an existing system |
+| | **link system** <id> <siteid> | Link a system to a site |
+| | **unlink system** <id> <siteid> | Unlink a system from a site |
 | Organization | **org** <id> | Display information about an organization |
 | | **create org** <name> | Create a new organization |
 | | **delete org** <id> | Delete an existing organization |
@@ -294,6 +296,24 @@ $ rbw create system "My New site" 58cd966fd45e61221b5714fc
 ```
 
 Then the system will ask to choice a type of system to create and the country associated to this system.
+
+
+### Command **LINK SYSTEM**
+
+This command allows to link a system to an other site. A system can be share with several sites.
+
+```bash
+$ rbw link system 58cd966fd45e61221b5714fc 58cd966fd45e61221b57645
+```
+
+
+### Command **UNLINK SYSTEM**
+
+This command allows to unlink a system from a site. A system must be attached to at least one site.
+
+```bash
+$ rbw unlink system 58cd966fd45e61221b5714fc 58cd966fd45e61221b57645
+```
 
 
 ### Command **ORG**

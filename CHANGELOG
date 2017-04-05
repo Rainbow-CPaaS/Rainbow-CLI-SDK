@@ -2,7 +2,7 @@
 
 Here is the list of the changes and features provided by the Rainbow-CLI
 
-### v0.6.1
+### v0.6.2
 
  - [SYSTEM] List the systems
 
@@ -11,6 +11,8 @@ Here is the list of the changes and features provided by the Rainbow-CLI
  - [SYSTEM] Create a new system associated to a site
 
  - [SYSTEM] Delete a system
+
+ - [SYSTEM] Link/unlink a system to/from a site
 
 ### v0.5.7
 

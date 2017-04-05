@@ -66,6 +66,38 @@ class System {
             that._system.deleteSystem(id, options);
         });
 
+        this._program.command('link system', '<systemid>, <siteId>')
+        .description("Link a system to an other site")
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw link system 58920e130bbe4b2f703bd382 58920e130bbe4b2f703b523');
+            console.log('');
+        })
+        .action(function (systemid, siteId) {
+
+            var options = {
+            };
+
+            that._system.linkSystem(systemid, siteId, options);
+        });
+
+        this._program.command('unlink system', '<systemid>, <siteId>')
+        .description("Unlink a system from a site")
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw unlink system 58920e130bbe4b2f703bd382 58920e130bbe4b2f703b523');
+            console.log('');
+        })
+        .action(function (systemid, siteId) {
+
+            var options = {
+            };
+
+            that._system.unlinkSystem(systemid, siteId, options);
+        });
+
         this._program.command('systems')
         .description("List all existing systems")
         .option('-p, --page <number>', 'Display a specific page')

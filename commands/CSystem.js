@@ -106,6 +106,34 @@ class CSystem {
         });
     }
 
+    _linkSystem(token, systemid, siteid) {
+
+        return new Promise(function(resolve, reject) {
+
+            var data = {
+                systemId: systemid
+            };
+
+            NodeSDK.post('/api/rainbow/admin/v1.0/sites/' + siteid + "/systems", token, data).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
+    _unlinkSystem(token, systemid, siteid) {
+
+        return new Promise(function(resolve, reject) {
+
+            NodeSDK.delete('/api/rainbow/admin/v1.0/sites/' + siteid + "/systems/" + systemid, token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
     deleteSystem(id, options) {
         var that = this;
 
@@ -340,6 +368,62 @@ class CSystem {
 
             });
             
+        }
+        else {
+            Message.notLoggedIn();
+        }
+    }
+
+    linkSystem(systemid, siteid, option) {
+        var that = this;
+
+        Message.welcome();
+            
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs.user);
+            
+        
+            Screen.print("Request to link system".white + " '".yellow + systemid.yellow + "'".yellow + " to site".white + " '".yellow + siteid.yellow + "'".yellow);
+            var status = new Spinner('In progress, please wait...');
+            status.start();
+            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+                return that._linkSystem(that._prefs.token, systemid, siteid, option);
+            }).then(function(json) {
+                status.stop();
+                Screen.print('');
+                Screen.success('System'.white + " '".yellow + systemid.yellow + "'".yellow + " has been successfully linked to site ".white + siteid.cyan);
+            }).catch(function(err) {
+                status.stop();
+                Message.error(err);
+            });
+        }
+        else {
+            Message.notLoggedIn();
+        }
+    }
+
+    unlinkSystem(systemid, siteid, option) {
+        var that = this;
+
+        Message.welcome();
+            
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs.user);
+            
+        
+            Screen.print("Request to unlink system".white + " '".yellow + systemid.yellow + "'".yellow + " to site".white + " '".yellow + siteid.yellow + "'".yellow);
+            var status = new Spinner('In progress, please wait...');
+            status.start();
+            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+                return that._unlinkSystem(that._prefs.token, systemid, siteid, option);
+            }).then(function(json) {
+                status.stop();
+                Screen.print('');
+                Screen.success('System'.white + " '".yellow + systemid.yellow + "'".yellow + " has been successfully unlinked from site ".white + siteid.cyan);
+            }).catch(function(err) {
+                status.stop();
+                Message.error(err);
+            });
         }
         else {
             Message.notLoggedIn();
