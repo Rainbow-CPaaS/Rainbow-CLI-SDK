@@ -70,13 +70,14 @@ class System {
         .description("List all existing systems")
         .option('-p, --page <number>', 'Display a specific page')
         .option('-m, --max', 'Display up to max result per page (max=1000)')
-        //.option('-c, --company <companyid>', 'Limit to a company')
+        .option('-s, --site <siteid>', 'Limit to a site')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw systems');
             console.log('    $ rbw systems --max');
+            console.log('    $ rbw systems --site 58920e130bbe4b2f703bd546');
             console.log('    $ rbw systems --file output.csv');
             console.log('');
         })
@@ -94,7 +95,8 @@ class System {
 
             var options = {
                 page: page,
-                csv: commands.file || ""
+                csv: commands.file || "",
+                siteid: commands.site || ""
             };
 
             that._system.getSystems(options);

@@ -89,22 +89,20 @@ class CSystem {
                 limit = "&limit=1000";
             }
 
-            /*
-            if(options.company) {
-                NodeSDK.get('/api/rainbow/admin/v1.0/companies/' + options.company + '/sites?format=full' + offset + limit, token).then(function(json) {
+            if(options.siteid) {
+                NodeSDK.get('/api/rainbow/admin/v1.0/sites/' + options.siteid + '/systems?format=full' + offset + limit, token).then(function(json) {
                     resolve(json);
                 }).catch(function(err) {
                     reject(err);
                 });
             }
             else {
-                */
                 NodeSDK.get('/api/rainbow/admin/v1.0/systems?format=full' + offset + limit, token).then(function(json) {
                     resolve(json);
                 }).catch(function(err) {
                     reject(err);
                 });
-            //}
+            }
         });
     }
 
