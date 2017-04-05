@@ -143,7 +143,7 @@ This command allows to create a new user
 The following example creates a user in a specific company
 
 ```bash
-$ rbw create "jdoe@mycompany.com" -p "Password_123" -f "John" -l "Doe" -c 58cd966fd45e61221b5711c0
+$ rbw create "jdoe@mycompany.com" "Password_123" "John" "Doe" -c 58cd966fd45e61221b5711c0
 ```
 
 
