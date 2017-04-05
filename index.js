@@ -9,6 +9,7 @@ var Company = require('./routes/Company');
 var Organization = require('./routes/Organization');
 var Site = require('./routes/Site');
 var System = require('./routes/System');
+var Phone = require('./routes/Phone');
 var Status = require('./routes/Status');
 var User = require('./routes/User');
 var Free = require('./routes/Free');
@@ -30,6 +31,7 @@ start = function() {
   var company = new Company(program, prefs);
   var site = new Site(program, prefs);
   var system = new System(program, prefs);
+  var phone = new Phone(program, prefs);
   var organization = new Organization(program, prefs);
   var status = new Status(program, prefs);
   var free = new Free(program, prefs);
@@ -41,6 +43,7 @@ start = function() {
   free.start();
   site.start();
   system.start();
+  phone.start();
   organization.start();
   status.start();
 

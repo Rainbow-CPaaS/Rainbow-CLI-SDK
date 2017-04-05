@@ -14,12 +14,13 @@ const Tools = require('../common/Tools');
 const Message = require('../common/Message');
 const Helper = require('../common/Helper');
 
-class CSystem {
+class CPhone {
 
     constructor(prefs) {
         this._prefs = prefs;
     }
     
+    /*
     _createSystem(token, name, siteId, pbxType, country) {
 
         return new Promise(function(resolve, reject) {
@@ -65,8 +66,9 @@ class CSystem {
             resolve();
         });
     }
+    */
 
-    _getListOfSystems(token, options) {
+    _getListOfPhones(token, systemid, options) {
 
         return new Promise(function(resolve, reject) {
 
@@ -89,23 +91,15 @@ class CSystem {
                 limit = "&limit=1000";
             }
 
-            if(options.siteid) {
-                NodeSDK.get('/api/rainbow/admin/v1.0/sites/' + options.siteid + '/systems?format=full' + offset + limit, token).then(function(json) {
-                    resolve(json);
-                }).catch(function(err) {
-                    reject(err);
-                });
-            }
-            else {
-                NodeSDK.get('/api/rainbow/admin/v1.0/systems?format=full' + offset + limit, token).then(function(json) {
-                    resolve(json);
-                }).catch(function(err) {
-                    reject(err);
-                });
-            }
+            NodeSDK.get('/api/rainbow/admin/v1.0/systems/' + systemid + '/phone-numbers?format=full' + offset + limit, token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
         });
     }
 
+    /*
     _linkSystem(token, systemid, siteid) {
 
         return new Promise(function(resolve, reject) {
@@ -133,7 +127,9 @@ class CSystem {
             });
         });
     }
+    */
 
+    /*
     deleteSystem(id, options) {
         var that = this;
 
@@ -176,8 +172,9 @@ class CSystem {
             Message.notLoggedIn();
         }
     }
+    */
 
-    getSystems(options) {
+    getPhones(systemid, options) {
         var that = this;
 
         Message.welcome();
@@ -186,12 +183,12 @@ class CSystem {
             Message.loggedin(this._prefs.user);
 
             if(!options.csv) {
-                Screen.print("Current Systems:".white);
+                Screen.print("Current Phones:".white);
             }
             var status = new Spinner('In progress, please wait...');
             status.start();
             NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
-                return that._getListOfSystems(that._prefs.token, options);
+                return that._getListOfPhones(that._prefs.token, systemid, options);
             }).then(function(json) {
 
                 status.stop(); 
@@ -209,7 +206,7 @@ class CSystem {
                         header: true
                     }).pipe(writeStream);
                     writeStream.on('close', function () {
-                        Screen.success("Successfully saved".white + " " + json.total.toString().magenta + " site(s) to".white + " '".white + options.csv.yellow + "'".white);
+                        Screen.success("Successfully saved".white + " " + json.total.toString().magenta + " phones(s) to".white + " '".white + options.csv.yellow + "'".white);
                     });
                     writeStream.on('error', function (err) {
                         console.log('Error!', err);
@@ -226,24 +223,33 @@ class CSystem {
 
                     var array = [];
 
-                    array.push([ "#".gray, "System name".gray, "Version".gray, "Status".gray, "Type".gray, "ID".gray]);
-                    array.push([ "-".gray, "-----------".gray, "-------".gray, "------".gray, "----".gray, "--".gray]);  
+                    array.push([ "#".gray, "Short number".gray, "From System".gray, "Voice Mail number".gray, "Number".gray, "Monitored".gray, "ID".gray]);
+                    array.push([ "-".gray, "------------".gray, "-----------".gray, "-----------------".gray, "------".gray, "---------".gray, "--".gray]);  
 
                     for (var i = 0; i < json.data.length; i++) {
 
-                        var system = json.data[i];
-
+                        var phone = json.data[i];
+                        
                         var number = (i+1);
                         if(options.page > 0) {
                             number = ((options.page-1) * json.limit) + (i+1);
                         }
 
-                        var type = system.type || "";
-                        var version = system.version || "";
-                        var name = system.name || ""
-                        var stats = system.status || "";
+                        var fromSystem = "No".white;
+                        if(phone.isFromSystem) {
+                            fromSystem = "Yes".yellow;
+                        }
 
-                        array.push([ number.toString().white, name.cyan, version.white, stats.white, type.white, system.id.white]); 
+                        var isMonitored = "No".white;
+                        if(phone.isMonitored) {
+                            isMonitored = "True".yellow;
+                        }
+
+                        var longNumber = phone.numberE164 || phone.number || "";
+                        var vm = phone.voiceMailNumber || "";
+                        var sn = phone.shortNumber || "";
+
+                        array.push([ number.toString().white, sn.cyan, fromSystem, vm.white, longNumber.white, isMonitored, phone.id.white]); 
                     }
 
                     var t = table(array);
@@ -261,6 +267,7 @@ class CSystem {
         }
     }
 
+    /*
     getSystem(id) {
         var that = this;
 
@@ -432,6 +439,7 @@ class CSystem {
             Message.notLoggedIn();
         }
     }
+    */
 }
 
-module.exports = CSystem;
+module.exports = CPhone;

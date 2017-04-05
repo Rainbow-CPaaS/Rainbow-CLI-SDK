@@ -269,7 +269,9 @@ class CUser {
                             number = ((options.page-1) * json.limit) + (i+1);
                         }
 
-                        array.push([ number.toString().white, name.cyan, users[i].loginEmail.white, users[i].companyName.white, accountType, roles.white, active, users[i].id.white]);  
+                        var companyName = users[i].companyName || "";
+
+                        array.push([ number.toString().white, name.cyan, users[i].loginEmail.white, companyName.white, accountType, roles.white, active, users[i].id.white]);  
                     }
 
                     var t = table(array);

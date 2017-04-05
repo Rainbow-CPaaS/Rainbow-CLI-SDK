@@ -84,6 +84,7 @@ Here is the complete list of commands:
 | Companies | **companies** | List the companies |
 | Sites | **sites** | List the sites |
 | Systems | **systems** | List the systems |
+| Phones | **phones** <id> | List the phones number of a system |
 | Organizations | **orgs** | List the organizations |
 | Status | **status** | Get the API status |
 | Import | **import** | Import a list of users from a CSV file |
@@ -418,6 +419,23 @@ Sites can be exported to a CSV file
 
 ```bash
 $ rbw systems --file "systems.csv"
+```
+
+The same option **--max** and **--page** can be used in case of a large number of systems found
+
+
+### Command **PHONES**
+
+This command allows to list all the existing phones of a system (limited to your admin right)
+
+```bash
+$ rbw phones 58cd966fd45e61221b5711c0
+```
+
+Phones can be exported to a CSV file 
+
+```bash
+$ rbw phones 58cd966fd45e61221b5711c0 --file "systems.csv"
 ```
 
 The same option **--max** and **--page** can be used in case of a large number of systems found
