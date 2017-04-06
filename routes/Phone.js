@@ -20,55 +20,19 @@ class Phone {
     listOfCommands() {
         var that = this;
 
-        /*
-        this._program.command('site', '<id>')
-        .description("Retrieve information about an existing site")
-        .on('--help', function(){
-            console.log('  Examples:');
-            console.log('');
-            console.log('    $ rbw site 58920e130bbe4b2f703bd382');
-            console.log('');
-        })
-        .action(function (id) {
-            that._site.getSite(id);
-        });
         
-        this._program.command('create site', '<name>, <companyId>')
-        .description("Create a new site")
-        //.option('-p, --public', 'Create a public site')
+        this._program.command('phone', '<id> <systemid>')
+        .description("Retrieve information about an existing phone")
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log('    $ rbw create site 58920e130bbe4b2f703bd382 589dc6ba0bbe4b2f703bd67d');
+            console.log('    $ rbw phone 58920e130bbe4b2f703bd382 589dc6ba0bbe4b2f703bd67d');
             console.log('');
         })
-        .action(function (name, companyId) {
-
-            var options = {
-            };
-
-            that._site.createSite(name, companyId, options);
+        .action(function (id, systemid) {
+            that._phone.getPhone(id, systemid);
         });
 
-        this._program.command('delete site', '<id>')
-        .description("Delete an existing site")
-        .option('--nc', 'Do not ask confirmation')
-        .on('--help', function(){
-            console.log('  Examples:');
-            console.log('');
-            console.log('    $ rbw delete site 58920e130bbe4b2f703bd382');
-            console.log('');
-        })
-        .action(function (id, commands) {
-
-            var options = {
-                noconfirmation: commands.nc || false
-            };
-
-            that._site.deleteSite(id, options);
-        });
-
-        */
         this._program.command('phones', '<systemid>')
         .description("List all existing phones on a system")
         .option('-p, --page <number>', 'Display a specific page')

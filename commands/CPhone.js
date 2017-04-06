@@ -20,53 +20,17 @@ class CPhone {
         this._prefs = prefs;
     }
     
-    /*
-    _createSystem(token, name, siteId, pbxType, country) {
+    _getPhone(token, id, systemid) {
 
         return new Promise(function(resolve, reject) {
 
-            var data = {
-                name: name,
-                siteId: siteId,
-                type: pbxType,
-                country: country,
-                pbxMainBundlePrefix: ["0"]
-            };
-
-            NodeSDK.post('/api/rainbow/admin/v1.0/systems', token, data).then(function(json) {
+            NodeSDK.get('/api/rainbow/admin/v1.0/systems/' + systemid + "/phone-numbers/" + id, token).then(function(json) {
                 resolve(json);
             }).catch(function(err) {
                 reject(err);
             });
         });
     }
-    
-    _getSystem(token, id) {
-
-        return new Promise(function(resolve, reject) {
-
-            NodeSDK.get('/api/rainbow/admin/v1.0/systems/' + id, token).then(function(json) {
-                resolve(json);
-            }).catch(function(err) {
-                reject(err);
-            });
-        });
-    }
-
-    _deleteSystem(token, id) {
-
-        var that = this;
-
-        return new Promise(function(resolve, reject) {
-            NodeSDK.delete('/api/rainbow/admin/v1.0/systems/' + id, token).then(function(json) {
-                resolve(json);
-            }).catch(function(err) {
-                reject(err);
-            });
-            resolve();
-        });
-    }
-    */
 
     _getListOfPhones(token, systemid, options) {
 
@@ -98,81 +62,6 @@ class CPhone {
             });
         });
     }
-
-    /*
-    _linkSystem(token, systemid, siteid) {
-
-        return new Promise(function(resolve, reject) {
-
-            var data = {
-                systemId: systemid
-            };
-
-            NodeSDK.post('/api/rainbow/admin/v1.0/sites/' + siteid + "/systems", token, data).then(function(json) {
-                resolve(json);
-            }).catch(function(err) {
-                reject(err);
-            });
-        });
-    }
-
-    _unlinkSystem(token, systemid, siteid) {
-
-        return new Promise(function(resolve, reject) {
-
-            NodeSDK.delete('/api/rainbow/admin/v1.0/sites/' + siteid + "/systems/" + systemid, token).then(function(json) {
-                resolve(json);
-            }).catch(function(err) {
-                reject(err);
-            });
-        });
-    }
-    */
-
-    /*
-    deleteSystem(id, options) {
-        var that = this;
-
-        var doDelete = function(id) {
-            Screen.print("Request to delete system".white + " '".yellow + id.yellow + "'".yellow);
-            var status = new Spinner('In progress, please wait...');
-            status.start();
-            NodeSDK.start(that._prefs.account.email, that._prefs.account.password, that._prefs.rainbow).then(function() {
-                return that._deleteSystem(that._prefs.token, id);
-            }).then(function(json) {
-                status.stop();
-                Screen.print('');
-                Screen.success('System'.white + " '".yellow + id.yellow + "'".yellow + " has been successfully deleted.".white);
-            }).catch(function(err) {
-                status.stop();
-                Message.error(err);
-            });
-        }
-
-        Message.welcome();
-            
-        if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user);
-
-            if(options.noconfirmation) {
-                doDelete(id);
-            }
-            else {
-                Message.confirm('Are-you sure ? It will remove definitively this system').then(function(confirm) {
-                    if(confirm) {
-                        doDelete(id);
-                    }
-                    else {
-                        Message.canceled();
-                    }
-                });
-            }
-        }
-        else {
-            Message.notLoggedIn();
-        }
-    }
-    */
 
     getPhones(systemid, options) {
         var that = this;
@@ -267,8 +156,7 @@ class CPhone {
         }
     }
 
-    /*
-    getSystem(id) {
+    getPhone(id, systemid) {
         var that = this;
 
         Message.welcome();
@@ -276,11 +164,11 @@ class CPhone {
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs.user);
         
-            Screen.print("Request informaton for system".white + " '".yellow + id.yellow + "'".yellow);
+            Screen.print("Request informaton for phone".white + " '".yellow + id.yellow + "'".yellow);
             var status = new Spinner('In progress, please wait...');
             status.start();
             NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
-                return that._getSystem(that._prefs.token, id);
+                return that._getPhone(that._prefs.token, id, systemid);
             }).then(function(json) {
 
                 status.stop();
@@ -334,7 +222,7 @@ class CPhone {
                 var t = table(array);
                 Screen.table(t);
                 Screen.print('');
-                Screen.success('System information retrieved successfully.');
+                Screen.success('Phone information retrieved successfully.');
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
@@ -439,7 +327,6 @@ class CPhone {
             Message.notLoggedIn();
         }
     }
-    */
 }
 
 module.exports = CPhone;

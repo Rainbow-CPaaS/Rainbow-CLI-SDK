@@ -77,6 +77,7 @@ Here is the complete list of commands:
 | | **delete system** <id> | Delete an existing system |
 | | **link system** <id> <siteid> | Link a system to a site |
 | | **unlink system** <id> <siteid> | Unlink a system from a site |
+| Phone | **phone** <id> <systemid> | Display information about a phone |
 | Organization | **org** <id> | Display information about an organization |
 | | **create org** <name> | Create a new organization |
 | | **delete org** <id> | Delete an existing organization |
@@ -314,6 +315,15 @@ This command allows to unlink a system from a site. A system must be attached to
 
 ```bash
 $ rbw unlink system 58cd966fd45e61221b5714fc 58cd966fd45e61221b57645
+```
+
+
+### Command **PHONE**
+
+This command allows to retrieve information on a specific phone
+
+```bash
+$ rbw phone 58cd966fd45e61221b5711c0 58cd966fd45e61221b59876
 ```
 
 
