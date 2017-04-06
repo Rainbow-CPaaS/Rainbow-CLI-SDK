@@ -84,22 +84,30 @@ class Site {
             console.log('');
         })
         .action(function (commands) {
-            var page = 0;
-            if("page" in commands) {
-                if(commands.page > 1) {
-                    page = commands.page;
-                }
-            }
-        
-            if("max" in commands && commands.max) {
-                page = -1
-            }
-
             var options = {
-                page: page,
-                csv: commands.file || "",
-                company: commands.company || ""
+                csv: "",
+                company: ""
             };
+
+            if(typeof commands === "object") {
+
+                var page = 0;
+                if("page" in commands) {
+                    if(commands.page > 1) {
+                        page = commands.page;
+                    }
+                }
+            
+                if("max" in commands && commands.max) {
+                    page = -1
+                }
+
+                options = {
+                    page: page,
+                    csv: commands.file || "",
+                    company: commands.company || ""
+                };
+            }
 
             that._site.getSites(options);
         });

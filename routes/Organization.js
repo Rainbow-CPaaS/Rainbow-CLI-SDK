@@ -56,21 +56,29 @@ class Organization {
         .option('-m, --max', 'Display up to max result per page (max=1000)')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
         .action(function (commands) {
-            var page = 0;
-            if("page" in commands) {
-                if(commands.page > 1) {
-                    page = commands.page;
-                }
-            }
-        
-            if("max" in commands && commands.max) {
-                page = -1
-            }
 
             var options = {
-                page: page,
-                csv: commands.file || "",
+                csv: "",
             };
+
+            if(typeof commands === "object") {
+
+                var page = 0;
+                if("page" in commands) {
+                    if(commands.page > 1) {
+                        page = commands.page;
+                    }
+                }
+            
+                if("max" in commands && commands.max) {
+                    page = -1
+                }
+
+                options = {
+                    page: page,
+                    csv: commands.file || "",
+                };
+            }
 
             that._organization.getOrganizations(options);
         });

@@ -61,29 +61,39 @@ class User {
         .option('-f, --file <filename>', 'Print result to a file in CSV')
         .action(function (commands) {
 
-            var page = 0;
-            if("page" in commands) {
-                if(commands.page > 1) {
-                    page = commands.page;
-                }
-            }
-        
-            if("max" in commands && commands.max) {
-                page = -1
-            }
-
-            var format = "full";
-            if(commands.csv) {
-                format = "medium";
-            }
-
             var options = {
-                companyId: commands.company || "",
-                onlyTerminated: commands.terminated || false,
-                csv: commands.file || "",
-                page: page,
-                format: format
+                companyId:"",
+                onlyTerminated: false,
+                csv: "",
+                format: "full"
             };
+
+            if(typeof commands === "object") {
+
+                var page = 0;
+                if("page" in commands) {
+                    if(commands.page > 1) {
+                        page = commands.page;
+                    }
+                }
+            
+                if("max" in commands && commands.max) {
+                    page = -1
+                }
+
+                var format = "full";
+                if(commands.csv) {
+                    format = "medium";
+                }
+
+                options = {
+                    companyId: commands.company || "",
+                    onlyTerminated: commands.terminated || false,
+                    csv: commands.file || "",
+                    page: page,
+                    format: format
+                };
+            }
 
             that._user.getUsers(options);
         });

@@ -114,22 +114,30 @@ class System {
             console.log('');
         })
         .action(function (commands) {
-            var page = 0;
-            if("page" in commands) {
-                if(commands.page > 1) {
-                    page = commands.page;
-                }
-            }
-        
-            if("max" in commands && commands.max) {
-                page = -1
-            }
 
             var options = {
-                page: page,
-                csv: commands.file || "",
-                siteid: commands.site || ""
+                csv: "",
+                siteid: ""
             };
+
+            if(typeof commands === "object") {
+                var page = 0;
+                if("page" in commands) {
+                    if(commands.page > 1) {
+                        page = commands.page;
+                    }
+                }
+            
+                if("max" in commands && commands.max) {
+                    page = -1
+                }
+
+                options = {
+                    page: page,
+                    csv: commands.file || "",
+                    siteid: commands.site || ""
+                };
+            }
 
             that._system.getSystems(options);
         });

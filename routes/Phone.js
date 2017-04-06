@@ -83,21 +83,30 @@ class Phone {
             console.log('');
         })
         .action(function (systemid, commands) {
-            var page = 0;
-            if("page" in commands) {
-                if(commands.page > 1) {
-                    page = commands.page;
-                }
-            }
-        
-            if("max" in commands && commands.max) {
-                page = -1
-            }
 
             var options = {
-                page: page,
-                csv: commands.file || ""
+                csv: ""
             };
+
+            if(typeof commands === "object") {
+
+                var page = 0;
+                if("page" in commands) {
+                    if(commands.page > 1) {
+                        page = commands.page;
+                    }
+                }
+            
+                if("max" in commands && commands.max) {
+                    page = -1
+                }
+
+                options = {
+                    page: page,
+                    csv: commands.file || ""
+                };
+
+            }
 
             that._phone.getPhones(systemid, options);
         });

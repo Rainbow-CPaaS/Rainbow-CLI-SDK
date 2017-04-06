@@ -108,23 +108,32 @@ class Company {
         })
         .action(function (commands) {
 
-            var page = 0;
-            if("page" in commands) {
-                if(commands.page > 1) {
-                    page = commands.page;
-                }
-            }
-        
-            if("max" in commands && commands.max) {
-                page = -1
-            }
-
             var options = {
-                bp: commands.bp || false,
-                org: commands.org ? commands.org : "",
-                csv: commands.file || "",
-                page: page
+                bp: false,
+                org: "",
+                csv: ""
             };
+
+            if(typeof commands === "object") {
+
+                var page = 0;
+                if("page" in commands) {
+                    if(commands.page > 1) {
+                        page = commands.page;
+                    }
+                }
+            
+                if("max" in commands && commands.max) {
+                    page = -1
+                }
+
+                var options = {
+                    bp: commands.bp || false,
+                    org: commands.org ? commands.org : "",
+                    csv: commands.file || "",
+                    page: page
+                };
+            }
 
             that._company.getCompanies(options);
         });
