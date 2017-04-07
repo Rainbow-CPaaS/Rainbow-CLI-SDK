@@ -242,8 +242,14 @@ class CSystem {
                         var version = system.version || "";
                         var name = system.name || ""
                         var stats = system.status || "";
+                        if(stats !== "created") {
+                            stats = stats.yellow;
+                        }
+                        else {
+                            stats = stats.white;
+                        }
 
-                        array.push([ number.toString().white, name.cyan, version.white, stats.white, type.white, system.id.white]); 
+                        array.push([ number.toString().white, name.cyan, version.white, stats, type.white, system.id.white]); 
                     }
 
                     var t = table(array);
