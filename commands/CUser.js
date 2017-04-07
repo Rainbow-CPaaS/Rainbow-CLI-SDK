@@ -13,6 +13,7 @@ const Screen = require("../common/Print");
 const NodeSDK = require('../common/SDK');
 const Tools = require('../common/Tools');
 const Message = require('../common/Message');
+const Exit = require('../common/Exit');
 
 class CUser {
 
@@ -47,7 +48,6 @@ class CUser {
             }
 
             NodeSDK.get('/api/rainbow/admin/v1.0/users?format=' + format + '&isTerminated=' + options.onlyTerminated + company + offset + limit, token).then(function(json) {
-
                 resolve(json);
             }).catch(function(err) {
                 reject(err);
@@ -217,7 +217,7 @@ class CUser {
                         Screen.success("Successfully saved".white + " " + json.total.toString().magenta + " user(s) to".white + " '".white + options.csv.yellow + "'".white);
                     });
                     writeStream.on('error', function (err) {
-                        console.log('Error!', err);
+                        Exit.error();
                     });
                 }
                 else {
@@ -277,10 +277,12 @@ class CUser {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 
@@ -304,10 +306,12 @@ class CUser {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 
@@ -327,6 +331,7 @@ class CUser {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
         
@@ -351,6 +356,7 @@ class CUser {
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 
@@ -424,10 +430,12 @@ class CUser {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 
@@ -441,6 +449,7 @@ class CUser {
             
             if(!fs.existsSync(filePath)) {
                 Screen.error('File not found!');
+                Exit.error();
             }
             else {
                 Screen.print("Request to import".white + " '".yellow + filePath.yellow + "'".yellow);
@@ -451,11 +460,13 @@ class CUser {
                     Screen.success(json.nbUsers.toString().yellow + " users imported successfully.".white);
                 }).catch(function(err) {
                     Message.error(err);
+                    Exit.error();
                 });
             }
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 }

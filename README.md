@@ -48,6 +48,12 @@ Once the Rainbow CLI Application is installed, you have access to the following 
 $ rbw <command> [<option>...]
 ```
 
+Each command returns an exit status code:
+
+ - 0 if the command finished successfully
+
+ - 1 if the command failed
+
 Read the next paragraph for the complete list of available commands
 
 

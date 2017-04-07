@@ -18,7 +18,7 @@ var Screen = require('./common/Print');
 var prefs = null;
 
 start = function() {
-  
+
   // Get the prefs
   prefs = new Preferences('rainbow');
 

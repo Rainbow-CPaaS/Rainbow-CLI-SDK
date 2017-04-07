@@ -9,6 +9,7 @@ const Screen = require("../common/Print");
 const NodeSDK = require('../common/SDK');
 const Tools = require('../common/Tools');
 const Message = require('../common/Message');
+const Exit = require('../common/Exit');
 
 class CStatus {
 
@@ -76,10 +77,12 @@ class CStatus {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 }

@@ -12,6 +12,7 @@ const Screen = require("../common/Print");
 const NodeSDK = require('../common/SDK');
 const Tools = require('../common/Tools');
 const Message = require('../common/Message');
+const Exit = require('../common/Exit');
 
 class COrganization {
 
@@ -104,6 +105,7 @@ class COrganization {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
 
@@ -122,12 +124,14 @@ class COrganization {
                     }
                     else {
                         Message.canceled();
+                        Exit.error();
                     }
                 });
             }
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 
@@ -166,6 +170,7 @@ class COrganization {
                     });
                     writeStream.on('error', function (err) {
                         console.log('Error!', err);
+                        Exit.error();
                     });
                 }
                 else {
@@ -206,10 +211,12 @@ class COrganization {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 
@@ -283,10 +290,12 @@ class COrganization {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 
@@ -311,10 +320,12 @@ class COrganization {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 }

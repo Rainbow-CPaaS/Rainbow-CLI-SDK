@@ -13,6 +13,7 @@ const NodeSDK = require('../common/SDK');
 const Tools = require('../common/Tools');
 const Message = require('../common/Message');
 const Helper = require('../common/Helper');
+const Exit = require('../common/Exit');
 
 class CPhone {
 
@@ -143,10 +144,12 @@ class CPhone {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 
@@ -220,10 +223,12 @@ class CPhone {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 
@@ -242,6 +247,7 @@ class CPhone {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
 
@@ -263,6 +269,7 @@ class CPhone {
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 
@@ -287,10 +294,12 @@ class CPhone {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 
@@ -315,10 +324,12 @@ class CPhone {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 }

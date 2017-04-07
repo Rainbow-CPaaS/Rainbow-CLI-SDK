@@ -16,6 +16,3 @@ class Tools {
 }
 
 module.exports = new Tools();
-
-
-

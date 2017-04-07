@@ -13,6 +13,7 @@ const NodeSDK = require('../common/SDK');
 const Tools = require('../common/Tools');
 const Message = require('../common/Message');
 const Helper = require('../common/Helper');
+const Exit = require('../common/Exit');
 
 class CSystem {
 
@@ -144,6 +145,7 @@ class CSystem {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
 
@@ -162,12 +164,14 @@ class CSystem {
                     }
                     else {
                         Message.canceled();
+                        Exit.error();
                     }
                 });
             }
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 
@@ -207,6 +211,7 @@ class CSystem {
                     });
                     writeStream.on('error', function (err) {
                         console.log('Error!', err);
+                        Exit.error();
                     });
                 }
                 else {
@@ -254,10 +259,12 @@ class CSystem {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 
@@ -331,10 +338,12 @@ class CSystem {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 
@@ -353,6 +362,7 @@ class CSystem {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
 
@@ -374,6 +384,7 @@ class CSystem {
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 
@@ -398,10 +409,12 @@ class CSystem {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 
@@ -426,10 +439,12 @@ class CSystem {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 }

@@ -9,6 +9,7 @@ const Screen = require("../common/Print");
 const NodeSDK = require('../common/SDK');
 const Tools = require('../common/Tools');
 const Message = require('../common/Message');
+const Exit = require('../common/Exit');
 
 class CAccount {
 
@@ -96,10 +97,12 @@ class CAccount {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 
@@ -136,6 +139,7 @@ class CAccount {
         }).catch(function(err) {
             status.stop();
             Message.error(err);
+            Exit.error();
         });
     }
 
@@ -157,6 +161,7 @@ class CAccount {
         }
         else {
             Screen.error('You are not signed-in');
+            Exit.error();
         }
     }
     
