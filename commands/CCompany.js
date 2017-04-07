@@ -32,27 +32,21 @@ class CCompany {
                 filterToApply += "&isBP=true";
             }
 
-            NodeSDK.get('/api/rainbow/admin/v1.0/organisations?format=small', token).then(function(jsonO) {
+            NodeSDK.get('/api/rainbow/admin/v1.0/organisations?format=small&limit=1000', token).then(function(jsonO) {
                 var organisations = jsonO;
 
                 var offset = "";
-                if(options.page > -1) {
+                if(options.page > 0) {
                     offset = "&offset=";
                     if(options.page > 1) {
-                        offset += (25 * (options.page - 1));
+                        offset += (options.limit * (options.page - 1));
                     }
                     else {
                         offset +=0;
                     }
                 }
 
-                var limit = "";
-                if(options.page > -1) {
-                    limit = "&limit=25";
-                }
-                else {
-                    limit = "&limit=1000";
-                }
+                var limit = "&limit=" + Math.min(options.limit, 1000);
 
                 if(options.org) {
                     NodeSDK.get('/api/rainbow/admin/v1.0/organisations/' + options.org + '/companies?format=full' + filterToApply + offset + limit, token).then(function(jsonC) {
@@ -196,6 +190,7 @@ class CCompany {
             NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
                 return that._getListOfCompanies(that._prefs.token, options);
             }).then(function(json) {
+
                 status.stop();  
 
                 if(options.csv) {
@@ -262,8 +257,8 @@ class CCompany {
                         }
                         
                         var number = (i+1);
-                        if(options.page > 0) {
-                            number = ((options.page-1) * json.limit) + (i+1);
+                        if(Number(options.page) > 0) {
+                            number = ((Number(options.page)-1) * json.companies.limit) + (i+1);
                         }
 
                         array.push([ number.toString().white, company.name.cyan, offerType, visibility, active ,organisation, company.id.white]); 

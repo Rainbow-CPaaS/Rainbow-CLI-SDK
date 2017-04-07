@@ -101,7 +101,7 @@ class System {
         this._program.command('systems')
         .description("List all existing systems")
         .option('-p, --page <number>', 'Display a specific page')
-        .option('-m, --max', 'Display up to max result per page (max=1000)')
+        .option('-l, --limit <number>', 'Limit to a number of instances per page (max=1000')
         .option('-s, --site <siteid>', 'Limit to a site')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
         .on('--help', function(){
@@ -117,25 +117,31 @@ class System {
 
             var options = {
                 csv: "",
-                siteid: ""
+                siteid: "",
+                page: "1",
+                limit: "25"
             };
 
             if(typeof commands === "object") {
-                var page = 0;
+                var page = "1";
                 if("page" in commands) {
                     if(commands.page > 1) {
                         page = commands.page;
                     }
                 }
             
-                if("max" in commands && commands.max) {
-                    page = -1
+                var limit = "25";
+                if("limit" in commands && commands.limit) {
+                    if(commands.limit > 0) {
+                        limit = commands.limit;
+                    }
                 }
 
                 options = {
-                    page: page,
                     csv: commands.file || "",
-                    siteid: commands.site || ""
+                    siteid: commands.site || "",
+                    page: page,
+                    limit: limit
                 };
             }
 

@@ -93,7 +93,7 @@ class Company {
         this._program.command('companies')
         .description("List all existing companies")
         .option('-p, --page <number>', 'Display a specific page')
-        .option('-m, --max', 'Display up to max result per page (max=1000)')
+        .option('-l, --limit <number>', 'Limit to a number of instances per page (max=1000')
         .option('--bp', 'Filter only bp companies')
         .option('-o, --org <id>', 'Filter on an organization')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
@@ -111,27 +111,33 @@ class Company {
             var options = {
                 bp: false,
                 org: "",
-                csv: ""
+                csv: "",
+                page: "1",
+                limit: "25"
             };
 
             if(typeof commands === "object") {
 
-                var page = 0;
+                var page = "1";
                 if("page" in commands) {
                     if(commands.page > 1) {
                         page = commands.page;
                     }
                 }
-            
-                if("max" in commands && commands.max) {
-                    page = -1
+
+                var limit = "25";
+                if("limit" in commands && commands.limit) {
+                    if(commands.limit > 0) {
+                        limit = commands.limit;
+                    }
                 }
 
                 var options = {
                     bp: commands.bp || false,
                     org: commands.org ? commands.org : "",
                     csv: commands.file || "",
-                    page: page
+                    page: page,
+                    limit: limit
                 };
             }
 

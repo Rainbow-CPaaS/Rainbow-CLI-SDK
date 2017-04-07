@@ -55,7 +55,7 @@ class User {
         this._program.command('users')
         .description("List the users")
         .option('-p, --page <number>', 'Display a specific page')
-        .option('-m, --max', 'Display up to max result per page (1000)')
+        .option('-l, --limit <number>', 'Limit to a number of instances per page (max=1000)')
         .option('-t, --terminated', 'Limit to terminated users')
         .option('-c, --company <id>', 'limit to company')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
@@ -65,20 +65,25 @@ class User {
                 companyId:"",
                 onlyTerminated: false,
                 csv: "",
-                format: "full"
+                format: "full",
+                page: "1",
+                limit: "25"
             };
 
             if(typeof commands === "object") {
 
-                var page = 0;
+                var page = "1";
                 if("page" in commands) {
                     if(commands.page > 1) {
                         page = commands.page;
                     }
                 }
             
-                if("max" in commands && commands.max) {
-                    page = -1
+                var limit = "25";
+                if("limit" in commands && commands.limit) {
+                    if(commands.limit > 0) {
+                        limit = commands.limit;
+                    }
                 }
 
                 var format = "full";
@@ -90,8 +95,9 @@ class User {
                     companyId: commands.company || "",
                     onlyTerminated: commands.terminated || false,
                     csv: commands.file || "",
+                    format: format,
                     page: page,
-                    format: format
+                    limit: limit
                 };
             }
 

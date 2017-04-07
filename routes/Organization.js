@@ -53,30 +53,36 @@ class Organization {
         this._program.command('orgs')
         .description("List all existing organizations")
         .option('-p, --page <number>', 'Display a specific page')
-        .option('-m, --max', 'Display up to max result per page (max=1000)')
+        .option('-l, --limit <number>', 'Limit to a number of instances per page (max=1000')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
         .action(function (commands) {
 
             var options = {
                 csv: "",
+                page: "1",
+                limit: "25"
             };
 
             if(typeof commands === "object") {
 
-                var page = 0;
+                var page = "1";
                 if("page" in commands) {
                     if(commands.page > 1) {
                         page = commands.page;
                     }
                 }
             
-                if("max" in commands && commands.max) {
-                    page = -1
+                var limit = "25";
+                if("limit" in commands && commands.limit) {
+                    if(commands.limit > 0) {
+                        limit = commands.limit;
+                    }
                 }
 
                 options = {
-                    page: page,
                     csv: commands.file || "",
+                    page: page,
+                    limit: limit
                 };
             }
 

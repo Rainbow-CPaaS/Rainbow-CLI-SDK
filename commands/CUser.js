@@ -24,23 +24,17 @@ class CUser {
         return new Promise(function(resolve, reject) {
 
             var offset = "";
-            if(options.page > -1) {
+            if(options.page > 0) {
                 offset = "&offset=";
                 if(options.page > 1) {
-                    offset += (25 * (options.page - 1));
+                    offset += (options.limit * (options.page - 1));
                 }
                 else {
                     offset +=0;
                 }
             }
 
-            var limit = "";
-            if(options.page > -1) {
-                limit = "&limit=25";
-            }
-            else {
-                limit = "&limit=1000";
-            }
+            var limit = "&limit=" + Math.min(options.limit, 1000);
 
             var company = "";
             if(options.companyId) {
