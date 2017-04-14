@@ -9,6 +9,7 @@ const Screen = require("../common/Print");
 const NodeSDK = require('../common/SDK');
 const Tools = require('../common/Tools');
 const Message = require('../common/Message');
+const Exit = require('../common/Exit');
 
 var CUser = require('./CUser');
 
@@ -26,7 +27,8 @@ class CFree {
         return new Promise(function(resolve, reject) {
 
             var options = {
-                page: -1,
+                page: 1,
+                limit: 1000,
                 onlyTerminated: false,
                 companyId: id,
                 format: 'small'
@@ -81,6 +83,7 @@ class CFree {
                 Screen.success(json.nbDeleted.toString().yellow + ' user(s) deleted.');
             }).catch(function(err) {
                 Message.error(err);
+                Exit.error();
             });
         }
         else {

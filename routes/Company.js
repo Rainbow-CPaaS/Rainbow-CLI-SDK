@@ -49,7 +49,7 @@ class Company {
         this._program.command('delete company', '<id>')
         .description("Delete an existing company")
         .option('--nc', 'Do not ask confirmation')
-        .option('-f, --force', 'Do not ask confirmation')
+        .option('-f, --force', 'Force to remove the company and the users if exist')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');

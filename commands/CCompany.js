@@ -12,6 +12,7 @@ const Screen = require("../common/Print");
 const NodeSDK = require('../common/SDK');
 const Tools = require('../common/Tools');
 const Message = require('../common/Message');
+const Exit = require('../common/Exit');
 
 const CFree = require('./CFree');
 
@@ -211,6 +212,7 @@ class CCompany {
                     });
                     writeStream.on('error', function (err) {
                         console.log('Error!', err);
+                        Exit.error();
                     });
                 }
                 else {
@@ -272,10 +274,12 @@ class CCompany {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 
@@ -287,27 +291,24 @@ class CCompany {
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs.user);
         
-            if ((typeof name !== 'string') || (name.length === 0)) {
-                Screen.error('A company name is required');
-            }
-            else {
-                Screen.print("Request to create company".white + " '".yellow + name.yellow + "'".yellow);
-                var status = new Spinner('In progress, please wait...');
-                status.start();
-                NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
-                    return that._createCompany(that._prefs.token, name);
-                }).then(function(json) {
-                    status.stop();
-                    Screen.print('');
-                    Screen.success('Company'.white + " '".yellow + name.yellow + "'".yellow + " has been successfully created and associated to ID ".white + json.data.id.cyan);
-                }).catch(function(err) {
-                    status.stop();
-                    Message.error(err);
-                });
-            }
+            Screen.print("Request to create company".white + " '".yellow + name.yellow + "'".yellow);
+            var status = new Spinner('In progress, please wait...');
+            status.start();
+            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+                return that._createCompany(that._prefs.token, name);
+            }).then(function(json) {
+                status.stop();
+                Screen.print('');
+                Screen.success('Company'.white + " '".yellow + name.yellow + "'".yellow + " has been successfully created and associated to ID ".white + json.data.id.cyan);
+            }).catch(function(err) {
+                status.stop();
+                Message.error(err);
+                Exit.error();
+            });
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 
@@ -323,6 +324,7 @@ class CCompany {
                 Screen.success('Company'.white + " '".yellow + id.yellow + "'".yellow + " has been successfully deleted.".white);
             }).catch(function(err) {
                 Message.error(err);
+                Exit.error();
             });
         }
 
@@ -341,12 +343,14 @@ class CCompany {
                     }
                     else {
                         Message.canceled();
+                        Exit.error();
                     }
                 });
             }
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 
@@ -370,10 +374,12 @@ class CCompany {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 
@@ -397,10 +403,12 @@ class CCompany {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 
@@ -474,10 +482,12 @@ class CCompany {
             }).catch(function(err) {
                 status.stop();
                 Message.error(err);
+                Exit.error();
             });
         }
         else {
             Message.notLoggedIn();
+            Exit.error();
         }
     }
 }
