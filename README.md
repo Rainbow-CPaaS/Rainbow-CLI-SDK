@@ -1,25 +1,29 @@
-ALE Rainbow CLI Application
+ALE Rainbow CLI application
 ===========================
 
-Welcome to the Alcatel-Lucent Enterprise **Rainbow CLI Application**!
+Welcome to the Alcatel-Lucent Enterprise **Rainbow CLI application**!
 
-The Alcatel-Lucent Enterprise (ALE) Rainbow CLI Application is an npm package for connecting to Rainbow and do administrative tasks.
+The Alcatel-Lucent Enterprise (ALE) Rainbow CLI application is an npm package for connecting to Rainbow and do administrative tasks.
 
 
 ## Preamble
 
-This Rainbow CLI Application is a pure JavaScript library based on the Rainbow SDK for Node.js. 
+This Rainbow CLI application is a pure JavaScript library based on the Rainbow SDK for Node.js. 
 
 Its powerfull CLI commands enable you to connect to Alcatel-Lucent Enterprise [Rainbow](https://www.openrainbow.com) and do a lot of administrative tasks.
 
 This documentation will help you to use it.
+
+You need to have Node.JS (stable release) installed on your computer.
+
+THe Rainbow CLI application works on Windows, MacOSX and Linux platforms.
 
 
 ## Rainbow account
 
 Your need a **Rainbow** account in order to use the Rainbow CLI Application for Node.js. Most of the administrative commands need an **admin** or **superadmin** role.
 
-You can test it on the **Sandbox Developer Platform**. Please contact the Rainbow [support](mailto:support@openrainbow.com) team if you need one.
+You can test it on the **Sandbox Developer Platform** or and Rainbow official if you have an admin role for your company or your organizatioh. Please contact the Rainbow [support](mailto:support@openrainbow.com) team if you need an account on the Sandbox Developer Platform.
 
 
 ## Beta disclaimer
