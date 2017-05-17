@@ -342,7 +342,7 @@ $ rbw phone 58cd966fd45e61221b5711c0 58cd966fd45e61221b59876
 This command allows to retrieve information on a specific organization
 
 ```bash
-$ rbw organization 58cd966fd45e61221b5711c0
+$ rbw org 58cd966fd45e61221b5711c0
 ```
 
 
@@ -351,7 +351,7 @@ $ rbw organization 58cd966fd45e61221b5711c0
 This command allows to create a new organization
 
 ```bash
-$ rbw create organization "My New organization"
+$ rbw create org "My New organization"
 ```
 
 
@@ -360,7 +360,7 @@ $ rbw create organization "My New organization"
 This command allows to delete an existing organization
 
 ```bash
-$ rbw delete organization 58cd966fd45e61221b5711c0
+$ rbw delete org 58cd966fd45e61221b5711c0
 ```
 
 An organization can be deleted without having to confirm
