@@ -109,7 +109,7 @@ This command allows to log-in to Rainbow
 $ rbw login "rford@westworld.com" "Password_12345"
 ```
 
-By default the connection is done on the sandbox platform. To log to another Rainbow platform, simply add the option **--host** followed by the hostname where you want to connect:
+By default the connection is done on the sandbox platform. To log to another Rainbow platform, simply add the option `--host` followed by the hostname where you want to connect:
 
 ```bash
 $ rbw login "rford@westworld.com" "Password_12345" --host "openrainbow.com"
@@ -127,7 +127,7 @@ $ rbw logout
 ```
 
 
-By default the connection is done on the sandbox platform. To log to the official Rainbow platform, simply add the option **--official**
+By default the connection is done on the sandbox platform. To log to the official Rainbow platform, simply add the option `--official`
 
 Once this command is done, you're connected to Rainbow and you can launch other commands until your session expires.
 
@@ -159,6 +159,13 @@ The following example creates a user in a specific company
 ```bash
 $ rbw create "jdoe@mycompany.com" "Password_123" "John" "Doe" -c 58cd966fd45e61221b5711c0
 ```
+
+Using the argument `--admin`, you can create a user with admin right (depending your roles and company profile)
+
+```bash
+$ rbw create "jdoe@mycompany.com" "Password_123" "John" "Doe" -c 58cd966fd45e61221b5711c0 --admin
+```
+
 
 
 ### Command **DELETE**
@@ -378,7 +385,7 @@ This command allows to list all the existing users (limited to your admin right)
 $ rbw users
 ```
 
-If there is more that 25 instances, the result is paginated. use the option **--limit** to display up to 1000 results per page and the option **--page** to display a specific page
+If there is more that 25 instances, the result is paginated. use the option `--limit` to display up to 1000 results per page and the option `--page` to display a specific page
 
 ```bash
 $ rbw users --page 4
@@ -404,13 +411,13 @@ This command allows to list all the existing companies (limited to your admin ri
 $ rbw companies
 ```
 
-The list of companies can be filtered to limit to **BP** companies
+The list of companies can be filtered to limit to BP companies
 
 ```bash
 $ rbw companies --bp
 ```
 
-The options **--limit** and **--page** can be used in case of a large number of companies found
+The options `--limit` and `--page` can be used in case of a large number of companies found
 
 
 ### Command **SITES**
@@ -427,7 +434,7 @@ Sites can be exported to a CSV file
 $ rbw sites --file "sites.csv"
 ```
 
-The options **--limit** and **--page** can be used in case of a large number of sites found
+The options `--limit` and `--page` can be used in case of a large number of sites found
 
 
 ### Command **SYSTEMS**
@@ -444,7 +451,7 @@ Sites can be exported to a CSV file
 $ rbw systems --file "systems.csv"
 ```
 
-The options **--limit** and **--page** can be used in case of a large number of systems found
+The options `--limit` and `--page` can be used in case of a large number of systems found
 
 
 ### Command **PHONES**
@@ -461,7 +468,7 @@ Phones can be exported to a CSV file
 $ rbw phones 58cd966fd45e61221b5711c0 --file "systems.csv"
 ```
 
-The options **--limit** and **--page** can be used in case of a large number of phones found
+The options `--limit` and `--page` can be used in case of a large number of phones found
 
 
 ### Command **ORGS**
@@ -478,7 +485,7 @@ Organizations can be exported to a CSV file
 $ rbw orgs --file "orgs.csv"
 ```
 
-The options **--limit** and **--page** can be used in case of a large number of organizations found
+The options `--limit` and `--page` can be used in case of a large number of organizations found
 
 
 ### Command **STATUS**
