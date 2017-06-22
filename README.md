@@ -209,7 +209,7 @@ $ rbw delete company 58cd966fddfd61221b57145f --nc
 If the company contains users, add the following parameter to remove the users first and then remove the company
 
 ```bash
-$ rbw delete 58cd966fddfd61221b57145f --nc --force
+$ rbw delete company 58cd966fddfd61221b57145f --nc --force
 ```
 
 
