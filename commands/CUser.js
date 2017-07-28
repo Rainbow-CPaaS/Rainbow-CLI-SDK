@@ -254,8 +254,9 @@ class CUser {
                         }
 
                         var name = "";
-                        if(users[i].lastName && users[i].firstName) {
-                            name = users[i].lastName + " " + users[i].firstName;
+                        name = users[i].displayName;
+                        if(!name) {
+                            name = users[i].firstName + " " +users[i].lastName;
                         }
 
                         var number = (i+1);
