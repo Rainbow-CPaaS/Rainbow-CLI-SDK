@@ -90,11 +90,34 @@ class Company {
             that._company.unlinkCompany(id);
         });
 
+        this._program.command("find companies", "<name>")
+        .description("Find companies by name")
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw find company "my comp"');
+            console.log('');
+        })
+        .action(function (name) {
+
+            var options = {
+                bp: false,
+                name: name,
+                org: "",
+                csv: "",
+                page: "1",
+                limit: "20"
+            };
+
+            that._company.getCompanies(options);
+        });
+
         this._program.command('companies')
         .description("List all existing companies")
         .option('-p, --page <number>', 'Display a specific page')
         .option('-l, --limit <number>', 'Limit to a number of instances per page (max=1000')
         .option('--bp', 'Filter only bp companies')
+        .option('--name <name>', 'Filter by company name')
         .option('-o, --org <id>', 'Filter on an organization')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
         .on('--help', function(){
@@ -103,6 +126,7 @@ class Company {
             console.log('    $ rbw companies');
             console.log('    $ rbw companies -p 3');
             console.log('    $ rbw companies --org 57ea7475d78f3ba5aae98935');
+            console.log('    $ rbw companies --name "Rainbow"');
             console.log('    $ rbw companies --file output.csv');
             console.log('');
         })
@@ -137,6 +161,7 @@ class Company {
                     org: commands.org ? commands.org : "",
                     csv: commands.file || "",
                     page: page,
+                    name: commands.name || null,
                     limit: limit
                 };
             }

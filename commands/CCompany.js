@@ -33,6 +33,10 @@ class CCompany {
                 filterToApply += "&isBP=true";
             }
 
+            if(options.name) {
+                filterToApply += "&name=" + options.name;
+            }
+
             NodeSDK.get('/api/rainbow/admin/v1.0/organisations?format=small&limit=1000', token).then(function(jsonO) {
                 var organisations = jsonO;
 
