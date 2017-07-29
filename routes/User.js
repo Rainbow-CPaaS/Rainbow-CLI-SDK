@@ -56,8 +56,9 @@ class User {
         .description("List the users")
         .option('-p, --page <number>', 'Display a specific page')
         .option('-l, --limit <number>', 'Limit to a number of instances per page (max=1000)')
-        .option('-t, --terminated', 'Limit to terminated users')
-        .option('-c, --company <id>', 'limit to company')
+        .option('-t, --terminated', 'Filter to terminated users')
+        .option('-c, --company <id>', 'Filter to users from a company')
+        .option('-n, --name <name>', 'Filter to users with a given name (firstname lastname)')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
         .action(function (commands) {
 
@@ -67,6 +68,7 @@ class User {
                 csv: "",
                 format: "full",
                 page: "1",
+                name: null,
                 limit: "25"
             };
 
@@ -96,6 +98,7 @@ class User {
                     onlyTerminated: commands.terminated || false,
                     csv: commands.file || "",
                     format: format,
+                    name: commands.name || null,
                     page: page,
                     limit: limit
                 };

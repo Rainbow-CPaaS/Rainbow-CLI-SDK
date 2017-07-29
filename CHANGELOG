@@ -2,6 +2,21 @@
 
 Here is the list of the changes and features provided by the Rainbow-CLI
 
+All notable changes to Rainbow-CLI will be documented in this file.
+
+### [0.8.0] - 2017-08-15
+---
+
+#### Added
+---
+* Filter companies by name (command: rainbow companies --name "...")
+* Filter users by name (command: rainbow users --name "...")
+
+#### Changed
+---
+* Order list of users by display name (firstname lastname)
+
+
 ### v0.7.5
 
  - [PHONES] List the phones number of a system

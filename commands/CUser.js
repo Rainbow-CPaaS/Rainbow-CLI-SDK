@@ -24,30 +24,42 @@ class CUser {
     _getUsers(token, options) {
         return new Promise(function(resolve, reject) {
 
-            var offset = "";
+            var filterToApply = "format=full";
+
+            if(options.format) {
+                filterToApply = "format=" + options.format;
+            }
+
             if(options.page > 0) {
-                offset = "&offset=";
+                filterToApply += "&offset=";
                 if(options.page > 1) {
-                    offset += (options.limit * (options.page - 1));
+                    filterToApply += (options.limit * (options.page - 1));
                 }
                 else {
-                    offset +=0;
+                    filterToApply +=0;
                 }
             }
 
-            var limit = "&limit=" + Math.min(options.limit, 1000);
+            filterToApply += "&limit=" + Math.min(options.limit, 1000);
 
-            var company = "";
             if(options.companyId) {
-                company = "&companyId=" + options.companyId;
+                filterToApply += "&companyId=" + options.companyId;
             }
 
-            var format = "full";
-            if(options.format) {
-                format = options.format;
+            if(options.name) {
+                filterToApply += "&displayName=" + options.name;
             }
 
-            NodeSDK.get('/api/rainbow/admin/v1.0/users?format=' + format + '&isTerminated=' + options.onlyTerminated + company + offset + limit, token).then(function(json) {
+            if(options.onlyTerminated) {
+                filterToApply += "&isTerminated=true";
+            }
+            else {
+                filterToApply += "&isTerminated=false";
+            }
+
+            console.log("FILTER", filterToApply);
+
+            NodeSDK.get('/api/rainbow/admin/v1.0/users?' + filterToApply, token).then(function(json) {
                 resolve(json);
             }).catch(function(err) {
                 reject(err);

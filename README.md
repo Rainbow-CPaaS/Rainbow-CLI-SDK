@@ -392,10 +392,16 @@ If there is more that 25 instances, the result is paginated. use the option `--l
 $ rbw users --page 4
 ```
 
-The list can be restricted to a company
+The list of users can be restricted to a company
 
 ```bash
 $ rbw users -c 58cd966fd45e61221b5711c0
+```
+
+The list of users can be filtered by name
+
+```bash
+$ rbw companies --name "smith"
 ```
 
 Finally, this list of users can be exported to a CSV file (with a limited set of attributes for each user)
@@ -418,7 +424,7 @@ The list of companies can be filtered to limit to BP companies
 $ rbw companies --bp
 ```
 
-The list of companies can be filtered to name
+The list of companies can be filtered by name
 
 ```bash
 $ rbw companies --name "Rainbow"
