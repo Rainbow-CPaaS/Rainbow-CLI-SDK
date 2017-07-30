@@ -1,4 +1,4 @@
-ALE Rainbow CLI application
+# ALE Rainbow CLI application
 ===========================
 
 Welcome to the Alcatel-Lucent Enterprise **Rainbow CLI application**!
@@ -7,6 +7,7 @@ The Alcatel-Lucent Enterprise (ALE) Rainbow CLI application is an npm package fo
 
 
 ## Preamble
+---
 
 This Rainbow CLI application is a pure JavaScript library based on the Rainbow SDK for Node.js. 
 
@@ -20,6 +21,7 @@ THe Rainbow CLI application works on Windows, MacOSX and Linux platforms.
 
 
 ## Rainbow account
+---
 
 Your need a **Rainbow** account in order to use the Rainbow CLI Application for Node.js. Most of the administrative commands need an **admin** or **superadmin** role.
 
@@ -27,6 +29,7 @@ You can test it on the **Sandbox Developer Platform** or and Rainbow official if
 
 
 ## Beta disclaimer
+---
 
 Please note that this is a Beta version of the Rainbow CLI Application for Node.js which is still undergoing final testing before its official release. The Rainbow CLI Application for Node.js and the documentation are provided on a "as is" and "as available" basis. Before releasing the official release, all these content can change depending on the feedback we receive in one hand and the developpement of the Rainbow official product in the other hand.
 
@@ -36,6 +39,7 @@ If you encounter any bugs, lack of functionality or other problems regarding the
 
 
 ## Install
+---
 
 You need to install the Rainbow CLI Application globally on your computer in order to be able to launch it from any directories.
 
@@ -45,6 +49,7 @@ $ npm install -g rainbow-cli
 
 
 ## Usage
+---
 
 Once the Rainbow CLI Application is installed, you have access to the following command:
 
@@ -62,6 +67,7 @@ Read the next paragraph for the complete list of available commands
 
 
 ## Commands
+---
 
 Here is the complete list of commands:
 
@@ -103,6 +109,7 @@ Here is the complete list of commands:
 
 
 ### Command **LOGIN**
+---
 
 This command allows to log-in to Rainbow
 
@@ -120,6 +127,7 @@ Once this command is done, you're connected to Rainbow and you can launch other 
 
 
 ### Command **LOGOUT**
+---
 
 This command allows to log-out from Rainbow
 
@@ -134,6 +142,7 @@ Once this command is done, you're connected to Rainbow and you can launch other 
 
 
 ### Command **WHOAMI**
+---
 
 This command allows to retrieve information on the connected user
 
@@ -143,6 +152,7 @@ $ rbw whoami
 
 
 ### Command **USER**
+---
 
 This command allows to retrieve information on a specific user
 
@@ -152,6 +162,7 @@ $ rbw user 58cd966fd45e61221b57576c0
 
 
 ### Command **CREATE**
+---
 
 This command allows to create a new user
 
@@ -168,8 +179,8 @@ $ rbw create "jdoe@mycompany.com" "Password_123" "John" "Doe" -c 58cd966fd45e612
 ```
 
 
-
 ### Command **DELETE**
+---
 
 This command allows to delete an existing user
 
@@ -185,6 +196,7 @@ $ rbw delete 58cd966fddfd61221b57145f --nc
 
 
 ### Command **COMPANY**
+---
 
 This command allows to retrieve information on a specific company
 
@@ -194,6 +206,7 @@ $ rbw company 58cd966fd45e61221b5711c0
 
 
 ### Command **DELETE COMPANY**
+---
 
 This command allows to delete an existing company
 
@@ -215,6 +228,7 @@ $ rbw delete company 58cd966fddfd61221b57145f --nc --force
 
 
 ### Command **CREATE COMPANY**
+---
 
 This command allows to create a new company
 
@@ -233,6 +247,7 @@ $ rbw free company 58cd966fd45e61221b5711c0
 
 
 ### Command **LINK COMPANY**
+---
 
 This command allows to link a company to an organization
 
@@ -242,6 +257,7 @@ $ rbw link company 58cd966fd45e61221b5711c0 58cd966fddfd61221b57145f
 
 
 ### Command **UNLINK COMPANY**
+---
 
 This command allows to unlink a company from its organization
 
@@ -251,6 +267,7 @@ $ rbw unlink company 58cd966fd45e61221b5711c0
 
 
 ### Command **SITE**
+---
 
 This command allows to retrieve information on a specific site
 
@@ -260,6 +277,7 @@ $ rbw site 58cd966fd45e61221b5711c0
 
 
 ### Command **DELETE SITE**
+---
 
 This command allows to delete an existing site
 
@@ -275,6 +293,7 @@ $ rbw delete site 58cd966fd45e61221b5711c0 --nc
 
 
 ### Command **CREATE SITE**
+---
 
 This command allows to create a new site. You have to specify the company id where to create this site.
 
@@ -284,6 +303,7 @@ $ rbw create site "My New site" 58cd966fd45e61221b5714fc
 
 
 ### Command **SYSTEM**
+---
 
 This command allows to retrieve information on a specific system
 
@@ -293,6 +313,7 @@ $ rbw system 58cd966fd45e61221b575423
 
 
 ### Command **DELETE SYSTEM**
+---
 
 This command allows to delete an existing system
 
@@ -308,6 +329,7 @@ $ rbw delete system 58cd966fd45e61221b571445 --nc
 
 
 ### Command **CREATE SYSTEM**
+---
 
 This command allows to create a new system. You have to specify the site id where to create this site and a name.
 
@@ -319,6 +341,7 @@ Then the system will ask to choice a type of system to create and the country as
 
 
 ### Command **LINK SYSTEM**
+---
 
 This command allows to link a system to an other site. A system can be share with several sites.
 
@@ -328,6 +351,7 @@ $ rbw link system 58cd966fd45e61221b5714fc 58cd966fd45e61221b57645
 
 
 ### Command **UNLINK SYSTEM**
+---
 
 This command allows to unlink a system from a site. A system must be attached to at least one site.
 
@@ -337,6 +361,7 @@ $ rbw unlink system 58cd966fd45e61221b5714fc 58cd966fd45e61221b57645
 
 
 ### Command **PHONE**
+---
 
 This command allows to retrieve information on a specific phone
 
@@ -346,6 +371,7 @@ $ rbw phone 58cd966fd45e61221b5711c0 58cd966fd45e61221b59876
 
 
 ### Command **ORG**
+---
 
 This command allows to retrieve information on a specific organization
 
@@ -355,6 +381,7 @@ $ rbw org 58cd966fd45e61221b5711c0
 
 
 ### Command **CREATE ORG**
+---
 
 This command allows to create a new organization
 
@@ -364,6 +391,7 @@ $ rbw create org "My New organization"
 
 
 ### Command **DELETE ORG**
+---
 
 This command allows to delete an existing organization
 
@@ -379,6 +407,7 @@ $ rbw delete org 58cd966fd45e61221b5711c0 --nc
 
 
 ### Command **USERS**
+---
 
 This command allows to list all the existing users (limited to your admin right)
 
@@ -395,7 +424,13 @@ $ rbw users --page 4
 The list of users can be restricted to a company
 
 ```bash
-$ rbw users -c 58cd966fd45e61221b5711c0
+$ rbw users --cid 58cd966fd45e61221b5711c0
+```
+
+The list of users can be restricted to a company name
+
+```bash
+$ rbw users -company "myCompany"
 ```
 
 The list of users can be filtered by name
@@ -411,6 +446,7 @@ $ rbw users -c 58cd966fd45e61221b5711c0 --file "export.csv"
 ```
 
 ### Command **COMPANIES**
+---
 
 This command allows to list all the existing companies (limited to your admin right)
 
@@ -434,6 +470,7 @@ The options `--limit` and `--page` can be used in case of a large number of comp
 
 
 ### Command **FIND COMPANIES**
+---
 
 This command allows to filter companies by name (same as companies --name).
 
@@ -443,6 +480,7 @@ $ rbw find companies "Rainbow"
 
 
 ### Command **SITES**
+---
 
 This command allows to list all the existing sites (limited to your admin right)
 
@@ -460,6 +498,7 @@ The options `--limit` and `--page` can be used in case of a large number of site
 
 
 ### Command **SYSTEMS**
+---
 
 This command allows to list all the existing systems (limited to your admin right)
 
@@ -477,6 +516,7 @@ The options `--limit` and `--page` can be used in case of a large number of syst
 
 
 ### Command **PHONES**
+---
 
 This command allows to list all the existing phones of a system (limited to your admin right)
 
@@ -494,6 +534,7 @@ The options `--limit` and `--page` can be used in case of a large number of phon
 
 
 ### Command **ORGS**
+---
 
 This command allows to list all the existing organizations (limited to your admin right)
 
@@ -511,6 +552,7 @@ The options `--limit` and `--page` can be used in case of a large number of orga
 
 
 ### Command **STATUS**
+---
 
 This command allows to retrieve the status of the Rainbow Services
 
@@ -519,6 +561,7 @@ $ rbw status
 ```
 
 ### Command **IMPORT**
+---
 
 This command allows to import a CSV file containing a list of users to a company
 

@@ -9,26 +9,56 @@ class Message {
     constructor() {
     }
 
-    welcome() {
+    _shouldDisplayOutput(options) {
+        if (options && ("noOutput" in options)) {
+            return !options.noOutput
+        }
+
+        return true;
+    }
+
+    welcome(options) {
+        if(!this._shouldDisplayOutput(options)) {
+            return;
+        }
+
         Screen.print('Welcome to '.white + 'Rainbow CLI'.rainbow);
     }
 
-    loggedin(user) {
+    loggedin(user, options) {
+        if(!this._shouldDisplayOutput(options)) {
+            return;
+        }
+
         Screen.print('You are logged in as'.grey + " " + user.loginEmail.magenta);
         Screen.print('With the roles of'.grey + " " + user.roles.join(' | ').cyan);
         Screen.print('');
     }
 
-    notLoggedIn() {
+    notLoggedIn(options) {
+        if(!this._shouldDisplayOutput(options)) {
+            return;
+        }
+
         Screen.error('Please, you have to log-in before executing other commands');
     }
 
-    canceled() {
+    canceled(options) {
+        if(!this._shouldDisplayOutput(options)) {
+            return;
+        }
+
         Screen.print('Your command has been canceled');
         Screen.print('');
     }
 
-    error(err) {
+    error(err, options) {
+        if(!this._shouldDisplayOutput(options)) {
+            var out = new Buffer.from(JSON.stringify(err));
+            process.stdout.write(out);
+            return;
+        }
+
         Screen.print('');
         Screen.error("Can't execute the command".white);
         if(!err) {

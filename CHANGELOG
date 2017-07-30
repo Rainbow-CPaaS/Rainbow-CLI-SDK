@@ -9,12 +9,14 @@ All notable changes to Rainbow-CLI will be documented in this file.
 
 #### Added
 ---
-* Filter companies by name (command: rainbow companies --name "...")
-* Filter users by name (command: rainbow users --name "...")
+* Filter companies by name using command: `rbw companies --name "..."`
+* Filter users by name using command: `rbw users --name "..."`
+* Filter users by company name using command: `rbw users --company "..."`
 
 #### Changed
 ---
 * Order list of users by display name (firstname lastname)
+* [Compatibility Break] Filter users by company id using command: `rbw users --cid "..."` instead of `rbw users -c "..."`
 
 
 ### v0.7.5
