@@ -200,115 +200,47 @@ class CUser {
     getUsers(options) {
         var that = this;
 
-        Message.welcome();
+        Message.welcome(options);
 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user);
+            Message.loggedin(this._prefs.user, options);
 
             if(!options.csv) {
-                Screen.print("Current users:".white);
+                Message.action("List users", null, options);
             }
-            var status = new Spinner('In progress, please wait...');
-            status.start();
-            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+            let spin = Message.spin(options);
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
                 return that._getUsers(that._prefs.token, options);
             }).then(function(json) {
-                status.stop();
-                if(options.csv) {
-                    let stringify = csv.stringify;
-                    var writeStream = fs.createWriteStream(options.csv, { flags : 'w' });
+                
+                Message.unspin(spin);
 
-                    stringify(json.data, {
-                        formatters: {
-                            date: function(value) {
-                                return moment(value).format('YYYY-MM-DD');
-                            }
-                        },
-                        delimiter: ";",
-                        header: true
-                    }).pipe(writeStream);
-                    writeStream.on('close', function () {
-                        Screen.success("Successfully saved".white + " " + json.total.toString().magenta + " user(s) to".white + " '".white + options.csv.yellow + "'".white);
-                    });
-                    writeStream.on('error', function (err) {
+                if(options.csv) {
+                    Message.csv(options.csv, json.data).then(() => {
+                    }).catch((err) => {
                         Exit.error();
                     });
+                }
+                else if(options.noOutput) {
+                    Message.out(json.data);
                 }
                 else {
 
                     if(json.total > json.limit) {
-                        var page = Math.floor(json.offset / json.limit) + 1
-                        var totalPage = Math.floor(json.total / json.limit) + 1;
-                        
-                        Screen.print('Displaying Page '.white + page.toString().yellow + " on ".white + totalPage.toString().yellow);
+                        Message.tablePage(json, options);
                     }
-                    Screen.print('');
-
-                    var array = [];
-                    array.push([ "#".gray, "Name".gray, "LoginEmail".gray, "Company".gray, "Account".gray, "Roles".gray, "Active".gray, "ID".gray]);
-                    array.push([ "-".gray, "----".gray, "----------".gray, "-------".gray, "-------".gray, "-----".gray, "------".gray, "--".gray]);  
-
-                    var users = json.data;
-
-                    var companyId = "";
-
-                    for(var i = 0; i < users.length; i++) {
-
-                        if(options.company || options.companyId) {
-                            companyId = users[i].companyId;
-                        }
-
-                        var accountType = users[i].accountType;
-                        if(accountType === "free") {
-                            accountType = accountType.white;
-                        }
-                        else {
-                            accountType = accountType.yellow;
-                        }
-
-                        var roles = users[i].roles.join();
-
-                        var active = "true".white;
-                        if(!users[i].isActive) {
-                            active = "false".yellow;
-                        }
-
-                        var name = "";
-                        name = users[i].displayName;
-                        if(!name) {
-                            name = users[i].firstName + " " +users[i].lastName;
-                        }
-
-                        var number = (i+1);
-                        if(options.page > 0) {
-                            number = ((options.page-1) * json.limit) + (i+1);
-                        }
-
-                        var companyName = users[i].companyName || "";
-
-                        array.push([ number.toString().white, name.cyan, users[i].loginEmail.white, companyName.white, accountType, roles.white, active, users[i].id.white]);  
-                    }
-
-                    var t = table(array);
-                    Screen.table(t);
-                    Screen.print('');
-                    if(options.company) {
-                        Screen.success(json.total + ' users found in company ' + options.company);
-                    } else if(options.companyId) {
-                        Screen.success(json.total + ' users found in company ' + options.companyId);
-                    } else {
-                        Screen.success(json.total + ' users found');
-                    }
+                    Message.lineFeed();
+                    Message.tableUsers(json, options);
                 }
 
             }).catch(function(err) {
-                status.stop();
-                Message.error(err);
+                Message.unspin(spin);
+                Message.error(err, options);
                 Exit.error();
             });
         }
         else {
-            Message.notLoggedIn();
+            Message.notLoggedIn(options);
             Exit.error();
         }
     }
@@ -316,28 +248,35 @@ class CUser {
     create(email, password, firstname, lastname, options) {
         var that = this;
         
-        Message.welcome();
+        Message.welcome(options);
                 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user);
-            
-            Screen.print("Request to create user".white + " '".yellow + email.yellow + "'".yellow);
-            var status = new Spinner('In progress, please wait...');
-            status.start();
-            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+            Message.loggedin(this._prefs.user, options);
+            Message.action("Create new user", email, options);
+
+            let spin = Message.spin(options);
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
                 return that._createSimple(that._prefs.token, email, password, firstname, lastname, options);
             }).then(function(json) {
-                status.stop();
-                Screen.print('');
-                Screen.success('User'.white + " '".yellow + email.yellow + "'".yellow + " has been successfully created and assigned to ID ".white + json.data.id.cyan);
+                Message.unspin(spin);
+
+                if(options.noOutput) {
+                    Message.out(json.data);
+                }
+                else {
+                    Message.lineFeed();
+                    Message.printSuccess('User has been assigned to ID', json.data.id, options);    
+                    Message.success(options);
+                }
+                
             }).catch(function(err) {
-                status.stop();
-                Message.error(err);
+                Message.unspin(spin);
+                Message.error(err, options);
                 Exit.error();
             });
         }
         else {
-            Message.notLoggedIn();
+            Message.notLoggedIn(options);
             Exit.error();
         }
     }
@@ -346,26 +285,26 @@ class CUser {
         var that = this;
 
         var doDelete = function(id) {
-            Screen.print("Request to delete user".white + " '".yellow + id.yellow + "'".yellow);
-            var status = new Spinner('In progress, please wait...');
-            status.start();
-            NodeSDK.start(that._prefs.account.email, that._prefs.account.password, that._prefs.rainbow).then(function() {
+            Message.action("Delete user", id, options);
+
+            let spin = Message.spin(options);
+            NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host).then(function() {
                 return that._delete(that._prefs.token, id);
             }).then(function(json) {
-                status.stop();
-                Screen.print('');
-                Screen.success('User'.white + " '".yellow + id.yellow + "'".yellow + " has been successfully deleted.".white);
+                Message.unspin(spin);
+                Message.lineFeed();
+                Message.success(options);
             }).catch(function(err) {
-                status.stop();
+                Message.unspin(spin);
                 Message.error(err);
                 Exit.error();
             });
         }
         
-        Message.welcome();
+        Message.welcome(options);
                 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user);
+            Message.loggedin(this._prefs.user, options);
 
             if(options.noconfirmation) {
                 doDelete(id);
@@ -376,13 +315,13 @@ class CUser {
                         doDelete(id);
                     }
                     else {
-                        Message.canceled();
+                        Message.canceled(options);
                     }
                 });
             }
         }
         else {
-            Message.notLoggedIn();
+            Message.notLoggedIn(options);
             Exit.error();
         }
     }
@@ -413,7 +352,7 @@ class CUser {
                         Message.lineFeed();
                         Message.table2D(json.data);
                         Message.lineFeed();
-                        Message.success();
+                        Message.success(options);
                     }
 
                 }).catch(function(err) {

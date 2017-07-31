@@ -1,9 +1,11 @@
 "use strict";
 
-const table       = require('text-table');
+const table         = require('text-table');
 const inquirer      = require('inquirer');
-const CLI         = require('clui');
-const Spinner     = CLI.Spinner;
+const CLI           = require('clui');
+const Spinner       = CLI.Spinner;
+const csv           = require('csv');
+const fs            = require('fs');
 
 const Screen = require("./Print");
 const Tools = require('./Tools');
@@ -34,11 +36,45 @@ class Message {
             return;
         }
 
-        Screen.print("Request ".grey + command.white + " `".yellow + param.yellow + "'".yellow);
+        if(param) {
+            Screen.print("Request ".grey + command.white + " `".yellow + param.yellow + "'".yellow);
+        }
+        else {
+            Screen.print("Request ".grey + command.white);
+        }
     }
 
     out(json) {
         console.log(JSON.stringify(json));
+    }
+
+    csv(file, json) {
+
+        return new Promise((resolve, reject) => {
+
+            let stringify = csv.stringify;
+            let writeStream = fs.createWriteStream(file, { flags : 'w' });
+
+            stringify(json, {
+                formatters: {
+                    date: function(value) {
+                        return moment(value).format('YYYY-MM-DD');
+                    }
+                },
+                delimiter: ";",
+                header: true
+            }).pipe(writeStream);
+            writeStream.on('close', function () {
+                Screen.success("Successfully saved".white + " " + json.total.toString().magenta + " user(s) to".white + " '".white + options.csv.yellow + "'".white);
+                resolve();
+            });
+            writeStream.on('error', function (err) {
+                reject(err);
+            });
+
+        });
+
+        
     }
 
     lineFeed() {
@@ -58,6 +94,78 @@ class Message {
     unspin(status) {
         if(status) {
             status.stop();
+        }
+    }
+
+    tablePage(json, options) {
+        if(!this._shouldDisplayOutput(options)) {
+            return;
+        }
+
+        let page = Math.floor(json.offset / json.limit) + 1
+        let totalPage = Math.floor(json.total / json.limit) + 1;
+                        
+        Screen.print('Displaying Page '.white + page.toString().yellow + " on ".white + totalPage.toString().yellow);
+    }
+
+    tableUsers(json, options) {
+
+        var array = [];
+        array.push([ "#".gray, "Name".gray, "LoginEmail".gray, "Company".gray, "Account".gray, "Roles".gray, "Active".gray, "ID".gray]);
+        array.push([ "-".gray, "----".gray, "----------".gray, "-------".gray, "-------".gray, "-----".gray, "------".gray, "--".gray]);  
+
+        var users = json.data;
+
+        var companyId = "";
+
+        for(var i = 0; i < users.length; i++) {
+
+            if(options.company || options.companyId) {
+                companyId = users[i].companyId;
+            }
+
+            var accountType = users[i].accountType;
+            if(accountType === "free") {
+                accountType = accountType.white;
+            }
+            else {
+                accountType = accountType.yellow;
+            }
+
+            var roles = users[i].roles.join();
+
+            var active = "true".white;
+            if(!users[i].isActive) {
+                active = "false".yellow;
+            }
+
+            var name = "";
+            name = users[i].displayName;
+            if(!name) {
+                name = users[i].firstName + " " +users[i].lastName;
+            }
+
+            var number = (i+1);
+            if(options.page > 0) {
+                number = ((options.page-1) * json.limit) + (i+1);
+            }
+
+            var companyName = users[i].companyName || "";
+
+            array.push([ number.toString().white, name.cyan, users[i].loginEmail.white, companyName.white, accountType, roles.white, active, users[i].id.white]);  
+        }
+
+        var t = table(array);
+        Screen.table(t);
+
+        Screen.print('');
+
+        if(options.company) {
+            Screen.success(json.total + ' users found in company ' + options.company);
+        } else if(options.companyId) {
+            Screen.success(json.total + ' users found in company ' + options.companyId);
+        } else {
+            Screen.success(json.total + ' users found');
         }
     }
 
@@ -137,6 +245,14 @@ class Message {
         }
 
         Screen.success('Command successfully completed');
+    }
+
+    printSuccess(text, value, options) {
+        if(!this._shouldDisplayOutput(options)) {
+            return;
+        }
+
+        Screen.print(text.white + " '".cyan + value.toString().cyan + "'".cyan);
     }
 
     canceled(options) {

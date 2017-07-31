@@ -127,8 +127,8 @@ Here is the complete list of commands:
 | | **logout** | Log-out from Rainbow | 
 | | **whoami** | Display information about the user connected |
 | User | **user** <id> | Display information about a user |
-| | **create** <username> | Create a new user |
-| | **delete** <id> | Delete a user |
+| | **create user** <username> | Create a new user |
+| | **delete user** <id> | Delete a user |
 | Company | **company** <id> | Display information about a company |
 | | **free company** <id> | Remove all users from a company |
 | | **create company** <name> | Create a new company |
@@ -211,7 +211,7 @@ $ rbw user 58cd966fd45e61221b57576c0
 ```
 
 
-### Command **CREATE**
+### Command **CREATE USER**
 ---
 
 This command allows to create a new user
@@ -219,29 +219,29 @@ This command allows to create a new user
 The following example creates a user in a specific company
 
 ```bash
-$ rbw create "jdoe@mycompany.com" "Password_123" "John" "Doe" -c 58cd966fd45e61221b5711c0
+$ rbw create user "jdoe@mycompany.com" "Password_123" "John" "Doe" -c 58cd966fd45e61221b5711c0
 ```
 
 Using the argument `--admin`, you can create a user with admin right (depending your roles and company profile)
 
 ```bash
-$ rbw create "jdoe@mycompany.com" "Password_123" "John" "Doe" -c 58cd966fd45e61221b5711c0 --admin
+$ rbw create user "jdoe@mycompany.com" "Password_123" "John" "Doe" -c 58cd966fd45e61221b5711c0 --admin
 ```
 
 
-### Command **DELETE**
+### Command **DELETE USER**
 ---
 
 This command allows to delete an existing user
 
 ```bash
-$ rbw delete 58cd966fddfd61221b57145f
+$ rbw delete user 58cd966fddfd61221b57145f
 ```
 
 A user can be deleted without having to confirm
 
 ```bash
-$ rbw delete 58cd966fddfd61221b57145f --nc
+$ rbw delete user 58cd966fddfd61221b57145f --nc
 ```
 
 

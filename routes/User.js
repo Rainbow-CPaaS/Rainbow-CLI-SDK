@@ -32,13 +32,15 @@ class User {
             that._user.getUser(id, options);
         });
 
-        this._program.command('create', '<username> <password> <firstname> <lastname>')
+        this._program.command('create user', '<username> <password> <firstname> <lastname>')
         .description("Create a new user")
         .option('-c, --company <id>', 'Create the user in an existing company')
         .option('-a, --admin', 'Add an administrator role')
+        .option('-o, --json', 'Write the JSON result to standard stdout')
         .action(function (email, password, firstname, lastname, commands) {
 
             var options = {
+                noOutput: commands.json || false,
                 companyId: commands.company || "",
                 isAdmin: commands.admin || false
             }
@@ -46,7 +48,7 @@ class User {
             that._user.create(email, password, firstname, lastname, options); 
         });
 
-        this._program.command('delete', '<id>')
+        this._program.command('delete user', '<id>')
         .description("Delete an existing user")
         .option('--nc', 'Do not ask confirmation')
         .action(function (id, commands) {
@@ -67,6 +69,7 @@ class User {
         .option('-c, --company <name>', 'Filter to users from a company with a given name')
         .option('-n, --name <name>', 'Filter to users with a given name (firstname lastname)')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
+        .option('-o, --json', 'Write the JSON result to standard stdout')
         .action(function (commands) {
 
             var options = {
@@ -101,6 +104,7 @@ class User {
                 }
 
                 options = {
+                    noOutput: commands.json || false,
                     companyId: commands.cid || "",
                     company: commands.company || null,
                     onlyTerminated: commands.terminated || false,
