@@ -22,11 +22,11 @@ class User {
 
         this._program.command('user', '<id>')
         .description("Retrieve information about an existing user")
-        .option('-o, --output', 'Write the JSON result to standard stdout')
+        .option('-o, --json', 'Write the JSON result to standard stdout')
         .action(function (id, commands) {
 
             var options= {
-                noOutput: commands.output || false
+                noOutput: commands.json || false
             }
 
             that._user.getUser(id, options);

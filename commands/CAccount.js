@@ -113,11 +113,9 @@ class CAccount {
         Screen.print('Version ' + pkg.version.yellow);
         
         if(email.length === 0 || password.length === 0) {
-            if(that._prefs.account) {
-                email = that._prefs.account.email;
-                password = that._prefs.account.password;
-                platform = that._prefs.rainbow;
-            } 
+            email = that._prefs.email;
+            password = that._prefs.password;
+            platform = that._prefs.host;
         }
 
         var status = new Spinner('Authenticating you, please wait...');
@@ -128,13 +126,14 @@ class CAccount {
         }).then(function(json) {
             status.stop();
             Screen.success('Signed in as'.grey + " " + email.cyan);
-            that._prefs.account= {
-                email: email,
-                password: password
-            }
-            that._prefs.token = json.token;
-            that._prefs.user =  json.loggedInUser;
-            that._prefs.rainbow = platform;
+            that._prefs.save({
+                    email: email,
+                    password: password
+                },
+                json.token,
+                json.loggedInUser,
+                platform
+            );
 
         }).catch(function(err) {
             status.stop();
@@ -151,10 +150,7 @@ class CAccount {
             email = this._prefs.user.loginEmail;
         }
 
-        this._prefs.account = null;
-        this._prefs.token = null;
-        this._prefs.user =  null;
-        this._prefs.rainbow = null;
+        this._prefs.reset();
 
         if(email) {
             Screen.success('You have signed out from '.grey + email.cyan);

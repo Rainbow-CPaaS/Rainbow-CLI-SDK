@@ -1,8 +1,10 @@
 "use strict";
 
-var inquirer = require('inquirer');
+const table       = require('text-table');
+const inquirer      = require('inquirer');
 
-var Screen = require("./Print");
+const Screen = require("./Print");
+const Tools = require('./Tools');
 
 class Message {
 
@@ -25,6 +27,76 @@ class Message {
         Screen.print('Welcome to '.white + 'Rainbow CLI'.rainbow);
     }
 
+    action(command, param, options) {
+        if(!this._shouldDisplayOutput(options)) {
+            return;
+        }
+
+        Screen.print("Request ".grey + command.white + " `".yellow + param.yellow + "'".yellow);
+    }
+
+    out(json) {
+        let out = new Buffer.from(JSON.stringify(json));
+        process.stdout.write(out);
+        process.stdout.write("\r\n");
+    }
+
+    lineFeed() {
+        Screen.print('');
+    }
+
+    table2D(json) {
+
+        var array = [];
+        array.push([ "#".gray, "Attribute".gray, "Value".gray]);
+        array.push([ "-".gray, "---------".gray, "-----".gray]);  
+        var index = 1;
+        for (var key in json) {
+            var data = json[key];
+            if(data === null) {
+                array.push([ index.toString().white, key.toString().cyan, 'null'.white ]);  
+            } 
+            else if(typeof data === "string" && data.length === 0) {
+                array.push([  index.toString().white, key.toString().cyan, "''".white ]);  
+            }
+            else if(Tools.isArray(data) && data.length === 0) {
+                array.push([  index.toString().white, key.toString().cyan, "[ ]".white ]);  
+            }
+            else if((Tools.isArray(data)) && data.length === 1) {
+                array.push([  index.toString().white, key.toString().cyan, "[ ".white + JSON.stringify(data[0]).white + " ]".white]);  
+            }
+            else if((Tools.isArray(data)) && data.length > 1) {
+                var item = ""
+                for (var i=0; i < data.length; i++) {
+                    if(typeof data[i] === "string") {
+                        item +=  JSON.stringify(data[i]).white;
+                        if(i < data.length -1) {
+                            item += ","
+                        }
+                    }
+                    else {
+                        item += "[ " + JSON.stringify(data[i]).white + " ]";
+                        if(i < data.length -1) {
+                            item += ","
+                        }
+                    }
+                }
+                array.push([  index.toString().white, key.toString().cyan, "[ ".white + item.white + " ]" ]);  
+            }
+            else if(Tools.isObject(data)) {
+                array.push([  index.toString().white, key.toString().cyan, JSON.stringify(data).white ]);  
+            }
+            else {
+                array.push([  index.toString().white, key.toString().cyan, data.toString().white ]);
+            }
+            index+=1;
+
+        }
+
+        let t = table(array);
+        Screen.table(t);
+    }
+
     loggedin(user, options) {
         if(!this._shouldDisplayOutput(options)) {
             return;
@@ -43,6 +115,14 @@ class Message {
         Screen.error('Please, you have to log-in before executing other commands');
     }
 
+    success(options) {
+        if(!this._shouldDisplayOutput(options)) {
+            return;
+        }
+
+        Screen.success('Command successfully completed');
+    }
+
     canceled(options) {
         if(!this._shouldDisplayOutput(options)) {
             return;
@@ -56,13 +136,14 @@ class Message {
         if(!this._shouldDisplayOutput(options)) {
             var out = new Buffer.from(JSON.stringify(err));
             process.stdout.write(out);
+            process.stdout.write("\r\n");
             return;
         }
 
         Screen.print('');
         Screen.error("Can't execute the command".white);
         if(!err) {
-            Screen.print("No details.");
+            Screen.print("No details");
         }
         else {
             if(err.details) {
@@ -79,7 +160,13 @@ class Message {
                 }
             }
             else {
-                Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                if(err.msg && err.code) {
+                    Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                }
+                else {
+                    Screen.print("No details");
+                }
+                
             }
         }
     }

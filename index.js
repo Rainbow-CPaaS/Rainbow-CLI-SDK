@@ -1,9 +1,11 @@
 #!/usr/bin/env node
-var Preferences = require('preferences');
+
 var program     = require('commander-plus');
 var colors      = require('colors');
 
 var pkg = require('./package.json')
+
+var Preferences = require("./common/Preferences");
 var Account = require('./routes/Account');
 var Company = require('./routes/Company');
 var Organization = require('./routes/Organization');
@@ -15,15 +17,14 @@ var User = require('./routes/User');
 var Free = require('./routes/Free');
 var Screen = require('./common/Print');
 
-var prefs = null;
+
 
 start = function() {
 
-  // Get the prefs
-  prefs = new Preferences('rainbow');
-
   // Initialize the program
   program.version(pkg.version);
+
+  var prefs = new Preferences();
 
   // Initialize the routes
   var account = new Account(program, prefs);

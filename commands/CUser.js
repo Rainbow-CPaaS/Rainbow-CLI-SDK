@@ -390,89 +390,46 @@ class CUser {
     getUser(id, options) {
         var that = this;
 
-        Message.welcome(options);
-            
-        if(this._prefs.token && this._prefs.user) {
-            if(!options.noOutput) {
+        try {
+
+            Message.welcome(options);
+
+            if(this._prefs.token && this._prefs.user) {
                 Message.loggedin(this._prefs.user, options);
-                Screen.print("Request informaton for user".white + " '".yellow + id.yellow + "'".yellow);
-            }
-            
-            var status = new Spinner('In progress, please wait...');
-            status.start();
-            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
-                return that._getUser(that._prefs.token, id);
-            }).then(function(json) {
+                Message.action("Get information for user" , id, options);
+                
+                var status = new Spinner('In progress, please wait...');
+                status.start();
+                
+                NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                    return that._getUser(that._prefs.token, id);
+                }).then(function(json) {
 
-                status.stop();
+                    status.stop();
 
-                if(options.outputToJSON) {
-                    var out = new Buffer.from(JSON.stringify(json.data))
-                    process.stdout.write(out);
-                    Screen.print('');
-                    Screen.print('');
-                }
-                else {
-                    Screen.print('');
-                    var array = [];
-                    array.push([ "#".gray, "Attribute".gray, "Value".gray]);
-                    array.push([ "-".gray, "---------".gray, "-----".gray]);  
-                    var index = 1;
-                    for (var key in json.data) {
-                        var data = json.data[key];
-                        if(data === null) {
-                            array.push([ index.toString().white, key.toString().cyan, 'null'.white ]);  
-                        } 
-                        else if(typeof data === "string" && data.length === 0) {
-                            array.push([  index.toString().white, key.toString().cyan, "''".white ]);  
-                        }
-                        else if(Tools.isArray(data) && data.length === 0) {
-                            array.push([  index.toString().white, key.toString().cyan, "[ ]".white ]);  
-                        }
-                        else if((Tools.isArray(data)) && data.length === 1) {
-                            array.push([  index.toString().white, key.toString().cyan, "[ ".white + JSON.stringify(data[0]).white + " ]".white]);  
-                        }
-                        else if((Tools.isArray(data)) && data.length > 1) {
-                            var item = ""
-                            for (var i=0; i < data.length; i++) {
-                                if(typeof data[i] === "string") {
-                                    item +=  JSON.stringify(data[i]).white;
-                                    if(i < data.length -1) {
-                                        item += ","
-                                    }
-                                }
-                                else {
-                                    item += "[ " + JSON.stringify(data[i]).white + " ]";
-                                    if(i < data.length -1) {
-                                        item += ","
-                                    }
-                                }
-                            }
-                            array.push([  index.toString().white, key.toString().cyan, "[ ".white + item.white + " ]" ]);  
-                        }
-                        else if(Tools.isObject(data)) {
-                            array.push([  index.toString().white, key.toString().cyan, JSON.stringify(data).white ]);  
-                        }
-                        else {
-                            array.push([  index.toString().white, key.toString().cyan, data.toString().white ]);
-                        }
-                        index+=1;
-
+                    if(options.noOutput) {
+                        Message.out(json.data);
                     }
-                    var t = table(array);
-                    Screen.table(t);
-                    Screen.print('');
-                    Screen.success('User information retrieved successfully.');
-                }
+                    else {
+                        Message.lineFeed();
+                        Message.table2D(json.data);
+                        Message.lineFeed();
+                        Message.success();
+                    }
 
-            }).catch(function(err) {
-                status.stop();
-                Message.error(err);
+                }).catch(function(err) {
+                    status.stop();
+                    Message.error(err, options);
+                    Exit.error();
+                });
+            }
+            else {
+                Message.notLoggedIn(options);
                 Exit.error();
-            });
+            }
         }
-        else {
-            Message.notLoggedIn();
+        catch(err) {
+            Message.error(err, options);
             Exit.error();
         }
     }
