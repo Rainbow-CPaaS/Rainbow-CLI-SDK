@@ -2,6 +2,8 @@
 
 const table       = require('text-table');
 const inquirer      = require('inquirer');
+const CLI         = require('clui');
+const Spinner     = CLI.Spinner;
 
 const Screen = require("./Print");
 const Tools = require('./Tools');
@@ -36,13 +38,27 @@ class Message {
     }
 
     out(json) {
-        let out = new Buffer.from(JSON.stringify(json));
-        process.stdout.write(out);
-        process.stdout.write("\r\n");
+        console.log(JSON.stringify(json));
     }
 
     lineFeed() {
         Screen.print('');
+    }
+
+    spin(options) {
+        if(!this._shouldDisplayOutput(options)) {
+            return;
+        }
+            
+        let status = new Spinner('In progress, please wait...');
+        status.start();
+        return status;
+    }
+
+    unspin(status) {
+        if(status) {
+            status.stop();
+        }
     }
 
     table2D(json) {

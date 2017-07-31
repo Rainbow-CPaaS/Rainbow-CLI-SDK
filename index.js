@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+process.on("SIGPIPE", process.exit);
+
 var program     = require('commander-plus');
 var colors      = require('colors');
 

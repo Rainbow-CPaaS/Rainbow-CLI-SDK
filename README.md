@@ -63,7 +63,57 @@ Each command returns an exit status code:
 
  - 1 if the command failed
 
-Read the next paragraph for the complete list of available commands
+ Read the next paragraph for the complete list of available commands
+
+
+## Outputs
+---
+
+By default, Rainbow CLI displays commands output in a pretty well format to the console.
+
+You can get the a **JSON stringified** result by adding the option `--json` to your command. In that case, only the result of the command is prompted in JSON.
+
+The following sample shows how to get a user information from Rainbow CLI, pass the data as an argument to an other Node.JS application that will retrieve the field `loginEmail` from that user.
+
+Here is the code of the second Node.JS application that will handle the `loginEmail`
+
+```js
+
+// file login.js
+#!/usr/bin/env node
+
+// Keep stdin open and wait for data
+process.stdin.resume();
+process.stdin.setEncoding('utf8');
+
+let data = "";
+
+// Get result asynchronously
+process.stdin.on('data', function(chunk) {
+    data += chunk;
+});
+
+process.stdin.on('end', function() {
+    
+    // Do something with the data received
+    let json = JSON.parse(data);
+    let loginEmail = json.loginEmail;
+    ...
+
+    // eg: Display the login email to the console
+    console.log("Found", loginEmail);
+
+});
+
+```
+
+This command will retrieve the user from Rainbow CLI and pass the information to the second application
+
+```bash
+
+rbw user 58e36805d45e61221b571363 --json | node displayLogin.js 
+
+```
 
 
 ## Commands

@@ -398,14 +398,13 @@ class CUser {
                 Message.loggedin(this._prefs.user, options);
                 Message.action("Get information for user" , id, options);
                 
-                var status = new Spinner('In progress, please wait...');
-                status.start();
-                
+                let spin = Message.spin(options);
+
                 NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
                     return that._getUser(that._prefs.token, id);
                 }).then(function(json) {
 
-                    status.stop();
+                    Message.unspin(spin);
 
                     if(options.noOutput) {
                         Message.out(json.data);

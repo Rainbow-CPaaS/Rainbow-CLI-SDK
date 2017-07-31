@@ -1,0 +1,96 @@
+## CHANGELOG
+---
+
+Here is the list of the changes and features provided by the Rainbow-CLI
+
+All notable changes to Rainbow-CLI will be documented in this file.
+
+### [0.8.0] - 2017-08-15
+---
+
+#### Added
+---
+* Filter companies by name using command: `rbw companies --name "..."`
+* Filter users by name using command: `rbw users --name "..."`
+* Filter users by company name using command: `rbw users --company "..."`
+* Stdout JSON format using argument `--json` 
+
+#### Changed
+---
+* Order list of users by display name (firstname lastname)
+* [Compatibility Break] Filter users by company id using command: `rbw users --cid "..."` instead of `rbw users -c "..."`
+
+
+### [0.7.5] - 2017-06-09
+---
+
+#### Added
+---
+* List the phones number of a system
+* Retrieve information about a phone 
+
+
+### [0.6.2] - May 2017
+---
+
+#### Added
+---
+* List the systems
+* Retrieve information about a system 
+* Create a new system associated to a site
+* Delete a system
+* Link/unlink a system to/from a site
+
+### [v0.5.7] - April 2017
+---
+
+#### Added
+---
+* List the sites
+* Retrieve information about a site
+* Create a new site associated to a company
+* Delete a site
+* Retrieve information about a user
+* Sign-out from Rainbow
+
+### [0.4.4] - March 2017
+---
+
+#### Added
+---
+* Link/unlink a company to/from an organization 
+* Retrieve information about an organization
+* Create a new organization
+* Delete an organization
+* List the organizations 
+
+### [0.3.11] - February 2017
+---
+
+#### Added
+---
+* Create a new user
+* Delete a user
+* List of users
+* Import CSV file of users
+* Export users to CSV file
+* Remove all users from a company
+
+### [0.2.7] - January 2017
+---
+
+#### Added
+---
+* Get the status of the API
+* Retrieve information about a company
+* Delete a company
+* Create a new company
+* List the companies
+
+### [0.1.0] - December 2016
+---
+
+#### Added
+---
+* Retrieve the information about the connected user
+* Sign-in to Rainbow
