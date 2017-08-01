@@ -386,7 +386,7 @@ class CUser {
             }
             else {
                 Screen.print("Request to import".white + " '".yellow + filePath.yellow + "'".yellow);
-                NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+                NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
                     return that._import(that._prefs.token, filePath);
                 }).then(function(json) {
                     Screen.print('');

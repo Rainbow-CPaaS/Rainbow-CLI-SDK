@@ -23,6 +23,17 @@ class User {
         this._program.command('user', '<id>')
         .description("Retrieve information about an existing user")
         .option('-o, --json', 'Write the JSON result to standard stdout')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw user 593065822799299343b8501d');
+            console.log('    $ rbw user 593065822799299343b8501d --json');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the user to the console');
+            console.log('');
+        })
         .action(function (id, commands) {
 
             var options= {
@@ -34,9 +45,22 @@ class User {
 
         this._program.command('create user', '<username> <password> <firstname> <lastname>')
         .description("Create a new user")
-        .option('-c, --company <id>', 'Create the user in an existing company')
-        .option('-a, --admin', 'Add an administrator role')
+        .option('-c, --company <id>', 'In company identified by an id')
+        .option('-a, --admin', 'With a company_admin role')
         .option('-o, --json', 'Write the JSON result to standard stdout')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw create user 'john.doe@mycompany.com' '********' 'John' 'Doe'");
+            console.log("    $ rbw create user 'john.doe@mycompany.com' '********' 'John' 'Doe' -c 593065822799299343b8501d");
+            console.log("    $ rbw create user 'john.doe@mycompany.com' '********' 'John' 'Doe' -c 593065822799299343b8501d --admin");
+            console.log("    $ rbw create user 'john.doe@mycompany.com' '********' 'John' 'Doe' -c 593065822799299343b8501d --admin --json");
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports a JSON object representing the user created to the console');
+            console.log('');
+        })
         .action(function (email, password, firstname, lastname, commands) {
 
             var options = {
@@ -51,6 +75,17 @@ class User {
         this._program.command('delete user', '<id>')
         .description("Delete an existing user")
         .option('--nc', 'Do not ask confirmation')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw delete user 593065822799299343b8501d");
+            console.log("    $ rbw delete user 593065822799299343b8501d --nc");
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--nc` allows to delete the existing user without asking for a confirmation (can be used from a script)');
+            console.log('');
+        })
         .action(function (id, commands) {
 
             var options = {
@@ -64,12 +99,30 @@ class User {
         .description("List the users")
         .option('-p, --page <number>', 'Display a specific page')
         .option('-l, --limit <number>', 'Limit to a number of instances per page (max=1000)')
-        .option('-t, --terminated', 'Filter to terminated users')
-        .option('--cid <id>', 'Filter to users from a company id')
-        .option('-c, --company <name>', 'Filter to users from a company with a given name')
-        .option('-n, --name <name>', 'Filter to users with a given name (firstname lastname)')
+        .option('-t, --terminated', 'Filter terminated users only')
+        .option('--cid <id>', 'Filter users from a company id only')
+        .option('-c, --company <name>', 'Filter users from a company name only')
+        .option('-n, --name <name>', 'Filter users with a name (firstname lastname)')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
         .option('-o, --json', 'Write the JSON result to standard stdout')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw users --limit 1000");
+            console.log("    $ rbw users -c 'my company'");
+            console.log("    $ rbw users --cid 593065822799299343b8501d");
+            console.log("    $ rbw users --name 'doe'");
+            console.log("    $ rbw users --name 'doe' --json");
+            console.log("    $ rbw users --name 'doe' -f doe.csv");
+            console.log('');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports an array of JSON objects representing the users retrieved to the console');
+            console.log('    The options `--page` and `limit` allow to navigate between paginated results');
+            console.log('    The options `--file` exports only fields `id`, `loginEmail`, `firstName`, `lastName`, `displayName`, `isActive`, `jid_im`, `jid_tel`, `companyId`, `companyName`');
+            console.log('');
+        })
         .action(function (commands) {
 
             var options = {
@@ -121,6 +174,19 @@ class User {
 
         this._program.command('import file', '<filename>')
         .description("Import a list of users from a file")
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw import file users.csv");
+            console.log('');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The csv file should contain a header with the following fields:');
+            console.log('    loginEmail;password;firstName;lastName;roles;companyId;jobTitle;country;timezone;accountType;language');
+            console.log('    eg: john.doe@company.com;Password_123;John;Doe;user,admin;5978e048f8abe8ad97357f06;Chief Officer;;;;en-US')
+            console.log('');
+        })
         .action(function (filePath) {
             that._user.import(filePath); 
         });
