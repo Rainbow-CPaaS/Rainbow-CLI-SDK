@@ -31,6 +31,14 @@ class Message {
         Screen.print('Welcome to '.white + 'Rainbow CLI'.rainbow);
     }
 
+    version(v, options) {
+        if(!this._shouldDisplayOutput(options)) {
+            return;
+        }
+
+        Screen.print('Version ' + v.yellow);
+    }
+
     action(command, param, options) {
         if(!this._shouldDisplayOutput(options)) {
             return;

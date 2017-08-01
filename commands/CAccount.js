@@ -106,11 +106,11 @@ class CAccount {
         }
     }
 
-    login(email, password, platform) {
+    login(email, password, platform, options) {
         var that = this;
 
-        Message.welcome();
-        Screen.print('Version ' + pkg.version.yellow);
+        Message.welcome(options);
+        Message.version(pkg.version, options);
         
         if(email.length === 0 || password.length === 0) {
             email = that._prefs.email;
@@ -118,14 +118,22 @@ class CAccount {
             platform = that._prefs.host;
         }
 
-        var status = new Spinner('Authenticating you, please wait...');
-        status.start();
+        let spin = Message.spin(options);
 
         NodeSDK.start(email, password, platform).then(function() {
             return NodeSDK.signin();
         }).then(function(json) {
-            status.stop();
-            Screen.success('Signed in as'.grey + " " + email.cyan);
+
+            Message.unspin(spin);
+
+            if(options.noOutput) {
+                Message.out(json);
+            }
+            else {
+                Message.success(options);
+                Message.printSuccess('Signed in as', email, options);
+            }
+
             that._prefs.save({
                     email: email,
                     password: password
@@ -136,8 +144,8 @@ class CAccount {
             );
 
         }).catch(function(err) {
-            status.stop();
-            Message.error(err);
+            Message.unspin(spin);
+            Message.error(err, options);
             Exit.error();
         });
     }

@@ -79,7 +79,7 @@ Here is the code of the second Node.JS application that will handle the `loginEm
 
 ```js
 
-// file login.js
+// file displayLogin.js
 #!/usr/bin/env node
 
 // Keep stdin open and wait for data
@@ -122,7 +122,7 @@ rbw user 58e36805d45e61221b571363 --json | node displayLogin.js
 Here is the complete list of commands:
 
 | Category | Commands | Details |
-|----------|----------|---------|
+|:---------|----------|:--------|
 | Account | **login** <username> <password> | Log-in to Rainbow |
 | | **logout** | Log-out from Rainbow | 
 | | **whoami** | Display information about the user connected |
@@ -184,7 +184,6 @@ This command allows to log-out from Rainbow
 ```bash
 $ rbw logout 
 ```
-
 
 By default the connection is done on the sandbox platform. To log to the official Rainbow platform, simply add the option `--official`
 
