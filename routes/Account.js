@@ -61,15 +61,21 @@ class Account {
         
         this._program.command('whoami')
             .description("Display information about the connected user")
+            .option('-o, --json', 'Write the JSON result to standard stdout')
             .on('--help', function(){
                 console.log('  Examples:');
                 console.log('');
                 console.log('    $ rbw whoami');
+                console.log('    $ rbw whoami --json');
                 console.log('');
             })
-            .action(function (command) {
+            .action(function (commands) {
 
-            that._account.getConnectedUserInformation();
+            var options = {
+                noOutput: commands.json || false
+            }
+
+            that._account.getConnectedUserInformation(options);
         });
     }
 }

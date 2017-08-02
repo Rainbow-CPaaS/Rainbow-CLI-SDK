@@ -17,9 +17,8 @@ var Phone = require('./routes/Phone');
 var Status = require('./routes/Status');
 var User = require('./routes/User');
 var Free = require('./routes/Free');
+var Import = require('./routes/Import');
 var Screen = require('./common/Print');
-
-
 
 start = function() {
 
@@ -38,6 +37,7 @@ start = function() {
   var organization = new Organization(program, prefs);
   var status = new Status(program, prefs);
   var free = new Free(program, prefs);
+  var masspro = new Import(program, prefs);
 
   // Start the routes
   account.start();
@@ -48,13 +48,14 @@ start = function() {
   system.start();
   phone.start();
   organization.start();
+  masspro.start();
   status.start();
 
   program
   .command('*')
   .action(function () {
     Screen.print('Command not found.')
-  })
+  });
 
   program.parse(process.argv);
 }
