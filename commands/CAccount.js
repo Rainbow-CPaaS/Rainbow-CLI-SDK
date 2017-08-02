@@ -28,80 +28,42 @@ class CAccount {
         });
     }
 
-    getConnectedUserInformation() {
+    getConnectedUserInformation(options) {
         var that = this;
 
-        Message.welcome();
+        Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user);
-
-            Screen.print("Current account information:".white);
-            Screen.print('');
+            Message.loggedin(this._prefs.user, options);
+            Message.action("Connected user information", null, options);
             
-            var status = new Spinner('In progress, please wait...');
-            status.start();
-            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+            let spin = Message.spin(options);
+
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
                 return that._getUserInfo(that._prefs.user.id, that._prefs.token);
             }).then(function(json) {
-                status.stop();  
-                var array = [];
-                array.push([ "#".gray, "Attribute".gray, "Value".gray]);
-                array.push([ "-".gray, "---------".gray, "-----".gray]);  
-                var index = 1;
-                for (var key in json.data) {
-                    var data = json.data[key];
-                    if(data === null) {
-                        array.push([ index.toString().white, key.toString().cyan, 'null'.white ]);  
-                    } 
-                    else if(typeof data === "string" && data.length === 0) {
-                        array.push([  index.toString().white, key.toString().cyan, "''".white ]);  
-                    }
-                    else if(Tools.isArray(data) && data.length === 0) {
-                        array.push([  index.toString().white, key.toString().cyan, "[ ]".white ]);  
-                    }
-                    else if((Tools.isArray(data)) && data.length === 1) {
-                        array.push([  index.toString().white, key.toString().cyan, "[ ".white + JSON.stringify(data[0]).white + " ]".white]);  
-                    }
-                    else if((Tools.isArray(data)) && data.length > 1) {
-                        var item = ""
-                        for (var i=0; i < data.length; i++) {
-                            if(typeof data[i] === "string") {
-                                item +=  JSON.stringify(data[i]).white;
-                                if(i < data.length -1) {
-                                    item += ","
-                                }
-                            }
-                            else {
-                                item += "[ " + JSON.stringify(data[i]).white + " ]";
-                                if(i < data.length -1) {
-                                    item += ","
-                                }
-                            }
-                        }
-                        array.push([  index.toString().white, key.toString().cyan, "[ ".white + item.white + " ]" ]);  
-                    }
-                    else if(Tools.isObject(data)) {
-                        array.push([  index.toString().white, key.toString().cyan, JSON.stringify(data).white ]);  
-                    }
-                    else {
-                        array.push([  index.toString().white, key.toString().cyan, data.toString().white ]);
-                    }
-                    index+=1;
+
+                Message.unspin(spin);
+
+                if(options.noOutput) {
+                    Message.out(json.data);
+                }
+                else {
+                    Message.lineFeed();
+                    Message.table2D(json.data);
+                    Message.lineFeed();
+                    Message.success(options);
                 }
 
-                var t = table(array);
-                Screen.table(t);
-                Screen.print('');
-                Screen.success('whoami successfully executed.');
             }).catch(function(err) {
-                status.stop();
-                Message.error(err);
+                Message.unspin(spin);
+
+                Message.error(err, options);
                 Exit.error();
             });
         }
         else {
-            Message.notLoggedIn();
+            Message.notLoggedIn(options);
             Exit.error();
         }
     }
@@ -152,7 +114,7 @@ class CAccount {
 
     logout() {
         Message.welcome();
-        Screen.print('Version ' + pkg.version.yellow);
+        Message.version();
         var email = "";
         if(this._prefs.user) {
             email = this._prefs.user.loginEmail;
