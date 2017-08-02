@@ -1,15 +1,9 @@
 "use strict";
 
-var CLI         = require('clui');
-var Spinner     = CLI.Spinner;
-var table       = require('text-table');
-
-const pkg = require('../package.json');
-const Screen = require("../common/Print");
-const NodeSDK = require('../common/SDK');
-const Tools = require('../common/Tools');
-const Message = require('../common/Message');
-const Exit = require('../common/Exit');
+const NodeSDK   = require('../common/SDK');
+const Message   = require('../common/Message');
+const Exit      = require('../common/Exit');
+const pkg       = require('../package.json');
 
 class CAccount {
 
@@ -114,7 +108,7 @@ class CAccount {
 
     logout() {
         Message.welcome();
-        Message.version();
+        Message.version(pkg.version);
         var email = "";
         if(this._prefs.user) {
             email = this._prefs.user.loginEmail;
@@ -123,10 +117,11 @@ class CAccount {
         this._prefs.reset();
 
         if(email) {
-            Screen.success('You have signed out from '.grey + email.cyan);
+            Message.success();
+            Message.printSuccess('You have signed out from', email);
         }
         else {
-            Screen.error('You are not signed-in');
+            Message.error({details: 'You are not signed-in'});
             Exit.error();
         }
     }

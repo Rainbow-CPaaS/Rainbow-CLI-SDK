@@ -287,8 +287,12 @@ class Message {
         }
         else {
             if(err.details) {
+
                 if(typeof err.details === "string") {
                     Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                }
+                else if (typeof err.details === "object") {
+                    Screen.print(err.details.details.white + ' ('.gray + err.details.msg.gray + '/'.gray + err.details.code.toString().gray + ')'.gray);
                 }
                 else {
                     var param = "";

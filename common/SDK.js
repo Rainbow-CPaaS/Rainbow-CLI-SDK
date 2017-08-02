@@ -63,10 +63,6 @@ class SDK {
 
         return new Promise(function(resolve, reject) {
 
-            that._nodeSDK.events.once('rainbow_onconnectionerror', function(err) {
-                reject();
-            });
-
             that._nodeSDK.signinCLI().then(function(json) {
                 resolve(json);
             }).catch(function(err) {
