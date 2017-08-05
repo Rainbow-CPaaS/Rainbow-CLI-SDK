@@ -92,7 +92,7 @@ class CImport {
         });
     }
 
-    import(filePath) {
+    import(filePath, options) {
         var that = this;
 
         Message.welcome(options);
@@ -105,12 +105,13 @@ class CImport {
                 Exit.error();
             }
             else {
-                Screen.print("Request to import".white + " '".yellow + filePath.yellow + "'".yellow);
+                Message.action("Import file", filePath, options);
+
                 NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
                     return that._import(that._prefs.token, filePath);
                 }).then(function(json) {
-                    Screen.print('');
-                    Screen.success(json.nbUsers.toString().yellow + " users imported successfully.".white);
+                    Message.printSuccess("Imported users", json.nbUsers);
+                    Message.success();
                 }).catch(function(err) {
                     Message.error(err, options);
                     Exit.error();

@@ -48,7 +48,7 @@ start = function() {
   system.start();
   phone.start();
   organization.start();
-  masspro.start();
+  //masspro.start();
   status.start();
 
   program
