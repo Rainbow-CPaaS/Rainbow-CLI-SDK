@@ -149,7 +149,6 @@ Here is the complete list of commands:
 | | **delete org** <id> | Delete an existing organization |
 | Users | **users** | List the users |
 | Companies | **companies** | List the companies |
-| | **find companies** <name> | Filter companies by name |
 | Sites | **sites** | List the sites |
 | Systems | **systems** | List the systems |
 | Phones | **phones** <id> | List the phones number of a system |
@@ -516,16 +515,6 @@ $ rbw companies --name "Rainbow"
 ```
 
 The options `--limit` and `--page` can be used in case of a large number of companies found
-
-
-### Command **FIND COMPANIES**
----
-
-This command allows to filter companies by name (same as companies --name).
-
-```bash
-$ rbw find companies "Rainbow"
-```
 
 
 ### Command **SITES**

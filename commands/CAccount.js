@@ -106,8 +106,8 @@ class CAccount {
         });
     }
 
-    logout() {
-        Message.welcome();
+    logout(options) {
+        Message.welcome(options);
         Message.version(pkg.version);
         var email = "";
         if(this._prefs.user) {

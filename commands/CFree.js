@@ -1,13 +1,6 @@
 "use strict";
 
-var CLI         = require('clui');
-var Spinner     = CLI.Spinner;
-var table       = require('text-table');
-
-const pkg = require('../package.json');
-const Screen = require("../common/Print");
 const NodeSDK = require('../common/SDK');
-const Tools = require('../common/Tools');
 const Message = require('../common/Message');
 const Exit = require('../common/Exit');
 
@@ -43,10 +36,10 @@ class CFree {
                     json.data.forEach(function(user) {
 
                         promises.push(that._user._delete(token, user.id).then(function() {
-                            Screen.success("Deleted user ".white + user.loginEmail.yellow + " '" + user.id.white + "'".white);
+                            Message.printSuccess("Deleted user", user.loginEmail);
                             nbDeleted++;
                         }).catch(function() {
-                            Screen.error("Skipped user '".white + user.id.red + "'".white);
+                            Message.error("Skipped user",  + user.id, options);
                         }));
                     });
 
@@ -66,28 +59,29 @@ class CFree {
         });
     }
 
-    removeAllUsersFromACompany(id) {
+    removeAllUsersFromACompany(id, options) {
         var that = this;
         
-        Message.welcome();
+        Message.welcome(options);
                 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user);
+            Message.loggedin(this._prefs.user, options);
 
-            Screen.print("Free company:".white + " '".white + id.yellow + "'".white);
-            Screen.print('');
-            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+            Message.action("Free company", id, options);
+
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
                 return that._removeAllUsersFromACompany(that._prefs.token, id);
             }).then(function(json) {
-                Screen.print('');
-                Screen.success(json.nbDeleted.toString().yellow + ' user(s) deleted.');
+                Message.lineFeed();
+                Message.success(options);
+                Message.printSuccess("Users deleted", json.nbDeleted.toString());
             }).catch(function(err) {
-                Message.error(err);
+                Message.error(err, options);
                 Exit.error();
             });
         }
         else {
-            Message.notLoggedIn();
+            Message.notLoggedIn(options);
         }
     }
 }

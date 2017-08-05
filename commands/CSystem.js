@@ -133,26 +133,26 @@ class CSystem {
         var that = this;
 
         var doDelete = function(id) {
-            Screen.print("Request to delete system".white + " '".yellow + id.yellow + "'".yellow);
-            var status = new Spinner('In progress, please wait...');
-            status.start();
-            NodeSDK.start(that._prefs.account.email, that._prefs.account.password, that._prefs.rainbow).then(function() {
+            Message.action("Delete system", id);
+            
+            let spin = Message.spin(options);
+            NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host).then(function() {
                 return that._deleteSystem(that._prefs.token, id);
             }).then(function(json) {
-                status.stop();
-                Screen.print('');
-                Screen.success('System'.white + " '".yellow + id.yellow + "'".yellow + " has been successfully deleted.".white);
+                Message.unspin(spin);
+                Message.lineFeed();
+                Message.success(options);
             }).catch(function(err) {
-                status.stop();
-                Message.error(err);
+                Message.unspin(spin);
+                Message.error(err, options);
                 Exit.error();
             });
         }
 
-        Message.welcome();
+        Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user);
+            Message.loggedin(this._prefs.user, options);
 
             if(options.noconfirmation) {
                 doDelete(id);
@@ -163,14 +163,14 @@ class CSystem {
                         doDelete(id);
                     }
                     else {
-                        Message.canceled();
+                        Message.canceled(options);
                         Exit.error();
                     }
                 });
             }
         }
         else {
-            Message.notLoggedIn();
+            Message.notLoggedIn(options);
             Exit.error();
         }
     }
@@ -178,200 +178,115 @@ class CSystem {
     getSystems(options) {
         var that = this;
 
-        Message.welcome();
+        Message.welcome(options);
         
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user);
+            Message.loggedin(this._prefs.user, options);
 
             if(!options.csv) {
-                Screen.print("Current Systems:".white);
+                Message.action("List systems", null, options);
             }
-            var status = new Spinner('In progress, please wait...');
-            status.start();
-            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+            
+            let spin = Message.spin(options);
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
                 return that._getListOfSystems(that._prefs.token, options);
             }).then(function(json) {
 
-                status.stop(); 
-                if(options.csv) {
-                    let stringify = csv.stringify;
-                    var writeStream = fs.createWriteStream(options.csv, { flags : 'w' });
+                Message.unspin(spin);
 
-                    stringify(json.data, {
-                        formatters: {
-                            date: function(value) {
-                                return moment(value).format('YYYY-MM-DD');
-                            }
-                        },
-                        delimiter: ";",
-                        header: true
-                    }).pipe(writeStream);
-                    writeStream.on('close', function () {
-                        Screen.success("Successfully saved".white + " " + json.total.toString().magenta + " site(s) to".white + " '".white + options.csv.yellow + "'".white);
-                    });
-                    writeStream.on('error', function (err) {
-                        console.log('Error!', err);
+                if(options.csv) {
+                    Message.csv(options.csv, json.data).then(() => {
+                    }).catch((err) => {
                         Exit.error();
                     });
                 }
-                else {
-                    if(json.total > json.limit) {
-                        var page = Math.floor(json.offset / json.limit) + 1
-                        var totalPage = Math.floor(json.total / json.limit) + 1;
-                        
-                        Screen.print('Displaying Page '.white + page.toString().yellow + " on ".white + totalPage.toString().yellow);
-                    }
-                    Screen.print('');
-
-                    var array = [];
-
-                    array.push([ "#".gray, "System name".gray, "Version".gray, "Status".gray, "Type".gray, "ID".gray]);
-                    array.push([ "-".gray, "-----------".gray, "-------".gray, "------".gray, "----".gray, "--".gray]);  
-
-                    for (var i = 0; i < json.data.length; i++) {
-
-                        var system = json.data[i];
-
-                        var number = (i+1);
-                        if(options.page > 0) {
-                            number = ((options.page-1) * json.limit) + (i+1);
-                        }
-
-                        var type = system.type || "";
-                        var version = system.version || "";
-                        var name = system.name || ""
-                        var stats = system.status || "";
-                        if(stats !== "created") {
-                            stats = stats.yellow;
-                        }
-                        else {
-                            stats = stats.white;
-                        }
-
-                        array.push([ number.toString().white, name.cyan, version.white, stats, type.white, system.id.white]); 
-                    }
-
-                    var t = table(array);
-                    Screen.table(t);
-                    Screen.print('');
-                    Screen.success(json.total + ' systems found.');
+                else if(options.noOutput) {
+                    Message.out(json.data);
                 }
+                else {
+
+                    if(json.total > json.imit) {
+                        Message.tablePage(json, options);
+                    }
+                    Message.lineFeed();
+                    Message.tableSystems(json, options);
+                }
+
             }).catch(function(err) {
-                status.stop();
-                Message.error(err);
+                Message.unspin(spin);
+                Message.error(err, options);
                 Exit.error();
             });
         }
         else {
-            Message.notLoggedIn();
+            Message.notLoggedIn(options);
             Exit.error();
         }
     }
 
-    getSystem(id) {
+    getSystem(id, options) {
         var that = this;
 
-        Message.welcome();
+        Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user);
+            Message.loggedin(this._prefs.user, options);
         
-            Screen.print("Request informaton for system".white + " '".yellow + id.yellow + "'".yellow);
-            var status = new Spinner('In progress, please wait...');
-            status.start();
-            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+            Message.action("Get informaton for system", id, options);
+
+            let spin = Message.spin(options);
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
                 return that._getSystem(that._prefs.token, id);
             }).then(function(json) {
 
-                status.stop();
-                Screen.print('');
-
-                var array = [];
-                array.push([ "#".gray, "Attribute".gray, "Value".gray]);
-                array.push([ "-".gray, "---------".gray, "-----".gray]);  
-                var index = 1;
-                for (var key in json.data) {
-                    var data = json.data[key];
-                    if(data === null) {
-                        array.push([ index.toString().white, key.toString().cyan, 'null'.white ]);  
-                    } 
-                    else if(typeof data === "string" && data.length === 0) {
-                        array.push([  index.toString().white, key.toString().cyan, "''".white ]);  
-                    }
-                    else if(Tools.isArray(data) && data.length === 0) {
-                        array.push([  index.toString().white, key.toString().cyan, "[ ]".white ]);  
-                    }
-                    else if((Tools.isArray(data)) && data.length === 1) {
-                        array.push([  index.toString().white, key.toString().cyan, "[ ".white + JSON.stringify(data[0]).white + " ]".white]);  
-                    }
-                    else if((Tools.isArray(data)) && data.length > 1) {
-                        var item = ""
-                        for (var i=0; i < data.length; i++) {
-                            if(typeof data[i] === "string") {
-                                item +=  JSON.stringify(data[i]).white;
-                                if(i < data.length -1) {
-                                    item += ","
-                                }
-                            }
-                            else {
-                                item += "[ " + JSON.stringify(data[i]).white + " ]";
-                                if(i < data.length -1) {
-                                    item += ","
-                                }
-                            }
-                        }
-                        array.push([  index.toString().white, key.toString().cyan, "[ ".white + item.white + " ]" ]);  
-                    }
-                    else if(Tools.isObject(data)) {
-                        array.push([  index.toString().white, key.toString().cyan, JSON.stringify(data).white ]);  
-                    }
-                    else {
-                        array.push([  index.toString().white, key.toString().cyan, data.toString().white ]);
-                    }
-                    index+=1;
+                Message.unspin(spin);
+                if(options.noOutput) {
+                    Message.out(json.data);
                 }
-
-                var t = table(array);
-                Screen.table(t);
-                Screen.print('');
-                Screen.success('System information retrieved successfully.');
+                else {
+                    Message.lineFeed();
+                    Message.table2D(json.data);
+                    Message.lineFeed();
+                    Message.success(options);
+                }
+                
             }).catch(function(err) {
-                status.stop();
-                Message.error(err);
+                Message.unspin(spin);
+                Message.error(err, options);
                 Exit.error();
             });
         }
         else {
-            Message.notLoggedIn();
+            Message.notLoggedIn(options);
             Exit.error();
         }
     }
 
-    createSystem(name, siteId, option) {
+    createSystem(name, siteId, options) {
         var that = this;
 
         function doCreate(pbxType, country) {
-            var status = new Spinner('In progress, please wait...');
-            status.start();
-            NodeSDK.start(that._prefs.account.email, that._prefs.account.password, that._prefs.rainbow).then(function() {
-                return that._createSystem(that._prefs.token, name, siteId, pbxType, country, option);
+            
+            let spin = Message.spin(options);
+            NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host).then(function() {
+                return that._createSystem(that._prefs.token, name, siteId, pbxType, country, options);
             }).then(function(json) {
-                status.stop();
-                Screen.print('');
-                Screen.success('System'.white + " '".yellow + name.yellow + "'".yellow + " has been successfully created and associated to ID ".white + json.data.id.cyan);
+                Message.unspin(spin);
+                Message.printSuccess('System created with id', json.data.id, options);    
+                Message.success(options);
             }).catch(function(err) {
-                status.stop();
-                Message.error(err);
+                Message.unspin(spin);
+                Message.error(err, options);
                 Exit.error();
             });
         }
 
-        Message.welcome();
+        Message.welcome(options);
 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user);
+            Message.loggedin(this._prefs.user, options);
         
-            Screen.print("Request to create system".white + " '".yellow + name.yellow + "'".yellow + ' for site'.white + " '".yellow + siteId.yellow + "'".yellow);
+            Message.action("Create new system", name);
 
              Message.choices('What kind of PBX you want to create ?', Helper.PABX_list).then(function(pbxType) {
                     
@@ -383,67 +298,64 @@ class CSystem {
             
         }
         else {
-            Message.notLoggedIn();
+            Message.notLoggedIn(options);
             Exit.error();
         }
     }
 
-    linkSystem(systemid, siteid, option) {
+    linkSystem(systemid, siteid, options) {
         var that = this;
 
-        Message.welcome();
+        Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user);
+            Message.loggedin(this._prefs.user, options);
             
-        
-            Screen.print("Request to link system".white + " '".yellow + systemid.yellow + "'".yellow + " to site".white + " '".yellow + siteid.yellow + "'".yellow);
-            var status = new Spinner('In progress, please wait...');
-            status.start();
-            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
-                return that._linkSystem(that._prefs.token, systemid, siteid, option);
+            Message.action("Link system", systemid);
+
+            let spin = Message.spin(options);
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                return that._linkSystem(that._prefs.token, systemid, siteid, options);
             }).then(function(json) {
-                status.stop();
-                Screen.print('');
-                Screen.success('System'.white + " '".yellow + systemid.yellow + "'".yellow + " has been successfully linked to site ".white + siteid.cyan);
+                Message.unspin(spin);
+                Message.lineFeed();
+                Message.success(options);
             }).catch(function(err) {
-                status.stop();
-                Message.error(err);
+                Message.unspin(spin);
+                Message.error(err, options);
                 Exit.error();
             });
         }
         else {
-            Message.notLoggedIn();
+            Message.notLoggedIn(options);
             Exit.error();
         }
     }
 
-    unlinkSystem(systemid, siteid, option) {
+    unlinkSystem(systemid, siteid, options) {
         var that = this;
 
-        Message.welcome();
+        Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user);
-            
-        
-            Screen.print("Request to unlink system".white + " '".yellow + systemid.yellow + "'".yellow + " to site".white + " '".yellow + siteid.yellow + "'".yellow);
-            var status = new Spinner('In progress, please wait...');
-            status.start();
-            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
-                return that._unlinkSystem(that._prefs.token, systemid, siteid, option);
+            Message.loggedin(this._prefs.user, options);
+            Message.action("Unlink system", systemid);
+
+            let spin = Message.spin(options);
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                return that._unlinkSystem(that._prefs.token, systemid, siteid, options);
             }).then(function(json) {
-                status.stop();
-                Screen.print('');
-                Screen.success('System'.white + " '".yellow + systemid.yellow + "'".yellow + " has been successfully unlinked from site ".white + siteid.cyan);
+                Message.unspin(spin);
+                Message.lineFeed();
+                Message.success(options);
             }).catch(function(err) {
-                status.stop();
-                Message.error(err);
+                Message.unspin(spin);
+                Message.error(err, options);
                 Exit.error();
             });
         }
         else {
-            Message.notLoggedIn();
+            Message.notLoggedIn(options);
             Exit.error();
         }
     }

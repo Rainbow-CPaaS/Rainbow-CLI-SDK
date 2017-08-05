@@ -61,21 +61,21 @@ class CPhone {
     getPhones(systemid, options) {
         var that = this;
 
-        Message.welcome();
+        Message.welcome(options);
         
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user);
+            Message.loggedin(this._prefs.user, options);
 
             if(!options.csv) {
                 Screen.print("Current Phones:".white);
             }
             var status = new Spinner('In progress, please wait...');
             status.start();
-            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
                 return that._getListOfPhones(that._prefs.token, systemid, options);
             }).then(function(json) {
 
-                status.stop(); 
+                Message.unspin(spin);
                 if(options.csv) {
                     let stringify = csv.stringify;
                     var writeStream = fs.createWriteStream(options.csv, { flags : 'w' });
@@ -142,13 +142,13 @@ class CPhone {
                     Screen.success(json.total + ' systems found.');
                 }
             }).catch(function(err) {
-                status.stop();
-                Message.error(err);
+                Message.unspin(spin);
+                Message.error(err, options);
                 Exit.error();
             });
         }
         else {
-            Message.notLoggedIn();
+            Message.notLoggedIn(options);
             Exit.error();
         }
     }
@@ -156,19 +156,19 @@ class CPhone {
     getPhone(id, systemid) {
         var that = this;
 
-        Message.welcome();
+        Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user);
+            Message.loggedin(this._prefs.user, options);
         
             Screen.print("Request informaton for phone".white + " '".yellow + id.yellow + "'".yellow);
             var status = new Spinner('In progress, please wait...');
             status.start();
-            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
                 return that._getPhone(that._prefs.token, id, systemid);
             }).then(function(json) {
 
-                status.stop();
+                Message.unspin(spin);
                 Screen.print('');
 
                 var array = [];
@@ -221,13 +221,13 @@ class CPhone {
                 Screen.print('');
                 Screen.success('Phone information retrieved successfully.');
             }).catch(function(err) {
-                status.stop();
-                Message.error(err);
+                Message.unspin(spin);
+                Message.error(err, options);
                 Exit.error();
             });
         }
         else {
-            Message.notLoggedIn();
+            Message.notLoggedIn(options);
             Exit.error();
         }
     }
@@ -238,23 +238,23 @@ class CPhone {
         function doCreate(pbxType, country) {
             var status = new Spinner('In progress, please wait...');
             status.start();
-            NodeSDK.start(that._prefs.account.email, that._prefs.account.password, that._prefs.rainbow).then(function() {
+            NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host).then(function() {
                 return that._createSystem(that._prefs.token, name, siteId, pbxType, country, option);
             }).then(function(json) {
-                status.stop();
+                Message.unspin(spin);
                 Screen.print('');
                 Screen.success('System'.white + " '".yellow + name.yellow + "'".yellow + " has been successfully created and associated to ID ".white + json.data.id.cyan);
             }).catch(function(err) {
-                status.stop();
-                Message.error(err);
+                Message.unspin(spin);
+                Message.error(err, options);
                 Exit.error();
             });
         }
 
-        Message.welcome();
+        Message.welcome(options);
 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user);
+            Message.loggedin(this._prefs.user, options);
         
             Screen.print("Request to create system".white + " '".yellow + name.yellow + "'".yellow + ' for site'.white + " '".yellow + siteId.yellow + "'".yellow);
 
@@ -268,7 +268,7 @@ class CPhone {
             
         }
         else {
-            Message.notLoggedIn();
+            Message.notLoggedIn(options);
             Exit.error();
         }
     }
@@ -276,29 +276,29 @@ class CPhone {
     linkSystem(systemid, siteid, option) {
         var that = this;
 
-        Message.welcome();
+        Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user);
+            Message.loggedin(this._prefs.user, options);
             
         
             Screen.print("Request to link system".white + " '".yellow + systemid.yellow + "'".yellow + " to site".white + " '".yellow + siteid.yellow + "'".yellow);
             var status = new Spinner('In progress, please wait...');
             status.start();
-            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
                 return that._linkSystem(that._prefs.token, systemid, siteid, option);
             }).then(function(json) {
-                status.stop();
+                Message.unspin(spin);
                 Screen.print('');
                 Screen.success('System'.white + " '".yellow + systemid.yellow + "'".yellow + " has been successfully linked to site ".white + siteid.cyan);
             }).catch(function(err) {
-                status.stop();
-                Message.error(err);
+                Message.unspin(spin);
+                Message.error(err, options);
                 Exit.error();
             });
         }
         else {
-            Message.notLoggedIn();
+            Message.notLoggedIn(options);
             Exit.error();
         }
     }
@@ -306,29 +306,29 @@ class CPhone {
     unlinkSystem(systemid, siteid, option) {
         var that = this;
 
-        Message.welcome();
+        Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user);
+            Message.loggedin(this._prefs.user, options);
             
         
             Screen.print("Request to unlink system".white + " '".yellow + systemid.yellow + "'".yellow + " to site".white + " '".yellow + siteid.yellow + "'".yellow);
             var status = new Spinner('In progress, please wait...');
             status.start();
-            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
                 return that._unlinkSystem(that._prefs.token, systemid, siteid, option);
             }).then(function(json) {
-                status.stop();
+                Message.unspin(spin);
                 Screen.print('');
                 Screen.success('System'.white + " '".yellow + systemid.yellow + "'".yellow + " has been successfully unlinked from site ".white + siteid.cyan);
             }).catch(function(err) {
-                status.stop();
-                Message.error(err);
+                Message.unspin(spin);
+                Message.error(err, options);
                 Exit.error();
             });
         }
         else {
-            Message.notLoggedIn();
+            Message.notLoggedIn(options);
             Exit.error();
         }
     }

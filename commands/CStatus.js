@@ -1,13 +1,6 @@
 "use strict";
 
-var CLI         = require('clui');
-var Spinner     = CLI.Spinner;
-var table       = require('text-table');
-
-const pkg = require('../package.json');
-const Screen = require("../common/Print");
 const NodeSDK = require('../common/SDK');
-const Tools = require('../common/Tools');
 const Message = require('../common/Message');
 const Exit = require('../common/Exit');
 
@@ -23,12 +16,22 @@ class CStatus {
 
             var portals = [];
 
-            NodeSDK.get('/api/rainbow/ping', token).then(function(json) {
-                var status = {"name": "Admin", "status": json.status, "ttl": "-"};
-                if("data" in json) {
-                    status.ttl = json.data.eventLoopLagMilliseconds.toString();
-                }
+            NodeSDK.get('/api/rainbow/admin/v1.0/about', token).then(function(json) {
+                var status = {"name": json.description, "version": json.version};
                 portals.push(status);
+                return NodeSDK.get('/api/rainbow/applications/v1.0/about', token);
+            }).then(function(json) {
+                var status = {"name": json.description, "version": json.version};
+                portals.push(status);
+                return NodeSDK.get('/api/rainbow/authentication/v1.0/about', token);
+            }).then(function(json) {
+                var status = {"name": json.description, "version": json.version};
+                portals.push(status);
+                return NodeSDK.get('/api/rainbow/subscription/v1.0/about', token);
+            }).then(function(json) {
+                var status = {"name": json.description, "version": json.version};
+                portals.push(status);
+            }).then(function() {
                 resolve(portals);
             }).catch(function(err) {
                 reject(err);
@@ -36,52 +39,39 @@ class CStatus {
         });
     }
 
-    getStatus() {
+    getStatus(options) {
         var that = this;
         
-        Message.welcome();
+        Message.welcome(options);
                 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user);
+            Message.loggedin(this._prefs.user, options);
 
-            Screen.print("Current API status information:".white);
-            Screen.print('');
+            Message.action("API status information");
             
-            var status = new Spinner('In progress, please wait...');
-            status.start();
-            NodeSDK.start(this._prefs.account.email, this._prefs.account.password, this._prefs.rainbow).then(function() {
+            let spin = Message.spin(options);
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
                 return that._getAPIStatus(that._prefs.token);
-            }).then(function(portals) {
-                status.stop();  
-                
-                var array = [];
-                array.push([ "#".gray, "API".gray, "Status".gray, "Time".gray]);
-                array.push([ "-".gray, "---".gray, "------".gray, "----".gray]);  
+            }).then(function(json) {
 
-                for(var i=0; i < portals.length; i++) {
-                    var portalStatus = "-";
-                    if(portals[i].status === "OK") {
-                        portalStatus = "running".green;
-                    }
-                    else {
-                        portalStatus = "stopped".red;
-                    }
-                    array.push([(i+1).toString().white, portals[i].name.white, portalStatus, (portals[i].ttl + "ms").white ]);
+                Message.unspin(spin); 
+                
+                if(options.noOutput) {
+                    Message.out(json);
+                }
+                else {
+                    Message.lineFeed();
+                    Message.tableAPI(json, options);
                 }
 
-                var t = table(array);
-                Screen.table(t);
-                Screen.print('');
-                Screen.success('status successfully executed.');
-
             }).catch(function(err) {
-                status.stop();
-                Message.error(err);
+                Message.unspin(spin);
+                Message.error(err, options);
                 Exit.error();
             });
         }
         else {
-            Message.notLoggedIn();
+            Message.notLoggedIn(options);
             Exit.error();
         }
     }

@@ -22,17 +22,25 @@ class Organization {
 
         this._program.command('org', '<id>')
         .description("Retrieve information about an existing organization")
-        .action(function (id) {
-            that._organization.getOrganization(id);
+        .option('--json', 'Write the JSON result to standard stdout')
+        .action(function (id, commands) {
+
+            var options= {
+                noOutput: commands.json || false
+            }
+
+            that._organization.getOrganization(id, options);
         });
 
         this._program.command('create org', '<name>')
         .description("Create a new organization")
         .option('-p, --public', 'Create a public organization')
+        .option('--json', 'Write the JSON result to standard stdout')
         .action(function (name, commands) {
 
             var options = {
-                public: commands.public || false
+                public: commands.public || false,
+                noOutput: commands.json || false
             };
 
             that._organization.createOrganization(name, options);
@@ -54,6 +62,7 @@ class Organization {
         .description("List all existing organizations")
         .option('-p, --page <number>', 'Display a specific page')
         .option('-l, --limit <number>', 'Limit to a number of instances per page (max=1000')
+        .option('--json', 'Write the JSON result to standard stdout')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
         .action(function (commands) {
 
@@ -81,6 +90,7 @@ class Organization {
 
                 options = {
                     csv: commands.file || "",
+                    noOutput: commands.json || false,
                     page: page,
                     limit: limit
                 };

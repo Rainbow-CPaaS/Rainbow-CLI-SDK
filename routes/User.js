@@ -22,7 +22,7 @@ class User {
 
         this._program.command('user', '<id>')
         .description("Retrieve information about an existing user")
-        .option('-o, --json', 'Write the JSON result to standard stdout')
+        .option('--json', 'Write the JSON result to standard stdout')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -47,7 +47,7 @@ class User {
         .description("Create a new user")
         .option('-c, --company <id>', 'In company identified by an id')
         .option('-a, --admin', 'With a company_admin role')
-        .option('-o, --json', 'Write the JSON result to standard stdout')
+        .option('--json', 'Write the JSON result to standard stdout')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -104,7 +104,7 @@ class User {
         .option('-c, --company <name>', 'Filter users from a company name only')
         .option('-n, --name <name>', 'Filter users with a name (firstname lastname)')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
-        .option('-o, --json', 'Write the JSON result to standard stdout')
+        .option('--json', 'Write the JSON result to standard stdout')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');

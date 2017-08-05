@@ -17,10 +17,11 @@ All notable changes to Rainbow-CLI will be documented in this file.
 
 #### Changed
 ---
-* Order list of users by display name (firstname lastname)
+* Order the list of users by display name (firstname lastname)
 * [Compatibility Break] Filter users by company id using command: `rbw users --cid "..."` instead of `rbw users -c "..."`
 * [Compatibility Break] Rename command `rbw create ...` to `rbw create user ...`
 * [Compatibility Break] Rename command `rbw delete ...` to `rbw delete user ...`
+* [Compatinility Break] Command `rbw status` now returns the list of Rainbow portals with their version
 
 
 ### [0.7.5] - 2017-06-09

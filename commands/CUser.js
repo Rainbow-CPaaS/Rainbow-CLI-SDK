@@ -130,6 +130,7 @@ class CUser {
             if(!options.csv) {
                 Message.action("List users", null, options);
             }
+            
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
                 return that._getUsers(that._prefs.token, options);
@@ -187,7 +188,7 @@ class CUser {
                 }
                 else {
                     Message.lineFeed();
-                    Message.printSuccess('User has been assigned to ID', json.data.id, options);    
+                    Message.printSuccess('User created with Id', json.data.id, options);    
                     Message.success(options);
                 }
                 
@@ -218,7 +219,7 @@ class CUser {
                 Message.success(options);
             }).catch(function(err) {
                 Message.unspin(spin);
-                Message.error(err);
+                Message.error(err, options);
                 Exit.error();
             });
         }
@@ -238,6 +239,7 @@ class CUser {
                     }
                     else {
                         Message.canceled(options);
+                        Exit.error();
                     }
                 });
             }
@@ -260,7 +262,6 @@ class CUser {
                 Message.action("Get information for user" , id, options);
                 
                 let spin = Message.spin(options);
-
                 NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
                     return that._getUser(that._prefs.token, id);
                 }).then(function(json) {
@@ -278,7 +279,7 @@ class CUser {
                     }
 
                 }).catch(function(err) {
-                    status.stop();
+                    Message.unspin(spin);
                     Message.error(err, options);
                     Exit.error();
                 });

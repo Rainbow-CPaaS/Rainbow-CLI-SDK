@@ -95,10 +95,10 @@ class CImport {
     import(filePath) {
         var that = this;
 
-        Message.welcome();
+        Message.welcome(options);
                 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user);
+            Message.loggedin(this._prefs.user, options);
             
             if(!fs.existsSync(filePath)) {
                 Screen.error('File not found!');
@@ -112,13 +112,13 @@ class CImport {
                     Screen.print('');
                     Screen.success(json.nbUsers.toString().yellow + " users imported successfully.".white);
                 }).catch(function(err) {
-                    Message.error(err);
+                    Message.error(err, options);
                     Exit.error();
                 });
             }
         }
         else {
-            Message.notLoggedIn();
+            Message.notLoggedIn(options);
             Exit.error();
         }
     }

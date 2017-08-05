@@ -24,26 +24,48 @@ class Company {
 
         this._program.command('company', '<id>')
         .description("Retrieve information about an existing company")
+        .option('--json', 'Write the JSON result to standard stdout')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw company 57ea7475d78f3ba5aae98935');
+            console.log('    $ rbw company 57ea7475d78f3ba5aae98935 --json');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the company to the console');
             console.log('');
         })
-        .action(function (id) {
-            that._company.getCompany(id);
+        .action(function (id, commands) {
+
+            var options = {
+                noOutput: commands.json || false
+            }
+
+            that._company.getCompany(id, options);
         });
 
         this._program.command('create company', '<name>')
         .description("Create a new company")
+        .option('--json', 'Write the JSON result to standard stdout')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw create company "A new company"');
+            console.log('    $ rbw create company "A new company" --json');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the company created to the console');
             console.log('');
         })
-        .action(function (name) {
-            that._company.createCompany(name);
+        .action(function (name, commands) {
+
+            var options = {
+                noOutput: commands.json || false
+            }
+
+            that._company.createCompany(name, options);
         });
 
         this._program.command('delete company', '<id>')
@@ -54,6 +76,11 @@ class Company {
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw delete company 57ea7475d78f3ba5aae98935');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--nc` disables confirmation');
+            console.log('    The option `--force` deletes the company even if users exist (in that case, users are deleted first)');
             console.log('');
         })
         .action(function (id, commands) {
@@ -73,6 +100,10 @@ class Company {
             console.log('');
             console.log('    $ rbw link company 57ea7475d78f3ba5aae98935 57ea7475d78f3ba5aae98935');
             console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    This command requires at least `organization_admin` role');
+            console.log('');
         })
         .action(function (id, orgid) {
             that._company.linkCompany(id, orgid);
@@ -85,31 +116,13 @@ class Company {
             console.log('');
             console.log('    $ rbw unlink company 57ea7475d78f3ba5aae98935');
             console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    This command requires at least `organization_admin` role');
+            console.log('');
         })
         .action(function (id, orgid) {
             that._company.unlinkCompany(id);
-        });
-
-        this._program.command("find companies", "<name>")
-        .description("Find companies by name")
-        .on('--help', function(){
-            console.log('  Examples:');
-            console.log('');
-            console.log('    $ rbw find company "my comp"');
-            console.log('');
-        })
-        .action(function (name) {
-
-            var options = {
-                bp: false,
-                name: name,
-                org: "",
-                csv: "",
-                page: "1",
-                limit: "20"
-            };
-
-            that._company.getCompanies(options);
         });
 
         this._program.command('companies')
@@ -119,6 +132,7 @@ class Company {
         .option('--bp', 'Filter only bp companies')
         .option('--name <name>', 'Filter by company name')
         .option('-o, --org <id>', 'Filter on an organization')
+        .option('--json', 'Write the JSON result to standard stdout')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
         .on('--help', function(){
             console.log('  Examples:');
@@ -126,8 +140,16 @@ class Company {
             console.log('    $ rbw companies');
             console.log('    $ rbw companies -p 3');
             console.log('    $ rbw companies --org 57ea7475d78f3ba5aae98935');
+            console.log('    $ rbw companies --org 57ea7475d78f3ba5aae98935 --json');
             console.log('    $ rbw companies --name "Rainbow"');
             console.log('    $ rbw companies --file output.csv');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the company created to the console');
+            console.log('    The options `--page` and `limit` allow to navigate between paginated results');
+            console.log('    The options `--file` exports only fields `id`, `loginEmail`, `firstName`, `lastName`, `displayName`, `isActive`, `jid_im`, `jid_tel`, `companyId`, `companyName`');
+            console.log('');
             console.log('');
         })
         .action(function (commands) {
@@ -156,12 +178,13 @@ class Company {
                     }
                 }
 
-                var options = {
+                options = {
                     bp: commands.bp || false,
                     org: commands.org ? commands.org : "",
                     csv: commands.file || "",
                     page: page,
                     name: commands.name || null,
+                    noOutput: commands.json || false,
                     limit: limit
                 };
             }

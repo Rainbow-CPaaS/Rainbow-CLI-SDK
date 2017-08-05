@@ -22,27 +22,43 @@ class System {
         
         this._program.command('system', '<id>')
         .description("Retrieve information about an existing system")
+        .option('--json', 'Write the JSON result to standard stdout')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw system 58920fdd0bbe4b2f703bd386');
+            console.log('    $ rbw system 58920fdd0bbe4b2f703bd386 --json');
             console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the user to the console');
         })
-        .action(function (id) {
-            that._system.getSystem(id);
+        .action(function (id, commands) {
+
+            var options= {
+                noOutput: commands.json || false
+            }
+
+            that._system.getSystem(id, options);
         });
         
         this._program.command('create system', '<name>, <siteId>')
         .description("Create a new system")
+        .option('--json', 'Write the JSON result to standard stdout')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw create system PBX-1 58920e130bbe4b2f703bd382');
+            console.log('    $ rbw create system PBX-1 58920e130bbe4b2f703bd382 --json');
             console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the user to the console');
         })
-        .action(function (name, siteId) {
+        .action(function (name, siteId, commands) {
 
             var options = {
+                noOutput: commands.json || false
             };
 
             that._system.createSystem(name, siteId, options);
@@ -103,6 +119,7 @@ class System {
         .option('-p, --page <number>', 'Display a specific page')
         .option('-l, --limit <number>', 'Limit to a number of instances per page (max=1000')
         .option('-s, --site <siteid>', 'Limit to a site')
+        .option('--json', 'Write the JSON result to standard stdout')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
         .on('--help', function(){
             console.log('  Examples:');
@@ -110,8 +127,12 @@ class System {
             console.log('    $ rbw systems');
             console.log('    $ rbw systems --max');
             console.log('    $ rbw systems --site 58920e130bbe4b2f703bd546');
+            console.log('    $ rbw systems --site 58920e130bbe4b2f703bd546 --json');
             console.log('    $ rbw systems --file output.csv');
             console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the user to the console');
         })
         .action(function (commands) {
 
@@ -141,6 +162,7 @@ class System {
                     csv: commands.file || "",
                     siteid: commands.site || "",
                     page: page,
+                    noOutput: commands.json || false,
                     limit: limit
                 };
             }

@@ -22,8 +22,14 @@ class Status {
 
         this._program.command('status')
         .description("Display status of API")
-        .action(function () {
-           that._status.getStatus(); 
+        .option('--json', 'Write the JSON result to standard stdout')
+        .action(function (commands) {
+
+            var options= {
+                noOutput: commands.json || false
+            }
+
+            that._status.getStatus(options); 
         });
     }
 }

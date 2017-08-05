@@ -99,9 +99,9 @@ class Message {
         return status;
     }
 
-    unspin(status) {
-        if(status) {
-            status.stop();
+    unspin(spin) {
+        if(spin) {
+            spin.stop();
         }
     }
 
@@ -114,6 +114,134 @@ class Message {
         let totalPage = Math.floor(json.total / json.limit) + 1;
                         
         Screen.print('Displaying Page '.white + page.toString().yellow + " on ".white + totalPage.toString().yellow);
+    }
+
+    tableCompanies(json, options) {
+
+        var array = [];
+
+        array.push([ "#".gray, "Company name".gray, "Type".gray, "Visibility".gray, "Active".gray, "Organization".gray, "Identifier".gray]);
+        array.push([ "-".gray, "------------".gray, "----".gray, "----------".gray, "------".gray, "-----------".gray, "----------".gray]);  
+
+        for (var i = 0; i < json.companies.data.length; i++) {
+            var company = json.companies.data[i];
+            
+            var visibility = "private".white;
+            if(company.visibility === "public") {
+                visibility = "public".yellow;
+            }
+
+            var offerType = "freemium".white;
+            if(company.offerType === "premium") {
+                offerType = "premium".yellow;
+            }
+
+            var active = "true".white;
+            if(company.status !== "active") {
+                active = "false".red;
+            }
+
+            var organisation = "".white;
+            if(company.organisationId !== null) {
+                for(var j = 0; j < json.organisations.data.length; j++) {
+                    var org = json.organisations.data[j];
+                    if(org.id === company.organisationId) {
+                        organisation = org.id.white;
+                        break;
+                    }
+                }
+            }
+            
+            var number = (i+1);
+            if(Number(options.page) > 0) {
+                number = ((Number(options.page)-1) * json.companies.limit) + (i+1);
+            }
+
+            array.push([ number.toString().white, company.name.cyan, offerType, visibility, active ,organisation, company.id.white]); 
+        }
+
+        var t = table(array);
+        Screen.table(t);
+        Screen.print('');
+        Screen.success(json.companies.total + ' companies found.');
+    }
+
+    tableOrganizations(json, options) {
+        var array = [];
+
+        array.push([ "#".gray, "Organization name".gray, "Visibility".gray, "Identifier".gray]);
+        array.push([ "-".gray, "-----------------".gray, "----------".gray, "----------".gray]);  
+
+        for (var i = 0; i < json.data.length; i++) {
+            var org = json.data[i];
+            
+            var visibility = "private".white;
+            if(org.visibility === "public") {
+                visibility = "public".yellow;
+            }
+            
+            var number = (i+1);
+            if(options.page > 0) {
+                number = ((options.page-1) * json.limit) + (i+1);
+            }
+
+            array.push([ number.toString().white, org.name.cyan, visibility, org.id.white]); 
+        }
+
+        var t = table(array);
+        Screen.table(t);
+        Screen.print('');
+        Screen.success(json.total + ' organizations found.');
+    }
+
+    tableSystems(json, options) {
+        var array = [];
+
+        array.push([ "#".gray, "System name".gray, "Version".gray, "Status".gray, "Type".gray, "ID".gray]);
+        array.push([ "-".gray, "-----------".gray, "-------".gray, "------".gray, "----".gray, "--".gray]);  
+
+        for (var i = 0; i < json.data.length; i++) {
+
+            var system = json.data[i];
+
+            var number = (i+1);
+            if(options.page > 0) {
+                number = ((options.page-1) * json.limit) + (i+1);
+            }
+
+            var type = system.type || "";
+            var version = system.version || "";
+            var name = system.name || ""
+            var stats = system.status || "";
+            if(stats !== "created") {
+                stats = stats.yellow;
+            }
+            else {
+                stats = stats.white;
+            }
+
+            array.push([ number.toString().white, name.cyan, version.white, stats, type.white, system.id.white]); 
+        }
+
+        var t = table(array);
+        Screen.table(t);
+        Screen.print('');
+        Screen.success(json.total + ' systems found.');
+    }
+
+    tableAPI(json, options) {
+        var array = [];
+        array.push([ "#".gray, "API".gray, "Version".gray]);
+        array.push([ "-".gray, "---".gray, "------".gray]);  
+
+        for(var i=0; i < json.length; i++) {
+            array.push([(i+1).toString().white, json[i].name.white, json[i].version.cyan ]);
+        }
+
+        var t = table(array);
+        Screen.table(t);
+        Screen.print('');
+        Screen.success('status successfully executed.');
     }
 
     tableUsers(json, options) {
@@ -175,6 +303,35 @@ class Message {
         } else {
             Screen.success(json.total + ' users found');
         }
+    }
+
+    tableSites(json, options) {
+
+        var array = [];
+
+        array.push([ "#".gray, "Site name".gray, "Status".gray, "ID".gray, "Company ID".gray]);
+        array.push([ "-".gray, "---------".gray, "------".gray, "--".gray]);  
+
+        for (var i = 0; i < json.data.length; i++) {
+            var site = json.data[i];
+
+            var active = "true".white;
+            if(site.status !== "active") {
+                active = "false".red;
+            }
+            
+            var number = (i+1);
+            if(options.page > 0) {
+                number = ((options.page-1) * json.limit) + (i+1);
+            }
+
+            array.push([ number.toString().white, site.name.cyan, active, site.id.white, site.companyId.white]); 
+        }
+
+        var t = table(array);
+        Screen.table(t);
+        Screen.print('');
+        Screen.success(json.total + ' sites found.');
     }
 
     table2D(json) {
@@ -270,6 +427,14 @@ class Message {
 
         Screen.print('Your command has been canceled');
         Screen.print('');
+    }
+
+    warn(text, value, options) {
+        if(!this._shouldDisplayOutput(options)) {
+            return;
+        }
+
+        Screen.print("Warning, ".red + text.white  + " '".cyan + value.cyan + "'".cyan);
     }
 
     error(err, options) {
