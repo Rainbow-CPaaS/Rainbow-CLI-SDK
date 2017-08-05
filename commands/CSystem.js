@@ -1,16 +1,6 @@
 "use strict";
 
-var CLI         = require('clui');
-var Spinner     = CLI.Spinner;
-var table       = require('text-table');
-
-const csv = require('csv');
-const fs = require('fs');
-
-const pkg = require('../package.json');
-const Screen = require("../common/Print");
 const NodeSDK = require('../common/SDK');
-const Tools = require('../common/Tools');
 const Message = require('../common/Message');
 const Helper = require('../common/Helper');
 const Exit = require('../common/Exit');

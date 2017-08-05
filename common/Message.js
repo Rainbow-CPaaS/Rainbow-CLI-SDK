@@ -194,6 +194,44 @@ class Message {
         Screen.success(json.total + ' organizations found.');
     }
 
+    tablePhones(json, options) {
+        var array = [];
+
+        array.push([ "#".gray, "Short number".gray, "From System".gray, "Voice Mail number".gray, "Number".gray, "Monitored".gray, "ID".gray]);
+        array.push([ "-".gray, "------------".gray, "-----------".gray, "-----------------".gray, "------".gray, "---------".gray, "--".gray]);  
+
+        for (var i = 0; i < json.data.length; i++) {
+
+            var phone = json.data[i];
+            
+            var number = (i+1);
+            if(options.page > 0) {
+                number = ((options.page-1) * json.limit) + (i+1);
+            }
+
+            var fromSystem = "No".white;
+            if(phone.isFromSystem) {
+                fromSystem = "Yes".yellow;
+            }
+
+            var isMonitored = "No".white;
+            if(phone.isMonitored) {
+                isMonitored = "True".yellow;
+            }
+
+            var longNumber = phone.numberE164 || phone.number || "";
+            var vm = phone.voiceMailNumber || "";
+            var sn = phone.shortNumber || "";
+
+            array.push([ number.toString().white, sn.cyan, fromSystem, vm.white, longNumber.white, isMonitored, phone.id.white]); 
+        }
+
+        var t = table(array);
+        Screen.table(t);
+        Screen.print('');
+        Screen.success(json.total + ' systems found.');
+    }
+
     tableSystems(json, options) {
         var array = [];
 
