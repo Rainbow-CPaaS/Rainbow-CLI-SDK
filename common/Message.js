@@ -472,6 +472,14 @@ class Message {
         Screen.print("Type `rbw --help` for the list of available commands");
     }
 
+    found(number, type, options) {
+         if(!this._shouldDisplayOutput(options)) {
+            return;
+        }
+        Screen.print('');
+        Screen.print(number.toString().yellow + " " + type.yellow + " match".white);
+    }
+
     warn(text, value, options) {
         if(!this._shouldDisplayOutput(options)) {
             return;
@@ -499,16 +507,15 @@ class Message {
                 if(typeof err.details === "string") {
                     Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
                 }
-                else if (typeof err.details === "object") {
-                    Screen.print(err.details.details.white + ' ('.gray + err.details.msg.gray + '/'.gray + err.details.code.toString().gray + ')'.gray);
+                else if (Tools.isObject(err.details)) {
+                    let details = err.details.details || err.msg || "Bad request";
+                    Screen.print(details.white + ' ('.gray + err.details.msg.gray + '/'.gray + err.details.code.toString().gray + ')'.gray);
                 }
                 else {
                     var param = "";
                     err.details.forEach(function(detail) {
-                        param += "'" + detail.param + "' ";
+                        Screen.print("Incorrect value for ".white + detail.param.yellow + ' ('.gray + detail.msg.gray + ')'.gray);
                     });
-
-                    Screen.print("Incorrect value for ".white + param.yellow + '('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
                 }
             }
             else {

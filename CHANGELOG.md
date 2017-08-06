@@ -13,7 +13,8 @@ All notable changes to Rainbow-CLI will be documented in this file.
 * Filter companies by name using command: `rbw companies --name "..."`
 * Filter users by name using command: `rbw users --name "..."`
 * Filter users by company name using command: `rbw users --company "..."`
-* Stdout JSON format using argument `--json` 
+* Stdout JSON format using argument `--json`
+* New command `rbw find` to search for an Id in tables `users`, `organisations`, `companies` or `sites` 
 
 #### Changed
 ---
