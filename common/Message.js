@@ -467,6 +467,11 @@ class Message {
         Screen.print('');
     }
 
+    notFound() {
+        Screen.error("Command not found");
+        Screen.print("Type `rbw --help` for the list of available commands");
+    }
+
     warn(text, value, options) {
         if(!this._shouldDisplayOutput(options)) {
             return;

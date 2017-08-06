@@ -8,17 +8,19 @@ var colors      = require('colors');
 var pkg = require('./package.json')
 
 var Preferences = require("./common/Preferences");
-var Account = require('./routes/Account');
-var Company = require('./routes/Company');
-var Organization = require('./routes/Organization');
-var Site = require('./routes/Site');
-var System = require('./routes/System');
-var Phone = require('./routes/Phone');
-var Status = require('./routes/Status');
-var User = require('./routes/User');
-var Free = require('./routes/Free');
-var Import = require('./routes/Import');
-var Screen = require('./common/Print');
+var Message = require('./common/Message');
+
+var Account         = require('./routes/Account');
+var Company         = require('./routes/Company');
+var Organization    = require('./routes/Organization');
+var Site            = require('./routes/Site');
+var System          = require('./routes/System');
+var Phone           = require('./routes/Phone');
+var Status          = require('./routes/Status');
+var User            = require('./routes/User');
+var Free            = require('./routes/Free');
+var Import          = require('./routes/Import');
+var Advanced        = require('./routes/Advanced');
 
 start = function() {
 
@@ -38,6 +40,7 @@ start = function() {
   var status = new Status(program, prefs);
   var free = new Free(program, prefs);
   var masspro = new Import(program, prefs);
+  var advanced = new Advanced(program, prefs);
 
   // Start the routes
   account.start();
@@ -49,12 +52,16 @@ start = function() {
   phone.start();
   organization.start();
   //masspro.start();
+  advanced.start();
   status.start();
 
   program
-  .command('*')
-  .action(function () {
-    Screen.print('Command not found.')
+    .command('*')
+    .action(function () {
+        Message.welcome();
+        Message.version(pkg.version);
+        Message.lineFeed();
+        Message.notFound();
   });
 
   program.parse(process.argv);
