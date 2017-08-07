@@ -20,7 +20,7 @@ class Status {
     listOfCommands() {
         var that = this;
 
-        this._program.command('status')
+        this._program.command('status api')
         .description("Display status of API")
         .option('--json', 'Write the JSON result to standard stdout')
         .action(function (commands) {

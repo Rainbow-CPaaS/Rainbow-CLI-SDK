@@ -93,6 +93,25 @@ class Company {
             that._company.deleteCompany(id, options);
         });
 
+        this._program.command('status company', '<id>')
+        .description("Give a status on a company")
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw status company 57ea7475d78f3ba5aae98935');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+        })
+        .action(function (id, commands) {
+
+            var options = {
+            };
+
+            that._company.statusCompany(id, options);
+        });
+
+
         this._program.command('link company', '<id> <orgid>')
         .description("Link the company to an organization")
         .on('--help', function(){

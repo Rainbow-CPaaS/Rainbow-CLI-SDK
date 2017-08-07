@@ -8,13 +8,16 @@ All notable changes to Rainbow-CLI will be documented in this file.
 ### [0.8.0] - 2017-08-15
 ---
 
+Lots of change for that new version of Rainbow CLI. A big rework has been done to simplify code and to be able to export a JSON result format to the console.
+
 #### Added
 ---
 * Filter companies by name using command: `rbw companies --name "..."`
 * Filter users by name using command: `rbw users --name "..."`
 * Filter users by company name using command: `rbw users --company "..."`
 * Stdout JSON format using argument `--json`
-* New command `rbw find` to search for an Id in tables `users`, `organisations`, `companies` or `sites` 
+* New command `rbw find` to search for an Id in tables `users`, `organisations`, `companies` or `sites`
+* New command `rbw status company` to have a status of this company
 
 #### Changed
 ---
@@ -23,6 +26,7 @@ All notable changes to Rainbow-CLI will be documented in this file.
 * [Compatibility Break] Rename command `rbw create ...` to `rbw create user ...`
 * [Compatibility Break] Rename command `rbw delete ...` to `rbw delete user ...`
 * [Compatinility Break] Command `rbw status` now returns the list of Rainbow portals with their version
+* [compatibility Break] Rename command `rbw status` to `rbw status api`
 
 
 ### [0.7.5] - 2017-06-09

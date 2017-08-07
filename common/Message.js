@@ -509,7 +509,9 @@ class Message {
                 }
                 else if (Tools.isObject(err.details)) {
                     let details = err.details.details || err.msg || "Bad request";
-                    Screen.print(details.white + ' ('.gray + err.details.msg.gray + '/'.gray + err.details.code.toString().gray + ')'.gray);
+                    let msg = err.details.msg || "-";
+                    let code = err.details.code || "-";
+                    Screen.print(details.white + ' ('.gray + msg.gray + '/'.gray + code.toString().gray + ')'.gray);
                 }
                 else {
                     var param = "";

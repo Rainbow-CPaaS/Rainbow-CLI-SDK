@@ -134,6 +134,7 @@ Here is the complete list of commands:
 | | **create company** <name> | Create a new company |
 | | **delete company** <id> | Delete an existing company |
 | | **link company** <id> <orgid> | Link a company to an organization |
+| | **status company** <id> | Get a status of the company |
 | | **unlink company** <id> | Unlink a company from its organization |
 | Site | **site** <id> | Display information about a site |
 | | **create site** <name> <id> | Create a new site |
@@ -154,7 +155,7 @@ Here is the complete list of commands:
 | Phones | **phones** <id> | List the phones number of a system |
 | Organizations | **orgs** | List the organizations |
 | Advanced | **find** <id> | Find an item by its name |
-| Status | **status** | Get the API status |
+| Status | **status api** | Get the API status |
 | Import | **import** | Import a list of users from a CSV file |
 
 
@@ -292,6 +293,15 @@ This command allows to remove all users from a company
 
 ```bash
 $ rbw free company 58cd966fd45e61221b5711c0
+```
+
+
+### Command **STATUS COMPANY**
+
+This command allows to get a status of the company
+
+```bash
+$ rbw status company 58cd966fd45e61221b5711c0
 ```
 
 
@@ -599,13 +609,13 @@ $ rbw find 58cd966fd45e61221b5711c0
 ```
 
 
-### Command **STATUS**
+### Command **STATUS API**
 ---
 
 This command allows to retrieve the status of the Rainbow Services
 
 ```bash
-$ rbw status
+$ rbw status api
 ```
 
 ### Command **IMPORT**

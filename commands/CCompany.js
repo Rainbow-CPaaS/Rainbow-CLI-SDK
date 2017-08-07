@@ -1,5 +1,7 @@
 "use strict";
 
+const moment = require('moment');
+
 const NodeSDK = require('../common/SDK');
 const Message = require('../common/Message');
 const Exit = require('../common/Exit');
@@ -133,6 +135,73 @@ class CCompany {
         });
     }
 
+    _statusCompany(token, id) {
+
+        var that = this;
+
+        return new Promise(function(resolve, reject) {
+
+            let filterToApply = "format=full&limit=1000&companyId=" + id;
+
+            NodeSDK.get('/api/rainbow/admin/v1.0/users?' + filterToApply, token).then(function(json) {
+
+                let nbTerminated = 0, nbActive = 0, nbInitialized = 0;
+                let lastActivityDate = null, firstActivityDate = null;
+                json.data.forEach((user) => {
+
+                    nbTerminated += Number(user.isTerminated);
+                    nbActive += Number(user.isActive);
+                    nbInitialized += Number(user.isInitialized);
+
+                    // Compute last Activity
+                    if(!lastActivityDate) {
+                        lastActivityDate = user.lastLoginDate;
+                    }
+                    else {
+                        if(moment(user.lastLoginDate).isAfter(moment(lastActivityDate))) {
+                            lastActivityDate = user.lastLoginDate;
+                        }
+                    }
+
+                    // Compute first activity
+                    if(!firstActivityDate) {
+                        firstActivityDate = user.firstLoginDate;
+                    }
+                    else {
+                        if(moment(user.firstLoginDate).isBefore(moment(firstActivityDate))) {
+                            firstActivityDate = user.firstLoginDate;
+                        }
+                    }
+                });
+
+                let result = {
+                    "Created on" : "-",
+                    "Status": "-",
+                    "Visibility": "-",
+                    "Number of users": json.total,
+                    "Active users": nbActive,
+                    "Initialized users": nbInitialized,
+                    "Terminated users": nbTerminated,
+                    "Last activity": lastActivityDate ? moment(lastActivityDate).format("LLLL") : "No activity yet",
+                    "First activity": firstActivityDate ? moment(firstActivityDate).format("LLLL") : "No activity yet"
+                };
+
+                NodeSDK.get('/api/rainbow/admin/v1.0/companies/' + id, token).then(function (cJson) {
+
+                    result["Created on"] = moment(cJson.data.creationDate).format("LLLL");
+                    result["Status"] = cJson.data.status;
+                    result["Visibility"] = cJson.data.visibility;
+
+                    resolve(result);
+                });
+                
+                
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
     _linkCompany(token, id, orgid) {
 
         var that = this;
@@ -144,7 +213,6 @@ class CCompany {
             }).catch(function(err) {
                 reject(err);
             });
-            resolve();
         });
     }
 
@@ -293,6 +361,37 @@ class CCompany {
                     }
                 });
             }
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    statusCompany(id, options) {
+
+        var that = this;
+
+        Message.welcome(options);
+
+        if(this._prefs.token && this._prefs.user) {
+           Message.loggedin(this._prefs.user, options);
+        
+            Message.action("Status of company",id, options);
+
+            let spin = Message.spin(options);
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                return that._statusCompany(that._prefs.token, id);
+            }).then(function(json) {
+                Message.unspin(spin);
+                Message.lineFeed();
+                Message.table2D(json);
+                Message.success(options);
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
         }
         else {
             Message.notLoggedIn(options);
