@@ -12,25 +12,34 @@ class CStatus {
 
     _getAPIStatus(token) {
 
+
+        let doRequest = (url, name, token) => {
+            return new Promise((resolve) => {
+
+                NodeSDK.get(url, token).then(function(json) {
+                    resolve({"name": json.description, "version": json.version});
+                }).catch((err) => {
+                    resolve({"name": name, "version": "Not started"});
+                });
+
+            });
+        };
+
         return new Promise(function(resolve, reject) {
 
             var portals = [];
 
-            NodeSDK.get('/api/rainbow/admin/v1.0/about', token).then(function(json) {
-                var status = {"name": json.description, "version": json.version};
-                portals.push(status);
-                return NodeSDK.get('/api/rainbow/applications/v1.0/about', token);
+            doRequest('/api/rainbow/admin/v1.0/about', "Rainbow Admin Portal", token).then(function(json) {
+                portals.push(json);
+                return doRequest('/api/rainbow/applications/v1.0/about', "Rainbow Applications Portal", token);
             }).then(function(json) {
-                var status = {"name": json.description, "version": json.version};
-                portals.push(status);
-                return NodeSDK.get('/api/rainbow/authentication/v1.0/about', token);
+                portals.push(json);
+                return doRequest('/api/rainbow/authentication/v1.0/about', "Rainbow Authentication Portal", token);
             }).then(function(json) {
-                var status = {"name": json.description, "version": json.version};
-                portals.push(status);
-                return NodeSDK.get('/api/rainbow/subscription/v1.0/about', token);
+                portals.push(json);
+                return doRequest('/api/rainbow/subscription/v1.0/about', "Rainbow Subscription Portal", token);
             }).then(function(json) {
-                var status = {"name": json.description, "version": json.version};
-                portals.push(status);
+                portals.push(json);
             }).then(function() {
                 resolve(portals);
             }).catch(function(err) {
