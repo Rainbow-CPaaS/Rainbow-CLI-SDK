@@ -18,6 +18,7 @@ Lots of change for that new version of Rainbow CLI. A big rework has been done t
 * Stdout JSON format using argument `--json`
 * New command `rbw find` to search for an Id in tables `users`, `organisations`, `companies` or `sites`
 * New command `rbw status company` to have a status of this company
+* New command `rbw newco` to create a new company and a new user interactively
 
 #### Changed
 ---

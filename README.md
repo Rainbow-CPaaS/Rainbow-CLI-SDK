@@ -155,6 +155,7 @@ Here is the complete list of commands:
 | Phones | **phones** <id> | List the phones number of a system |
 | Organizations | **orgs** | List the organizations |
 | Advanced | **find** <id> | Find an item by its name |
+| | **newco** | Create a new company and a new user interactively |
 | Status | **status api** | Get the API status |
 | Import | **import** | Import a list of users from a CSV file |
 
@@ -599,6 +600,7 @@ $ rbw orgs --file "orgs.csv"
 
 The options `--limit` and `--page` can be used in case of a large number of organizations found
 
+
 ### Command **FIND**
 ---
 
@@ -606,6 +608,16 @@ This command search in the Rainbow database for the element associated to the gi
 
 ```bash
 $ rbw find 58cd966fd45e61221b5711c0
+```
+
+
+### Command **NEWCO**
+---
+
+This command creates a new company and a new user interactively. If there is a issue, when creating the user, the company is removed too. The user can have `company_admin` right or not. 
+
+```bash
+$ rbw newco
 ```
 
 

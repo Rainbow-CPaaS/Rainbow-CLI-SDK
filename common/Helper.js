@@ -5,6 +5,13 @@ class Helper {
     constructor() {
     }
 
+    get YesNo() {
+        return [
+            {name: 'Yes', value: true},
+            {name: 'No', value: false}
+        ];
+    }
+
     get PABX_list() {
         return [
             {name: 'OXE', value:'oxe'},

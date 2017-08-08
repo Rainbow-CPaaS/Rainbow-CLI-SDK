@@ -42,6 +42,25 @@ class Advanced {
 
             that._advanced.find(id, options);
         });
+
+        this._program.command('newco')
+        .description("Interactive creation of a company + a user")
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw wizard');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+        })
+        .action(function (id, commands) {
+
+            var options= {
+            }
+
+            that._advanced.newco(id, options);
+        });
+
     }
 }
 

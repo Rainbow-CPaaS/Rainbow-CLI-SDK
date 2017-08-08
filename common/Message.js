@@ -533,7 +533,7 @@ class Message {
     }
 
     choices(message, choices) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function(resolve) {
 
             var question = {
                 type: 'list',
@@ -550,7 +550,7 @@ class Message {
     }
 
     confirm(message) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function(resolve) {
 
             var question = {
                 type: 'list',
@@ -561,6 +561,39 @@ class Message {
 
             inquirer.prompt([question]).then(function (answer) {
                 resolve(answer.confirmation);        
+            });
+
+        });
+    }
+
+    ask(message, name) {
+        return new Promise(function(resolve) {
+
+            var question = {
+                type: 'input',
+                message: message,
+                name: 'query'
+            };
+
+            inquirer.prompt([question]).then(function (answer) {
+                resolve(answer.query);
+            });
+
+        });
+    }
+
+    askPassword(message, name) {
+        return new Promise(function(resolve) {
+
+            var question = {
+                type: 'password',
+                message: message,
+                name: 'query',
+                default: 'Password_123'
+            };
+
+            inquirer.prompt([question]).then(function (answer) {
+                resolve(answer.query);
             });
 
         });
