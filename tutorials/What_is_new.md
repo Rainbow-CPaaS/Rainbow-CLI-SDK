@@ -4,7 +4,7 @@
 Welcome to the new release of the Rainbow CLI . There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
 
-### Rainbow CLI 1.31 - October 2017
+### Rainbow CLI 1.30 - September 2017
 ---
 
 **COMMANDS**
