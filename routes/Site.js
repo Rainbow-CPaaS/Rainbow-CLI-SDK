@@ -1,6 +1,7 @@
 "use strict";
 
 var CSite = require('../commands/CSite');
+var Logger = require('../common/Logger');
 
 class Site {
 
@@ -24,6 +25,7 @@ class Site {
         this._program.command('site', '<id>')
         .description("Retrieve information about an existing site")
         .option('--json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -40,12 +42,15 @@ class Site {
                 noOutput: commands.json || false
             }
 
+            Logger.isActive = commands.verbose || false;
+
             that._site.getSite(id, options);
         });
         
         this._program.command('create site', '<name>, <companyId>')
         .description("Create a new site")
         //.option('-p, --public', 'Create a public site')
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -62,12 +67,15 @@ class Site {
                 noOutput: commands.json || false
             };
 
+            Logger.isActive = commands.verbose || false;
+
             that._site.createSite(name, companyId, options);
         });
 
         this._program.command('delete site', '<id>')
         .description("Delete an existing site")
         .option('--nc', 'Do not ask confirmation')
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -84,6 +92,8 @@ class Site {
                 noconfirmation: commands.nc || false
             };
 
+            Logger.isActive = commands.verbose || false;
+
             that._site.deleteSite(id, options);
         });
 
@@ -94,6 +104,7 @@ class Site {
         .option('-c, --company <companyid>', 'Limit to a company')
         .option('--json', 'Write the JSON result to standard stdout')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -140,6 +151,8 @@ class Site {
                     limit: limit
                 };
             }
+
+            Logger.isActive = commands.verbose || false;
 
             that._site.getSites(options);
         });

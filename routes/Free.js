@@ -1,6 +1,7 @@
 "use strict";
 
 var CFree = require('../commands/CFree');
+var Logger = require('../common/Logger');
 
 class Free {
 
@@ -22,7 +23,9 @@ class Free {
 
         this._program.command('free company', '<id>')
         .description("Remove all users from a company")
+        .option('-v, --verbose', 'Use verbose console mode')
         .action(function (id) {
+            Logger.isActive = commands.verbose || false;
             that._free.removeAllUsersFromACompany(id);
         });
     }

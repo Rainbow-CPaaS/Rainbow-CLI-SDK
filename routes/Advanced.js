@@ -1,6 +1,7 @@
 "use strict";
 
 var CAdvanced = require('../commands/CAdvanced');
+var Logger = require('../common/Logger');
 
 class Advanced {
 
@@ -23,6 +24,7 @@ class Advanced {
         this._program.command('find', '<id>')
         .description("Retrieve information associated to an id (ie: user, company...")
         .option('--json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -40,11 +42,14 @@ class Advanced {
                 noOutput: commands.json || false
             }
 
+            Logger.isActive = commands.verbose || false;
+
             that._advanced.find(id, options);
         });
 
         this._program.command('newco')
         .description("Interactive creation of a company + a user")
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -57,6 +62,8 @@ class Advanced {
 
             var options= {
             }
+
+            Logger.isActive = commands.verbose || false;
 
             that._advanced.newco(id, options);
         });

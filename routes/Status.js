@@ -1,6 +1,7 @@
 "use strict";
 
 var CStatus = require('../commands/CStatus');
+var Logger = require('../common/Logger');
 
 class Status {
 
@@ -23,11 +24,14 @@ class Status {
         this._program.command('status api')
         .description("Display status of API")
         .option('--json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
         .action(function (commands) {
 
             var options= {
                 noOutput: commands.json || false
             }
+
+            Logger.isActive = commands.verbose || false;
 
             that._status.getStatus(options); 
         });

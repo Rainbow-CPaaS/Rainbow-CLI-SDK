@@ -1,6 +1,7 @@
 "use strict";
 
 var CPhone = require('../commands/CPhone');
+var Logger = require('../common/Logger');
 
 class Phone {
 
@@ -24,6 +25,7 @@ class Phone {
         this._program.command('phone', '<id> <systemid>')
         .description("Retrieve information about an existing phone")
         .option('--json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -41,6 +43,8 @@ class Phone {
                 noOutput: commands.json || false
             }
 
+            Logger.isActive = commands.verbose || false;
+
             that._phone.getPhone(id, systemid, options);
         });
 
@@ -50,6 +54,7 @@ class Phone {
         .option('-l, --limit <number>', 'Limit to a number of instances per page (max=1000')
         .option('--json', 'Write the JSON result to standard stdout')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -96,6 +101,8 @@ class Phone {
                 };
 
             }
+
+            Logger.isActive = commands.verbose || false;
 
             that._phone.getPhones(systemid, options);
         });

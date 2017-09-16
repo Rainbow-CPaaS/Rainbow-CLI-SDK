@@ -97,11 +97,14 @@ class CSite {
 
             let spin = Message.spin(options);
             NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._deleteSite(that._prefs.token, id);
             }).then(function(json) {
                 Message.unspin(spin);
+                Message.log("action done...", json);
                 Message.lineFeed();
                 Message.success(options);
+                Message.log("finished!");
             }).catch(function(err) {
                 Message.unspin(spin);
                 Message.error(err, options);
@@ -149,10 +152,12 @@ class CSite {
             
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._getListOfSites(that._prefs.token, options);
             }).then(function(json) {
 
                 Message.unspin(spin);
+                Message.log("action done...", json);
 
                 if(options.csv) {
                     Message.csv(options.csv, json.data).then(() => {
@@ -171,6 +176,7 @@ class CSite {
                     Message.lineFeed();
                     Message.tableSites(json, options);
                 }
+                Message.log("finished!");
 
             }).catch(function(err) {
                 Message.unspin(spin);
@@ -196,10 +202,12 @@ class CSite {
 
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._getSite(that._prefs.token, id);
             }).then(function(json) {
 
                 Message.unspin(spin);
+                Message.log("action done...", json);
                 
                 if(options.noOutput) {
                     Message.out(json.data);
@@ -209,6 +217,7 @@ class CSite {
                     Message.table2D(json.data);
                     Message.lineFeed();
                     Message.success(options);
+                    Message.log("finished!");
                 }
 
             }).catch(function(err) {
@@ -235,9 +244,11 @@ class CSite {
 
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._createSite(that._prefs.token, name, companyId, options);
             }).then(function(json) {
                 Message.unspin(spin);
+                Message.log("action done...", json);
 
                 if(options.noOutput) {
                     Message.out(json.data);
@@ -246,6 +257,7 @@ class CSite {
                     Message.lineFeed();
                     Message.printSuccess('Site created with Id', json.data.id, options);    
                     Message.success(options);
+                    Message.log("finished!");
                 }
             }).catch(function(err) {
                 Message.unspin(spin);

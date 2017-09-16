@@ -26,7 +26,7 @@ class CAccount {
         var that = this;
 
         Message.welcome(options);
-            
+
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs.user, options);
             Message.action("Connected user information", null, options);
@@ -34,11 +34,14 @@ class CAccount {
             let spin = Message.spin(options);
 
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._getUserInfo(that._prefs.user.id, that._prefs.token);
             }).then(function(json) {
 
-                Message.unspin(spin);
+                Message.log("action done...", json);
 
+                Message.unspin(spin);
+                
                 if(options.noOutput) {
                     Message.out(json.data);
                 }
@@ -49,9 +52,10 @@ class CAccount {
                     Message.success(options);
                 }
 
+                Message.log("finished!");
+
             }).catch(function(err) {
                 Message.unspin(spin);
-
                 Message.error(err, options);
                 Exit.error();
             });
@@ -74,13 +78,19 @@ class CAccount {
             platform = that._prefs.host;
         }
 
+        Message.log("signin with", email);
+        Message.log("signin on", platform);
+
         let spin = Message.spin(options);
 
         NodeSDK.start(email, password, platform).then(function() {
+            Message.log("execute action...");
             return NodeSDK.signin();
         }).then(function(json) {
 
             Message.unspin(spin);
+
+            Message.log("action done...", json);
 
             if(options.noOutput) {
                 Message.out(json);
@@ -90,6 +100,8 @@ class CAccount {
                 Message.printSuccess('Signed in as', email, options);
             }
 
+            Message.log("save credentials...");
+
             that._prefs.save({
                     email: email,
                     password: password
@@ -98,9 +110,12 @@ class CAccount {
                 json.loggedInUser,
                 platform
             );
+            Message.log("credentials saved!");
+            Message.log("finished!");
 
         }).catch(function(err) {
             Message.unspin(spin);
+            Message.log("action failed...", err);
             Message.error(err, options);
             Exit.error();
         });
@@ -114,11 +129,14 @@ class CAccount {
             email = this._prefs.user.loginEmail;
         }
 
+        Message.log("logout from account", email);
         this._prefs.reset();
+        Message.log("preferences removed done");
 
         if(email) {
             Message.success();
             Message.printSuccess('You have signed out from', email);
+            Message.log("finished!");
         }
         else {
             Message.error({details: 'You are not signed-in'});

@@ -1,6 +1,7 @@
 "use strict";
 
 var CSystem = require('../commands/CSystem');
+var Logger = require('../common/Logger');
 
 class System {
 
@@ -23,6 +24,7 @@ class System {
         this._program.command('system', '<id>')
         .description("Retrieve information about an existing system")
         .option('--json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -39,12 +41,15 @@ class System {
                 noOutput: commands.json || false
             }
 
+            Logger.isActive = commands.verbose || false;
+
             that._system.getSystem(id, options);
         });
         
         this._program.command('create system', '<name>, <siteId>')
         .description("Create a new system")
         .option('--json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -61,12 +66,15 @@ class System {
                 noOutput: commands.json || false
             };
 
+            Logger.isActive = commands.verbose || false;
+
             that._system.createSystem(name, siteId, options);
         });
 
         this._program.command('delete system', '<id>')
         .description("Delete an existing system")
         .option('--nc', 'Do not ask confirmation')
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -79,11 +87,14 @@ class System {
                 noconfirmation: commands.nc || false
             };
 
+            Logger.isActive = commands.verbose || false;
+
             that._system.deleteSystem(id, options);
         });
 
         this._program.command('link system', '<systemid>, <siteId>')
         .description("Link a system to an other site")
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -95,11 +106,14 @@ class System {
             var options = {
             };
 
+            Logger.isActive = commands.verbose || false;
+
             that._system.linkSystem(systemid, siteId, options);
         });
 
         this._program.command('unlink system', '<systemid>, <siteId>')
         .description("Unlink a system from a site")
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -111,6 +125,8 @@ class System {
             var options = {
             };
 
+            Logger.isActive = commands.verbose || false;
+
             that._system.unlinkSystem(systemid, siteId, options);
         });
 
@@ -121,6 +137,7 @@ class System {
         .option('-s, --site <siteid>', 'Limit to a site')
         .option('--json', 'Write the JSON result to standard stdout')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -166,6 +183,8 @@ class System {
                     limit: limit
                 };
             }
+
+            Logger.isActive = commands.verbose || false;
 
             that._system.getSystems(options);
         });

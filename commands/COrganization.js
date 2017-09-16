@@ -86,9 +86,11 @@ class COrganization {
             
             let spin = Message.spin(options);
             NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._deleteOrganization(that._prefs.token, id);
             }).then(function(json) {
                 Message.unspin(spin);
+                Message.log("action done...", json);
                 Message.lineFeed();
                 Message.success(options);
             }).catch(function(err) {
@@ -117,6 +119,7 @@ class COrganization {
                     }
                 });
             }
+            Message.log("finished!");
         }
         else {
             Message.notLoggedIn(options);
@@ -138,9 +141,11 @@ class COrganization {
             
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._getListOfOrganizations(that._prefs.token, options);
             }).then(function(json) {
                 Message.unspin(spin);
+                Message.log("action done...", json);
                 if(options.csv) {
                     Message.csv(options.csv, json.data).then(() => {
                     }).catch((err) => {
@@ -158,6 +163,7 @@ class COrganization {
                     Message.lineFeed();
                     Message.tableOrganizations(json, options);
                 }
+                Message.log("finished!");
 
             }).catch(function(err) {
                 Message.unspin(spin);
@@ -183,10 +189,12 @@ class COrganization {
             
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._getOrganization(that._prefs.token, id);
             }).then(function(json) {
 
                 Message.unspin(spin);
+                Message.log("action done...", json);
 
                 if(options.noOutput) {
                     Message.out(json.data);
@@ -196,6 +204,7 @@ class COrganization {
                     Message.table2D(json.data);
                     Message.lineFeed();
                     Message.success(options);
+                    Message.log("finished!");
                 }
                
             }).catch(function(err) {
@@ -221,9 +230,11 @@ class COrganization {
             
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._createOrganization(that._prefs.token, name, options);
             }).then(function(json) {
                 Message.unspin(spin);
+                Message.log("action done...", json);
 
                 if(options.noOutput) {
                     Message.out(json.data);
@@ -232,6 +243,7 @@ class COrganization {
                     Message.lineFeed();
                     Message.printSuccess('Organization created with Id', json.data.id, options);    
                     Message.success(options);
+                    Message.log("finished!");
                 }
 
             }).catch(function(err) {

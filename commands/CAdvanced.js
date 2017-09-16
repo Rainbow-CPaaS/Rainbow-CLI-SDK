@@ -110,10 +110,13 @@ class CAdvanced {
             let spin = Message.spin(options);
 
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._find(that._prefs.token, id);
             }).then(function(json) {
 
                 Message.unspin(spin);
+
+                Message.log("action done...", json);
 
                 Message.found(1, json.type, options);
 
@@ -126,6 +129,7 @@ class CAdvanced {
                     Message.lineFeed();
                     Message.success(options);
                 }
+                Message.log("finished!");
 
             }).catch(function(err) {
                 Message.unspin(spin);
@@ -176,15 +180,19 @@ class CAdvanced {
                 let spin = Message.spin(options);
 
                 NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                    Message.log("execute action...");
                     return that._newco(that._prefs.token, companyName, loginEmail, loginPassword, userFirstname, userLastname, hasAdminRight);
                 }).then(function(json) {
 
                     Message.unspin(spin);
 
+                    Message.log("action done...", json);
+
                     Message.lineFeed();
                     Message.printSuccess("Company created with Id", json.company.id, options);
                     Message.printSuccess("User created with Id", json.user.id, options)
                     Message.success(options);
+                    Message.log("finished!");
 
                 }).catch(function(err) {
                     Message.unspin(spin);

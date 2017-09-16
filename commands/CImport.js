@@ -108,10 +108,13 @@ class CImport {
                 Message.action("Import file", filePath, options);
 
                 NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                    Message.log("execute action...");
                     return that._import(that._prefs.token, filePath);
                 }).then(function(json) {
+                    Message.log("action done...", json);
                     Message.printSuccess("Imported users", json.nbUsers);
                     Message.success();
+                    Message.log("finished!");
                 }).catch(function(err) {
                     Message.error(err, options);
                     Exit.error();

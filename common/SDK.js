@@ -1,6 +1,7 @@
 "use strict";
 
 const NodeSDK   = require('rainbow-node-sdk');
+const Logger    = require('./Logger');
 
 const LOG_ID = 'PRINT - ';
 
@@ -12,6 +13,10 @@ const config = {
   credentials: {
       "login": "",
       "password": ""
+  },
+  application: {
+    "appID": "595a9fed159edbaee3aa4f88",
+    "appSecret": "bUjJn7MEBY3uLTjP62ttHHYj"
   },
   logs: {
       enableConsoleLogs: false,
@@ -38,9 +43,12 @@ class SDK {
     
         return new Promise(function(resolve, reject) {
 
+            Logger.logs("CLI/SDK - (start) use account", login);
+
             config.credentials.login = login;
             config.credentials.password = password;
             config.rainbow.host = platform;
+            config.logs.enableConsoleLogs = Logger.isActive;
 
             that._nodeSDK = new NodeSDK(config);
         
@@ -48,24 +56,30 @@ class SDK {
                 reject();
             });
 
+            Logger.logs("CLI/SDK - (start) call startCLI");
             that._nodeSDK.startCLI().then(function() {
-            }).then(function() {
-            resolve();
+                Logger.logs("CLI/SDK - (start) call startCLI successfull");
+                resolve();
             }).catch(function(err) {
+                Logger.error("CLI/SDK - (start) call startCLI error", err);
                 reject(err);
             });
         });
     } 
 
-    signin(login, password) {
+    signin() {
 
         var that = this;
 
-        return new Promise(function(resolve, reject) {
+        Logger.logs("CLI/SDK - (signin)");
 
+        return new Promise(function(resolve, reject) {
+            Logger.logs("CLI/SDK - (signin) call startCLI");
             that._nodeSDK.signinCLI().then(function(json) {
+                Logger.logs("CLI/SDK - (signin) call startCLI successfull");
                 resolve(json);
             }).catch(function(err) {
+                Logger.error("CLI/SDK - (signin) call startCLI error", err);
                 reject(err);
             });
         });  

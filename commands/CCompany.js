@@ -251,11 +251,14 @@ class CCompany {
 
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._getListOfCompanies(that._prefs.token, options);
             }).then(function(json) {
 
                 Message.unspin(spin);
                 
+                Message.log("action done...", json);
+
                 if(options.csv) {
                     Message.csv(options.csv, json.companies.data).then(() => {
                     }).catch((err) => {
@@ -273,6 +276,7 @@ class CCompany {
                     Message.lineFeed();
                     Message.tableCompanies(json, options);
                 }
+                Message.log("finished!");
 
             }).catch(function(err) {
                 Message.unspin(spin);
@@ -298,9 +302,12 @@ class CCompany {
             let spin = Message.spin(options);
 
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._createCompany(that._prefs.token, name);
             }).then(function(json) {
                 Message.unspin(spin);
+
+                Message.log("action done...", json);
 
                 if(options.noOutput) {
                     Message.out(json.data);
@@ -310,6 +317,7 @@ class CCompany {
                     Message.printSuccess('Company created with Id', json.data.id, options);    
                     Message.success(options);
                 }
+                Message.log("finished!");
             }).catch(function(err) {
                 Message.unspin(spin);
                 Message.error(err, options);
@@ -330,11 +338,16 @@ class CCompany {
 
             let spin = Message.spin(options);
             NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._deleteCompany(that._prefs.token, id, options);
             }).then(function(json) {
                 Message.unspin(spin);
+
+                Message.log("action done...", json);
+
                 Message.lineFeed();
                 Message.success(options);
+                Message.log("finished!");
             }).catch(function(err) {
                 Message.unspin(spin);
                 Message.error(err, options);
@@ -381,12 +394,15 @@ class CCompany {
 
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._statusCompany(that._prefs.token, id);
             }).then(function(json) {
                 Message.unspin(spin);
+                Message.log("action done...", json);
                 Message.lineFeed();
                 Message.table2D(json);
                 Message.success(options);
+                Message.log("finished!");
             }).catch(function(err) {
                 Message.unspin(spin);
                 Message.error(err, options);
@@ -411,11 +427,14 @@ class CCompany {
 
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._linkCompany(that._prefs.token, id, orgid);
             }).then(function(json) {
                 Message.unspin(spin);
+                Message.log("action done...", json);
                 Message.lineFeed();
                 Message.success(options);
+                Message.log("finished!");
             }).catch(function(err) {
                 Message.unspin(spin);
                 Message.error(err, options);
@@ -440,11 +459,14 @@ class CCompany {
            
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._unlinkCompany(that._prefs.token, id);
             }).then(function(json) {
                 Message.unspin(spin);
+                Message.log("action done...", json);
                 Message.lineFeed();
                 Message.success(options);
+                Message.log("finished!");
             }).catch(function(err) {
                 Message.unspin(spin);
                 Message.error(err, options);
@@ -469,10 +491,12 @@ class CCompany {
             
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._getCompany(that._prefs.token, id);
             }).then(function(json) {
 
                 Message.unspin(spin);
+                Message.log("action done...", json);
 
                 if(options.noOutput) {
                     Message.out(json.data);
@@ -482,6 +506,7 @@ class CCompany {
                     Message.table2D(json.data);
                     Message.lineFeed();
                     Message.success(options);
+                    Message.log("finished!");
                 }
             }).catch(function(err) {
                 Message.unspin(spin);

@@ -127,11 +127,14 @@ class CSystem {
             
             let spin = Message.spin(options);
             NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._deleteSystem(that._prefs.token, id);
             }).then(function(json) {
                 Message.unspin(spin);
+                Message.log("action done...", json);
                 Message.lineFeed();
                 Message.success(options);
+                Message.log("finished!");
             }).catch(function(err) {
                 Message.unspin(spin);
                 Message.error(err, options);
@@ -179,10 +182,12 @@ class CSystem {
             
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._getListOfSystems(that._prefs.token, options);
             }).then(function(json) {
 
                 Message.unspin(spin);
+                Message.log("action done...", json);
 
                 if(options.csv) {
                     Message.csv(options.csv, json.data).then(() => {
@@ -201,6 +206,7 @@ class CSystem {
                     Message.lineFeed();
                     Message.tableSystems(json, options);
                 }
+                Message.log("finished!");
 
             }).catch(function(err) {
                 Message.unspin(spin);
@@ -226,10 +232,12 @@ class CSystem {
 
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._getSystem(that._prefs.token, id);
             }).then(function(json) {
 
                 Message.unspin(spin);
+                Message.log("action done...", json);
                 if(options.noOutput) {
                     Message.out(json.data);
                 }
@@ -239,6 +247,7 @@ class CSystem {
                     Message.lineFeed();
                     Message.success(options);
                 }
+                Message.log("finished!");
                 
             }).catch(function(err) {
                 Message.unspin(spin);
@@ -259,11 +268,14 @@ class CSystem {
             
             let spin = Message.spin(options);
             NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._createSystem(that._prefs.token, name, siteId, pbxType, country, options);
             }).then(function(json) {
                 Message.unspin(spin);
+                Message.log("action done...", json);
                 Message.printSuccess('System created with id', json.data.id, options);    
                 Message.success(options);
+                Message.log("finished!");
             }).catch(function(err) {
                 Message.unspin(spin);
                 Message.error(err, options);
@@ -305,11 +317,14 @@ class CSystem {
 
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._linkSystem(that._prefs.token, systemid, siteid, options);
             }).then(function(json) {
                 Message.unspin(spin);
+                Message.log("action done...", json);
                 Message.lineFeed();
                 Message.success(options);
+                Message.log("finished!");
             }).catch(function(err) {
                 Message.unspin(spin);
                 Message.error(err, options);
@@ -333,11 +348,14 @@ class CSystem {
 
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._unlinkSystem(that._prefs.token, systemid, siteid, options);
             }).then(function(json) {
                 Message.unspin(spin);
+                Message.log("action done...", json);
                 Message.lineFeed();
                 Message.success(options);
+                Message.log("finished!");
             }).catch(function(err) {
                 Message.unspin(spin);
                 Message.error(err, options);

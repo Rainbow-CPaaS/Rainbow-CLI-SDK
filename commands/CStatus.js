@@ -60,10 +60,12 @@ class CStatus {
             
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._getAPIStatus(that._prefs.token);
             }).then(function(json) {
 
-                Message.unspin(spin); 
+                Message.unspin(spin);
+                Message.log("action done...", json); 
                 
                 if(options.noOutput) {
                     Message.out(json);
@@ -72,6 +74,7 @@ class CStatus {
                     Message.lineFeed();
                     Message.tableAPI(json, options);
                 }
+                Message.log("finished!");
 
             }).catch(function(err) {
                 Message.unspin(spin);

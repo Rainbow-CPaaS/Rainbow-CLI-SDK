@@ -70,11 +70,14 @@ class CFree {
             Message.action("Free company", id, options);
 
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._removeAllUsersFromACompany(that._prefs.token, id);
             }).then(function(json) {
+                Message.log("action done...", json);
                 Message.lineFeed();
                 Message.success(options);
                 Message.printSuccess("Users deleted", json.nbDeleted.toString());
+                Message.log("finished!");
             }).catch(function(err) {
                 Message.error(err, options);
                 Exit.error();

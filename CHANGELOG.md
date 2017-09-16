@@ -5,6 +5,12 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+### [1.31.0] - 2017-09-17
+---
+- #28981: Add verbose option to all commands
+
+
+
 ### [0.8.0] - 2017-08-15
 ---
 

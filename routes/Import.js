@@ -1,6 +1,7 @@
 "use strict";
 
 var CImport = require('../commands/CImport');
+var Logger = require('../common/Logger');
 
 class Import {
 
@@ -23,6 +24,7 @@ class Import {
 
         this._program.command('import file', '<filename>')
         .description("Import a list of users from a file")
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -37,6 +39,7 @@ class Import {
             console.log('');
         })
         .action(function (filePath) {
+            Logger.isActive = commands.verbose || false;
             that._import.import(filePath); 
         });
     }

@@ -1,6 +1,7 @@
 "use strict";
 
 var CAccount = require('../commands/CAccount');
+var Logger = require('../common/Logger');
 
 class Account {
 
@@ -26,6 +27,7 @@ class Account {
             .description("Log-in to Rainbow")
             .option('-h, --host <hostname>', "Log-in to a specific host. 'hostname' can be 'official' or any hostname. If no --host, 'sandbox' is used")
             .option('--json', 'Write the JSON result to standard stdout')
+            .option('-v, --verbose', 'Use verbose console mode')
             .on('--help', function(){
                 console.log('  Examples:');
                 console.log('');
@@ -42,17 +44,20 @@ class Account {
             })
             .action(function (email, password, commands) {
 
-            var options = {
-                noOutput: commands.json || false
-            }
+                var options = {
+                    noOutput: commands.json || false
+                }
 
-            var platform = commands.host ? commands.host : "sandbox";
+                var platform = commands.host ? commands.host : "sandbox";
 
-            that._account.login(email, password, platform, options);
-        });
+                Logger.isActive = commands.verbose || false;
+
+                that._account.login(email, password, platform, options);
+            });
 
         this._program.command('logout')
             .description("Log-out to Rainbow")
+            .option('-v, --verbose', 'Use verbose console mode')
             .on('--help', function(){
                 console.log('  Examples:');
                 console.log('');
@@ -61,12 +66,15 @@ class Account {
             })
             .action(function () {
 
-            that._account.logout();
-        });
+                Logger.isActive = commands.verbose || false;
+
+                that._account.logout();
+            });
         
         this._program.command('whoami')
             .description("Display information about the connected user")
             .option('--json', 'Write the JSON result to standard stdout')
+            .option('-v, --verbose', 'Use verbose console mode')
             .on('--help', function(){
                 console.log('  Examples:');
                 console.log('');
@@ -80,12 +88,14 @@ class Account {
             })
             .action(function (commands) {
 
-            var options = {
-                noOutput: commands.json || false
-            }
+                var options = {
+                    noOutput: commands.json || false
+                }
 
-            that._account.getConnectedUserInformation(options);
-        });
+                Logger.isActive = commands.verbose || false;
+
+                that._account.getConnectedUserInformation(options);
+            });
     }
 }
 

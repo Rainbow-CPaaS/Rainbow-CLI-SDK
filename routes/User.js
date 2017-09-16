@@ -1,6 +1,7 @@
 "use strict";
 
 var CUser = require('../commands/CUser');
+var Logger = require('../common/Logger');
 
 class User {
 
@@ -23,6 +24,7 @@ class User {
         this._program.command('user', '<id>')
         .description("Retrieve information about an existing user")
         .option('--json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -40,6 +42,8 @@ class User {
                 noOutput: commands.json || false
             }
 
+            Logger.isActive = commands.verbose || false;
+
             that._user.getUser(id, options);
         });
 
@@ -48,6 +52,7 @@ class User {
         .option('-c, --company <id>', 'In company identified by an id')
         .option('-a, --admin', 'With a company_admin role')
         .option('--json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -69,12 +74,15 @@ class User {
                 isAdmin: commands.admin || false
             }
 
+            Logger.isActive = commands.verbose || false;
+
             that._user.create(email, password, firstname, lastname, options); 
         });
 
         this._program.command('delete user', '<id>')
         .description("Delete an existing user")
         .option('--nc', 'Do not ask confirmation')
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -92,6 +100,8 @@ class User {
                 noconfirmation: commands.nc || false
             };
 
+            Logger.isActive = commands.verbose || false;
+
             that._user.delete(id, options); 
         });
 
@@ -105,6 +115,7 @@ class User {
         .option('-n, --name <name>', 'Filter users with a name (firstname lastname)')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
         .option('--json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -168,6 +179,8 @@ class User {
                     limit: limit
                 };
             }
+
+            Logger.isActive = commands.verbose || false;
 
             that._user.getUsers(options);
         });

@@ -1,6 +1,7 @@
 "use strict";
 
 var COrganization = require('../commands/COrganization');
+var Logger = require('../common/Logger');
 
 class Organization {
 
@@ -23,11 +24,14 @@ class Organization {
         this._program.command('org', '<id>')
         .description("Retrieve information about an existing organization")
         .option('--json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
         .action(function (id, commands) {
 
             var options= {
                 noOutput: commands.json || false
             }
+
+            Logger.isActive = commands.verbose || false;
 
             that._organization.getOrganization(id, options);
         });
@@ -36,6 +40,7 @@ class Organization {
         .description("Create a new organization")
         .option('-p, --public', 'Create a public organization')
         .option('--json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
         .action(function (name, commands) {
 
             var options = {
@@ -49,11 +54,14 @@ class Organization {
         this._program.command('delete org', '<id>')
         .description("Delete an existing organization")
         .option('--nc', 'Do not ask confirmation')
+        .option('-v, --verbose', 'Use verbose console mode')
         .action(function (id, commands) {
 
             var options = {
                 noconfirmation: commands.nc || false
             };
+
+            Logger.isActive = commands.verbose || false;
 
             that._organization.deleteOrganization(id, options);
         });
@@ -64,6 +72,7 @@ class Organization {
         .option('-l, --limit <number>', 'Limit to a number of instances per page (max=1000')
         .option('--json', 'Write the JSON result to standard stdout')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
+        .option('-v, --verbose', 'Use verbose console mode')
         .action(function (commands) {
 
             var options = {
@@ -95,6 +104,8 @@ class Organization {
                     limit: limit
                 };
             }
+
+            Logger.isActive = commands.verbose || false;
 
             that._organization.getOrganizations(options);
         });

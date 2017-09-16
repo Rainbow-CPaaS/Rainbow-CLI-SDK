@@ -61,10 +61,12 @@ class CPhone {
             
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._getListOfPhones(that._prefs.token, systemid, options);
             }).then(function(json) {
 
                 Message.unspin(spin);
+                Message.log("action done...", json);
 
                 if(options.csv) {
                     Message.csv(options.csv, json.data).then(() => {
@@ -82,6 +84,7 @@ class CPhone {
                     Message.lineFeed();
                     Message.tablePhones(json, options);
                 }
+                Message.log("finished!");
                 
             }).catch(function(err) {
                 Message.unspin(spin);
@@ -107,10 +110,12 @@ class CPhone {
             
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
                 return that._getPhone(that._prefs.token, id, systemid);
             }).then(function(json) {
 
                 Message.unspin(spin);
+                Message.log("action done...", json);
                 
                 if(options.noOutput) {
                     Message.out(json.data);
@@ -120,6 +125,7 @@ class CPhone {
                     Message.table2D(json.data);
                     Message.lineFeed();
                     Message.success(options);
+                    Message.log("finished!");
                 }
             }).catch(function(err) {
                 Message.unspin(spin);

@@ -6,6 +6,7 @@ const CLI           = require('clui');
 const Spinner       = CLI.Spinner;
 const csv           = require('csv');
 const fs            = require('fs');
+const Logger        = require('./Logger');
 
 const Screen = require("./Print");
 const Tools = require('./Tools');
@@ -23,10 +24,20 @@ class Message {
         return true;
     }
 
+    log(message, value) {
+        Logger.logs(message, value);
+    }
+
+    logError(message, value) {
+        Logger.error(message, value);
+    }
+
     welcome(options) {
         if(!this._shouldDisplayOutput(options)) {
             return;
         }
+
+        this.log("options passed", options);
 
         Screen.print('Welcome to '.white + 'Rainbow CLI'.rainbow);
     }

@@ -1,6 +1,7 @@
 "use strict";
 
 var CCompany = require('../commands/CCompany');
+var Logger = require('../common/Logger');
 
 class Company {
 
@@ -25,6 +26,7 @@ class Company {
         this._program.command('company', '<id>')
         .description("Retrieve information about an existing company")
         .option('--json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -42,12 +44,15 @@ class Company {
                 noOutput: commands.json || false
             }
 
+            Logger.isActive = commands.verbose || false;
+
             that._company.getCompany(id, options);
         });
 
         this._program.command('create company', '<name>')
         .description("Create a new company")
         .option('--json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -65,6 +70,8 @@ class Company {
                 noOutput: commands.json || false
             }
 
+            Logger.isActive = commands.verbose || false;
+
             that._company.createCompany(name, options);
         });
 
@@ -72,6 +79,7 @@ class Company {
         .description("Delete an existing company")
         .option('--nc', 'Do not ask confirmation')
         .option('-f, --force', 'Force to remove the company and the users if exist')
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -90,11 +98,14 @@ class Company {
                 force: commands.force || false
             };
 
+            Logger.isActive = commands.verbose || false;
+
             that._company.deleteCompany(id, options);
         });
 
         this._program.command('status company', '<id>')
         .description("Give a status on a company")
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -108,12 +119,15 @@ class Company {
             var options = {
             };
 
+            Logger.isActive = commands.verbose || false;
+
             that._company.statusCompany(id, options);
         });
 
 
         this._program.command('link company', '<id> <orgid>')
         .description("Link the company to an organization")
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -125,11 +139,14 @@ class Company {
             console.log('');
         })
         .action(function (id, orgid) {
+
+            Logger.isActive = commands.verbose || false;
             that._company.linkCompany(id, orgid);
         });
 
         this._program.command('unlink company', '<id>')
         .description("unlink a company from its organization")
+        .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -141,11 +158,14 @@ class Company {
             console.log('');
         })
         .action(function (id, orgid) {
+
+            Logger.isActive = commands.verbose || false;
             that._company.unlinkCompany(id);
         });
 
         this._program.command('companies')
         .description("List all existing companies")
+        .option('-v, --verbose', 'Use verbose console mode')
         .option('-p, --page <number>', 'Display a specific page')
         .option('-l, --limit <number>', 'Limit to a number of instances per page (max=1000')
         .option('--bp', 'Filter only bp companies')
@@ -207,6 +227,8 @@ class Company {
                     limit: limit
                 };
             }
+
+            Logger.isActive = commands.verbose || false;
 
             that._company.getCompanies(options);
         });

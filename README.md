@@ -3,7 +3,7 @@
 
 Welcome to the Alcatel-Lucent Enterprise **Rainbow CLI application**!
 
-The Alcatel-Lucent Enterprise (ALE) Rainbow CLI application is an npm package for connecting to Rainbow and do administrative tasks.
+The Alcatel-Lucent Enterprise (ALE) Rainbow CLI application is an shell tool for connecting to Rainbow and doing administrative tasks.
 
 
 ## Preamble
