@@ -33,7 +33,7 @@ You can test it on the **Sandbox Developer Platform** or and Rainbow official if
 
 Please note that this is a Beta version of the Rainbow CLI application which is still undergoing final testing before its official release. The Rainbow CLI application and the documentation are provided on a "as is" and "as available" basis. Before releasing the official release, all these content can change depending on the feedback we receive in one hand and the developpement of the Rainbow official product in the other hand.
 
-Alcatel-Lucent Enterprise will not be liable for any loss, whether such loss is direct, indirect, special or consequential, suffered by any party as a result of their use of the Rainbow CLI Application for Node.js, the application sample software or the documentation content.
+Alcatel-Lucent Enterprise will not be liable for any loss, whether such loss is direct, indirect, special or consequential, suffered by any party as a result of their use of the Rainbow CLI application, the application sample software or the documentation content.
 
 If you encounter any bugs, lack of functionality or other problems regarding the Rainbow CLI application, the application samples or the documentation, please let us know immediately so we can rectify these accordingly. Your help in this regard is greatly appreciated. 
 
@@ -43,6 +43,8 @@ If you encounter any bugs, lack of functionality or other problems regarding the
 
 You need to install the Rainbow CLI application globally on your computer in order to be able to launch it from any directories.
 
+Open a shell console and execute the following command:
+
 
 ```bash
 
@@ -50,6 +52,7 @@ $ npm install -g rainbow-cli
 
 ```
 
+Notice: Your need a stable version of Node.JS installed on your computer.
 
 ### Usage
 ---
@@ -143,7 +146,7 @@ rbw user 58e36805d45e61221b571363 --verbose
 Here is the complete list of commands:
 
 | Category | Commands | Details |
-|:---------|----------|:--------|
+|:---------|:---------|:--------|
 | Account | **login** <username> <password> | Log-in to Rainbow |
 | | **logout** | Log-out from Rainbow | 
 | | **whoami** | Display information about the user connected |
