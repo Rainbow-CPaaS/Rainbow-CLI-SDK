@@ -1,4 +1,4 @@
-## Getting Started
+## Rainbow CLI: Getting Started
 ---
 
 Welcome to the Alcatel-Lucent Enterprise **Rainbow CLI application**!
