@@ -58,14 +58,14 @@ class Advanced {
             console.log('  Details:');
             console.log('');
         })
-        .action(function (id, commands) {
+        .action(function (commands) {
 
             var options= {
             }
 
             Logger.isActive = commands.verbose || false;
 
-            that._advanced.newco(id, options);
+            that._advanced.newco(commands);
         });
 
     }

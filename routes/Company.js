@@ -138,7 +138,7 @@ class Company {
             console.log('    This command requires at least `organization_admin` role');
             console.log('');
         })
-        .action(function (id, orgid) {
+        .action(function (id, orgid, commands) {
 
             Logger.isActive = commands.verbose || false;
             that._company.linkCompany(id, orgid);
@@ -157,7 +157,7 @@ class Company {
             console.log('    This command requires at least `organization_admin` role');
             console.log('');
         })
-        .action(function (id, orgid) {
+        .action(function (id, commands) {
 
             Logger.isActive = commands.verbose || false;
             that._company.unlinkCompany(id);

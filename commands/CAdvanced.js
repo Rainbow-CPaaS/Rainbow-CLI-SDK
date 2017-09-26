@@ -44,7 +44,7 @@ class CAdvanced {
                 })
 
             }).catch((err) => {
-                rejec(err);
+                reject(err);
             });
         });
     }
@@ -134,6 +134,9 @@ class CAdvanced {
             }).catch(function(err) {
                 Message.unspin(spin);
 
+                console.log("ERR", err);
+                err.details = 'No item found with that id in organizations, companies, sites and users tables.'
+
                 Message.error(err, options);
                 Exit.error();
             });
@@ -144,7 +147,7 @@ class CAdvanced {
         }
     }
 
-    newco(id, options) {
+    newco(options) {
         var that = this;
 
         Message.welcome(options);
