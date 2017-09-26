@@ -1,22 +1,22 @@
 ## What's new
 ---
 
-Welcome to the new release of the Rainbow CLI . There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
+Welcome to the new release of the **Rainbow CLI** . There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
 
-### Rainbow CLI 1.30 - September 2017
+### Rainbow CLI 1.30 (Beta) - September 2017
 ---
 
 **COMMANDS**
 
-- Verbose option `-v`or `--verbose`has been added to all commands. When active, this option allow to add more logs to the console to help debugging in case of issue.
+- Verbose option `-v`or `--verbose` has been added to all commands. When active, this option allow to add more logs to the console to help debugging in case of issue.
 
 
 **BUGS**
 - No bug fixed
 
 
-### Rainbow CLI 0.8 - August 2017
+### Rainbow CLI 0.8 (Alpha) - August 2017
 ---
 
 Lots of change for that new version of Rainbow CLI. A big rework has been done to simplify code and to be able to export a JSON result format to the console.

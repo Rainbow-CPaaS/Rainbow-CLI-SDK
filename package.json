@@ -29,15 +29,13 @@
     "colors": "^1.1.2",
     "commander-plus": "0.0.6",
     "csv": "^1.1.1",
-    "inquirer": "^3.2.1",
+    "inquirer": "^3.3.0",
     "moment": "^2.18.1",
     "preferences": "^0.2.1",
-    "rainbow-node-sdk": "^1.27.1",
+    "rainbow-node-sdk": "^1.30.1",
+    "standard": "^10.0.2",
     "text-table": "^0.2.0",
     "winston": "^2.3.1"
   },
-  "devDependencies": {
-    "rainbow-node-sdk": "^1.30.1",
-    "standard": "^10.0.2"
-  }
+  "devDependencies": {}
 }
