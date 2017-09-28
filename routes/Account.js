@@ -64,7 +64,7 @@ class Account {
                 console.log('    $ rbw logout');
                 console.log('');
             })
-            .action(function () {
+            .action(function (commands) {
 
                 Logger.isActive = commands.verbose || false;
 

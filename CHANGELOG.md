@@ -5,6 +5,11 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+### [1.30.1] - 2017-09-28
+---
+- #29125: Fix login regression issue
+
+
 ### [1.30.0] - 2017-09-26
 ---
 - #28981: Add verbose option to all commands
