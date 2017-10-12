@@ -4,12 +4,23 @@
 Welcome to the new release of the **Rainbow CLI** . There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
 
+### Rainbow CLI 1.31 (Beta) - October 2017
+---
+
+**COMMANDS**
+- No new command.
+
+
+**BUGS**
+- Only documentation fixes.
+
+
 ### Rainbow CLI 1.30 (Beta) - September 2017
 ---
 
 **COMMANDS**
 
-- Verbose option `-v`or `--verbose` has been added to all commands. When active, this option allow to add more logs to the console to help debugging in case of issue.
+- Verbose option `-v` or `--verbose` has been added to all commands. When active, this option allow to add more logs to the console to help debugging in case of issue.
 
 
 **BUGS**

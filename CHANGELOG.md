@@ -5,6 +5,11 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+### [1.31.0] - 2017-10-12
+---
+- Only fix in documentation
+
+
 ### [1.30.1] - 2017-09-28
 ---
 - #29125: Fix login regression issue
