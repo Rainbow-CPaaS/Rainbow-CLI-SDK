@@ -193,11 +193,17 @@ This command allows to log-in to Rainbow
 $ rbw login "rford@westworld.com" "Password_12345"
 ```
 
-By default the connection is done on the sandbox platform. To log to another Rainbow platform, simply add the option `--host` followed by the hostname where you want to connect:
+By default the connection is done on the sandbox platform.
+- To log to the official Rainbow platform, simply add the option `--official`. 
+    ```bash
+    $ rbw login "rford@westworld.com" "Password_12345" --official
+    ```
 
-```bash
-$ rbw login "rford@westworld.com" "Password_12345" --host "openrainbow.com"
-```
+- To log to another Rainbow platform, simply add the option `--host` followed by the hostname where you want to connect:
+
+    ```bash
+    $ rbw login "rford@westworld.com" "Password_12345" --host "openrainbow.com"
+    ```
 
 Once this command is done, you're connected to Rainbow and you can launch other commands until your session expires.
 
@@ -211,9 +217,7 @@ This command allows to log-out from Rainbow
 $ rbw logout 
 ```
 
-By default the connection is done on the sandbox platform. To log to the official Rainbow platform, simply add the option `--official`
-
-Once this command is done, you're connected to Rainbow and you can launch other commands until your session expires.
+Once this command is done, you're disconnected to Rainbow.
 
 
 #### Command **WHOAMI**
