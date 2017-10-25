@@ -96,6 +96,19 @@ class Account {
 
                 that._account.getConnectedUserInformation(options);
             });
+        
+        this._program.command('commands')
+            .description("List commands depending the user profile")
+            .option('-v, --verbose', 'Use verbose console mode')
+            .action(function (commands) {
+            
+                var options = {
+                }
+
+                Logger.isActive = commands.verbose || false;
+
+                that._account.getCommands(options);
+            });
     }
 }
 

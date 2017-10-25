@@ -143,6 +143,191 @@ class CAccount {
             Exit.error();
         }
     }
+
+    getCommands(options) {
+        var that = this;
+        
+        Message.welcome(options);
+
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs.user, options);
+
+            if(!options.csv) {
+                Message.action("List commands", null, options);
+            }
+            
+            var json = {
+                "data": [
+                    {
+                        "level": "company_admin", 
+                        "theme": "General", 
+                        "command": "whoami", 
+                        "details": "Display information about the connected user"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "General", 
+                        "command": "login <email> <pwd>", 
+                        "details": "Log-in to Rainbow"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "General", 
+                        "command": "logout", 
+                        "details": "Log-out from Rainbow"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "----------", 
+                        "command": "----------", 
+                        "details": "----------"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "Users", 
+                        "command": "create user <email> <pwd> <firstname> <lastname>", 
+                        "details": "Create a new Rainbow user in your company"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "Users", 
+                        "command": "delete user <id>", 
+                        "details": "Delete an existing user in your company"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "Users", 
+                        "command": "user <id>", 
+                        "details": "List information on a user"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "Users", 
+                        "command": "users", 
+                        "details": "List users"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "----------", 
+                        "command": "----------", 
+                        "details": "----------"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "Company", 
+                        "command": "company", 
+                        "details": "List information on your company"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "Company", 
+                        "command": "status company", 
+                        "details": "List status on your company"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "----------", 
+                        "command": "----------", 
+                        "details": "----------"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "Site", 
+                        "command": "create site <name>", 
+                        "details": "Create a new site"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "Site", 
+                        "command": "delete site <id>", 
+                        "details": "Delete an existing site"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "Site", 
+                        "command": "site <id>", 
+                        "details": "List information on a site"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "Site", 
+                        "command": "sites", 
+                        "details": "List sites"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "----------", 
+                        "command": "----------", 
+                        "details": "----------"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "System", 
+                        "command": "create system <name> <siteId>", 
+                        "details": "Create a new system for a site"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "System", 
+                        "command": "delete system <id>", 
+                        "details": "Delete an existing system"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "System", 
+                        "command": "link system <systemId> <siteId>", 
+                        "details": "Link a system to a site"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "System", 
+                        "command": "unlink system <systemId> <siteId>", 
+                        "details": "Unlink a system from a site"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "System", 
+                        "command": "system <id>", 
+                        "details": "List information on a system"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "System", 
+                        "command": "systems", 
+                        "details": "List systems"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "----------", 
+                        "command": "----------", 
+                        "details": "----------"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "Phone", 
+                        "command": "phone <id> <systemId", 
+                        "details": "List information on a phone"
+                    },
+                    {
+                        "level": "company_admin", 
+                        "theme": "Phone", 
+                        "command": "phones <systemId", 
+                        "details": "List phone on a system"
+                    },
+
+                ]
+            };
+
+            Message.lineFeed();
+            Message.tableCommands(json, options);
+            Message.log("finished!");
+
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
     
 }
 
