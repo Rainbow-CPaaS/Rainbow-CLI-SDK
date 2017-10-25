@@ -246,8 +246,8 @@ class Message {
     tableSystems(json, options) {
         var array = [];
 
-        array.push([ "#".gray, "System name".gray, "Version".gray, "Status".gray, "Type".gray, "ID".gray]);
-        array.push([ "-".gray, "-----------".gray, "-------".gray, "------".gray, "----".gray, "--".gray]);  
+        array.push([ "#".gray, "System name".gray, "Version".gray, "Status".gray, "Type".gray, "ID".gray, "PBX ID".gray]);
+        array.push([ "-".gray, "-----------".gray, "-------".gray, "------".gray, "----".gray, "--".gray, "------".gray]);  
 
         for (var i = 0; i < json.data.length; i++) {
 
@@ -268,8 +268,9 @@ class Message {
             else {
                 stats = stats.white;
             }
+            var pbxId = system.pbxId.yellow || ""
 
-            array.push([ number.toString().white, name.cyan, version.white, stats, type.white, system.id.white]); 
+            array.push([ number.toString().white, name.cyan, version.white, stats, type.white, system.id.white, pbxId]); 
         }
 
         var t = table(array);
@@ -435,13 +436,53 @@ class Message {
         Screen.table(t);
     }
 
+    tableCommands(json, options) {
+        
+        var array = [];
+
+        array.push([ "Level".gray, "Theme".gray, "Commands".gray, "Details".gray]);
+        array.push([ "----------".gray, "----------".gray, "----------".gray, "----------".gray]);  
+
+        var previousLevel = "";
+        var previousTheme = "";
+
+        for (var i = 0; i < json.data.length; i++) {
+            var command = json.data[i];
+
+            var active = "true".white;
+
+            var level = command.level !== previousLevel ? command.level : "";
+            previousLevel = command.level;
+
+            var theme = command.theme !== previousTheme ? command.theme : "";
+            previousTheme = command.theme;
+            
+            if(theme === "----------") {
+                array.push([ level.grey, theme.grey, command.command.grey, command.details.grey]); 
+            } else {
+                array.push([ level.cyan, theme.white, command.command.yellow, command.details.white]); 
+            }
+        }
+
+        var t = table(array);
+        Screen.table(t);
+        Screen.print('');
+        Screen.success('Avallable commands for your level listed.');
+    }
+
     loggedin(user, options) {
         if(!this._shouldDisplayOutput(options)) {
             return;
         }
 
         Screen.print('You are logged in as'.grey + " " + user.loginEmail.magenta);
-        Screen.print('With the roles of'.grey + " " + user.roles.join(' | ').cyan);
+        let adminType = "";
+        Screen.print('Your roles'.grey + " " + user.roles.join(' | ').yellow);
+        if(user.adminType && user.adminType !== "undefined") {
+            adminType = user.adminType;
+            Screen.print('Your level'.grey + " "  + adminType.cyan);
+        }
+        
         Screen.print('');
     }
 
@@ -497,6 +538,20 @@ class Message {
         }
 
         Screen.print("Warning, ".red + text.white  + " '".cyan + value.cyan + "'".cyan);
+    }
+
+    errorList(err, options, itemId) {
+        if(!this._shouldDisplayOutput(options)) {
+            var out = new Buffer.from(JSON.stringify(err));
+            process.stdout.write(out);
+            process.stdout.write("\r\n");
+            return;
+        }
+
+        let msg = "Can't execute the command for ".white + itemId.red;
+        msg += " - ".gray + err.msg.gray + '/'.gray + err.code.toString().gray;
+
+        Screen.error(msg);
     }
 
     error(err, options) {
