@@ -101,7 +101,7 @@ class System {
             console.log('    $ rbw link system 58920e130bbe4b2f703bd382 58920e130bbe4b2f703b523');
             console.log('');
         })
-        .action(function (systemid, siteId) {
+        .action(function (systemid, siteId, commands) {
 
             var options = {
             };
@@ -120,7 +120,7 @@ class System {
             console.log('    $ rbw unlink system 58920e130bbe4b2f703bd382 58920e130bbe4b2f703b523');
             console.log('');
         })
-        .action(function (systemid, siteId) {
+        .action(function (systemid, siteId, commands) {
 
             var options = {
             };

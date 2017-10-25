@@ -110,7 +110,7 @@ class User {
         .option('-p, --page <number>', 'Display a specific page')
         .option('-l, --limit <number>', 'Limit to a number of instances per page (max=1000)')
         .option('-t, --terminated', 'Filter terminated users only')
-        .option('--cid <id>', 'Filter users from a company id only')
+        .option('-i, --cid <id>', 'Filter users from a company id only')
         .option('-c, --company <name>', 'Filter users from a company name only')
         .option('-n, --name <name>', 'Filter users with a name (firstname lastname)')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
@@ -146,44 +146,44 @@ class User {
                 limit: "25"
             };
 
-            if(typeof commands === "object") {
-
-                var page = "1";
-                if("page" in commands) {
-                    if(commands.page > 1) {
-                        page = commands.page;
-                    }
+            var page = "1";
+            var limit = "25";
+            var format = "full";
+           
+            if("page" in commands) {
+                if(commands.page > 1) {
+                    page = commands.page;
                 }
-            
-                var limit = "25";
-                if("limit" in commands && commands.limit) {
-                    if(commands.limit > 0) {
-                        limit = commands.limit;
-                    }
-                }
-
-                var format = "full";
-                if(commands.csv) {
-                    format = "medium";
-                }
-
-                options = {
-                    noOutput: commands.json || false,
-                    companyId: commands.cid || "",
-                    company: commands.company || null,
-                    onlyTerminated: commands.terminated || false,
-                    csv: commands.file || "",
-                    format: format,
-                    name: commands.name || null,
-                    page: page,
-                    limit: limit
-                };
             }
+            
+            if("limit" in commands && commands.limit) {
+                if(commands.limit > 0) {
+                    limit = commands.limit;
+                }
+            }
+            
+            if(commands.csv) {
+                format = "medium";
+            }
+
+            options = {
+                noOutput: commands.json || false,
+                companyId: commands.cid || "",
+                company: commands.company || null,
+                onlyTerminated: commands.terminated || false,
+                csv: commands.file || "",
+                format: format,
+                name: commands.name || null,
+                page: page,
+                limit: limit
+            };
 
             Logger.isActive = commands.verbose || false;
 
             that._user.getUsers(options);
         });
+
+        
     }
 }
 

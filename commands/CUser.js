@@ -11,6 +11,9 @@ class CUser {
     }
 
     _getUsers(token, options) {
+
+        let that = this;
+
         return new Promise(function(resolve, reject) {
 
             var filterToApply = "format=full";
@@ -33,6 +36,11 @@ class CUser {
 
             if(options.companyId) {
                 filterToApply += "&companyId=" + options.companyId;
+            } else {
+                if(that._prefs.user.adminType === "company_admin") {
+                    // Limit company_admin to only there company (sandbox)
+                    filterToApply += "&companyId=" + that._prefs.user.companyId;
+                }
             }
 
             if(options.name) {
@@ -134,7 +142,7 @@ class CUser {
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
                 Message.log("execute action...");
-                return that._getUsers(that._prefs.token, options);
+                return that._getUsers(that._prefs.token, options, that._prefs);
             }).then(function(json) {
                 
                 Message.unspin(spin);

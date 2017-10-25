@@ -82,7 +82,13 @@ class CCompany {
 
     _getCompany(token, id) {
 
+        let that = this;
+
         return new Promise(function(resolve, reject) {
+
+            if(!id) {
+                id = that._prefs.user.companyId;
+            }
 
             NodeSDK.get('/api/rainbow/admin/v1.0/companies/' + id, token).then(function(json) {
                 resolve(json);
@@ -140,6 +146,10 @@ class CCompany {
         var that = this;
 
         return new Promise(function(resolve, reject) {
+
+            if(!id) {
+                id = that._prefs.user.companyId;
+            }
 
             let filterToApply = "format=full&limit=1000&companyId=" + id;
 
@@ -329,6 +339,78 @@ class CCompany {
             Exit.error();
         }
     }
+
+    /*
+    deleteCompanies(options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        let doDeletes = function() {
+            NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host).then(function() {
+                Message.log("execute action...");
+
+                let prom = function(companyId) {
+                    return new Promise((resolve, reject) => {
+                        that._deleteCompany(that._prefs.token, companyId, options).then((json) => {
+                            Message.printSuccess("Company deleted", companyId, options);
+                            resolve(json);
+                        }).catch((err) => {
+                            Message.errorList(err, options, companyId);
+                            reject(err);
+                        });
+                    });
+                }
+
+                let promises = [];
+                if(!options.list) {
+                    Message.warn("task is aborded. There is no companies to delete", "eg: rbw delete company <id>,<id>,<id>", options);
+                    return;
+                }
+                
+                options.list.forEach((companyId) => {
+                    promises.push(prom(companyId));
+                });
+
+                Promise.all(promises).then((json) => {
+                    Message.log("action done...", json);
+                    Message.lineFeed();
+                    Message.success(options);
+                    Message.log("finished!");
+                }).catch((err) => {
+                    Message.error(err, options);
+                });
+
+            }).catch(function(err) {
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs.user, options);
+
+            if(options.noconfirmation) {
+                doDeletes();
+            }
+            else {
+                Message.confirm('Are-you sure ? It will remote them completely').then(function(confirm) {
+                    if(confirm) {
+                        doDeletes();
+                    }
+                    else {
+                        Message.canceled(options);
+                        Exit.error();
+                    }
+                });
+            }
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+    */
 
     deleteCompany(id, options) {
         var that = this;

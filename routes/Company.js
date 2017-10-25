@@ -21,15 +21,20 @@ class Company {
 
     listOfCommands() {
 
+        function list(val) {
+            return val.split(',');
+          }
+
         var that = this;
 
-        this._program.command('company', '<id>')
-        .description("Retrieve information about an existing company")
+        this._program.command('company', '[id]')
+        .description("Retrieve information about an existing company or my company")
         .option('--json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
+            console.log('    $ rbw company');
             console.log('    $ rbw company 57ea7475d78f3ba5aae98935');
             console.log('    $ rbw company 57ea7475d78f3ba5aae98935 --json');
             console.log('');
@@ -79,6 +84,8 @@ class Company {
         .description("Delete an existing company")
         .option('--nc', 'Do not ask confirmation')
         .option('-f, --force', 'Force to remove the company and the users if exist')
+        .option('-l, --list <items>', 'A list', function(val) {
+            return val.split(',');})
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
@@ -95,7 +102,7 @@ class Company {
 
             var options = {
                 noconfirmation: commands.nc || false,
-                force: commands.force || false
+                force: commands.force || false,
             };
 
             Logger.isActive = commands.verbose || false;
@@ -103,12 +110,46 @@ class Company {
             that._company.deleteCompany(id, options);
         });
 
-        this._program.command('status company', '<id>')
+        /*
+        this._program.command('delete companies')
+        .description("Delete several companies by their id")
+        .option('-l, --list <items>', 'The list of companies to remove', function(val) {
+            return val.split(',');})
+        .option('--nc', 'Do not ask confirmation')
+        .option('-f, --force', 'Force to remove the company and the users if exist')
+        
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw delete companies 57ea7475d78f3ba5aae98935,57ea7475d78f3ba5aae98564');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--nc` disables confirmation');
+            console.log('    If there are users, they are removed first');
+            console.log('');
+        })
+        .action(function (commands) {
+            
+            var options = {
+                noconfirmation: commands.nc || false,
+                list: commands.list || null,
+                force: commands.force || false,
+            };
+
+            Logger.isActive = commands.verbose || false;
+
+            that._company.deleteCompanies(options);
+        });
+        */
+
+        this._program.command('status company', '[id]')
         .description("Give a status on a company")
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
+            console.log('    $ rbw status company');
             console.log('    $ rbw status company 57ea7475d78f3ba5aae98935');
             console.log('');
             console.log('  Details:');
@@ -169,7 +210,7 @@ class Company {
         .option('-p, --page <number>', 'Display a specific page')
         .option('-l, --limit <number>', 'Limit to a number of instances per page (max=1000')
         .option('--bp', 'Filter only bp companies')
-        .option('--name <name>', 'Filter by company name')
+        .option('-n, --name <name>', 'Filter by company name')
         .option('-o, --org <id>', 'Filter on an organization')
         .option('--json', 'Write the JSON result to standard stdout')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
@@ -180,7 +221,7 @@ class Company {
             console.log('    $ rbw companies -p 3');
             console.log('    $ rbw companies --org 57ea7475d78f3ba5aae98935');
             console.log('    $ rbw companies --org 57ea7475d78f3ba5aae98935 --json');
-            console.log('    $ rbw companies --name "Rainbow"');
+            console.log('    $ rbw companies -n "Rainbow"');
             console.log('    $ rbw companies --file output.csv');
             console.log('');
             console.log('  Details:');

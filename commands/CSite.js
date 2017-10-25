@@ -12,11 +12,13 @@ class CSite {
     
     _createSite(token, name, companyId) {
 
+        let that = this;
+
         return new Promise(function(resolve, reject) {
 
             var data = {
                 name: name,
-                companyId: companyId,
+                companyId: companyId || that._prefs.user.companyId,
                 status: 'active'
             };
 

@@ -47,15 +47,16 @@ class Site {
             that._site.getSite(id, options);
         });
         
-        this._program.command('create site', '<name>, <companyId>')
+        this._program.command('create site', '<name>, [companyId]')
         .description("Create a new site")
         //.option('-p, --public', 'Create a public site')
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log('    $ rbw create site 58920e130bbe4b2f703bd382 589dc6ba0bbe4b2f703bd67d');
-            console.log('    $ rbw create site 58920e130bbe4b2f703bd382 589dc6ba0bbe4b2f703bd67d --json');
+            console.log('    $ rbw create site aSite');
+            console.log('    $ rbw create site aSite 589dc6ba0bbe4b2f703bd67d');
+            console.log('    $ rbw create site aSite 589dc6ba0bbe4b2f703bd67d --json');
             console.log('');
             console.log('  Details:');
             console.log('');
