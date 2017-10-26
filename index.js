@@ -2,45 +2,47 @@
 
 process.on("SIGPIPE", process.exit);
 
-var program     = require('commander-plus');
-var colors      = require('colors');
+const program     = require('commander-plus');
+const colors      = require('colors');
 
-var pkg = require('./package.json')
+const pkg = require('./package.json')
 
-var Preferences = require("./common/Preferences");
-var Message = require('./common/Message');
+const Preferences = require("./common/Preferences");
+const Message = require('./common/Message');
 
-var Account         = require('./routes/Account');
-var Company         = require('./routes/Company');
-var Organization    = require('./routes/Organization');
-var Site            = require('./routes/Site');
-var System          = require('./routes/System');
-var Phone           = require('./routes/Phone');
-var Status          = require('./routes/Status');
-var User            = require('./routes/User');
-var Free            = require('./routes/Free');
-var Import          = require('./routes/Import');
-var Advanced        = require('./routes/Advanced');
+const Account         = require('./routes/Account');
+const Company         = require('./routes/Company');
+const Organization    = require('./routes/Organization');
+const Site            = require('./routes/Site');
+const System          = require('./routes/System');
+const Phone           = require('./routes/Phone');
+const Status          = require('./routes/Status');
+const User            = require('./routes/User');
+const Free            = require('./routes/Free');
+const Import          = require('./routes/Import');
+const Advanced        = require('./routes/Advanced');
+const Offers          = require('./routes/Offers');
 
 start = function() {
 
   // Initialize the program
   program.version(pkg.version);
 
-  var prefs = new Preferences();
+  let prefs = new Preferences();
 
   // Initialize the routes
-  var account = new Account(program, prefs);
-  var user = new User(program, prefs);
-  var company = new Company(program, prefs);
-  var site = new Site(program, prefs);
-  var system = new System(program, prefs);
-  var phone = new Phone(program, prefs);
-  var organization = new Organization(program, prefs);
-  var status = new Status(program, prefs);
-  var free = new Free(program, prefs);
-  var masspro = new Import(program, prefs);
-  var advanced = new Advanced(program, prefs);
+  let account = new Account(program, prefs);
+  let user = new User(program, prefs);
+  let company = new Company(program, prefs);
+  let site = new Site(program, prefs);
+  let system = new System(program, prefs);
+  let phone = new Phone(program, prefs);
+  let organization = new Organization(program, prefs);
+  let status = new Status(program, prefs);
+  let free = new Free(program, prefs);
+  let masspro = new Import(program, prefs);
+  let advanced = new Advanced(program, prefs);
+  let offers = new Offers(program, prefs);
 
   // Start the routes
   account.start();
@@ -51,6 +53,7 @@ start = function() {
   system.start();
   phone.start();
   organization.start();
+  offers.start();
   //masspro.start();
   advanced.start();
   status.start();
