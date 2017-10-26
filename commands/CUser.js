@@ -34,12 +34,15 @@ class CUser {
 
             filterToApply += "&limit=" + Math.min(options.limit, 1000);
 
-            if(options.companyId) {
+            if (options.companyId) {
                 filterToApply += "&companyId=" + options.companyId;
             } else {
-                if(that._prefs.user.adminType === "company_admin") {
-                    // Limit company_admin to only there company (sandbox)
+                if (that._prefs.user.adminType === "company_admin") {
+                    // Limit company_admin to only their company (sandbox)
                     filterToApply += "&companyId=" + that._prefs.user.companyId;
+                } else if (that._prefs.user.adminType === "organization_admin") {
+                    // Limit organization_admin to only their organization (sandbox)
+                    filterToApply += "&organisationId=" + that._prefs.user.organisationId;
                 }
             }
 

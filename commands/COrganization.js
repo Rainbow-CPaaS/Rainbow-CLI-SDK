@@ -29,7 +29,13 @@ class COrganization {
 
     _getOrganization(token, id) {
 
+        var that = this;
+
         return new Promise(function(resolve, reject) {
+
+            if(!id) {
+                id = that._prefs.user.organisationId;
+            }
 
             NodeSDK.get('/api/rainbow/admin/v1.0/organisations/' + id, token).then(function(json) {
                 resolve(json);

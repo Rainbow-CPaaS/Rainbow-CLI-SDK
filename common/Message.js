@@ -39,6 +39,7 @@ class Message {
 
         this.log("options passed", options);
 
+        Screen.print('');
         Screen.print('Welcome to '.white + 'Rainbow CLI'.rainbow);
     }
 
@@ -136,7 +137,7 @@ class Message {
 
         for (var i = 0; i < json.companies.data.length; i++) {
             var company = json.companies.data[i];
-            
+
             var visibility = "private".white;
             if(company.visibility === "public") {
                 visibility = "public".yellow;
@@ -153,16 +154,10 @@ class Message {
             }
 
             var organisation = "".white;
-            if(company.organisationId !== null) {
-                for(var j = 0; j < json.organisations.data.length; j++) {
-                    var org = json.organisations.data[j];
-                    if(org.id === company.organisationId) {
-                        organisation = org.id.white;
-                        break;
-                    }
-                }
+            if(company.organisationId) {
+                organisation = company.organisationId.yellow;
             }
-            
+
             var number = (i+1);
             if(Number(options.page) > 0) {
                 number = ((Number(options.page)-1) * json.companies.limit) + (i+1);
@@ -384,6 +379,96 @@ class Message {
         Screen.success(json.total + ' sites found.');
     }
 
+    tableOffers(json, options) {
+        
+        var array = [];
+
+        array.push([ "#".gray, "Name".gray, "Business Model".gray, "Can be sold".gray, "Profile Id".gray, "ID".gray, "Description".gray]);
+        array.push([ "-".gray, "----".gray, "--------------".gray, "-----------".gray, "-----------".gray, "--".gray, , "-----------".gray]);  
+
+        for (var i = 0; i < json.data.length; i++) {
+            var offer = json.data[i];
+
+            var canBeSold = "false".white;
+            if(offer.canBeSold) {
+                canBeSold = "true".yellow;
+            }
+
+            var business = "";
+            if( offer.businessModel) {
+                business = offer.businessModel;
+            }
+            
+            var number = (i+1);
+            if(options.page > 0) {
+                number = ((options.page-1) * json.limit) + (i+1);
+            }
+
+            array.push([ number.toString().white, offer.name.cyan, business.white, canBeSold, offer.profileId.white, offer.id.white, offer.description.white]); 
+        }
+
+        var t = table(array);
+        Screen.table(t);
+        Screen.print('');
+        Screen.success(json.total + ' offers found.');
+    }
+
+    tableCatalogs(json, options, offers) {
+        
+        var array = [];
+
+        array.push([ "#".gray, "Name".gray, "ID".gray, "Offer Id".gray, "Offer name".gray]);
+        array.push([ "-".gray, "----".gray, "--".gray, "--------".gray, "-----------".gray]);  
+
+        for (var i = 0; i < json.data.length; i++) {
+            var catalog = json.data[i];
+
+            var number = (i+1);
+            if(options.page > 0) {
+                number = ((options.page-1) * json.limit) + (i+1);
+            }
+
+            var nbOffer = catalog.offersList.length;
+            var offer = "";
+            if(nbOffer === 0) {
+                offer = "No offers".red;
+            }
+            else if(nbOffer == 1) {
+                offer = "1 offer".green;
+            } else {
+                offer = nbOffer.toString().yellow + " offers".yellow;
+            }
+
+            var details = "";
+            if(nbOffer > 0) {
+                details = "";
+            }
+
+            array.push([ number.toString().white, catalog.name.cyan, catalog.id.white, offer, details]); 
+
+            catalog.offersList.forEach((offerId) => {
+
+                var offer = offers.find((offerItem) => {
+                    return offerItem.id === offerId;
+                });
+
+                if(offer) {
+                    array.push([ " ".white, " ".cyan, " ".white, offerId.white, offer.name]); 
+                } else {
+
+                }
+
+            });
+            
+            
+        }
+
+        var t = table(array);
+        Screen.table(t);
+        Screen.print('');
+        Screen.success(json.total + ' catalogs found.');
+    }
+
     table2D(json) {
 
         var array = [];
@@ -477,11 +562,44 @@ class Message {
 
         Screen.print('You are logged in as'.grey + " " + user.loginEmail.magenta);
         let adminType = "";
-        Screen.print('Your roles'.grey + " " + user.roles.join(' | ').yellow);
-        if(user.adminType && user.adminType !== "undefined") {
-            adminType = user.adminType;
-            Screen.print('Your level'.grey + " "  + adminType.cyan);
+        Screen.print('Your roles'.grey + " " + user.roles.join(' + ').yellow);
+        
+        switch (user.adminType) {
+            case "company_admin":
+                adminType = user.adminType + " > user";
+                break;
+            case "organization_admin":
+                adminType = user.adminType + " > company_admin > user" ;
+                break;
+            adminType = "-";
+                break;
         }
+
+        if(user.roles.includes("bp_admin")) {
+            if(adminType.length > 0) {
+                adminType = "bp_admin > " + adminType;
+            }
+            else {
+                adminType = "bp_admin > organization_admin (*) > company_admin > user";
+            }
+        }
+
+        if(user.roles.includes("superadmin")) {
+            if(adminType.length > 0) {
+                adminType = "superadmin > " + adminType;
+            }
+            else {
+                adminType = "superadmin > organization_admin > company_admin > user";
+            }
+        }
+
+        if(user.roles.includes("user")) {
+            if(adminType.length === 0) {
+                adminType = "user";
+            }
+        }
+
+        Screen.print('Your level'.grey + " "  + adminType.cyan);
         
         Screen.print('');
     }

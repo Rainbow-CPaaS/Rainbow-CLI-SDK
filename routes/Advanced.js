@@ -18,6 +18,7 @@ class Advanced {
     stop() {
 
     }
+    
     listOfCommands() {
         var that = this;
 

@@ -15,8 +15,10 @@ class CCompany {
         this._free = new CFree(this._prefs);
     }
 
-    _getListOfCompanies(token, options) {
+    _getListOfCompanies(token, options, onlyCustomers) {
 
+        var that = this;
+        
         return new Promise(function(resolve, reject) {
 
             var filterToApply = "";
@@ -29,42 +31,60 @@ class CCompany {
                 filterToApply += "&name=" + options.name;
             }
 
-            NodeSDK.get('/api/rainbow/admin/v1.0/organisations?format=small&limit=1000', token).then(function(jsonO) {
-                var organisations = jsonO;
+            var offset = "";
+            if(options.page > 0) {
+                offset = "&offset=";
+                if(options.page > 1) {
+                    offset += (options.limit * (options.page - 1));
+                }
+                else {
+                    offset +=0;
+                }
+            }
 
-                var offset = "";
-                if(options.page > 0) {
-                    offset = "&offset=";
-                    if(options.page > 1) {
-                        offset += (options.limit * (options.page - 1));
+            var limit = "&limit=" + Math.min(options.limit, 1000);
+
+            var getMyCompany = () => {
+                
+                return new Promise((resolve, reject) => {
+
+                    if(that._prefs.user.roles.includes("bp_admin") && onlyCustomers) {
+                        NodeSDK.get('/api/rainbow/admin/v1.0/companies/' + that._prefs.user.companyId, token).then(function(json) {
+                            resolve(json);
+                        }).catch(function(err) {
+                            reject(err);
+                        });
                     }
                     else {
-                        offset +=0;
+                        resolve();
                     }
-                }
+                });
+            };
 
-                var limit = "&limit=" + Math.min(options.limit, 1000);
+            getMyCompany().then((company) => {
 
-                if(options.org) {
+                if (options.org) {
                     NodeSDK.get('/api/rainbow/admin/v1.0/organisations/' + options.org + '/companies?format=full' + filterToApply + offset + limit, token).then(function(jsonC) {
                         var companies = jsonC;
-                        resolve({organisations: organisations, companies: companies});
+                        resolve({companies: companies});
                     }).catch(function(err) {
                         reject(err);
                     });
                 } else {
+
+                    if(that._prefs.user.roles.includes("bp_admin") && onlyCustomers) {
+                        filterToApply += "&bpId=" + company.data.id;
+                    }
                     NodeSDK.get('/api/rainbow/admin/v1.0/companies?format=full' + filterToApply + offset + limit, token).then(function(jsonC) {
                         var companies = jsonC;
-                        resolve({organisations: organisations, companies: companies});
+                        resolve({companies: companies});
                     }).catch(function(err) {
                         reject(err);
                     });
                 }
 
-                
-            }).catch(function(err) {
-                reject(err);
             });
+
         });
     }
 
@@ -218,6 +238,10 @@ class CCompany {
 
         return new Promise(function(resolve, reject) {
 
+            if(!orgid) {
+                orgid = that._prefs.user.organisationId;
+            }
+
             NodeSDK.post('/api/rainbow/admin/v1.0/organisations/' + orgid + '/companies', token, {companyId: id}).then(function(json) {
                 resolve(json);
             }).catch(function(err) {
@@ -247,7 +271,7 @@ class CCompany {
         });
     }
 
-    getCompanies(options) {
+    getCompanies(options, onlyCustomers) {
         var that = this;
 
         Message.welcome(options);
@@ -262,7 +286,7 @@ class CCompany {
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
                 Message.log("execute action...");
-                return that._getListOfCompanies(that._prefs.token, options);
+                return that._getListOfCompanies(that._prefs.token, options, onlyCustomers);
             }).then(function(json) {
 
                 Message.unspin(spin);

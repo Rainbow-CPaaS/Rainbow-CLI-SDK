@@ -21,7 +21,7 @@ class Organization {
     listOfCommands() {
         var that = this;
 
-        this._program.command('org', '<id>')
+        this._program.command('org', '[id]')
         .description("Retrieve information about an existing organization")
         .option('--json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')

@@ -166,12 +166,13 @@ class Company {
         });
 
 
-        this._program.command('link company', '<id> <orgid>')
+        this._program.command('link company', '<id> [orgid]')
         .description("Link the company to an organization")
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
+            console.log('    $ rbw link company 57ea7475d78f3ba5aae98935');
             console.log('    $ rbw link company 57ea7475d78f3ba5aae98935 57ea7475d78f3ba5aae98935');
             console.log('');
             console.log('  Details:');
@@ -272,6 +273,68 @@ class Company {
             Logger.isActive = commands.verbose || false;
 
             that._company.getCompanies(options);
+        });
+
+        this._program.command('customers')
+        .description("List all existing customers companies (managed) ")
+        .option('-v, --verbose', 'Use verbose console mode')
+        .option('-p, --page <number>', 'Display a specific page')
+        .option('-l, --limit <number>', 'Limit to a number of instances per page (max=1000')
+        .option('-n, --name <name>', 'Filter by company name')
+        .option('--json', 'Write the JSON result to standard stdout')
+        .option('-f, --file <filename>', 'Print result to a file in CSV')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw customers');
+            console.log('    $ rbw custmomers -p 3');
+            console.log('    $ rbw customers --json');
+            console.log('    $ rbw customers -n "Rainbow"');
+            console.log('    $ rbw customers --file output.csv');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the company created to the console');
+            console.log('    The options `--page` and `limit` allow to navigate between paginated results');
+            console.log('');
+            console.log('');
+        })
+        .action(function (commands) {
+
+            var options = {
+                csv: "",
+                page: "1",
+                limit: "25"
+            };
+
+            if(typeof commands === "object") {
+
+                var page = "1";
+                if("page" in commands) {
+                    if(commands.page > 1) {
+                        page = commands.page;
+                    }
+                }
+
+                var limit = "25";
+                if("limit" in commands && commands.limit) {
+                    if(commands.limit > 0) {
+                        limit = commands.limit;
+                    }
+                }
+
+                options = {
+                    csv: commands.file || "",
+                    page: page,
+                    name: commands.name || null,
+                    noOutput: commands.json || false,
+                    limit: limit
+                };
+            }
+
+            Logger.isActive = commands.verbose || false;
+
+            that._company.getCompanies(options, true);
         });
     }
 }
