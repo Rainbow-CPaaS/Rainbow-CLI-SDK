@@ -25,7 +25,7 @@ class Import {
         this._program.command('import file', '<filename>')
         .description("Import a list of users from a file")
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('--help', function(){
+        .on('-h, --help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw import file users.csv");

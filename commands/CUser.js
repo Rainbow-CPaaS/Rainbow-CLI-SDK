@@ -80,6 +80,22 @@ class CUser {
         });
     }
 
+    _changepwd(token, id, password) {
+
+        let data = {
+            password: password
+        };
+        
+        console.log("id", id, password, data);
+        return new Promise(function(resolve, reject) {
+            NodeSDK.put('/api/rainbow/admin/v1.0/users/' + id, token, data).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
     _delete(token, id) {
 
         return new Promise(function(resolve, reject) {
@@ -205,6 +221,45 @@ class CUser {
                 else {
                     Message.lineFeed();
                     Message.printSuccess('User created with Id', json.data.id, options);    
+                    Message.success(options);
+                }
+                Message.log("finished!");
+                
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    changepwd(id, password, options) {
+        var that = this;
+        
+        Message.welcome(options);
+                
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs.user, options);
+            Message.action("Change password of user", id, options);
+
+            let spin = Message.spin(options);
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
+                return that._changepwd(that._prefs.token, id, password, options);
+            }).then(function(json) {
+                Message.unspin(spin);
+                Message.log("action done...", json);
+
+                if(options.noOutput) {
+                    Message.out(json.data);
+                }
+                else {
+                    Message.lineFeed();
+                    Message.printSuccess('Password changed for user', json.data.id, options);    
                     Message.success(options);
                 }
                 Message.log("finished!");

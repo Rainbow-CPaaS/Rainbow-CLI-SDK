@@ -23,7 +23,7 @@ class Organization {
 
         this._program.command('org', '[id]')
         .description("Retrieve information about an existing organization")
-        .option('--json', 'Write the JSON result to standard stdout')
+        .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
         .action(function (id, commands) {
 
@@ -39,7 +39,7 @@ class Organization {
         this._program.command('create org', '<name>')
         .description("Create a new organization")
         .option('-p, --public', 'Create a public organization')
-        .option('--json', 'Write the JSON result to standard stdout')
+        .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
         .action(function (name, commands) {
 
@@ -70,7 +70,7 @@ class Organization {
         .description("List all existing organizations")
         .option('-p, --page <number>', 'Display a specific page')
         .option('-l, --limit <number>', 'Limit to a number of instances per page (max=1000')
-        .option('--json', 'Write the JSON result to standard stdout')
+        .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
         .option('-v, --verbose', 'Use verbose console mode')
         .action(function (commands) {

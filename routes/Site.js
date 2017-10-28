@@ -24,9 +24,9 @@ class Site {
         
         this._program.command('site', '<id>')
         .description("Retrieve information about an existing site")
-        .option('--json', 'Write the JSON result to standard stdout')
+        .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('--help', function(){
+        .on('-h, --help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw site 58920e130bbe4b2f703bd382');
@@ -49,9 +49,8 @@ class Site {
         
         this._program.command('create site', '<name>, [companyId]')
         .description("Create a new site")
-        //.option('-p, --public', 'Create a public site')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('--help', function(){
+        .on('-h, --help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw create site aSite');
@@ -77,7 +76,7 @@ class Site {
         .description("Delete an existing site")
         .option('--nc', 'Do not ask confirmation')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('--help', function(){
+        .on('-h, --help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw delete site 58920e130bbe4b2f703bd382');
@@ -103,10 +102,10 @@ class Site {
         .option('-p, --page <number>', 'Display a specific page')
         .option('-l, --limit <number>', 'Limit to a number of instances per page (max=1000')
         .option('-c, --company <companyid>', 'Limit to a company')
-        .option('--json', 'Write the JSON result to standard stdout')
+        .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('--help', function(){
+        .on('-h, --help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw sites');

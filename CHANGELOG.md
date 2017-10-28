@@ -7,6 +7,16 @@ All notable changes to Rainbow-CLI will be documented in this file.
 
 ### [1.31.0] - 2017-10-12
 ---
+- #29640: Change password of a user
+- #29639: Create and delete catalogs
+- #29624: Display offers and catalogs
+- #29596: Display commands depending on user role
+- #29597: Display admin level
+- #29598: Enhance company commands
+
+
+### [1.31.0] - 2017-10-12
+---
 - Only fix in documentation
 
 

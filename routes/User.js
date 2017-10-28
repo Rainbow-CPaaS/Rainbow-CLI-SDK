@@ -23,9 +23,9 @@ class User {
 
         this._program.command('user', '<id>')
         .description("Retrieve information about an existing user")
-        .option('--json', 'Write the JSON result to standard stdout')
+        .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('--help', function(){
+        .on('-h, --help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw user 593065822799299343b8501d');
@@ -51,9 +51,9 @@ class User {
         .description("Create a new user")
         .option('-c, --company <id>', 'In company identified by an id')
         .option('-a, --admin', 'With a company_admin role')
-        .option('--json', 'Write the JSON result to standard stdout')
+        .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('--help', function(){
+        .on('-h, --help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw create user 'john.doe@mycompany.com' '********' 'John' 'Doe'");
@@ -83,7 +83,7 @@ class User {
         .description("Delete an existing user")
         .option('--nc', 'Do not ask confirmation')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('--help', function(){
+        .on('-h, --help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw delete user 593065822799299343b8501d");
@@ -105,6 +105,25 @@ class User {
             that._user.delete(id, options); 
         });
 
+        this._program.command('changepwd user', '<id> <password>')
+        .description("Change password of a user user")
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('-h, --help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw changepwd user 593065822799299343b8501d 'myPassword123!");
+            console.log('');
+        })
+        .action(function (id, password, commands) {
+
+            var options = {
+            };
+
+            Logger.isActive = commands.verbose || false;
+
+            that._user.changepwd(id, password, options); 
+        });
+
         this._program.command('users')
         .description("List the users")
         .option('-p, --page <number>', 'Display a specific page')
@@ -114,9 +133,9 @@ class User {
         .option('-c, --company <name>', 'Filter users from a company name only')
         .option('-n, --name <name>', 'Filter users with a name (firstname lastname)')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
-        .option('--json', 'Write the JSON result to standard stdout')
+        .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('--help', function(){
+        .on('-h, --help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw users --limit 1000");

@@ -29,9 +29,9 @@ class Company {
 
         this._program.command('company', '[id]')
         .description("Retrieve information about an existing company or my company")
-        .option('--json', 'Write the JSON result to standard stdout')
+        .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('--help', function(){
+        .on('-h, --help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw company');
@@ -56,9 +56,9 @@ class Company {
 
         this._program.command('create company', '<name>')
         .description("Create a new company")
-        .option('--json', 'Write the JSON result to standard stdout')
+        .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('--help', function(){
+        .on('-h, --help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw create company "A new company"');
@@ -87,7 +87,7 @@ class Company {
         .option('-l, --list <items>', 'A list', function(val) {
             return val.split(',');})
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('--help', function(){
+        .on('-h, --help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw delete company 57ea7475d78f3ba5aae98935');
@@ -146,7 +146,7 @@ class Company {
         this._program.command('status company', '[id]')
         .description("Give a status on a company")
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('--help', function(){
+        .on('-h, --help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw status company');
@@ -169,7 +169,7 @@ class Company {
         this._program.command('link company', '<id> [orgid]')
         .description("Link the company to an organization")
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('--help', function(){
+        .on('-h, --help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw link company 57ea7475d78f3ba5aae98935');
@@ -189,7 +189,7 @@ class Company {
         this._program.command('unlink company', '<id>')
         .description("unlink a company from its organization")
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('--help', function(){
+        .on('-h, --help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw unlink company 57ea7475d78f3ba5aae98935');
@@ -213,9 +213,9 @@ class Company {
         .option('--bp', 'Filter only bp companies')
         .option('-n, --name <name>', 'Filter by company name')
         .option('-o, --org <id>', 'Filter on an organization')
-        .option('--json', 'Write the JSON result to standard stdout')
+        .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
-        .on('--help', function(){
+        .on('-h, --help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw companies');
@@ -281,9 +281,9 @@ class Company {
         .option('-p, --page <number>', 'Display a specific page')
         .option('-l, --limit <number>', 'Limit to a number of instances per page (max=1000')
         .option('-n, --name <name>', 'Filter by company name')
-        .option('--json', 'Write the JSON result to standard stdout')
+        .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
-        .on('--help', function(){
+        .on('-h, --help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw customers');

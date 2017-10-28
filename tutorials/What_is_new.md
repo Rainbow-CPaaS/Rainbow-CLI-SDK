@@ -1,7 +1,31 @@
-## What's new
+## Rainbow CLI: What's new
 ---
 
-Welcome to the new release of the **Rainbow CLI** . There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
+Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
+
+
+### Rainbow CLI 1.32 (Beta) - November 2017
+---
+
+**COMMANDS**
+
+- New commands `rbw offers`, `rbw offer` have been added to list offers.
+
+- New commands `rbw catalogs`, `rbw catalog` have been added to list catalogs.
+
+- New commands `rbw create catalog` and `rbw delete catalog` have been added to manage catalog.
+
+- New command `rbw changepwd user` has been added to change the password of a user.
+
+- New command `rbw commands` has been added to list the available Rainbow CLI commands depending on the user role and admin level.
+
+- Option `-j` has been added as an alternative to `--json` when available
+
+- Option `-h` has been added as an alternative to `--help`
+
+
+**BUGS**
+- Only documentation fixes.
 
 
 ### Rainbow CLI 1.31 (Beta) - October 2017
@@ -34,7 +58,7 @@ Lots of change for that new version of Rainbow CLI. A big rework has been done t
 
 **COMMANDS**
 
--  New option `--name` has been added to command `companies` to filter companies by name
+- New option `--name` has been added to command `companies` to filter companies by name
 
 - New option `--name` has been added to command `users` to filter users by name
 

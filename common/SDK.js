@@ -111,6 +111,19 @@ class SDK {
         });
     }
 
+    put(url, token, data) {
+        var that = this;
+
+        return new Promise(function(resolve, reject) {
+
+            that._nodeSDK.rest.put(url, token, data).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
     delete(url, token, data) {
         var that = this;
 

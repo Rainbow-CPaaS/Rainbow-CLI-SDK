@@ -24,9 +24,9 @@ class Advanced {
 
         this._program.command('find', '<id>')
         .description("Retrieve information associated to an id (ie: user, company...")
-        .option('--json', 'Write the JSON result to standard stdout')
+        .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('--help', function(){
+        .on('-h, --help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw find 593065822799299343b8501d');
@@ -51,12 +51,10 @@ class Advanced {
         this._program.command('newco')
         .description("Interactive creation of a company + a user")
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('--help', function(){
+        .on('-h, --help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log('    $ rbw wizard');
-            console.log('');
-            console.log('  Details:');
+            console.log('    $ rbw newco');
             console.log('');
         })
         .action(function (commands) {

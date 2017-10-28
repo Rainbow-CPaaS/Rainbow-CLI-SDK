@@ -228,6 +228,12 @@ class CAccount {
                         },
                         {
                             "level": "company_admin", 
+                            "theme": "Users", 
+                            "command": "changepwd user <id> <pwd>", 
+                            "details": "Change the password of a user"
+                        },
+                        {
+                            "level": "company_admin", 
                             "theme": "", 
                             "command": "", 
                             "details": ""
