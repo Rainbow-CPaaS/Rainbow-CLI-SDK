@@ -15,7 +15,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 - New commands `rbw create catalog` and `rbw delete catalog` have been added to manage catalog.
 
-- New command `rbw changepwd user` has been added to change the password of a user.
+- New commands `rbw changepwd user` and `rbw changelogin user` have been added to change the password and the login of a user.
 
 - New command `rbw commands` has been added to list the available Rainbow CLI commands depending on the user role and admin level.
 

@@ -5,9 +5,10 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
-### [1.31.0] - 2017-10-12
+### [1.32.0] - 2017-11-06
 ---
-- #29640: Change password of a user
+- #29641: Add tutorial for explaining how to create developer's accounts
+- #29640: Change password and login of a user
 - #29639: Create and delete catalogs
 - #29624: Display offers and catalogs
 - #29596: Display commands depending on user role
