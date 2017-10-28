@@ -105,8 +105,27 @@ class User {
             that._user.delete(id, options); 
         });
 
+        this._program.command('changelogin user', '<id> <login>')
+        .description("Change login of a user")
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('-h, --help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw changelogin user 'alogin@acompany.com'");
+            console.log('');
+        })
+        .action(function (id, login, commands) {
+
+            var options = {
+            };
+
+            Logger.isActive = commands.verbose || false;
+
+            that._user.changelogin(id, login, options); 
+        });
+
         this._program.command('changepwd user', '<id> <password>')
-        .description("Change password of a user user")
+        .description("Change password of a user")
         .option('-v, --verbose', 'Use verbose console mode')
         .on('-h, --help', function(){
             console.log('  Examples:');

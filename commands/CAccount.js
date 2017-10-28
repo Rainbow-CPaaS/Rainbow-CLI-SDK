@@ -234,6 +234,12 @@ class CAccount {
                         },
                         {
                             "level": "company_admin", 
+                            "theme": "Users", 
+                            "command": "changelogin user <id> <loginEmail>", 
+                            "details": "Change the login email of a user"
+                        },
+                        {
+                            "level": "company_admin", 
                             "theme": "", 
                             "command": "", 
                             "details": ""

@@ -80,13 +80,8 @@ class CUser {
         });
     }
 
-    _changepwd(token, id, password) {
+    _changedata(token, id, data) {
 
-        let data = {
-            password: password
-        };
-        
-        console.log("id", id, password, data);
         return new Promise(function(resolve, reject) {
             NodeSDK.put('/api/rainbow/admin/v1.0/users/' + id, token, data).then(function(json) {
                 resolve(json);
@@ -249,7 +244,9 @@ class CUser {
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
                 Message.log("execute action...");
-                return that._changepwd(that._prefs.token, id, password, options);
+                return that._changedata(that._prefs.token, id, {
+                    password: password
+                }, options);
             }).then(function(json) {
                 Message.unspin(spin);
                 Message.log("action done...", json);
@@ -260,6 +257,48 @@ class CUser {
                 else {
                     Message.lineFeed();
                     Message.printSuccess('Password changed for user', json.data.id, options);    
+                    Message.success(options);
+                }
+                Message.log("finished!");
+                
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    changelogin(id, login, options) {
+        var that = this;
+        
+        Message.welcome(options);
+                
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs.user, options);
+            Message.action("Change login of user", id, options);
+
+            let spin = Message.spin(options);
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
+                return that._changedata(that._prefs.token, id, {
+                    loginEmail: login,
+                    isTerminated: false
+                }, options);
+            }).then(function(json) {
+                Message.unspin(spin);
+                Message.log("action done...", json);
+
+                if(options.noOutput) {
+                    Message.out(json.data);
+                }
+                else {
+                    Message.lineFeed();
+                    Message.printSuccess('Login changed for user', json.data.id, options);    
                     Message.success(options);
                 }
                 Message.log("finished!");
