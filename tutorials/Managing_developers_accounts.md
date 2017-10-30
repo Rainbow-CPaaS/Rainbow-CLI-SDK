@@ -85,8 +85,6 @@ $ rbw company
 
 This command produces the following output:
 
-```bash
-
 | # | Attribute | Value |
 |---|-----------|-------|
 | 1 | name | yourCompanyName |
@@ -95,8 +93,6 @@ This command produces the following output:
 | 4 | adminEmail | '' |
 |...| ... | ... |
 | 26 | numberUsers | 2 |
-
-```
 
 To list the users in your company, use the command `rbw users``
 
@@ -108,14 +104,11 @@ $ rbw users
 
 This command produces the following output:
 
-```bash
-
 | # | Name | LoginEmail | Company | Account | Roles | Active | ID |
 |---|:-----|------------|---------|---------|-------|--------|----|
 | 1 | user 1 | user1@acompany.com | aCompany | free | user,admin | true | 581b405d383b2852d37aa098 |
 | 2 | user 2 | user2@acompany.com | aCompany | free | user,admin | true | 581b405d383b2852d37aa099 |
 
-```
 
 To have more information on a specific user, use the command `rbw user` like in the following
 
@@ -127,8 +120,6 @@ $ rbw user 59f0d5ca7adcbf344239dcd0
 
 This commands produces the following output:
 
-```bash
-
 | # | Attribute | Value |
 |---|-----------|-------|
 | 1 | displayName | user 1 |
@@ -138,7 +129,6 @@ This commands produces the following output:
 |...| ... | ... |
 | 41 | isInDefaultCompany | false |
 
-```
 
 You will have access to all fields and see for example if the account is locked (too many wrong password entered), the last login date...
 
