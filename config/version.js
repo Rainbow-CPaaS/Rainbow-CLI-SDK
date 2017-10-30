@@ -1,1 +1,1 @@
-window.sdkcliversion="1.31.0";
+window.sdkcliversion="1.32.0";
