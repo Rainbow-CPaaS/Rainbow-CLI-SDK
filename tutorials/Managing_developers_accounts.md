@@ -4,9 +4,9 @@
 ### Preamble
 ---
 
-The Rainbow CLI is a super simple tool for managing your developer's accounts on the Sandbox platform.. 
+The Rainbow CLI is a super simple tool for managing your developer's accounts on the Sandbox platform. 
 
-This guide helps you understanding how to use the Rainbow CLI for creating accounts on the developer sandbox platform and that you can use when developing your application.
+This guide helps you understanding how to use the Rainbow CLI for creating accounts on the developer sandbox platform that you can use when developing your application.
 
 
 ### Install
@@ -26,7 +26,7 @@ Once installed, you can now sign-in and manage your account.
 ### Sign-in using your developer account
 ---
 
-You can't sign-in on the developer sandbox without your primary developer account.
+You can't sign-in on the developer sandbox without your primary developer account. To obtain a new one, follow the procedure described in the Rainbow Hub [Support page](https://hub.openrainbow.net/#/support).
 
 Once you obtained your developer account, you can sign-in using the following command:
 
@@ -39,7 +39,7 @@ $ rbw login <login> <password>
 ### Discovering who you are and what you can do
 ---
 
-Once logged in, you can check your account by using the command `rbw whoami`
+Once you logged in, you can check your account by using the command `rbw whoami`
 
 ```bash
 
