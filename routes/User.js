@@ -148,9 +148,10 @@ class User {
         .option('-p, --page <number>', 'Display a specific page')
         .option('-l, --limit <number>', 'Limit to a number of instances per page (max=1000)')
         .option('-t, --terminated', 'Filter terminated users only')
-        .option('-i, --cid <id>', 'Filter users from a company id only')
-        .option('-c, --company <name>', 'Filter users from a company name only')
-        .option('-n, --name <name>', 'Filter users with a name (firstname lastname)')
+        .option('-i, --cid <id>', 'Filter users by a company id only')
+        .option('-c, --company <name>', 'Filter users by a company name only')
+        .option('-n, --name <name>', 'Filter users by a name (firstname lastname)')
+        .option('-e, --email <loginEmail>', 'Filter users by login email')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
@@ -161,6 +162,7 @@ class User {
             console.log("    $ rbw users -c 'my company'");
             console.log("    $ rbw users --cid 593065822799299343b8501d");
             console.log("    $ rbw users --name 'doe'");
+            console.log("    $ rbw users --email 'john.doe@acompany.com'");
             console.log("    $ rbw users --name 'doe' --json");
             console.log("    $ rbw users --name 'doe' -f doe.csv");
             console.log('');
@@ -181,6 +183,7 @@ class User {
                 format: "full",
                 page: "1",
                 name: null,
+                email: null,
                 limit: "25"
             };
 
@@ -212,6 +215,7 @@ class User {
                 csv: commands.file || "",
                 format: format,
                 name: commands.name || null,
+                email: commands.email || null,
                 page: page,
                 limit: limit
             };

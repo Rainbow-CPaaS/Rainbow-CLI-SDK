@@ -4,6 +4,14 @@
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
 
+### Rainbow CLI 1.33 (Beta) - November 2017
+---
+
+**COMMANDS**
+
+- Command `rainbow users` now allows to filter by an email address using option `-e`.
+
+
 ### Rainbow CLI 1.32 (Beta) - November 2017
 ---
 

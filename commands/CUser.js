@@ -54,6 +54,10 @@ class CUser {
                 filterToApply += "&companyName=" + options.company;
             }
 
+            if(options.email) {
+                filterToApply += "&loginEmail=" + options.email;
+            }
+
             if(options.onlyTerminated) {
                 filterToApply += "&isTerminated=true";
             }

@@ -5,6 +5,11 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+### [1.33.0] - 2017-11-27
+---
+- #29883: Filter users by an email address
+
+
 ### [1.32.0] - 2017-11-06
 ---
 - #29641: Add tutorial for explaining how to create developer's accounts
