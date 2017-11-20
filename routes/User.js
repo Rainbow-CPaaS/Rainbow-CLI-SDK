@@ -147,6 +147,7 @@ class User {
         .description("List the users")
         .option('-p, --page <number>', 'Display a specific page')
         .option('-l, --limit <number>', 'Limit to a number of instances per page (max=1000)')
+        .option('-m, --max', 'Same as --limit 1000')
         .option('-t, --terminated', 'Filter terminated users only')
         .option('-i, --cid <id>', 'Filter users by a company id only')
         .option('-c, --company <name>', 'Filter users by a company name only')
@@ -220,12 +221,14 @@ class User {
                 limit: limit
             };
 
+            if(commands.max) {
+                options.limit = 1000;
+            }
+
             Logger.isActive = commands.verbose || false;
 
             that._user.getUsers(options);
         });
-
-        
     }
 }
 

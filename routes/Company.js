@@ -210,6 +210,7 @@ class Company {
         .option('-v, --verbose', 'Use verbose console mode')
         .option('-p, --page <number>', 'Display a specific page')
         .option('-l, --limit <number>', 'Limit to a number of instances per page (max=1000')
+        .option('-m, --max', 'Same as --limit 1000')
         .option('--bp', 'Filter only bp companies')
         .option('-n, --name <name>', 'Filter by company name')
         .option('-o, --org <id>', 'Filter on an organization')
@@ -268,6 +269,10 @@ class Company {
                     noOutput: commands.json || false,
                     limit: limit
                 };
+
+                if(commands.max) {
+                    options.limit = 1000;
+                }
             }
 
             Logger.isActive = commands.verbose || false;
