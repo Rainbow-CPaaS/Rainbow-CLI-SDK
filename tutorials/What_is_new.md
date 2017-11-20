@@ -9,6 +9,8 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 **COMMANDS**
 
+- Commands `rainbow users` and `rainbow companies` now quickly return the maximum of result allowed (1000) by using option `-m`. This is equivalent to using the option `--limit 1000`.
+
 - Command `rainbow users` now allows to filter by an email address using option `-e`.
 
 

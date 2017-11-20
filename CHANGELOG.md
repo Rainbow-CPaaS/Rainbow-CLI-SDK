@@ -8,6 +8,7 @@ All notable changes to Rainbow-CLI will be documented in this file.
 ### [1.33.0] - 2017-11-27
 ---
 - #29883: Filter users by an email address
+- #29921: Add command for getting all users & companies quickly
 
 
 ### [1.32.0] - 2017-11-06
