@@ -175,13 +175,16 @@ class CCompany {
 
             NodeSDK.get('/api/rainbow/admin/v1.0/users?' + filterToApply, token).then(function(json) {
 
-                let nbTerminated = 0, nbActive = 0, nbInitialized = 0;
+                let nbTerminated = 0, nbActive = 0, nbInitialized = 0, nbFailedLogin = 0;
                 let lastActivityDate = null, firstActivityDate = null;
+
                 json.data.forEach((user) => {
 
                     nbTerminated += Number(user.isTerminated);
                     nbActive += Number(user.isActive);
                     nbInitialized += Number(user.isInitialized);
+                    
+                    nbFailedLogin += Number(user.failedLoginAttempts) > 0 ? 1 : 0;
 
                     // Compute last Activity
                     if(!lastActivityDate) {
@@ -212,6 +215,7 @@ class CCompany {
                     "Active users": nbActive,
                     "Initialized users": nbInitialized,
                     "Terminated users": nbTerminated,
+                    "Failed login users": nbFailedLogin,
                     "Last activity": lastActivityDate ? moment(lastActivityDate).format("LLLL") : "No activity yet",
                     "First activity": firstActivityDate ? moment(firstActivityDate).format("LLLL") : "No activity yet"
                 };
