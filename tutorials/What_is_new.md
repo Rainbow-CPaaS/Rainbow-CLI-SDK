@@ -13,6 +13,10 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 - Command `rainbow users` now allows to filter by an email address using option `-e`.
 
+**FIXES**
+
+- Fix login issue with Rainbow version 1.33
+
 
 ### Rainbow CLI 1.32 (Beta) - November 2017
 ---
@@ -34,7 +38,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 - Option `-h` has been added as an alternative to `--help`
 
 
-**BUGS**
+**FIXES**
 - Only documentation fixes.
 
 
@@ -45,7 +49,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 - No new command.
 
 
-**BUGS**
+**FIXES**
 - Only documentation fixes.
 
 
@@ -57,7 +61,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 - Verbose option `-v` or `--verbose` has been added to all commands. When active, this option allow to add more logs to the console to help debugging in case of issue.
 
 
-**BUGS**
+**FIXES**
 - No bug fixed
 
 
@@ -83,7 +87,7 @@ Lots of change for that new version of Rainbow CLI. A big rework has been done t
 - New command `rbw newco` has been added to create a company and a user following an interactive wizard.
 
 
-**BUGS**
+**FIXES**
 
 - List of users are now ordered by display name (firstname lastname)
 

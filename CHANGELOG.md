@@ -5,7 +5,13 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
-### [1.33.0] - 2017-11-27
+
+### [1.33.1] - 2017-11-27
+---
+- #30024: Fix login issue with Rainbow 1.33
+
+
+### [1.33.0] - 2017-11-24
 ---
 - #29883: Filter users by an email address
 - #29921: Add command for getting all users & companies quickly
