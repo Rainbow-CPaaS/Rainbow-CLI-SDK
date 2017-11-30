@@ -29,15 +29,33 @@ class CStatus {
 
             var portals = [];
 
-            doRequest('/api/rainbow/admin/v1.0/about', "Rainbow Admin Portal", token).then(function(json) {
+            doRequest('/api/rainbow/admin/v1.0/about', "Rainbow Admin portal", token).then(function(json) {
                 portals.push(json);
-                return doRequest('/api/rainbow/applications/v1.0/about', "Rainbow Applications Portal", token);
+                return doRequest('/api/rainbow/applications/v1.0/about', "Rainbow Applications portal", token);
             }).then(function(json) {
                 portals.push(json);
-                return doRequest('/api/rainbow/authentication/v1.0/about', "Rainbow Authentication Portal", token);
+                return doRequest('/api/rainbow/authentication/v1.0/about', "Rainbow Authentication portal", token);
             }).then(function(json) {
                 portals.push(json);
-                return doRequest('/api/rainbow/subscription/v1.0/about', "Rainbow Subscription Portal", token);
+                return doRequest('/api/rainbow/subscription/v1.0/about', "Rainbow Subscription portal", token);
+            }).then(function(json) {
+                portals.push(json);
+                return doRequest('/api/rainbow/channels/v1.0/about', "Rainbow Channels portal", token);
+            }).then(function(json) {
+                portals.push(json);
+                return doRequest('/api/rainbow/enduser/v1.0/about', "Rainbow End user portal", token);
+            }).then(function(json) {
+                portals.push(json);
+                return doRequest('/api/rainbow/filestorage/v1.0/about', "Rainbow File-storage portal", token);
+            }).then(function(json) {
+                portals.push(json);
+                return doRequest('/api/rainbow/metrics/v1.0/about', "Rainbow Metrics portal", token);
+            }).then(function(json) {
+                portals.push(json);
+                return doRequest('/api/rainbow/calendar/v1.0/about', "Rainbow Calendar portal", token);
+            }).then(function(json) {
+                portals.push(json);
+                return doRequest('/api/rainbow/telephony/v1.0/about', "Rainbow Telephony portal", token);
             }).then(function(json) {
                 portals.push(json);
             }).then(function() {
@@ -56,7 +74,7 @@ class CStatus {
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs.user, options);
 
-            Message.action("API status information");
+            Message.action("Sandbox API status information");
             
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
