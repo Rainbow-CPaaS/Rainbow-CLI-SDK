@@ -194,6 +194,44 @@ class CAccount {
                     json.data = json.data.concat(data_user);
                 }
 
+                if (that._prefs.user.roles.includes("app_admin") ||  that._prefs.user.roles.includes("app_superadmin")) {
+                    var data_dev = [
+                        {
+                            "level": "----------", 
+                            "theme": "----------", 
+                            "command": "----------", 
+                            "details": "----------"
+                        },
+                        {
+                            "level": "app_admin", 
+                            "theme": "Applications", 
+                            "command": "application <id>", 
+                            "details": "List application's information"
+                        },
+                        {
+                            "level": "app_admin", 
+                            "theme": "Applications", 
+                            "command": "applications", 
+                            "details": "List applications"
+                        },
+                        {
+                            "level": "app_admin", 
+                            "theme": "", 
+                            "command": "", 
+                            "details": ""
+                        },
+                        {
+                            "level": "app_admin", 
+                            "theme": "Metrics", 
+                            "command": "application metrics <id>", 
+                            "details": "List application's metrics"
+                        },
+                    ];
+
+                    json.data = json.data.concat(data_dev);
+                }
+
+
                 if (that._prefs.user.roles.includes("admin") || that._prefs.user.roles.includes("bp_admin") ||  that._prefs.user.roles.includes("superadmin")) {
                     var data_company = [
                         {

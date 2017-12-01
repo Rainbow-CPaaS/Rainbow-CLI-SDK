@@ -22,6 +22,7 @@ const Free            = require('./routes/Free');
 const Import          = require('./routes/Import');
 const Advanced        = require('./routes/Advanced');
 const Offers          = require('./routes/Offers');
+const Application     = require('./routes/Application');
 
 start = function() {
 
@@ -43,6 +44,7 @@ start = function() {
   let masspro = new Import(program, prefs);
   let advanced = new Advanced(program, prefs);
   let offers = new Offers(program, prefs);
+  let applications = new Application(program, prefs);
 
   // Start the routes
   account.start();
@@ -57,6 +59,7 @@ start = function() {
   //masspro.start();
   advanced.start();
   status.start();
+  applications.start();
 
   program
     .command('*')
