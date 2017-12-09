@@ -68,33 +68,48 @@ class Message {
         console.log(JSON.stringify(json));
     }
 
-    csv(file, json) {
+    outCSV(csv) {
+        console.log(csv);
+    }
+
+    csv(file, json, isAlreadyCSV) {
 
         return new Promise((resolve, reject) => {
 
-            let stringify = csv.stringify;
-            let writeStream = fs.createWriteStream(file, { flags : 'w' });
+            if(isAlreadyCSV) {
 
-            stringify(json, {
-                formatters: {
-                    date: function(value) {
-                        return moment(value).format('YYYY-MM-DD');
+                fs.writeFile(file, json, 'utf8', (err) => {
+                    if (err) {
+                      reject(err);
+                    } else {
+                        Screen.success("Successfully saved to".white + " '".white + file.yellow + "'".white);
+                        resolve();
                     }
-                },
-                delimiter: ";",
-                header: true
-            }).pipe(writeStream);
-            writeStream.on('close', function () {
-                Screen.success("Successfully saved".white + " " + json.total.toString().magenta + " user(s) to".white + " '".white + options.csv.yellow + "'".white);
-                resolve();
-            });
-            writeStream.on('error', function (err) {
-                reject(err);
-            });
+                });
 
+            } else {
+
+                let writeStream = fs.createWriteStream(file, { flags : 'w' });
+                let stringify = csv.stringify;
+
+                stringify(json, {
+                    formatters: {
+                        date: function(value) {
+                            return moment(value).format('YYYY-MM-DD');
+                        }
+                    },
+                    delimiter: ";",
+                    header: true
+                }).pipe(writeStream);
+                writeStream.on('close', function () {
+                    Screen.success("Successfully saved".white + " " + json.total.toString().magenta + " user(s) to".white + " '".white + file.yellow + "'".white);
+                    resolve();
+                });
+                writeStream.on('error', function (err) {
+                    reject(err);
+                });
+            }
         });
-
-        
     }
 
     lineFeed() {
@@ -287,6 +302,46 @@ class Message {
         Screen.table(t);
         Screen.print('');
         Screen.success('status successfully executed.');
+    }
+
+    tableInvoiceCSV(json, options) {
+        var invoice = json;
+        Screen.print('');
+        Screen.print(json);
+        Screen.success('Invoice ' + options.path + 'retrieved');
+    }
+
+    tableInvoices(json, options) {
+
+        var array = [];
+        array.push([ "#".gray, "Company".gray, "Company ID".gray, "Type".gray, "Period".gray, "Initiated".gray, "Path".gray]);
+        array.push([ "-".gray, "-------".gray, "----------".gray, "----".gray, "------".gray, "---------".gray, "----".gray]);
+        
+        var invoices = json;
+        
+        for(var i = 0; i < invoices.length; i++) {
+
+            var companyId = invoices[i].companyId || "";
+            var companyName = invoices[i].companyName || "";
+            var period = invoices[i].billingPeriod || "";
+            var type = invoices[i].invoiceType || "";
+            var initiated = invoices[i].invoiceCreationDate || "";
+            var path = invoices[i].filepath || "";
+            var number = (i+1);
+
+            array.push([ number.toString().white, companyName.cyan, companyId.white, type.magenta, period.white, initiated.white, path.white]);  
+        }
+
+        var t = table(array);
+        Screen.table(t);
+
+        Screen.print('');
+
+        if(options.companyId) {
+            Screen.success(json.total + ' invoices found for company ' + options.companyId);
+        } else {
+            Screen.success(json.total + ' invoices found');
+        }
     }
 
     tableUsers(json, options) {

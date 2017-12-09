@@ -440,6 +440,36 @@ class CAccount {
                                 "theme": "Company", 
                                 "command": "customers", 
                                 "details": "List customers companies"
+                            },
+                            {
+                                "level": "bp_admin", 
+                                "theme":  "",
+                                "command":  "",
+                                "details": ""
+                            },
+                            {
+                                "level": "bp_admin", 
+                                "theme": "Invoices", 
+                                "command": "invoices", 
+                                "details": "List customers invoices"
+                            },
+                            {
+                                "level": "bp_admin", 
+                                "theme": "Invoices", 
+                                "command": "download invoice <invoicePath>", 
+                                "details": "Download an invoice (CSV format)"
+                            },
+                            {
+                                "level": "bp_admin", 
+                                "theme": "Invoices", 
+                                "command": "download cdr services", 
+                                "details": "Download detailed invoice for services (CSV format)"
+                            },
+                            {
+                                "level": "bp_admin", 
+                                "theme": "Invoices", 
+                                "command": "download cdr conference", 
+                                "details": "Download detailed invoice for conference (CSV format)"
                             }
                         ];
 

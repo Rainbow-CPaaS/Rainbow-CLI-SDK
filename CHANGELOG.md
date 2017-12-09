@@ -6,6 +6,11 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 All notable changes to Rainbow-CLI will be documented in this file.
 
 
+### [1.34.0] - 2017-12-17
+---
+- #RQRAINB-479: Download invoices in CSV
+
+
 ### [1.33.1] - 2017-11-27
 ---
 - #30024: Fix login issue with Rainbow 1.33
