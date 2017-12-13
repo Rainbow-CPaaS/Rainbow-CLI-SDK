@@ -29,41 +29,22 @@ class CStatus {
 
             var portals = [];
 
-            doRequest('/api/rainbow/authentication/v1.0/about', "Rainbow Authentication portal", token).then(function(json) {
-                portals.push(json);
-                return doRequest('/api/rainbow/admin/v1.0/about', "Rainbow Admin portal", token)
-            }).then(function(json) {    
-                portals.push(json);
-                return doRequest('/api/rainbow/subscription/v1.0/about', "Rainbow Subscription portal", token);
-            }).then(function(json) {
-                portals.push(json);
-                return doRequest('/api/rainbow/invoicing/v1.0/about', "Rainbow Invoices portal", token);
-            }).then(function(json) {
-                portals.push(json);
-                return doRequest('/api/rainbow/applications/v1.0/about', "Rainbow Applications portal", token);
-            }).then(function(json) {
-                portals.push(json);
-                return doRequest('/api/rainbow/channels/v1.0/about', "Rainbow Channels portal", token);
-            }).then(function(json) {
-                portals.push(json);
-                return doRequest('/api/rainbow/enduser/v1.0/about', "Rainbow End user portal", token);
-            }).then(function(json) {
-                portals.push(json);
-                return doRequest('/api/rainbow/filestorage/v1.0/about', "Rainbow File-storage portal", token);
-            }).then(function(json) {
-                portals.push(json);
-                return doRequest('/api/rainbow/metrics/v1.0/about', "Rainbow Metrics portal", token);
-            }).then(function(json) {
-                portals.push(json);
-                return doRequest('/api/rainbow/calendar/v1.0/about', "Rainbow Calendar portal", token);
-            }).then(function(json) {
-                portals.push(json);
-                return doRequest('/api/rainbow/telephony/v1.0/about', "Rainbow Telephony portal", token);
-            }).then(function(json) {
-                portals.push(json);
-            }).then(function() {
+            Promise.all([
+                doRequest('/api/rainbow/authentication/v1.0/about', "Rainbow Authentication portal", token),
+                doRequest('/api/rainbow/admin/v1.0/about', "Rainbow Admin portal", token),
+                doRequest('/api/rainbow/subscription/v1.0/about', "Rainbow Subscription portal", token),
+                doRequest('/api/rainbow/invoicing/v1.0/about', "Rainbow Invoices portal", token),
+                doRequest('/api/rainbow/applications/v1.0/about', "Rainbow Applications portal", token),
+                doRequest('/api/rainbow/channels/v1.0/about', "Rainbow Channels portal", token),
+                doRequest('/api/rainbow/enduser/v1.0/about', "Rainbow End user portal", token),
+                doRequest('/api/rainbow/filestorage/v1.0/about', "Rainbow File-storage portal", token),
+                doRequest('/api/rainbow/metrics/v1.0/about', "Rainbow Metrics portal", token),
+                doRequest('/api/rainbow/calendar/v1.0/about', "Rainbow Calendar portal", token),
+                doRequest('/api/rainbow/telephony/v1.0/about', "Rainbow Telephony portal", token),
+                doRequest('/api/rainbow/massprovisioning/v1.0/about', "Rainbow Mass-provisioning portal", token)
+            ]).then((portals) => {
                 resolve(portals);
-            }).catch(function(err) {
+            }).catch((err) => {
                 reject(err);
             });
         });
