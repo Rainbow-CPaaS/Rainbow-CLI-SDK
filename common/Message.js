@@ -336,12 +336,59 @@ class Message {
         Screen.table(t);
 
         Screen.print('');
-
+        
         if(options.companyId) {
-            Screen.success(json.total + ' invoices found for company ' + options.companyId);
+            Screen.success(invoices.length + ' invoices found for company ' + options.companyId);
         } else {
-            Screen.success(json.total + ' invoices found');
+            Screen.success(invoices.length + ' invoices found');
         }
+    }
+
+    tableApplications(json, options) {
+
+        var array = [];
+        array.push([ "#".gray, "Name".gray, "Type".gray, "Environment".gray, "State".gray, "OwnerId".gray, "id".gray]);
+        array.push([ "-".gray, "----".gray, "----".gray, "-----------".gray, "-----".gray, "-------".gray, "--".gray, ""]);  
+
+        var apps = json.data;
+
+        let number = 0;
+
+        apps.forEach((app) => {
+
+            let name = app.name || "";
+
+            let type = app.type || "";
+
+            let env = app.env;
+            if(env === "sandbox") {
+                env = env.white;
+            } else {
+                env = env.yellow;
+            }
+
+            let state = app.state;
+            if(state === "blocked" || state == "stopped") {
+                state = state.red;
+            } else {
+                state = state.white;
+            }
+
+            let ownerId = app.ownerId || "";
+
+            let id = app.id || "";
+
+            array.push([(number+1).toString().white, name.white, type.cyan, env, state, ownerId.white, id.white]);
+
+            number++;
+        });
+
+        var t = table(array);
+        Screen.table(t);
+
+        Screen.print('');
+
+        Screen.success(json.total + ' applications found');
     }
 
     tableUsers(json, options) {

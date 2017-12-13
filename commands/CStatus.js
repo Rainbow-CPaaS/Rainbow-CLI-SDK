@@ -29,20 +29,22 @@ class CStatus {
 
             var portals = [];
 
-            doRequest('/api/rainbow/admin/v1.0/about', "Rainbow Admin Portal", token).then(function(json) {
-                portals.push(json);
-                return doRequest('/api/rainbow/applications/v1.0/about', "Rainbow Applications Portal", token);
-            }).then(function(json) {
-                portals.push(json);
-                return doRequest('/api/rainbow/authentication/v1.0/about', "Rainbow Authentication Portal", token);
-            }).then(function(json) {
-                portals.push(json);
-                return doRequest('/api/rainbow/subscription/v1.0/about', "Rainbow Subscription Portal", token);
-            }).then(function(json) {
-                portals.push(json);
-            }).then(function() {
+            Promise.all([
+                doRequest('/api/rainbow/authentication/v1.0/about', "Rainbow Authentication portal", token),
+                doRequest('/api/rainbow/admin/v1.0/about', "Rainbow Admin portal", token),
+                doRequest('/api/rainbow/subscription/v1.0/about', "Rainbow Subscription portal", token),
+                doRequest('/api/rainbow/invoicing/v1.0/about', "Rainbow Invoices portal", token),
+                doRequest('/api/rainbow/applications/v1.0/about', "Rainbow Applications portal", token),
+                doRequest('/api/rainbow/channels/v1.0/about', "Rainbow Channels portal", token),
+                doRequest('/api/rainbow/enduser/v1.0/about', "Rainbow End user portal", token),
+                doRequest('/api/rainbow/filestorage/v1.0/about', "Rainbow File-storage portal", token),
+                doRequest('/api/rainbow/metrics/v1.0/about', "Rainbow Metrics portal", token),
+                doRequest('/api/rainbow/calendar/v1.0/about', "Rainbow Calendar portal", token),
+                doRequest('/api/rainbow/telephony/v1.0/about', "Rainbow Telephony portal", token),
+                doRequest('/api/rainbow/massprovisioning/v1.0/about', "Rainbow Mass-provisioning portal", token)
+            ]).then((portals) => {
                 resolve(portals);
-            }).catch(function(err) {
+            }).catch((err) => {
                 reject(err);
             });
         });
@@ -56,7 +58,7 @@ class CStatus {
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs.user, options);
 
-            Message.action("API status information");
+            Message.action("API status information for host " + this._prefs.host);
             
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {

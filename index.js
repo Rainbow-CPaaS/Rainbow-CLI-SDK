@@ -23,6 +23,7 @@ const Import          = require('./routes/Import');
 const Advanced        = require('./routes/Advanced');
 const Offers          = require('./routes/Offers');
 const Invoices        = require('./routes/Invoice');
+const Application     = require('./routes/Application');
 
 start = function() {
 
@@ -45,6 +46,7 @@ start = function() {
   let advanced = new Advanced(program, prefs);
   let offers = new Offers(program, prefs);
   let invoices = new Invoices(program, prefs);
+  let applications = new Application(program, prefs);
 
   // Start the routes
   account.start();
@@ -60,6 +62,7 @@ start = function() {
   //masspro.start();
   advanced.start();
   status.start();
+  applications.start();
 
   program
     .command('*')
