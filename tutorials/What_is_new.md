@@ -15,7 +15,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 - New commands `rbw download cdr services` and `rbw download cdr conference` to download a detailed invoice for services and conference (CSV format)
 
-- Command `rbw status api` now checks 12 Rainbow portals
+- Command `rbw status api` now checks 12 Rainbow portals (portals subscriptions, invoices, channels, mass provisionning, telephony, calendar, metrics and file storage have been added to the status).
 
 
 **FIXES**
