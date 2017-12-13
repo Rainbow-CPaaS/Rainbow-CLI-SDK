@@ -29,15 +29,18 @@ class CStatus {
 
             var portals = [];
 
-            doRequest('/api/rainbow/admin/v1.0/about', "Rainbow Admin portal", token).then(function(json) {
+            doRequest('/api/rainbow/authentication/v1.0/about', "Rainbow Authentication portal", token).then(function(json) {
                 portals.push(json);
-                return doRequest('/api/rainbow/applications/v1.0/about', "Rainbow Applications portal", token);
-            }).then(function(json) {
-                portals.push(json);
-                return doRequest('/api/rainbow/authentication/v1.0/about', "Rainbow Authentication portal", token);
-            }).then(function(json) {
+                return doRequest('/api/rainbow/admin/v1.0/about', "Rainbow Admin portal", token)
+            }).then(function(json) {    
                 portals.push(json);
                 return doRequest('/api/rainbow/subscription/v1.0/about', "Rainbow Subscription portal", token);
+            }).then(function(json) {
+                portals.push(json);
+                return doRequest('/api/rainbow/invoicing/v1.0/about', "Rainbow Invoices portal", token);
+            }).then(function(json) {
+                portals.push(json);
+                return doRequest('/api/rainbow/applications/v1.0/about', "Rainbow Applications portal", token);
             }).then(function(json) {
                 portals.push(json);
                 return doRequest('/api/rainbow/channels/v1.0/about', "Rainbow Channels portal", token);
@@ -74,7 +77,7 @@ class CStatus {
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs.user, options);
 
-            Message.action("Sandbox API status information");
+            Message.action("API status information for host " + this._prefs.host);
             
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
