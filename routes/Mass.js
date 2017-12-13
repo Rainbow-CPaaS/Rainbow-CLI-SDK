@@ -1,14 +1,14 @@
 "use strict";
 
-var CImport = require('../commands/CImport');
+var CMass = require('../commands/CMass');
 var Logger = require('../common/Logger');
 
-class Import {
+class Mass {
 
     constructor(program, prefs) {
         this._program = program;
         this._prefs = prefs;
-        this._import = new CImport(this._prefs);
+        this._import = new CMass(this._prefs);
     }
 
     start() {
@@ -45,4 +45,4 @@ class Import {
     }
 }
 
-module.exports = Import;
+module.exports = Mass;

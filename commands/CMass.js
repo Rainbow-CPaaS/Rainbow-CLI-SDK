@@ -8,7 +8,7 @@ const NodeSDK = require('../common/SDK');
 const Message = require('../common/Message');
 const Exit = require('../common/Exit');
 
-class CImport {
+class CMass {
 
     constructor(prefs) {
         this._prefs = prefs;
@@ -128,4 +128,4 @@ class CImport {
     }
 }
 
-module.exports = CImport;
+module.exports = CMass;

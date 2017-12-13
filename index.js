@@ -19,7 +19,7 @@ const Phone           = require('./routes/Phone');
 const Status          = require('./routes/Status');
 const User            = require('./routes/User');
 const Free            = require('./routes/Free');
-const Import          = require('./routes/Import');
+const Mass            = require('./routes/Mass');
 const Advanced        = require('./routes/Advanced');
 const Offers          = require('./routes/Offers');
 
@@ -40,7 +40,7 @@ start = function() {
   let organization = new Organization(program, prefs);
   let status = new Status(program, prefs);
   let free = new Free(program, prefs);
-  let masspro = new Import(program, prefs);
+  let masspro = new Mass(program, prefs);
   let advanced = new Advanced(program, prefs);
   let offers = new Offers(program, prefs);
 
@@ -54,7 +54,7 @@ start = function() {
   phone.start();
   organization.start();
   offers.start();
-  //masspro.start();
+  masspro.start();
   advanced.start();
   status.start();
 
