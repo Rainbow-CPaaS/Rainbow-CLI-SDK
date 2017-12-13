@@ -25,6 +25,19 @@ class CMass {
         });
     }
 
+    _getTemplate(token, options) {
+
+        let filterToApply = "";
+
+        return new Promise((resolve, reject) => {
+            NodeSDK.get('/api/rainbow/massprovisioning/v1.0/users/template' + filterToApply, token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
     _import(token, filePath) {
 
         var that = this;
@@ -90,6 +103,47 @@ class CMass {
             });
                 
         });
+    }
+
+    template(options) {
+        var that = this;
+        
+        Message.welcome(options);
+
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs.user, options);
+
+            if(!options.csv) {
+                Message.action("Retrieve masspro template", null, options);
+            }
+            
+            let spin = Message.spin(options);
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
+                return that._getTemplate(that._prefs.token, options, that._prefs);
+            }).then(function(json) {
+                
+                Message.unspin(spin);
+                Message.log("action done...", json);
+
+                if(options.csv) {
+                    Message.csv(options.csv, json, true).then(() => {
+                    }).catch((err) => {
+                        Exit.error();
+                    });
+                }
+                Message.log("finished!");
+
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
     }
 
     import(filePath, options) {

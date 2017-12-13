@@ -68,33 +68,42 @@ class Message {
         console.log(JSON.stringify(json));
     }
 
-    csv(file, json) {
+    csv(file, json, isAlreadyCSV) {
 
         return new Promise((resolve, reject) => {
 
-            let stringify = csv.stringify;
-            let writeStream = fs.createWriteStream(file, { flags : 'w' });
-
-            stringify(json, {
-                formatters: {
-                    date: function(value) {
-                        return moment(value).format('YYYY-MM-DD');
+            if(isAlreadyCSV) {
+                fs.writeFile(file, json, 'utf8', (err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        Screen.success("Successfully saved to".white + " '".white + file.yellow + "'".white);
+                        resolve();
                     }
-                },
-                delimiter: ";",
-                header: true
-            }).pipe(writeStream);
-            writeStream.on('close', function () {
-                Screen.success("Successfully saved".white + " " + json.total.toString().magenta + " user(s) to".white + " '".white + options.csv.yellow + "'".white);
-                resolve();
-            });
-            writeStream.on('error', function (err) {
-                reject(err);
-            });
-
+                });
+            }
+            else {
+                let stringify = csv.stringify;
+                let writeStream = fs.createWriteStream(file, { flags : 'w' });
+    
+                stringify(json, {
+                    formatters: {
+                        date: function(value) {
+                            return moment(value).format('YYYY-MM-DD');
+                        }
+                    },
+                    delimiter: ";",
+                    header: true
+                }).pipe(writeStream);
+                writeStream.on('close', function () {
+                    Screen.success("Successfully saved".white + " " + json.total.toString().magenta + " user(s) to".white + " '".white + options.csv.yellow + "'".white);
+                    resolve();
+                });
+                writeStream.on('error', function (err) {
+                    reject(err);
+                });
+            }
         });
-
-        
     }
 
     lineFeed() {
