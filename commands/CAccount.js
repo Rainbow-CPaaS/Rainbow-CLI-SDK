@@ -494,19 +494,19 @@ class CAccount {
                             {
                                 "level": "bp_admin", 
                                 "theme": "Invoices", 
-                                "command": "download invoice <invoicePath>", 
+                                "command": "download invoice <invoicePath> [filename]", 
                                 "details": "Download an invoice (CSV format)"
                             },
                             {
                                 "level": "bp_admin", 
                                 "theme": "Invoices", 
-                                "command": "download cdr services", 
+                                "command": "download cdr services [filename]", 
                                 "details": "Download detailed invoice for services (CSV format)"
                             },
                             {
                                 "level": "bp_admin", 
                                 "theme": "Invoices", 
-                                "command": "download cdr conference", 
+                                "command": "download cdr conference [filename]", 
                                 "details": "Download detailed invoice for conference (CSV format)"
                             }
                         ];
