@@ -46,6 +46,26 @@ class Mass {
             that._masspro.template(options); 
         });
 
+        this._program.command('masspro check', '<filename>')
+        .description("Check a csv file before uploading it")
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('-h, --help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw masspro template users.csv");
+            console.log('');
+            console.log('');
+        })
+        .action(function(filename, commands) {
+
+            var options = {
+                file: filename
+            };
+
+            Logger.isActive = commands.verbose || false;
+            that._masspro.check(options); 
+        });
+
         this._program.command('import file', '<filename>')
         .description("Import a list of users from a file")
         .option('-v, --verbose', 'Use verbose console mode')

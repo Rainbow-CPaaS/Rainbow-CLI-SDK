@@ -38,6 +38,28 @@ class CMass {
         });
     }
 
+    _check(token, options) {
+        
+            let filterToApply = "";
+    
+            return new Promise((resolve, reject) => {
+
+                fs.readFile(options.file, 'utf8', (err, data) => {
+
+                    let string = data;
+                    if (err) {
+                        reject(err);
+                    } else {
+                        NodeSDK.post('/api/rainbow/massprovisioning/v1.0/users/imports/check' + filterToApply, token, string, "text/csv").then(function(json) {
+                            resolve(json);
+                        }).catch(function(err) {
+                            reject(err);
+                        });
+                    }
+                });
+            });
+        }
+
     _import(token, filePath) {
 
         var that = this;
@@ -132,6 +154,46 @@ class CMass {
                         Exit.error();
                     });
                 }
+                Message.log("finished!");
+
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    check(options) {
+        var that = this;
+        
+        Message.welcome(options);
+
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs.user, options);
+
+            if(!options.csv) {
+                Message.action("check masspro file", null, options);
+            }
+            
+            let spin = Message.spin(options);
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
+                return that._check(that._prefs.token, options, that._prefs);
+            }).then(function(json) {
+                
+                Message.unspin(spin);
+                Message.log("action done...", json);
+
+                Message.lineFeed();
+                Message.table2D(json.data.actions);
+                Message.lineFeed();
+                Message.success(options);
+
                 Message.log("finished!");
 
             }).catch(function(err) {

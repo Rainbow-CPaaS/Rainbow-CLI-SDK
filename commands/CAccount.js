@@ -345,7 +345,25 @@ class CAccount {
                             "theme": "Phone", 
                             "command": "phones <systemId>", 
                             "details": "List phones"
-                        }
+                        },
+                        {
+                            "level": "company_admin", 
+                            "theme": "", 
+                            "command": "", 
+                            "details": ""
+                        },
+                        {
+                            "level": "company_admin", 
+                            "theme": "Mass-Provisioning", 
+                            "command": "masspro template [filename]", 
+                            "details": "Download the csv template"
+                        },
+                        {
+                            "level": "company_admin", 
+                            "theme": "Mass-Provisioning", 
+                            "command": "masspro check <filename>", 
+                            "details": "Check that a CSV file is correct"
+                        },
                     ];
 
                     json.data = json.data.concat(data_company);

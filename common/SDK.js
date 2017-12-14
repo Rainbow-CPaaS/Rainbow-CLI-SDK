@@ -98,12 +98,12 @@ class SDK {
         });
     }
 
-    post(url, token, data) {
+    post(url, token, data, contentType) {
         var that = this;
 
         return new Promise(function(resolve, reject) {
 
-            that._nodeSDK.rest.post(url, token, data).then(function(json) {
+            that._nodeSDK.rest.post(url, token, data, contentType).then(function(json) {
                 resolve(json);
             }).catch(function(err) {
                 reject(err);

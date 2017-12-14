@@ -692,37 +692,38 @@ class Message {
         Screen.print('');
         Screen.error("Can't execute the command".white);
         if(!err) {
-            Screen.print("No details");
+            Screen.print("  No additional information");
         }
         else {
             if(err.details) {
 
+                let msg = err.details.msg || "-";
+                let code = err.details.code || "-";
+
                 if(typeof err.details === "string") {
-                    Screen.print(err.details.white + ' ('.gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                    Screen.print("  " + err.details.white);
                 }
                 else if (Tools.isObject(err.details)) {
                     let details = err.details.details || err.msg || "Bad request";
-                    let msg = err.details.msg || "-";
-                    let code = err.details.code || "-";
-                    Screen.print(details.white + ' ('.gray + msg.gray + '/'.gray + code.toString().gray + ')'.gray);
+                    Screen.print("  " + details.white + ' ('.gray + msg.gray + '/'.gray + code.toString().gray + ')'.gray);
                 }
                 else {
-                    var param = "";
                     err.details.forEach(function(detail) {
-                        Screen.print("Incorrect value for ".white + detail.param.yellow + ' ('.gray + detail.msg.gray + ')'.gray);
+                        Screen.print("  " + "Incorrect value for ".white + detail.param.yellow + ' ('.gray + detail.msg.gray + ')'.gray);
                     });
                 }
             }
             else {
                 if(err.msg && err.code) {
-                    Screen.print("(".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
+                    Screen.print("  (".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
                 }
                 else {
-                    Screen.print("No details");
+                    Screen.print("  No additional information");
                 }
                 
             }
         }
+        Screen.print('');
     }
 
     choices(message, choices) {
