@@ -65,7 +65,7 @@ class Invoice {
 
         this._program.command('download cdr services', '[toFile]')
         .description("Retrieve information about an existing invoice for services")
-        .option('-i, --company', 'Filter by a company')
+        .option('-i, --company <company>', 'Filter by a company')
         .option('-y, --year <year>', 'Filter by a year')
         .option('-m, --month <month>', 'Filter by a year')
         .option('-v, --verbose', 'Use verbose console mode')
@@ -93,7 +93,7 @@ class Invoice {
 
         this._program.command('download cdr conference', '[toFile]')
         .description("Retrieve information about an existing invoice for conference")
-        .option('-i, --company', 'Filter by a company')
+        .option('-i, --company <company>', 'Filter by a company')
         .option('-y, --year <year>', 'Filter by a year')
         .option('-m, --month <month>', 'Filter by a year')
         .option('-v, --verbose', 'Use verbose console mode')
