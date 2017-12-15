@@ -52,7 +52,7 @@ class Mass {
         .on('-h, --help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log("    $ rbw masspro template users.csv");
+            console.log("    $ rbw masspro check users.csv");
             console.log('');
             console.log('');
         })
@@ -64,6 +64,46 @@ class Mass {
 
             Logger.isActive = commands.verbose || false;
             that._masspro.check(options); 
+        });
+
+        this._program.command('masspro import', '<filename>')
+        .description("Import a csv file to Rainbow")
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('-h, --help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw masspro import users.csv");
+            console.log('');
+            console.log('');
+        })
+        .action(function(filename, commands) {
+
+            var options = {
+                file: filename
+            };
+
+            Logger.isActive = commands.verbose || false;
+            that._masspro.import(options); 
+        });
+
+        this._program.command('masspro status', '<reqid>')
+        .description("Get a status on an import done")
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('-h, --help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw masspro template users.csv");
+            console.log('');
+            console.log('');
+        })
+        .action(function(reqid, commands) {
+
+            var options = {
+                reqid: reqid
+            };
+
+            Logger.isActive = commands.verbose || false;
+            that._masspro.status(options); 
         });
 
         this._program.command('import file', '<filename>')
