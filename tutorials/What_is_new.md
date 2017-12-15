@@ -23,6 +23,11 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 - No fix
 
 
+**OTHERS**
+
+- Update guide `Getting started` with new commands added.
+
+
 ### Rainbow CLI 1.33 (Beta) - November 2017
 ---
 

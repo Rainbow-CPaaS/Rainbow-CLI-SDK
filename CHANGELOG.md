@@ -10,6 +10,7 @@ All notable changes to Rainbow-CLI will be documented in this file.
 ---
 - #RQRAINB-479: Download invoices in CSV
 - #RQRAINB-511: Add more portals to status
+- #RQRAINB-517: Update getting started guide
 
 
 ### [1.33.1] - 2017-11-27
