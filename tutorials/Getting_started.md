@@ -215,7 +215,11 @@ Here is the complete list of commands:
 | Advanced | **find** <id> | Find an item by its name |
 | | **newco** | Create a new company and a new user interactively |
 | Status | **status api** | Get a status of the Rainbow API portals |
-| Import | **import** | Import a list of users from a CSV file |
+| Mass-Pro | **template** | Download an import CSV template |
+| | **check** <filename> | Check a CSV file |
+| | **import** <filename> | Import a CSV file |
+| | **status** <reqId> | Display status on an import done |
+| | **status company** | Display details on imports done |
 
 
 ### Help on commands
@@ -242,4 +246,4 @@ If you encounter any bugs, lack of functionality or other problems regarding the
 
 ---
 
-_Last updated December, 15th 2017_
+_Last updated January, 07th 2017_

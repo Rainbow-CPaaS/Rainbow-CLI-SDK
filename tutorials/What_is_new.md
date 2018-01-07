@@ -3,6 +3,27 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
+### Rainbow CLI 1.35 (Beta) - January 2018
+---
+
+**COMMANDS**
+
+- New commands `rbw masspro template` to download the CSV template
+
+- New commands `rbw masspro check` and `rbw masspro import` to check a csv file and to import it to Rainbow
+
+- New commands `rbw masspro status` and `rbw masspro status company` to display details on imports done
+
+
+**FIXES**
+
+- No fix
+
+
+**OTHERS**
+
+- Update guide `Getting started` with new commands added.
+
 
 ### Rainbow CLI 1.34 (Beta) - Decembre 2017
 ---

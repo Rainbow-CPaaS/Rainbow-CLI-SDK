@@ -402,6 +402,24 @@ class CAccount {
                             "command": "masspro check <filename>", 
                             "details": "Check that a CSV file is correct"
                         },
+                        {
+                            "level": "company_admin", 
+                            "theme": "Mass-Provisioning", 
+                            "command": "masspro import <filename>", 
+                            "details": "Import a CSV file containing users"
+                        },
+                        {
+                            "level": "company_admin", 
+                            "theme": "Mass-Provisioning", 
+                            "command": "masspro status company [companyId]", 
+                            "details": "List imports status done for a company"
+                        },
+                        {
+                            "level": "company_admin", 
+                            "theme": "Mass-Provisioning", 
+                            "command": "masspro status <reqId>", 
+                            "details": "List an import details"
+                        }
                     ];
 
                     json.data = json.data.concat(data_company);

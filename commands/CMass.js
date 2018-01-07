@@ -14,17 +14,6 @@ class CMass {
         this._prefs = prefs;
     }
 
-    _create(token, data) {
-
-        return new Promise(function(resolve, reject) {
-            NodeSDK.post('/api/rainbow/admin/v1.0/users', token, data).then(function(json) {
-                resolve(json);
-            }).catch(function(err) {
-                reject(err);
-            });
-        });
-    }
-
     _getTemplate(token, options) {
 
         let filterToApply = "";
@@ -74,6 +63,24 @@ class CMass {
         });
     }
 
+    _statusCompany(token, options) {
+        
+        let filterToApply = "";
+
+        if(options.companyId) {
+            filterToApply += "&companyId=" + options.companyId;
+        }
+
+        return new Promise((resolve, reject) => {
+
+            NodeSDK.get('/api/rainbow/massprovisioning/v1.0/users/imports' + filterToApply, token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
     _import(token, options) {
         
         let filterToApply = "";
@@ -105,7 +112,7 @@ class CMass {
             Message.loggedin(this._prefs.user, options);
 
             if(!options.csv) {
-                Message.action("Retrieve masspro template", null, options);
+                Message.action("Retrieve mass-provisioning template", null, options);
             }
             
             let spin = Message.spin(options);
@@ -200,6 +207,46 @@ class CMass {
 
                 Message.lineFeed();
                 Message.table2D(json.data);
+                Message.lineFeed();
+                Message.success(options);
+
+                Message.log("finished!");
+
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    statusCompany(options) {
+        var that = this;
+        
+        Message.welcome(options);
+
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs.user, options);
+
+            if(!options.csv) {
+                Message.action("status mass-provisioning company", options.companyId, options);
+            }
+            
+            let spin = Message.spin(options);
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
+                return that._statusCompany(that._prefs.token, options, that._prefs);
+            }).then(function(json) {
+                
+                Message.unspin(spin);
+                Message.log("action done...", json);
+
+                Message.lineFeed();
+                Message.tableImports(json.data, options);
                 Message.lineFeed();
                 Message.success(options);
 

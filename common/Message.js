@@ -621,6 +621,34 @@ class Message {
         Screen.table(t);
     }
 
+    tableImports(json, options) {
+
+        var array = [];
+
+        array.push([ "#".gray, "Request".gray, "Status".gray, "Success".gray, "Warning".gray, "Failed".gray, "Company".gray, "From".gray, "Date".gray]);
+        array.push([ "-".gray, "-------".gray, "------".gray, "-------".gray, "-------".gray, "------".gray, "-------".gray, "----".gray, "----".gray]);  
+
+        for (var i = 0; i < json.length; i++) {
+            let imports = json[i];
+            var number = (i+1).toString();
+            let request = imports.reqId.toString() || "";
+            let status = imports.status || "";
+            let success = imports.counters.succeeded.toString() || "-";
+            let failed = imports.counters.failed.toString() || "-";
+            let warning = imports.counters.warnings.toString() || "-";
+            let company = imports.companyId || "";
+            let from = imports.userId || "";
+            let date = imports.startTime.toString() || "";
+
+            array.push([ number.white, request.white, status.yellow, success.green, failed.red, warning.red, company.white, from.white, date.white ]); 
+        }
+
+        var t = table(array);
+        Screen.table(t);
+        Screen.print('');
+        Screen.success(json.length + ' import(s) found.');
+    }
+
     tableCommands(json, options) {
         
         var array = [];

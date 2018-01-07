@@ -5,6 +5,9 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+### [1.35.0] - 2018-01-15
+- #RQRAINB-648: Add mass-provisionning commands
+
 ### [1.34.1] - 2017-12-19
 - Update readme with Getting started content
 
