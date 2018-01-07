@@ -22,6 +22,8 @@ const Free            = require('./routes/Free');
 const Mass            = require('./routes/Mass');
 const Advanced        = require('./routes/Advanced');
 const Offers          = require('./routes/Offers');
+const Invoices        = require('./routes/Invoice');
+const Application     = require('./routes/Application');
 
 start = function() {
 
@@ -43,6 +45,8 @@ start = function() {
   let masspro = new Mass(program, prefs);
   let advanced = new Advanced(program, prefs);
   let offers = new Offers(program, prefs);
+  let invoices = new Invoices(program, prefs);
+  let applications = new Application(program, prefs);
 
   // Start the routes
   account.start();
@@ -55,8 +59,10 @@ start = function() {
   organization.start();
   offers.start();
   masspro.start();
+  invoices.start();
   advanced.start();
   status.start();
+  applications.start();
 
   program
     .command('*')

@@ -126,7 +126,7 @@ class CUser {
             firstName: firstname,
             lastName: lastname,
             isActive: true,
-            isInitialized: false,
+            isInitialized: true,
             language: "en",
             adminType: "undefined",
             roles: ["user"],

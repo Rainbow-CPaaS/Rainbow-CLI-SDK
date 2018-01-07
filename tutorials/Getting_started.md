@@ -3,45 +3,57 @@
 
 Welcome to the Alcatel-Lucent Enterprise **Rainbow CLI application**!
 
-The Alcatel-Lucent Enterprise (ALE) Rainbow CLI application is an shell tool for connecting to Rainbow and doing administrative tasks.
+The Alcatel-Lucent Enterprise (ALE) Rainbow CLI application is a shell tool for connecting to Rainbow and doing administrative tasks.
 
 
 ### Preamble
 ---
 
-This Rainbow CLI application is a pure JavaScript library based on the Rainbow SDK for Node.js. 
+This Rainbow CLI application is based on the [Rainbow SDK for Node.js](https://www.npmjs.com/package/rainbow-node-sdk). It's a desktop application.
 
 Its powerfull CLI commands enable you to connect to Alcatel-Lucent Enterprise [Rainbow](https://www.openrainbow.com) and do a lot of administrative tasks.
 
 This documentation will help you to use it.
 
-You need to have Node.JS (stable release) installed on your computer.
 
-THe Rainbow CLI application works on Windows, MacOSX and Linux platforms.
+### Prerequisites
+---
+
+This section lists the prerequisites for using the Rainbow CLI application.
+
+
+#### Node.JS Support
+---
+
+[Node.JS](https://nodejs.org) must be installed on your computer.
+
+The Rainbow CLI application is supported only when using a Node.JS LTS version. 
+
+
+#### Operating systems support
+---
+
+| OS | Details |
+|----|:--------|
+| **Windows** | Starting Windows 7 - all versions |
+| **MacOS** | Starting MacOS 10.11 |
+| **Linux** | Debian, Ubuntu |
+
+Note: Others Linux distributions can be used but without support.
 
 
 ### Rainbow account
 ---
 
-Your need a **Rainbow** account in order to use the Rainbow CLI application. Most of the administrative commands need a **company_admin** or a **organisation_admin** role.
+Your need a **Rainbow** account to use the Rainbow CLI application. Most of the administrative commands need a **company_admin** or a **organisation_admin** role.
 
-You can test it on the **Sandbox Developer Platform** or and Rainbow official if you have an admin role for your company or your organization. Please contact the Rainbow [support](mailto:support@openrainbow.com) team if you need an account on the Sandbox Developer Platform.
-
-
-### Beta disclaimer
----
-
-Please note that this is a Beta version of the Rainbow CLI application which is still undergoing final testing before its official release. The Rainbow CLI application and the documentation are provided on a "as is" and "as available" basis. Before releasing the official release, all these content can change depending on the feedback we receive in one hand and the developpement of the Rainbow official product in the other hand.
-
-Alcatel-Lucent Enterprise will not be liable for any loss, whether such loss is direct, indirect, special or consequential, suffered by any party as a result of their use of the Rainbow CLI application, the application sample software or the documentation content.
-
-If you encounter any bugs, lack of functionality or other problems regarding the Rainbow CLI application, the application samples or the documentation, please let us know immediately so we can rectify these accordingly. Your help in this regard is greatly appreciated. 
+You can test it on the **Sandbox Developer Platform** or on Rainbow official if you have an admin role for your company or your organization. Please contact the Rainbow [support](mailto:support@openrainbow.com) team if you need an account on the Sandbox Developer Platform.
 
 
 ### Install
 ---
 
-You need to install the Rainbow CLI application globally on your computer in order to be able to launch it from any directories.
+You must install the Rainbow CLI application globally on your computer to be able to launch it from any directories.
 
 Open a shell console and execute the following command:
 
@@ -52,12 +64,13 @@ $ npm install -g rainbow-cli
 
 ```
 
-Notice: Your need a stable version of Node.JS installed on your computer.
+Notice: Node.JS must be installed first.
+
 
 ### Usage
 ---
 
-Once the Rainbow CLI application is installed, you have access to the following command:
+Once the Rainbow CLI application is installed, you can launch commands using the following syntax:
 
 
 ```bash
@@ -73,6 +86,21 @@ Each command returns an exit status code:
  - 1 if the command failed
 
  Read the next paragraph for the complete list of available commands
+
+
+### Role and profile
+---
+
+Depending the role and profile associated to your Rainbow account, you can have access to more or less commands.
+
+To know the list of commands available to your role and profile, use the following command:
+
+
+```bash
+
+$ rbw commands
+
+```
 
 
 ### Outputs
@@ -130,7 +158,7 @@ rbw user 58e36805d45e61221b571363 --json | node displayLogin.js
 ### Debugging
 ---
 
-In case of issue, you can have more information on what has happened by adding the option `-v` or `--verbose` to any command
+In case of issue, you can have more information on what happens by adding the option `-v` or `--verbose` to any command
 
 
 ```shell
@@ -150,6 +178,7 @@ Here is the complete list of commands:
 | Account | **login** <username> <password> | Log-in to Rainbow |
 | | **logout** | Log-out from Rainbow | 
 | | **whoami** | Display information about the user connected |
+| | **commands** | Display the list of commands available to your account |
 | User | **user** <id> | Display information about a user |
 | | **create user** <username> | Create a new user |
 | | **delete user** <id> | Delete a user |
@@ -172,497 +201,45 @@ Here is the complete list of commands:
 | Organization | **org** <id> | Display information about an organization |
 | | **create org** <name> | Create a new organization |
 | | **delete org** <id> | Delete an existing organization |
+| Invoice | **download invoice** | Download a invoice as a CVS file
+| | **download cdr services** | Download a CVS file associated to a CDR for services usage |
+| | **download cdr conference** | Download a CVS file associated to a CDR for conference usage |
 | Users | **users** | List the users |
 | Companies | **companies** | List the companies |
+| | **customers** | List the companies managed by the BP |
 | Sites | **sites** | List the sites |
 | Systems | **systems** | List the systems |
 | Phones | **phones** <id> | List the phones number of a system |
 | Organizations | **orgs** | List the organizations |
+| Invoices | **invoices** | List the invoices for companies managed |
 | Advanced | **find** <id> | Find an item by its name |
 | | **newco** | Create a new company and a new user interactively |
-| Status | **status api** | Get the API status |
+| Status | **status api** | Get a status of the Rainbow API portals |
 | Import | **import** | Import a list of users from a CSV file |
 
 
-#### Command **LOGIN**
+### Help on commands
 ---
 
-This command allows to log-in to Rainbow
+To get help on a command and display the list of available options, use the following syntax:
+
 
 ```bash
-$ rbw login "rford@westworld.com" "Password_12345"
+
+$ rbw <command> --help
+
 ```
 
-By default the connection is done on the sandbox platform.
-- To log to the official Rainbow platform, simply add the option `--official`. 
-    ```bash
-    $ rbw login "rford@westworld.com" "Password_12345" --official
-    ```
 
-- To log to another Rainbow platform, simply add the option `--host` followed by the hostname where you want to connect:
-
-    ```bash
-    $ rbw login "rford@westworld.com" "Password_12345" --host "openrainbow.com"
-    ```
-
-Once this command is done, you're connected to Rainbow and you can launch other commands until your session expires.
-
-
-#### Command **LOGOUT**
+### Beta disclaimer
 ---
 
-This command allows to log-out from Rainbow
+Please note that this is a Beta version of the Rainbow CLI application which is still undergoing final testing before its official release. The Rainbow CLI application and the documentation are provided on a "as is" and "as available" basis. Before releasing the official release, all these content can change depending on the feedback we receive in one hand and the developpement of the Rainbow official product in the other hand.
 
-```bash
-$ rbw logout 
-```
+Alcatel-Lucent Enterprise will not be liable for any loss, whether such loss is direct, indirect, special or consequential, suffered by any party as a result of their use of the Rainbow CLI application, the application sample software or the documentation content.
 
-Once this command is done, you're disconnected to Rainbow.
+If you encounter any bugs, lack of functionality or other problems regarding the Rainbow CLI application, the application samples or the documentation, please let us know immediately so we can rectify these accordingly. Your help in this regard is greatly appreciated. 
 
-
-#### Command **WHOAMI**
 ---
 
-This command allows to retrieve information on the connected user
-
-```bash
-$ rbw whoami
-```
-
-
-#### Command **USER**
----
-
-This command allows to retrieve information on a specific user
-
-```bash
-$ rbw user 58cd966fd45e61221b57576c0
-```
-
-
-#### Command **CREATE USER**
----
-
-This command allows to create a new user
-
-The following example creates a user in a specific company
-
-```bash
-$ rbw create user "jdoe@mycompany.com" "Password_123" "John" "Doe" -c 58cd966fd45e61221b5711c0
-```
-
-Using the argument `--admin`, you can create a user with admin right (depending your roles and company profile)
-
-```bash
-$ rbw create user "jdoe@mycompany.com" "Password_123" "John" "Doe" -c 58cd966fd45e61221b5711c0 --admin
-```
-
-
-#### Command **DELETE USER**
----
-
-This command allows to delete an existing user
-
-```bash
-$ rbw delete user 58cd966fddfd61221b57145f
-```
-
-A user can be deleted without having to confirm
-
-```bash
-$ rbw delete user 58cd966fddfd61221b57145f --nc
-```
-
-
-#### Command **COMPANY**
----
-
-This command allows to retrieve information on a specific company
-
-```bash
-$ rbw company 58cd966fd45e61221b5711c0
-```
-
-
-#### Command **DELETE COMPANY**
----
-
-This command allows to delete an existing company
-
-```bash
-$ rbw delete company 58cd966fd45e61221b5711c0
-```
-
-A company can be deleted without having to confirm
-
-```bash
-$ rbw delete company 58cd966fddfd61221b57145f --nc
-```
-
-If the company contains users, add the following parameter to remove the users first and then remove the company
-
-```bash
-$ rbw delete company 58cd966fddfd61221b57145f --nc --force
-```
-
-
-#### Command **CREATE COMPANY**
----
-
-This command allows to create a new company
-
-```bash
-$ rbw create company "My New Company"
-```
-
-
-#### Command **FREE COMPANY**
-
-This command allows to remove all users from a company
-
-```bash
-$ rbw free company 58cd966fd45e61221b5711c0
-```
-
-
-#### Command **STATUS COMPANY**
-
-This command allows to get a status of the company
-
-```bash
-$ rbw status company 58cd966fd45e61221b5711c0
-```
-
-
-#### Command **LINK COMPANY**
----
-
-This command allows to link a company to an organization
-
-```bash
-$ rbw link company 58cd966fd45e61221b5711c0 58cd966fddfd61221b57145f
-```
-
-
-#### Command **UNLINK COMPANY**
----
-
-This command allows to unlink a company from its organization
-
-```bash
-$ rbw unlink company 58cd966fd45e61221b5711c0
-```
-
-
-#### Command **SITE**
----
-
-This command allows to retrieve information on a specific site
-
-```bash
-$ rbw site 58cd966fd45e61221b5711c0
-```
-
-
-#### Command **DELETE SITE**
----
-
-This command allows to delete an existing site
-
-```bash
-$ rbw delete site 58cd966fd45e61221b5711c0
-```
-
-A site can be deleted without having to confirm
-
-```bash
-$ rbw delete site 58cd966fd45e61221b5711c0 --nc
-```
-
-
-#### Command **CREATE SITE**
----
-
-This command allows to create a new site. You have to specify the company id where to create this site.
-
-```bash
-$ rbw create site "My New site" 58cd966fd45e61221b5714fc
-```
-
-
-#### Command **SYSTEM**
----
-
-This command allows to retrieve information on a specific system
-
-```bash
-$ rbw system 58cd966fd45e61221b575423
-```
-
-
-#### Command **DELETE SYSTEM**
----
-
-This command allows to delete an existing system
-
-```bash
-$ rbw delete system 58cd966fd45e61221b571445
-```
-
-A site can be deleted without having to confirm
-
-```bash
-$ rbw delete system 58cd966fd45e61221b571445 --nc
-```
-
-
-#### Command **CREATE SYSTEM**
----
-
-This command allows to create a new system. You have to specify the site id where to create this site and a name.
-
-```bash
-$ rbw create system "My New site" 58cd966fd45e61221b5714fc
-```
-
-Then the system will ask to choice a type of system to create and the country associated to this system.
-
-
-#### Command **LINK SYSTEM**
----
-
-This command allows to link a system to an other site. A system can be share with several sites.
-
-```bash
-$ rbw link system 58cd966fd45e61221b5714fc 58cd966fd45e61221b57645
-```
-
-
-#### Command **UNLINK SYSTEM**
----
-
-This command allows to unlink a system from a site. A system must be attached to at least one site.
-
-```bash
-$ rbw unlink system 58cd966fd45e61221b5714fc 58cd966fd45e61221b57645
-```
-
-
-#### Command **PHONE**
----
-
-This command allows to retrieve information on a specific phone
-
-```bash
-$ rbw phone 58cd966fd45e61221b5711c0 58cd966fd45e61221b59876
-```
-
-
-#### Command **ORG**
----
-
-This command allows to retrieve information on a specific organization
-
-```bash
-$ rbw org 58cd966fd45e61221b5711c0
-```
-
-
-#### Command **CREATE ORG**
----
-
-This command allows to create a new organization
-
-```bash
-$ rbw create org "My New organization"
-```
-
-
-#### Command **DELETE ORG**
----
-
-This command allows to delete an existing organization
-
-```bash
-$ rbw delete org 58cd966fd45e61221b5711c0
-```
-
-An organization can be deleted without having to confirm
-
-```bash
-$ rbw delete org 58cd966fd45e61221b5711c0 --nc
-```
-
-
-#### Command **USERS**
----
-
-This command allows to list all the existing users (limited to your admin right)
-
-```bash
-$ rbw users
-```
-
-If there is more that 25 instances, the result is paginated. use the option `--limit` to display up to 1000 results per page and the option `--page` to display a specific page
-
-```bash
-$ rbw users --page 4
-```
-
-The list of users can be restricted to a company
-
-```bash
-$ rbw users --cid 58cd966fd45e61221b5711c0
-```
-
-The list of users can be restricted to a company name
-
-```bash
-$ rbw users -company "myCompany"
-```
-
-The list of users can be filtered by name
-
-```bash
-$ rbw companies --name "smith"
-```
-
-Finally, this list of users can be exported to a CSV file (with a limited set of attributes for each user)
-
-```bash
-$ rbw users -c 58cd966fd45e61221b5711c0 --file "export.csv"
-```
-
-#### Command **COMPANIES**
----
-
-This command allows to list all the existing companies (limited to your admin right)
-
-```bash
-$ rbw companies
-```
-
-The list of companies can be filtered to limit to BP companies
-
-```bash
-$ rbw companies --bp
-```
-
-The list of companies can be filtered by name
-
-```bash
-$ rbw companies --name "Rainbow"
-```
-
-The options `--limit` and `--page` can be used in case of a large number of companies found
-
-
-#### Command **SITES**
----
-
-This command allows to list all the existing sites (limited to your admin right)
-
-```bash
-$ rbw sites
-```
-
-Sites can be exported to a CSV file 
-
-```bash
-$ rbw sites --file "sites.csv"
-```
-
-The options `--limit` and `--page` can be used in case of a large number of sites found
-
-
-#### Command **SYSTEMS**
----
-
-This command allows to list all the existing systems (limited to your admin right)
-
-```bash
-$ rbw systems
-```
-
-Sites can be exported to a CSV file 
-
-```bash
-$ rbw systems --file "systems.csv"
-```
-
-The options `--limit` and `--page` can be used in case of a large number of systems found
-
-
-#### Command **PHONES**
----
-
-This command allows to list all the existing phones of a system (limited to your admin right)
-
-```bash
-$ rbw phones 58cd966fd45e61221b5711c0
-```
-
-Phones can be exported to a CSV file 
-
-```bash
-$ rbw phones 58cd966fd45e61221b5711c0 --file "systems.csv"
-```
-
-The options `--limit` and `--page` can be used in case of a large number of phones found
-
-
-#### Command **ORGS**
----
-
-This command allows to list all the existing organizations (limited to your admin right)
-
-```bash
-$ rbw orgs
-```
-
-Organizations can be exported to a CSV file 
-
-```bash
-$ rbw orgs --file "orgs.csv"
-```
-
-The options `--limit` and `--page` can be used in case of a large number of organizations found
-
-
-#### Command **FIND**
----
-
-This command search in the Rainbow database for the element associated to the given id. (ie: in users, organisations, sites or companies tables)
-
-```bash
-$ rbw find 58cd966fd45e61221b5711c0
-```
-
-
-#### Command **NEWCO**
----
-
-This command creates a new company and a new user interactively. If there is a issue, when creating the user, the company is removed too. The user can have `company_admin` right or not. 
-
-```bash
-$ rbw newco
-```
-
-
-#### Command **STATUS API**
----
-
-This command allows to retrieve the status of the Rainbow Services
-
-```bash
-$ rbw status api
-```
-
-#### Command **IMPORT**
----
-
-This command allows to import a CSV file containing a list of users to a company
-
-```bash
-$ rbw import --file "import.csv"
-```
+_Last updated December, 15th 2017_

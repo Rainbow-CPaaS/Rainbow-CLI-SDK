@@ -68,6 +68,10 @@ class Message {
         console.log(JSON.stringify(json));
     }
 
+    outCSV(csv) {
+        console.log(csv);
+    }
+
     csv(file, json, isAlreadyCSV) {
 
         return new Promise((resolve, reject) => {
@@ -296,6 +300,93 @@ class Message {
         Screen.table(t);
         Screen.print('');
         Screen.success('status successfully executed.');
+    }
+
+    tableInvoiceCSV(json, options) {
+        var invoice = json;
+        Screen.print('');
+        Screen.print(json);
+        Screen.success('Invoice ' + options.path + 'retrieved');
+    }
+
+    tableInvoices(json, options) {
+
+        var array = [];
+        array.push([ "#".gray, "Company".gray, "Company ID".gray, "Type".gray, "Period".gray, "Initiated".gray, "Path".gray]);
+        array.push([ "-".gray, "-------".gray, "----------".gray, "----".gray, "------".gray, "---------".gray, "----".gray]);
+        
+        var invoices = json;
+        
+        for(var i = 0; i < invoices.length; i++) {
+
+            var companyId = invoices[i].companyId || "";
+            var companyName = invoices[i].companyName || "";
+            var period = invoices[i].billingPeriod || "";
+            var type = invoices[i].invoiceType || "";
+            var initiated = invoices[i].invoiceCreationDate || "";
+            var path = invoices[i].filepath || "";
+            var number = (i+1);
+
+            array.push([ number.toString().white, companyName.cyan, companyId.white, type.magenta, period.white, initiated.white, path.white]);  
+        }
+
+        var t = table(array);
+        Screen.table(t);
+
+        Screen.print('');
+        
+        if(options.companyId) {
+            Screen.success(invoices.length + ' invoices found for company ' + options.companyId);
+        } else {
+            Screen.success(invoices.length + ' invoices found');
+        }
+    }
+
+    tableApplications(json, options) {
+
+        var array = [];
+        array.push([ "#".gray, "Name".gray, "Type".gray, "Environment".gray, "State".gray, "OwnerId".gray, "id".gray]);
+        array.push([ "-".gray, "----".gray, "----".gray, "-----------".gray, "-----".gray, "-------".gray, "--".gray, ""]);  
+
+        var apps = json.data;
+
+        let number = 0;
+
+        apps.forEach((app) => {
+
+            let name = app.name || "";
+
+            let type = app.type || "";
+
+            let env = app.env;
+            if(env === "sandbox") {
+                env = env.white;
+            } else {
+                env = env.yellow;
+            }
+
+            let state = app.state;
+            if(state === "blocked" || state == "stopped") {
+                state = state.red;
+            } else {
+                state = state.white;
+            }
+
+            let ownerId = app.ownerId || "";
+
+            let id = app.id || "";
+
+            array.push([(number+1).toString().white, name.white, type.cyan, env, state, ownerId.white, id.white]);
+
+            number++;
+        });
+
+        var t = table(array);
+        Screen.table(t);
+
+        Screen.print('');
+
+        Screen.success(json.total + ' applications found');
     }
 
     tableUsers(json, options) {

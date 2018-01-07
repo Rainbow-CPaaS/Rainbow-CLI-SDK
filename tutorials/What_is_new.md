@@ -4,6 +4,30 @@
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
 
+### Rainbow CLI 1.34 (Beta) - Decembre 2017
+---
+
+**COMMANDS**
+
+- New commands `rbw invoices` to list the available invoices
+
+- New commands `rbw download invoice` to download an available invoice (CSV format)
+
+- New commands `rbw download cdr services` and `rbw download cdr conference` to download a detailed invoice for services and conference (CSV format)
+
+- Command `rbw status api` now checks 12 Rainbow portals (portals subscriptions, invoices, channels, mass provisionning, telephony, calendar, metrics and file storage have been added to the status).
+
+
+**FIXES**
+
+- No fix
+
+
+**OTHERS**
+
+- Update guide `Getting started` with new commands added.
+
+
 ### Rainbow CLI 1.33 (Beta) - November 2017
 ---
 
