@@ -6,6 +6,8 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 ### Rainbow CLI 1.35 (Beta) - January 2018
 ---
 
+This new version of the Rainbow CLI tool introduces commands for users mass provisionning. Using these new commands, you will be able to import and create lots of Rainbow users from a CSV file.
+
 **COMMANDS**
 
 - New commands `rbw masspro template` to download the CSV template
