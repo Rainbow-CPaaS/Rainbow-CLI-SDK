@@ -117,7 +117,7 @@ class CSite {
         Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
 
             if(options.noconfirmation) {
                 doDelete(id);
@@ -146,7 +146,7 @@ class CSite {
         Message.welcome(options);
         
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
 
             if(!options.csv) {
                 Message.action("List sites");
@@ -198,7 +198,7 @@ class CSite {
         Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
         
             Message.action("Get informaton for site", id, options);
 
@@ -240,7 +240,7 @@ class CSite {
         Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
         
             Message.action("Create new site", name);
 

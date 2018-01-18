@@ -75,7 +75,7 @@ class CApplication {
             Message.welcome(options);
 
             if(this._prefs.token && this._prefs.user) {
-                Message.loggedin(this._prefs.user, options);
+                Message.loggedin(this._prefs, options);
                 Message.action("Get information for application" , id, options);
                 
                 let spin = Message.spin(options);
@@ -121,7 +121,7 @@ class CApplication {
         Message.welcome(options);
 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
 
             if(!options.csv) {
                 Message.action("List applications", null, options);
@@ -173,7 +173,7 @@ class CApplication {
         Message.welcome(options);
 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
 
             if(!options.csv) {
                 Message.action("List metrics for application " + id, null, options);

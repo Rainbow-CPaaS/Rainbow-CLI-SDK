@@ -109,7 +109,7 @@ class COrganization {
         Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
 
             if(options.noconfirmation) {
                 doDelete(id);
@@ -139,7 +139,7 @@ class COrganization {
         Message.welcome(options);
         
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
 
             if(!options.csv) {
                 Message.action("List organizations", null, options);
@@ -189,7 +189,7 @@ class COrganization {
         Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
         
             Message.action("Get informaton for organization", id, options);
             
@@ -231,7 +231,7 @@ class COrganization {
         Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
             Message.action("Create new organization", name, options);
             
             let spin = Message.spin(options);

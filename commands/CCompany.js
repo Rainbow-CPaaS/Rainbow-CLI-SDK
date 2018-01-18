@@ -281,7 +281,7 @@ class CCompany {
         Message.welcome(options);
         
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
 
             if(!options.csv) {
                 Message.action("List Companies:", null, options);
@@ -334,7 +334,7 @@ class CCompany {
         Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
         
             Message.action("Create new company", name, options);
             let spin = Message.spin(options);
@@ -416,7 +416,7 @@ class CCompany {
         }
         
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
 
             if(options.noconfirmation) {
                 doDeletes();
@@ -468,7 +468,7 @@ class CCompany {
         Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-           Message.loggedin(this._prefs.user, options);
+           Message.loggedin(this._prefs, options);
 
             if(options.noconfirmation) {
                 doDelete(id);
@@ -498,7 +498,7 @@ class CCompany {
         Message.welcome(options);
 
         if(this._prefs.token && this._prefs.user) {
-           Message.loggedin(this._prefs.user, options);
+           Message.loggedin(this._prefs, options);
         
             Message.action("Status of company",id, options);
 
@@ -531,7 +531,7 @@ class CCompany {
         Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-           Message.loggedin(this._prefs.user, options);
+           Message.loggedin(this._prefs, options);
         
             Message.action("Link company",id, options);
 
@@ -563,7 +563,7 @@ class CCompany {
         Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-           Message.loggedin(this._prefs.user, options);
+           Message.loggedin(this._prefs, options);
         
             Message.action("Unlink company", id, options);
            
@@ -595,7 +595,7 @@ class CCompany {
         Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
         
             Message.action("Get information for company", id, options);
             

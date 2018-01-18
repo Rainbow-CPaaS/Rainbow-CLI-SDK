@@ -53,7 +53,7 @@ class CPhone {
         Message.welcome(options);
         
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
 
             if(!options.csv) {
                 Message.action("List phones", null, options);
@@ -104,7 +104,7 @@ class CPhone {
         Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
         
             Message.action("Get informaton for phone", id, actions);
             

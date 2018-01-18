@@ -56,7 +56,7 @@ class CStatus {
         Message.welcome(options);
                 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
 
             Message.action("API status information for host " + this._prefs.host);
             

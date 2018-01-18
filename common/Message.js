@@ -683,14 +683,18 @@ class Message {
         Screen.success('Avallable commands for your level listed.');
     }
 
-    loggedin(user, options) {
+    loggedin(prefs, options) {
+
+        let user = prefs.user;
+        let host = prefs.host;
+        let adminType = "";
+
         if(!this._shouldDisplayOutput(options)) {
             return;
         }
 
-        Screen.print('You are logged in as'.grey + " " + user.loginEmail.magenta);
-        let adminType = "";
-        Screen.print('Your roles'.grey + " " + user.roles.join(' + ').yellow);
+        Screen.print('You are logged in as'.grey + " " + user.loginEmail.yellow + " on platform ".grey + host.yellow);
+        Screen.print('Your roles'.grey + " " + user.roles.join(' + ').magenta);
         
         switch (user.adminType) {
             case "company_admin":

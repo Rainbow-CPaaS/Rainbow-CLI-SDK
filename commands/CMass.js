@@ -109,7 +109,7 @@ class CMass {
         Message.welcome(options);
 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
 
             if(!options.csv) {
                 Message.action("Retrieve mass-provisioning template", null, options);
@@ -150,7 +150,7 @@ class CMass {
         Message.welcome(options);
 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
 
             if(!options.csv) {
                 Message.action("check mass-provisioning file", null, options);
@@ -190,7 +190,7 @@ class CMass {
         Message.welcome(options);
 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
 
             if(!options.csv) {
                 Message.action("status mass-provisioning file", null, options);
@@ -230,7 +230,7 @@ class CMass {
         Message.welcome(options);
 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
 
             if(!options.csv) {
                 Message.action("status mass-provisioning company", options.companyId, options);
@@ -270,7 +270,7 @@ class CMass {
         Message.welcome(options);
 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
 
             if(!options.csv) {
                 Message.action("import mass-provisioning file", null, options);

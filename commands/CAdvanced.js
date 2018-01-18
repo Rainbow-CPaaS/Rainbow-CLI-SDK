@@ -104,7 +104,7 @@ class CAdvanced {
         Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
             Message.action("Find information for ", id, options);
             
             let spin = Message.spin(options);
@@ -153,7 +153,7 @@ class CAdvanced {
         Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
             Message.action("Wizard for user & company", null, options);
 
             let companyName = "New Co";

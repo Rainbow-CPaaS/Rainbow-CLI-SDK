@@ -65,7 +65,7 @@ class CFree {
         Message.welcome(options);
                 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
 
             Message.action("Free company", id, options);
 

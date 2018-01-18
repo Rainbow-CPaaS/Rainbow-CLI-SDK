@@ -152,7 +152,7 @@ class CInvoice {
         Message.welcome(options);
 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
 
             if(!options.csv) {
                 Message.action("Get detailed invoice for services", null, options);
@@ -196,7 +196,7 @@ class CInvoice {
         Message.welcome(options);
 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
 
             if(!options.csv) {
                 Message.action("Get detailed invoice for conference", null, options);
@@ -240,7 +240,7 @@ class CInvoice {
         Message.welcome(options);
 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
 
             if(!options.csv) {
                 Message.action("Get invoice " + options.path, null, options);
@@ -285,7 +285,7 @@ class CInvoice {
         Message.welcome(options);
 
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
 
             if(!options.csv) {
                 Message.action("List invoices", null, options);

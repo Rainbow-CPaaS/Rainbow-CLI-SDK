@@ -140,7 +140,7 @@ class COffers {
         Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
         
             Message.action("Create new catalog", name, options);
             let spin = Message.spin(options);
@@ -202,7 +202,7 @@ class COffers {
         Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-           Message.loggedin(this._prefs.user, options);
+           Message.loggedin(this._prefs, options);
 
             if(options.noconfirmation) {
                 doDelete(id);
@@ -232,7 +232,7 @@ class COffers {
         Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
         
             Message.action("Get information for catalog", id, options);
             
@@ -275,7 +275,7 @@ class COffers {
         var offers = null;
         
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
 
             if(!options.csv) {
                 Message.action("List Catalogs:", null, options);
@@ -331,7 +331,7 @@ class COffers {
         Message.welcome(options);
             
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
         
             Message.action("Get information for offer", id, options);
             
@@ -372,7 +372,7 @@ class COffers {
         Message.welcome(options);
         
         if(this._prefs.token && this._prefs.user) {
-            Message.loggedin(this._prefs.user, options);
+            Message.loggedin(this._prefs, options);
 
             if(!options.csv) {
                 Message.action("List Offers:", null, options);
