@@ -3,6 +3,18 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
+
+
+### Rainbow CLI 1.36 (Beta) - February 2018
+---
+
+The Rainbow CLI now displays the hostname where the user is connected.
+
+**COMMANDS**
+
+- New commands `rbw block user` and `rbw unblock user` have been added to block or unblock a user connecting to Rainbow.
+
+
 ### Rainbow CLI 1.35 (Beta) - January 2018
 ---
 

@@ -170,6 +170,10 @@ Here is the complete list of commands:
 | User | **user** <id> | Display information about a user |
 | | **create user** <username> | Create a new user |
 | | **delete user** <id> | Delete a user |
+| | **changepwd user** <id> | Change password of a user |
+| | **changelogin user** <id> | Change login of a user |
+| | **block user** <id> | Block a user from connecting |
+| | **unblock user** <id> | Allow a user to connect |
 | Company | **company** <id> | Display information about a company |
 | | **free company** <id> | Remove all users from a company |
 | | **create company** <name> | Create a new company |
@@ -203,7 +207,12 @@ Here is the complete list of commands:
 | Advanced | **find** <id> | Find an item by its name |
 | | **newco** | Create a new company and a new user interactively |
 | Status | **status api** | Get a status of the Rainbow API portals |
-| Import | **import** | Import a list of users from a CSV file |
+| MassPro | **masspro template [filename]** | Download a CSV template file |
+| | **masspro check <filename>** | Check a CSV file before importing it |
+| | **masspro import <filename>** | Import a CSV file |
+| | **masspro status <reqId>** | Get details of an import |
+| | **masspro status company [companyId]** | Get imports done to a company |
+
 
 
 ## Help on commands

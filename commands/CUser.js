@@ -415,6 +415,57 @@ class CUser {
             Exit.error();
         }
     }
+
+    blockOrUnblock(options) {
+        var that = this;
+        
+        Message.welcome(options);
+                
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+            if(options.toBlock) {
+                Message.action("Block user", options.id, options);
+            }
+            else {
+                Message.action("Unblock user", options.id, options);
+            }
+
+            let spin = Message.spin(options);
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
+                return that._changedata(that._prefs.token, options.id, {
+                    isActive: !options.toBlock
+                }, options);
+            }).then(function(json) {
+                Message.unspin(spin);
+                Message.log("action done...", json);
+
+                if(options.noOutput) {
+                    Message.out(json.data);
+                }
+                else {
+                    Message.lineFeed();
+                    if(options.toBlock) {
+                        Message.printSuccess("User has been blocked", options.id, options);
+                    }
+                    else {
+                        Message.printSuccess("User has been unblocked", options.id, options);
+                    }
+                    Message.success(options);
+                }
+                Message.log("finished!");
+                
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
 }
 
 module.exports = CUser;

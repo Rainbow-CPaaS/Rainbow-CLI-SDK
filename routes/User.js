@@ -143,6 +143,48 @@ class User {
             that._user.changepwd(id, password, options); 
         });
 
+        this._program.command('block user', '<id>')
+        .description("Block a user")
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('-h, --help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw block user '593065822799299343b8501d'");
+            console.log('');
+        })
+        .action(function (id, commands) {
+
+            var options = {
+                id: id,
+                toBlock: true
+            };
+
+            Logger.isActive = commands.verbose || false;
+
+            that._user.blockOrUnblock(options); 
+        });
+
+        this._program.command('unblock user', '<id>')
+        .description("Unblock a user")
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('-h, --help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw unblock user '593065822799299343b8501d'");
+            console.log('');
+        })
+        .action(function (id, commands) {
+
+            var options = {
+                id: id,
+                toBlock: false
+            };
+
+            Logger.isActive = commands.verbose || false;
+
+            that._user.blockOrUnblock(options); 
+        });
+
         this._program.command('users')
         .description("List the users")
         .option('-p, --page <number>', 'Display a specific page')

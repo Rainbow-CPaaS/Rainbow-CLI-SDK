@@ -278,6 +278,18 @@ class CAccount {
                         },
                         {
                             "level": "company_admin", 
+                            "theme": "Users", 
+                            "command": "block user <id>", 
+                            "details": "Block a user from connecting to Rainbow"
+                        },
+                        {
+                            "level": "company_admin", 
+                            "theme": "Users", 
+                            "command": "unblock user <id>", 
+                            "details": "Unblock a user"
+                        },
+                        {
+                            "level": "company_admin", 
                             "theme": "", 
                             "command": "", 
                             "details": ""
