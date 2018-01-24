@@ -205,6 +205,12 @@ class CAccount {
                         {
                             "level": "app_admin", 
                             "theme": "Applications", 
+                            "command": "create application <name>", 
+                            "details": "Create a new application"
+                        },
+                        {
+                            "level": "app_admin", 
+                            "theme": "Applications", 
                             "command": "application <id>", 
                             "details": "List application's information"
                         },

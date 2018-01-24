@@ -48,6 +48,38 @@ class Application {
             that._application.getApplication(id, options);
         });
 
+        this._program.command('create application', '<name>')
+        .description("Create a new web application")
+        .option('-m, --mob', 'Force the type to mobile')
+        .option('-s, --srv', 'Force the type to server')
+        .option('-b, --bot', 'Force the type to bot')
+        .option('-j, --json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('-h, --help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw create application 'A new app'");
+            console.log("    $ rbw create application 'A new app' --bot");
+            console.log("    $ rbw create application 'A new app' --bot --json");
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the user to the console');
+            console.log('');
+        })
+        .action(function (name, commands) {
+
+            var options= {
+                name: name,
+                noOutput: commands.json || false,
+                type: commands.srv ? "server" : commands.bot ? "bot" : commands.mob ? "mobile" : "web"
+            }
+
+            Logger.isActive = commands.verbose || false;
+
+            that._application.createApplication(options);
+        });
+
         this._program.command('application metrics', '<id>')
         .description("Retrieve API usage metrics about an existing application")
         .option('-j, --json', 'Write the JSON result to standard stdout')

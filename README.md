@@ -193,6 +193,8 @@ Here is the complete list of commands:
 | Organization | **org** <id> | Display information about an organization |
 | | **create org** <name> | Create a new organization |
 | | **delete org** <id> | Delete an existing organization |
+| Application | **application <id>** | Display information about an application |
+|  | **create application <name>** | Create a new application |
 | Invoice | **download invoice** | Download a invoice as a CVS file
 | | **download cdr services** | Download a CVS file associated to a CDR for services usage |
 | | **download cdr conference** | Download a CVS file associated to a CDR for conference usage |
@@ -204,6 +206,7 @@ Here is the complete list of commands:
 | Phones | **phones** <id> | List the phones number of a system |
 | Organizations | **orgs** | List the organizations |
 | Invoices | **invoices** | List the invoices for companies managed |
+| Applications | **applications** | List all applications |
 | Advanced | **find** <id> | Find an item by its name |
 | | **newco** | Create a new company and a new user interactively |
 | Status | **status api** | Get a status of the Rainbow API portals |
@@ -212,6 +215,7 @@ Here is the complete list of commands:
 | | **masspro import <filename>** | Import a CSV file |
 | | **masspro status <reqId>** | Get details of an import |
 | | **masspro status company [companyId]** | Get imports done to a company |
+
 
 
 

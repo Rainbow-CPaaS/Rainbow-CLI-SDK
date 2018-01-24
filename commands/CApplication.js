@@ -67,6 +67,25 @@ class CApplication {
         });
     }
 
+    _createApplication(token, options) {
+
+        return new Promise(function(resolve, reject) {
+
+            let application = {
+                "name": options.name,
+                "origin": "",
+                "type": options.type,
+                "activity": "J"
+            }
+
+            NodeSDK.post('/api/rainbow/applications/v1.0/applications', token, application).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
     getApplication(id, options) {
         var that = this;
 
@@ -111,6 +130,46 @@ class CApplication {
         }
         catch(err) {
             Message.error(err, options);
+            Exit.error();
+        }
+    }
+
+    createApplication(options) {
+        var that = this;
+
+        Message.welcome(options);
+            
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+        
+            Message.action("Create new application", options.name, options);
+            let spin = Message.spin(options);
+
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
+                return that._createApplication(that._prefs.token, options);
+            }).then(function(json) {
+                Message.unspin(spin);
+
+                Message.log("action done...", json);
+
+                if(options.noOutput) {
+                    Message.out(json.data);
+                }
+                else {
+                    Message.lineFeed();
+                    Message.printSuccess('Application created with Id', json.data.id, options);    
+                    Message.success(options);
+                }
+                Message.log("finished!");
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
             Exit.error();
         }
     }
