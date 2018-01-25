@@ -86,6 +86,17 @@ class CApplication {
         });
     }
 
+    _delete(token, id) {
+
+        return new Promise(function(resolve, reject) {
+            NodeSDK.delete('/api/rainbow/applications/v1.0/applications/' + id, token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
     getApplication(id, options) {
         var that = this;
 
@@ -167,6 +178,56 @@ class CApplication {
                 Message.error(err, options);
                 Exit.error();
             });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    deleteApplication(options) {
+        var that = this;
+
+        var doDelete = function(id) {
+            
+
+            let spin = Message.spin(options);
+            NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host).then(function() {
+                Message.log("execute action...");
+                return that._delete(that._prefs.token, options.id);
+            }).then(function(json) {
+                Message.unspin(spin);
+                Message.log("action done...", json);
+                Message.lineFeed();
+                Message.success(options);
+                Message.log("finished!");
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        
+        Message.welcome(options);
+                
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            Message.action("Delete application", options.id, options);
+            if(options.noconfirmation) {
+                doDelete(options.id);
+            }
+            else {
+                Message.confirm('Are-you sure ? It will remote it completely').then(function(confirm) {
+                    if(confirm) {
+                        doDelete(options.id);
+                    }
+                    else {
+                        Message.canceled(options);
+                        Exit.error();
+                    }
+                });
+            }
         }
         else {
             Message.notLoggedIn(options);

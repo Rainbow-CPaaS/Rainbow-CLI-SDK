@@ -14,7 +14,7 @@ The Rainbow CLI now displays the hostname where the user is connected.
 
 - New commands `rbw block user` and `rbw unblock user` have been added to block or unblock a user connecting to Rainbow.
 
-- New commands `rbw create applcation` has been added to create a new third party application.
+- New commands `rbw create application` and `rbw delete application` have been added to create and delete a third party application.
 
 
 ### Rainbow CLI 1.35 (Beta) - January 2018

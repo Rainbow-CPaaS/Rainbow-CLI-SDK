@@ -80,6 +80,29 @@ class Application {
             that._application.createApplication(options);
         });
 
+        this._program.command('delete application', '<id>')
+        .description("Delete an existingapplication")
+        .option('--nc', 'Do not ask confirmation')
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('-h, --help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw delete application 593065822799299343b8501d");
+            console.log("    $ rbw delete application 593065822799299343b8501d --json");
+            console.log('');
+        })
+        .action(function (id, commands) {
+
+            var options= {
+                id: id,
+                noOutput: commands.json || false,
+            }
+
+            Logger.isActive = commands.verbose || false;
+
+            that._application.deleteApplication(options);
+        });
+
         this._program.command('application metrics', '<id>')
         .description("Retrieve API usage metrics about an existing application")
         .option('-j, --json', 'Write the JSON result to standard stdout')

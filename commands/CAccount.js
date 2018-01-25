@@ -211,6 +211,12 @@ class CAccount {
                         {
                             "level": "app_admin", 
                             "theme": "Applications", 
+                            "command": "delete application <id>", 
+                            "details": "Delete an existing application"
+                        },
+                        {
+                            "level": "app_admin", 
+                            "theme": "Applications", 
                             "command": "application <id>", 
                             "details": "List application's information"
                         },
