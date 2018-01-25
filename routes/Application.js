@@ -103,7 +103,7 @@ class Application {
             that._application.deleteApplication(options);
         });
 
-        this._program.command('application metrics', '<id>')
+        this._program.command('metrics application', '<id>')
         .description("Retrieve API usage metrics about an existing application")
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
