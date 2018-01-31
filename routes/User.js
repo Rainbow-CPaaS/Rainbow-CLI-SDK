@@ -51,6 +51,7 @@ class User {
         .description("Create a new user")
         .option('-c, --company <id>', 'In company identified by an id')
         .option('-a, --admin', 'With a company_admin role')
+        .option('-o, --org <orgid>', 'With a org_admin role for an organisation identified by an orgid')
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
         .on('-h, --help', function(){
@@ -71,8 +72,9 @@ class User {
             var options = {
                 noOutput: commands.json || false,
                 companyId: commands.company || "",
-                isAdmin: commands.admin || false
-            }
+                isAdmin: commands.admin || false,
+                orgId: commands.org || false
+            };
 
             Logger.isActive = commands.verbose || false;
 

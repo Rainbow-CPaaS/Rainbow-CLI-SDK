@@ -138,8 +138,16 @@ class CUser {
         }
 
         if(options.isAdmin) {
-            user.roles.push("admin")
-            user.adminType = ["company_admin"];
+            user.roles.push("admin");
+            user.adminType = "company_admin";
+        }
+
+        if(options.orgId) {
+            if(!user.roles.includes("admin")) {
+                user.roles.push("admin");
+            }
+            user.adminType = "organization_admin";
+            user.organisationId = options.orgId;
         }
 
         return this._create(token, user);
