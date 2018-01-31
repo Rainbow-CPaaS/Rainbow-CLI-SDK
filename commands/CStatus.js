@@ -50,6 +50,41 @@ class CStatus {
         });
     }
 
+    _getPlatformStatus(token) {
+
+
+        let doRequest = (url, name, token) => {
+            return new Promise((resolve) => {
+
+                let start = new Date().getTime();
+
+                NodeSDK.get(url, token).then(function(json) {
+                    let rtt = new Date().getTime() - start;
+                    let eventLoop = Math.floor(json.data.eventLoopLagMilliseconds * 100);
+                    Message.log("Request RTT", rtt);
+                    Message.log("Request Event loop",eventLoop)
+                    resolve({"name": name, "status": json.status, "eventloop": eventLoop, "rtt": rtt});
+                }).catch((err) => {
+                    resolve({"name": name, "status": "Error"});
+                });
+
+            });
+        };
+
+        return new Promise(function(resolve, reject) {
+
+            var portals = [];
+
+            Promise.all([
+                doRequest('/api/rainbow/ping', "Platform status", token),
+            ]).then((portals) => {
+                resolve(portals);
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+
     getStatus(options) {
         var that = this;
         
@@ -75,6 +110,46 @@ class CStatus {
                 else {
                     Message.lineFeed();
                     Message.tableAPI(json, options);
+                }
+                Message.log("finished!");
+
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    getPlatformStatus(options) {
+        var that = this;
+        
+        Message.welcome(options);
+                
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            Message.action("Platform status information for host " + this._prefs.host);
+            
+            let spin = Message.spin(options);
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                Message.log("execute action...");
+                return that._getPlatformStatus(that._prefs.token);
+            }).then(function(json) {
+
+                Message.unspin(spin);
+                Message.log("action done...", json); 
+                
+                if(options.noOutput) {
+                    Message.out(json);
+                }
+                else {
+                    Message.lineFeed();
+                    Message.tablePlatform(json, options);
                 }
                 Message.log("finished!");
 

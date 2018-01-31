@@ -302,6 +302,31 @@ class Message {
         Screen.success('status successfully executed.');
     }
 
+    tablePlatform(json, options) {
+        var array = [];
+        array.push([ "#".gray, "Rainbow".gray, "Status".gray, "RTT".gray, "EventLoop".gray]);
+        array.push([ "-".gray, "-------".gray, "------".gray, "---".gray, "---------".gray]);  
+
+        for(var i=0; i < json.length; i++) {
+
+            let eventLoop = json[i].eventloop;
+            if(eventLoop === 0) {
+                eventLoop = 5;
+            }
+
+            let rtt = json[i].rtt;
+            let rttStr = rtt.toString() + " ms"; 
+            let eventLoopStr =  eventLoop.toString() + " ms";
+
+            array.push([(i+1).toString().white, json[i].name.white, json[i].status.cyan, rtt > 300 ? rttStr.red : rttStr.white, eventLoop > 300 ? eventLoopStr.red : eventLoopStr.white ]);
+        }
+
+        var t = table(array);
+        Screen.table(t);
+        Screen.print('');
+        Screen.success('status successfully executed.');
+    }
+
     tableInvoiceCSV(json, options) {
         var invoice = json;
         Screen.print('');

@@ -44,6 +44,31 @@ class Status {
 
             that._status.getStatus(options); 
         });
+
+        this._program.command('status platform')
+        .description("Display current platform status")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('-h, --help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw status platform');
+            console.log('    $ rbw status platform --host openrainbow.com');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the user to the console');
+        })
+        .action(function (commands) {
+
+            var options= {
+                noOutput: commands.json || false,
+            };
+
+            Logger.isActive = commands.verbose || false;
+
+            that._status.getPlatformStatus(options); 
+        });
     }
 }
 
