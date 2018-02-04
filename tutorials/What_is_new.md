@@ -10,11 +10,27 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 The Rainbow CLI now displays the hostname where the user is connected.
 
-**COMMANDS**
+**3-Release Breaking Changes**
+
+- None.
+
+**Breaking Changes**
+
+- None.
+
+**Changes**
 
 - New commands `rbw block user` and `rbw unblock user` have been added to block or unblock a user connecting to Rainbow.
 
 - New commands `rbw create application` and `rbw delete application` have been added to create and delete a third party application.
+
+- New commands `rbw status platform` has been added to have a status of the platform.
+
+- New option `--org` has been added to command `rbw create user` in order to create a user with `org_admin` role.
+
+**Others changes**
+
+- None.
 
 
 ### Rainbow CLI 1.35 (Beta) - January 2018

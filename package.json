@@ -30,9 +30,9 @@
     "commander-plus": "0.0.6",
     "csv": "^1.2.1",
     "inquirer": "^3.3.0",
-    "moment": "^2.18.1",
-    "preferences": "^0.2.1",
-    "rainbow-node-sdk": "^1.35.1",
+    "moment": "^2.20.1",
+    "preferences": "^1.0.2",
+    "rainbow-node-sdk": "^1.36.1",
     "standard": "^10.0.2",
     "text-table": "^0.2.0",
     "winston": "^2.4.0"
