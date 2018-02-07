@@ -721,14 +721,30 @@ class Message {
         Screen.print('You are logged in as'.grey + " " + user.loginEmail.yellow + " on platform ".grey + host.yellow);
         Screen.print('Your roles'.grey + " " + user.roles.join(' + ').magenta);
         
+        if(user.roles.includes("app_admin")) {
+            if(adminType.length > 0) {
+                adminType = "app_admin > " + adminType;
+            }
+            else {
+                adminType = "app_admin > user";
+            }
+        }
+
+        if(user.roles.includes("app_superadmin")) {
+            if(adminType.length > 0) {
+                adminType = "app_superadmin > " + adminType;
+            }
+            else {
+                adminType = "app_superadmin > app_admin > user";
+            }
+        }
+
         switch (user.adminType) {
             case "company_admin":
-                adminType = user.adminType + " > user";
+                adminType = "company_admin" + " > " + adminType;
                 break;
             case "organization_admin":
-                adminType = user.adminType + " > company_admin > user" ;
-                break;
-            adminType = "-";
+                adminType = "organization_admin" + " > " + adminType;
                 break;
         }
 
@@ -746,7 +762,7 @@ class Message {
                 adminType = "superadmin > " + adminType;
             }
             else {
-                adminType = "superadmin > organization_admin > company_admin > user";
+                adminType = "superadmin > organization_admin (*) > company_admin > user";
             }
         }
 
