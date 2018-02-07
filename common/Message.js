@@ -289,11 +289,19 @@ class Message {
 
     tableAPI(json, options) {
         var array = [];
-        array.push([ "#".gray, "API".gray, "Version".gray]);
-        array.push([ "-".gray, "---".gray, "------".gray]);  
+        array.push([ "#".gray, "API".gray, "State".gray, "Version".gray]);
+        array.push([ "-".gray, "---".gray, "-----".gray, "_______".gray]);  
 
         for(var i=0; i < json.length; i++) {
-            array.push([(i+1).toString().white, json[i].name.white, json[i].version.cyan ]);
+
+            let strVersion = "".white;
+            let strState = "Not started".red;
+            if(json[i].version !== "Not started") {
+                strState = "Running".green;
+                strVersion = json[i].version.yellow;
+            }
+
+            array.push([(i+1).toString().white, json[i].name.white,  strState, strVersion ]);
         }
 
         var t = table(array);

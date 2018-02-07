@@ -17,7 +17,7 @@ class CStatus {
             return new Promise((resolve) => {
 
                 NodeSDK.get(url, token).then(function(json) {
-                    resolve({"name": json.description, "version": json.version});
+                    resolve({"name": name, "version": json.version, "description": json.description});
                 }).catch((err) => {
                     resolve({"name": name, "version": "Not started"});
                 });
@@ -30,18 +30,20 @@ class CStatus {
             var portals = [];
 
             Promise.all([
-                doRequest('/api/rainbow/authentication/v1.0/about', "Rainbow Authentication portal", token),
-                doRequest('/api/rainbow/admin/v1.0/about', "Rainbow Admin portal", token),
-                doRequest('/api/rainbow/subscription/v1.0/about', "Rainbow Subscription portal", token),
-                doRequest('/api/rainbow/invoicing/v1.0/about', "Rainbow Invoices portal", token),
-                doRequest('/api/rainbow/applications/v1.0/about', "Rainbow Applications portal", token),
-                doRequest('/api/rainbow/channels/v1.0/about', "Rainbow Channels portal", token),
-                doRequest('/api/rainbow/enduser/v1.0/about', "Rainbow End user portal", token),
-                doRequest('/api/rainbow/filestorage/v1.0/about', "Rainbow File-storage portal", token),
-                doRequest('/api/rainbow/metrics/v1.0/about', "Rainbow Metrics portal", token),
-                doRequest('/api/rainbow/calendar/v1.0/about', "Rainbow Calendar portal", token),
-                doRequest('/api/rainbow/telephony/v1.0/about', "Rainbow Telephony portal", token),
-                doRequest('/api/rainbow/massprovisioning/v1.0/about', "Rainbow Mass-provisioning portal", token)
+                doRequest('/api/rainbow/admin/v1.0/about', "Rainbow Admin API", token),
+                doRequest('/api/rainbow/applications/v1.0/about', "Rainbow Applications API", token),
+                doRequest('/api/rainbow/authentication/v1.0/about', "Rainbow Authentication API", token),
+                doRequest('/api/rainbow/calendar/v1.0/about', "Rainbow Calendar API", token),
+                doRequest('/api/rainbow/channels/v1.0/about', "Rainbow Channels API", token),
+                doRequest('/api/rainbow/cpaascounters/v1.0/about', "Rainbow CPaaS Counters API", token),
+                doRequest('/api/rainbow/enduser/v1.0/about', "Rainbow End user API", token),
+                doRequest('/api/rainbow/filestorage/v1.0/about', "Rainbow File-storage API", token),
+                doRequest('/api/rainbow/invoicing/v1.0/about', "Rainbow Invoices API", token),
+                doRequest('/api/rainbow/massprovisioning/v1.0/about', "Rainbow Mass-provisioning API", token),
+                doRequest('/api/rainbow/metrics/v1.0/about', "Rainbow Metrics API", token),
+                doRequest('/api/rainbow/subscription/v1.0/about', "Rainbow Subscription API", token),
+                doRequest('/api/rainbow/telephony/v1.0/about', "Rainbow Telephony API", token),
+                
             ]).then((portals) => {
                 resolve(portals);
             }).catch((err) => {
