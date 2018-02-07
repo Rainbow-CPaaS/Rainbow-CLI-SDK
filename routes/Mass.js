@@ -118,7 +118,7 @@ class Mass {
         .on('-h, --help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log("    $ rbw masspro template users.csv");
+            console.log("    $ rbw masspro status d44dd0ba8d1f7f4bce08b7e909f23a55b422c65ebdcb67ccfc9ada99438902cc");
             console.log('');
             console.log('');
         })
@@ -130,6 +130,26 @@ class Mass {
 
             Logger.isActive = commands.verbose || false;
             that._masspro.status(options); 
+        });
+
+        this._program.command('masspro delete status', '<reqid>')
+        .description("Delete a status on an import done")
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('-h, --help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw masspro delete status d44dd0ba8d1f7f4bce08b7e909f23a55b422c65ebdcb67ccfc9ada99438902cc");
+            console.log('');
+            console.log('');
+        })
+        .action(function(reqid, commands) {
+
+            var options = {
+                reqid: reqid
+            };
+
+            Logger.isActive = commands.verbose || false;
+            that._masspro.deleteStatus(options); 
         });
 
         this._program.command('masspro status company', '[companyId]')

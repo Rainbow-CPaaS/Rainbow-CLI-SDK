@@ -417,8 +417,14 @@ class CAccount {
                         {
                             "level": "company_admin", 
                             "theme": "Mass-Provisioning", 
-                            "command": "masspro template [filename]", 
-                            "details": "Download the csv template"
+                            "command": "masspro template user [filename]", 
+                            "details": "Download the csv template for users"
+                        },
+                        {
+                            "level": "company_admin", 
+                            "theme": "Mass-Provisioning", 
+                            "command": "masspro template device [filename]", 
+                            "details": "Download the csv template for devices"
                         },
                         {
                             "level": "company_admin", 
@@ -443,6 +449,12 @@ class CAccount {
                             "theme": "Mass-Provisioning", 
                             "command": "masspro status <reqId>", 
                             "details": "List an import details"
+                        },
+                        {
+                            "level": "company_admin", 
+                            "theme": "Mass-Provisioning", 
+                            "command": "masspro delete status <reqId>", 
+                            "details": "Delete an import details"
                         }
                     ];
 

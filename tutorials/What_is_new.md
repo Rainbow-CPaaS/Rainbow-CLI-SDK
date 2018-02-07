@@ -12,11 +12,13 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 **Breaking Changes**
 
-- Due to the introduction of the new command `rbw masspro template device`, the command `rbw masspro template` has been renamed to `rbw masspro template user` in order to homogenize the two commands.
+- Due to the introduction of the new command `rbw masspro template device`, the command `rbw masspro template` has been renamed to `rbw masspro template user` in order to share an homogeneous naming.
 
 **Changes**
 
-- New command `rbw masspro template device` thas been added to download a CSV template file for provisionning devices.
+- New command `rbw masspro template device` has been added to download a CSV template file for provisionning devices.
+
+- New command `rbw masspro delete status` has been added to remove an import status done.
 
 **Others changes**
 

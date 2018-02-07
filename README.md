@@ -194,7 +194,8 @@ Here is the complete list of commands:
 | | **create org** <name> | Create a new organization |
 | | **delete org** <id> | Delete an existing organization |
 | Application | **application <id>** | Display information about an application |
-|  | **create application <name>** | Create a new application |
+| | **create application <name>** | Create a new application |
+| | **delete application <id>** | Delete an application |
 | Invoice | **download invoice** | Download a invoice as a CVS file
 | | **download cdr services** | Download a CVS file associated to a CDR for services usage |
 | | **download cdr conference** | Download a CVS file associated to a CDR for conference usage |
@@ -210,13 +211,13 @@ Here is the complete list of commands:
 | Advanced | **find** <id> | Find an item by its name |
 | | **newco** | Create a new company and a new user interactively |
 | Status | **status api** | Get a status of the Rainbow API portals |
-| MassPro | **masspro template [filename]** | Download a CSV template file |
+| MassPro | **masspro template user [filename]** | Download a CSV template file for users |
+| | **masspro template device [filename]** | Download a CSV template file for devices |
 | | **masspro check <filename>** | Check a CSV file before importing it |
 | | **masspro import <filename>** | Import a CSV file |
 | | **masspro status <reqId>** | Get details of an import |
+| | **masspro delete status <reqId>** | Delete a details of an import |
 | | **masspro status company [companyId]** | Get imports done to a company |
-
-
 
 
 ## Help on commands
@@ -241,4 +242,4 @@ If you encounter any bugs, lack of functionality or other problems regarding the
 
 ---
 
-_Last updated December, 15th 2017_
+_Last updated February, 07th 2018_
