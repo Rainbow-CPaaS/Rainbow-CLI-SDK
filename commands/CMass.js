@@ -16,7 +16,7 @@ class CMass {
 
     _getTemplate(token, options) {
 
-        let filterToApply = "";
+        let filterToApply = "?mode=" + options.type;
 
         return new Promise((resolve, reject) => {
             NodeSDK.get('/api/rainbow/massprovisioning/v1.0/users/template' + filterToApply, token).then(function(json) {
@@ -112,7 +112,7 @@ class CMass {
             Message.loggedin(this._prefs, options);
 
             if(!options.csv) {
-                Message.action("Retrieve mass-provisioning template", null, options);
+                Message.action("Retrieve mass-provisioning template for <" + options.type + ">", null, options);
             }
             
             let spin = Message.spin(options);

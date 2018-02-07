@@ -3,12 +3,29 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
+### Rainbow CLI 1.37 (Beta) - March 2018
+---
+
+**3-Release Breaking Changes**
+
+- None.
+
+**Breaking Changes**
+
+- Due to the introduction of the new command `rbw masspro template device`, the command `rbw masspro template` has been renamed to `rbw masspro template user` in order to homogenize the two commands.
+
+**Changes**
+
+- New command `rbw masspro template device` thas been added to download a CSV template file for provisionning devices.
+
+**Others changes**
+
+- 
+
 
 
 ### Rainbow CLI 1.36 (Beta) - February 2018
 ---
-
-The Rainbow CLI now displays the hostname where the user is connected.
 
 **3-Release Breaking Changes**
 
@@ -30,7 +47,7 @@ The Rainbow CLI now displays the hostname where the user is connected.
 
 **Others changes**
 
-- None.
+- The Rainbow CLI now displays the hostname where the user is connected.
 
 
 ### Rainbow CLI 1.35 (Beta) - January 2018

@@ -5,6 +5,9 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+### [1.37.0] - 2018-25-02
+- #RQRAINB-760: Rework mass-provisionning for devices management
+
 ### [1.36.0] - 2018-02-02
 - #CRRAINB-1518: Display host information when connected
 - #CRRAINB-1533: Add commands for blocking and unblocking a user
