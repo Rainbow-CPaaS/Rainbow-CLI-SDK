@@ -24,7 +24,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 **Others changes**
 
-- 
+- Fix a crash when exporting users to a csv file
 
 
 ### Rainbow CLI 1.36 (Beta) - February 2018

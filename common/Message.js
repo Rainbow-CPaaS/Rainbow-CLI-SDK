@@ -100,7 +100,7 @@ class Message {
                     header: true
                 }).pipe(writeStream);
                 writeStream.on('close', function () {
-                    Screen.success("Successfully saved".white + " " + json.total.toString().magenta + " user(s) to".white + " '".white + options.csv.yellow + "'".white);
+                    Screen.success("Successfully saved".white + " " + json.length.toString().magenta + " user(s) to".white + " '".white + file.yellow + "'".white);
                     resolve();
                 });
                 writeStream.on('error', function (err) {
@@ -729,6 +729,12 @@ class Message {
         Screen.print('You are logged in as'.grey + " " + user.loginEmail.yellow + " on platform ".grey + host.yellow);
         Screen.print('Your roles'.grey + " " + user.roles.join(' + ').magenta);
         
+        if(user.roles.includes("user")) {
+            if(adminType.length === 0) {
+                adminType = "user";
+            }
+        }
+
         if(user.roles.includes("app_admin")) {
             if(adminType.length > 0) {
                 adminType = "app_admin > " + adminType;
@@ -774,11 +780,7 @@ class Message {
             }
         }
 
-        if(user.roles.includes("user")) {
-            if(adminType.length === 0) {
-                adminType = "user";
-            }
-        }
+       
 
         Screen.print('Your level'.grey + " "  + adminType.cyan);
         
