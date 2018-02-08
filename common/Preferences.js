@@ -44,11 +44,19 @@ class Preferences {
         return null;
     }
 
-    save(account, token, user, rainbow) {
+    get proxy() {
+        if(this.prefs && "proxy" in this.prefs) {
+            return this.prefs.proxy;
+        }
+        return null;
+    }
+
+    save(account, token, user, rainbow, proxy) {
         this.prefs.account = account;
         this.prefs.token = token;
         this.prefs.user = user;
         this.prefs.rainbow = rainbow;
+        this.prefs.proxy = proxy;
     }
 
     reset() {
@@ -56,6 +64,7 @@ class Preferences {
         this.prefs.token = null;
         this.prefs.user =  null;
         this.prefs.rainbow = null;
+        this.prefs.proxy = null;
     }
 
     log() {
@@ -63,6 +72,7 @@ class Preferences {
         console.log("token", this.prefs.token);
         console.log("user", this.prefs.user);
         console.log("rainbow", this.prefs.rainbow);
+        console.log("proxy", this.prefs.proxy);
     }
 }
 

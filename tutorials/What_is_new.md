@@ -20,10 +20,11 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 - New command `rbw masspro delete status` has been added to remove an import status done.
 
+- New option `--proxy` has been added to command `rbw login` in order to log-in through a proxy.
+
 **Others changes**
 
 - 
-
 
 
 ### Rainbow CLI 1.36 (Beta) - February 2018

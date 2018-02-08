@@ -33,7 +33,7 @@ class CAccount {
             
             let spin = Message.spin(options);
 
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                 Message.log("execute action...");
                 return that._getUserInfo(that._prefs.user.id, that._prefs.token);
             }).then(function(json) {
@@ -83,7 +83,7 @@ class CAccount {
 
         let spin = Message.spin(options);
 
-        NodeSDK.start(email, password, platform).then(function() {
+        NodeSDK.start(email, password, platform, options.proxy).then(function() {
             Message.log("execute action...");
             return NodeSDK.signin();
         }).then(function(json) {
@@ -108,7 +108,8 @@ class CAccount {
                 },
                 json.token,
                 json.loggedInUser,
-                platform
+                platform,
+                options.proxy
             );
             Message.log("credentials saved!");
             Message.log("finished!");
@@ -154,7 +155,7 @@ class CAccount {
 
             let spin = Message.spin(options);
             
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                 Message.unspin(spin);
                 Message.log("execute action...");
                 Message.action("List commands", null, options);

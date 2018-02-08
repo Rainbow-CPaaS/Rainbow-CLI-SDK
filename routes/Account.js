@@ -27,14 +27,16 @@ class Account {
             .description("Log-in to Rainbow")
             .option('-h, --host <hostname>', "Log-in to a specific host. 'hostname' can be 'official' or any hostname. If no --host, 'sandbox' is used")
             .option('--json', 'Write the JSON result to standard stdout')
+            .option('-p, --proxy <address>', 'Proxy to use')
             .option('-v, --verbose', 'Use verbose console mode')
             .on('--help', function(){
                 console.log('  Examples:');
                 console.log('');
-                console.log('    $ rbw login johndoe@mycompany.com Password_12345');
-                console.log('    $ rbw login johndoe@mycompany.com Password_12345 --host official');
-                console.log('    $ rbw login johndoe@mycompany.com Password_12345 --host openrainbow.com');
-                console.log('    $ rbw login johndoe@mycompany.com Password_12345 --host openrainbow.com --json');
+                console.log("    $ rbw login 'johndoe@mycompany.com' 'Password_12345'");
+                console.log("    $ rbw login 'johndoe@mycompany.com' 'Password_12345' --host official");
+                console.log("    $ rbw login 'johndoe@mycompany.com' 'Password_12345' --host openrainbow.com");
+                console.log("    $ rbw login 'johndoe@mycompany.com' 'Password_12345' --host openrainbow.com --json");
+                console.log("    $ rbw login 'johndoe@mycompany.com' 'Password_12345' --host openrainbow.com --proxy https://192.168.0.10:8080");
                 console.log('');
                 console.log('  Details:');
                 console.log('');
@@ -44,8 +46,34 @@ class Account {
             })
             .action(function (email, password, commands) {
 
+                let proxyJSON = null;
+                let protocol = "", url = "", port= null;
+
+                if(commands.proxy) {
+                    let parts = commands.proxy.split('/');
+                    protocol = (parts && parts.length > 0) ? parts[0].substr(0, 4) : "";
+                    let partsUrl = (parts && parts.length>=2) ? parts[2].split(':') : null;
+                    if(partsUrl) {
+                        url = (partsUrl && partsUrl.length > 0) ? partsUrl[0] : "";
+                        let portStr = (partsUrl && partsUrl.length >=2) ? partsUrl[1] : ""; 
+                        try {
+                            port = Number(portStr);
+                        }
+                        catch(err) {
+                        }
+                    }
+                    if(protocol && url && port) {
+                        proxyJSON = {
+                            protocol: protocol,
+                            host: url,
+                            port: port
+                        }
+                    }
+                }
+
                 var options = {
-                    noOutput: commands.json || false
+                    noOutput: commands.json || false,
+                    proxy: proxyJSON
                 }
 
                 var platform = commands.host ? commands.host : "sandbox";

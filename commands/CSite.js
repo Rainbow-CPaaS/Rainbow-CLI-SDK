@@ -153,7 +153,7 @@ class CSite {
             }
             
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                 Message.log("execute action...");
                 return that._getListOfSites(that._prefs.token, options);
             }).then(function(json) {
@@ -203,7 +203,7 @@ class CSite {
             Message.action("Get informaton for site", id, options);
 
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                 Message.log("execute action...");
                 return that._getSite(that._prefs.token, id);
             }).then(function(json) {
@@ -245,7 +245,7 @@ class CSite {
             Message.action("Create new site", name);
 
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                 Message.log("execute action...");
                 return that._createSite(that._prefs.token, name, companyId, options);
             }).then(function(json) {

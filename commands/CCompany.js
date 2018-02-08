@@ -288,7 +288,7 @@ class CCompany {
             }
 
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                 Message.log("execute action...");
                 return that._getListOfCompanies(that._prefs.token, options, onlyCustomers);
             }).then(function(json) {
@@ -339,7 +339,7 @@ class CCompany {
             Message.action("Create new company", name, options);
             let spin = Message.spin(options);
 
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                 Message.log("execute action...");
                 return that._createCompany(that._prefs.token, name);
             }).then(function(json) {
@@ -503,7 +503,7 @@ class CCompany {
             Message.action("Status of company",id, options);
 
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                 Message.log("execute action...");
                 return that._statusCompany(that._prefs.token, id);
             }).then(function(json) {
@@ -536,7 +536,7 @@ class CCompany {
             Message.action("Link company",id, options);
 
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                 Message.log("execute action...");
                 return that._linkCompany(that._prefs.token, id, orgid);
             }).then(function(json) {
@@ -568,7 +568,7 @@ class CCompany {
             Message.action("Unlink company", id, options);
            
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                 Message.log("execute action...");
                 return that._unlinkCompany(that._prefs.token, id);
             }).then(function(json) {
@@ -600,7 +600,7 @@ class CCompany {
             Message.action("Get information for company", id, options);
             
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                 Message.log("execute action...");
                 return that._getCompany(that._prefs.token, id);
             }).then(function(json) {

@@ -109,7 +109,7 @@ class CApplication {
                 Message.action("Get information for application" , id, options);
                 
                 let spin = Message.spin(options);
-                NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+                NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                     Message.log("execute action...");
                     return that._getApplication(that._prefs.token, id);
                 }).then(function(json) {
@@ -156,7 +156,7 @@ class CApplication {
             Message.action("Create new application", options.name, options);
             let spin = Message.spin(options);
 
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                 Message.log("execute action...");
                 return that._createApplication(that._prefs.token, options);
             }).then(function(json) {
@@ -248,7 +248,7 @@ class CApplication {
             }
             
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                 Message.log("execute action...");
                 return that._getApplications(that._prefs.token, options, that._prefs);
             }).then(function(json) {
@@ -300,7 +300,7 @@ class CApplication {
             }
             
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                 Message.log("execute action...");
                 return that._getMetrics(that._prefs.token, options, id);
             }).then(function(json) {

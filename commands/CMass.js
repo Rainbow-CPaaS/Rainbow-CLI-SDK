@@ -127,7 +127,7 @@ class CMass {
             }
             
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                 Message.log("execute action...");
                 return that._getTemplate(that._prefs.token, options, that._prefs);
             }).then(function(json) {
@@ -168,7 +168,7 @@ class CMass {
             }
             
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                 Message.log("execute action...");
                 return that._check(that._prefs.token, options, that._prefs);
             }).then(function(json) {
@@ -208,7 +208,7 @@ class CMass {
             }
             
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                 Message.log("execute action...");
                 return that._status(that._prefs.token, options, that._prefs);
             }).then(function(json) {
@@ -248,7 +248,7 @@ class CMass {
             }
             
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                 Message.log("execute action...");
                 return that._statusCompany(that._prefs.token, options, that._prefs);
             }).then(function(json) {
@@ -288,7 +288,7 @@ class CMass {
             }
             
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                 Message.log("execute action...");
                 return that._import(that._prefs.token, options, that._prefs);
             }).then(function(json) {

@@ -7,6 +7,7 @@ All notable changes to Rainbow-CLI will be documented in this file.
 
 ### [1.37.0] - 2018-25-02
 - #RQRAINB-760: Rework mass-provisionning for devices management
+- #CRRAINB-1779: Can't log though a proxy
 
 ### [1.36.0] - 2018-02-02
 - #CRRAINB-1518: Display host information when connected

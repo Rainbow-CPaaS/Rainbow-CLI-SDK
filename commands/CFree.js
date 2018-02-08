@@ -69,7 +69,7 @@ class CFree {
 
             Message.action("Free company", id, options);
 
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                 Message.log("execute action...");
                 return that._removeAllUsersFromACompany(that._prefs.token, id);
             }).then(function(json) {

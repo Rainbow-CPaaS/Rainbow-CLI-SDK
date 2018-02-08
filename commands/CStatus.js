@@ -98,7 +98,7 @@ class CStatus {
             Message.action("API status information for host " + this._prefs.host);
             
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                 Message.log("execute action...");
                 return that._getAPIStatus(that._prefs.token);
             }).then(function(json) {
@@ -138,7 +138,7 @@ class CStatus {
             Message.action("Platform status information for host " + this._prefs.host);
             
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                 Message.log("execute action...");
                 return that._getPlatformStatus(that._prefs.token);
             }).then(function(json) {

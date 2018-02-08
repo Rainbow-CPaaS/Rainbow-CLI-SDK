@@ -18,6 +18,11 @@ const config = {
     "appID": "595a9fed159edbaee3aa4f88",
     "appSecret": "bUjJn7MEBY3uLTjP62ttHHYj"
   },
+  proxy: {
+    host: "",
+    port: 80,
+    protocol: 'http'
+  },
   logs: {
       enableConsoleLogs: false,
       enableFileLogs: false,
@@ -37,7 +42,7 @@ class SDK {
         this.nodeSDK = null;
     }
 
-    start(login, password, platform) {
+    start(login, password, platform, proxy) {
 
         var that = this;
     
@@ -48,6 +53,11 @@ class SDK {
             config.credentials.login = login;
             config.credentials.password = password;
             config.rainbow.host = platform;
+
+            if(proxy) {
+                config.proxy = proxy;
+            }
+
             config.logs.enableConsoleLogs = Logger.isActive;
 
             that._nodeSDK = new NodeSDK(config);
