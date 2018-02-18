@@ -22,7 +22,7 @@ class Application {
     listOfCommands() {
         var that = this;
 
-        this._program.command('application', '<id>')
+        this._program.command('application', '<appid>')
         .description("Retrieve information about an existing application")
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
@@ -37,15 +37,16 @@ class Application {
             console.log('    The option `--json` exports the JSON object representing the user to the console');
             console.log('');
         })
-        .action(function (id, commands) {
+        .action(function (appid, commands) {
 
             var options= {
-                noOutput: commands.json || false
+                noOutput: commands.json || false,
+                appid: appid
             }
 
             Logger.isActive = commands.verbose || false;
 
-            that._application.getApplication(id, options);
+            that._application.getApplication(options);
         });
 
         this._program.command('create application', '<name>')
@@ -80,7 +81,7 @@ class Application {
             that._application.createApplication(options);
         });
 
-        this._program.command('delete application', '<id>')
+        this._program.command('delete application', '<appid>')
         .description("Delete an existingapplication")
         .option('--nc', 'Do not ask confirmation')
         .option('-v, --verbose', 'Use verbose console mode')
@@ -91,10 +92,10 @@ class Application {
             console.log("    $ rbw delete application 593065822799299343b8501d --json");
             console.log('');
         })
-        .action(function (id, commands) {
+        .action(function (appid, commands) {
 
             var options= {
-                id: id,
+                appid: appid,
                 noOutput: commands.json || false,
             }
 
@@ -103,7 +104,7 @@ class Application {
             that._application.deleteApplication(options);
         });
 
-        this._program.command('metrics application', '<id>')
+        this._program.command('metrics application', '<appid>')
         .description("Retrieve API usage metrics about an existing application")
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
@@ -118,15 +119,181 @@ class Application {
             console.log('    The option `--json` exports the JSON object representing the user to the console');
             console.log('');
         })
-        .action(function (id, commands) {
+        .action(function (appid, commands) {
 
             var options= {
-                noOutput: commands.json || false
+                noOutput: commands.json || false,
+                appid: appid
             }
 
             Logger.isActive = commands.verbose || false;
 
-            that._application.getMetrics(id, options);
+            that._application.getMetrics(options);
+        });
+
+        this._program.command('application pns', '<appid>')
+        .description("Retrieve the list of push notifications settings data for an application")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('-h, --help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw application push 593065822799299343b8501d');
+            console.log('    $ rbw application push 593065822799299343b8501d --json');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the user to the console');
+            console.log('');
+        })
+        .action(function (appid, commands) {
+
+            var options= {
+                noOutput: commands.json || false,
+                appid: appid
+            }
+
+            Logger.isActive = commands.verbose || false;
+
+            that._application.getApns(options);
+        });
+
+        this._program.command('application pn', '<appid> <id>')
+        .description("Retrieve information about an existing push notifications setting")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('-h, --help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw push 3893c8c00dae11e8b55f759655b0616d 5a882a56fd551af4da28c4bd');
+            console.log('    $ rbw push 3893c8c00dae11e8b55f759655b0616d 5a882a56fd551af4da28c4bd --json');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the user to the console');
+            console.log('');
+        })
+        .action(function (appid, id, commands) {
+
+            var options= {
+                noOutput: commands.json || false,
+                appid: appid,
+                id: id
+            }
+
+            Logger.isActive = commands.verbose || false;
+
+            that._application.getPush(options);
+        });
+
+        this._program.command('application delete pn', '<appid> <id>')
+        .description("Delete an existing push notifications setting")
+        .option('--nc', 'Do not ask confirmation')
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('-h, --help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw application delete push 53893c8c00dae11e8b55f759655b0616d 5a882a56fd551af4da28c4bd");
+            console.log("    $ rbw application delete push 3893c8c00dae11e8b55f759655b0616d 5a882a56fd551af4da28c4bd --json");
+            console.log('');
+        })
+        .action(function (appid, id, commands) {
+
+            var options= {
+                id: id,
+                appid: appid,
+                noOutput: commands.json || false,
+            }
+
+            Logger.isActive = commands.verbose || false;
+
+            that._application.deletePush(options);
+        });
+
+        this._program.command('application create fcm', '<appid> <key>')
+        .description("Add an authorization key for Android Firebase Cloud Message")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('-h, --help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw application create fcm 593065822799299343b8501d AIzaSyZ-1u...0GBYzPu7Udno5aA');
+            console.log('    $ rbw application create fcm 593065822799299343b8501d AIzaSyZ-1u...0GBYzPu7Udno5aA --json');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the user to the console');
+            console.log('');
+        })
+        .action(function (appid, key, commands) {
+
+            var options= {
+                noOutput: commands.json || false,
+                appid: appid,
+                key: key
+            }
+
+            Logger.isActive = commands.verbose || false;
+
+            that._application.createFCM(options);
+        });
+
+        this._program.command('application create voip', '<appid> <file>')
+        .description("Add a VOIP certificate for Apple Push Notifications service")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('-h, --help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw application create apns voip 593065822799299343b8501d cert.file');
+            console.log('    $ rbw application create apns voip 593065822799299343b8501d cert.file --json');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the user to the console');
+            console.log('');
+        })
+        .action(function (appid, file, commands) {
+
+            var options= {
+                noOutput: commands.json || false,
+                appid: appid,
+                file: file,
+                type: "voip"
+            }
+
+            Logger.isActive = commands.verbose || false;
+
+            that._application.createAPNS(options);
+        });
+
+        this._program.command('application create im', '<appid> <file>')
+        .description("Add an IM certificate for Apple Push Notifications service")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('-h, --help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw application create apns voip 593065822799299343b8501d cert.file');
+            console.log('    $ rbw application create apns voip 593065822799299343b8501d cert.file --json');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the user to the console');
+            console.log('');
+        })
+        .action(function (appid, file, commands) {
+
+            var options= {
+                noOutput: commands.json || false,
+                appid: appid,
+                file: file,
+                type: "im"
+            }
+
+            Logger.isActive = commands.verbose || false;
+
+            that._application.createAPNS(options);
         });
 
         this._program.command('applications')
@@ -196,7 +363,6 @@ class Application {
 
             that._application.getApplications(options);
         });
-
     }
 }
 

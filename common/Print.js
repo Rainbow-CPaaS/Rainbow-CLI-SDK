@@ -21,9 +21,13 @@ class Print {
         this.print('x'.red + ' ' + text.white);
     }
 
-    table(data) {
+    table2D(data) {
+        this.table(data,true)
+    }
 
-        let config2 = {
+    table(data, maximizeColumn) {
+
+        let config = {
             border: getBorderCharacters('void'),
             columnDefault: {
                 paddingLeft: 0,
@@ -31,15 +35,18 @@ class Print {
             },
             drawHorizontalLine: () => {
                 return false
-            },
-            columns: {
+            }
+        };
+
+        if(maximizeColumn) {
+            config.columns = {
                 2: {
                     width: 80
                 }
             }
-        };
+        }
 
-        this.print(table(data, config2));
+        this.print(table(data, config));
     }
 }
 

@@ -6,50 +6,51 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 All notable changes to Rainbow-CLI will be documented in this file.
 
 ### [1.37.0] - 2018-25-02
-- #RQRAINB-760: Rework mass-provisionning for devices management
-- #CRRAINB-1779: Can't log though a proxy
-- #CRRAINB-1781: Fix crash when exporting users to file
-- #CRRAINB-1914: Fix data in table alignment
+- RQRAINB-760: Rework mass-provisionning for devices management
+- CRRAINB-1779: Can't log though a proxy
+- CRRAINB-1781: Fix crash when exporting users to file
+- CRRAINB-1914: Fix data in table alignment
+- CRRAINB-1915: Add commands for managing push notifications on IOS and Android
 
 ### [1.36.0] - 2018-02-02
-- #CRRAINB-1518: Display host information when connected
-- #CRRAINB-1533: Add commands for blocking and unblocking a user
-- #CRRAINB-1601: Add command for creating a new application
-- #CRRAINB-1608: Add command for removing an application
+- CRRAINB-1518: Display host information when connected
+- CRRAINB-1533: Add commands for blocking and unblocking a user
+- CRRAINB-1601: Add command for creating a new application
+- CRRAINB-1608: Add command for removing an application
 
 ### [1.35.0] - 2018-01-15
-- #RQRAINB-648: Add mass-provisionning commands
+- RQRAINB-648: Add mass-provisionning commands
 
 ### [1.34.1] - 2017-12-19
 - Update readme with Getting started content
 
 ### [1.34.0] - 2017-12-17
 ---
-- #RQRAINB-479: Download invoices in CSV
-- #RQRAINB-511: Add more portals to status
-- #RQRAINB-517: Update getting started guide
+- RQRAINB-479: Download invoices in CSV
+- RQRAINB-511: Add more portals to status
+- RQRAINB-517: Update getting started guide
 
 
 ### [1.33.1] - 2017-11-27
 ---
-- #30024: Fix login issue with Rainbow 1.33
+- 30024: Fix login issue with Rainbow 1.33
 
 
 ### [1.33.0] - 2017-11-24
 ---
-- #29883: Filter users by an email address
-- #29921: Add command for getting all users & companies quickly
+- 29883: Filter users by an email address
+- 29921: Add command for getting all users & companies quickly
 
 
 ### [1.32.0] - 2017-11-06
 ---
-- #29641: Add tutorial for explaining how to create developer's accounts
-- #29640: Change password and login of a user
-- #29639: Create and delete catalogs
-- #29624: Display offers and catalogs
-- #29596: Display commands depending on user role
-- #29597: Display admin level
-- #29598: Enhance company commands
+- 29641: Add tutorial for explaining how to create developer's accounts
+- 29640: Change password and login of a user
+- 29639: Create and delete catalogs
+- 29624: Display offers and catalogs
+- 29596: Display commands depending on user role
+- 29597: Display admin level
+- 29598: Enhance company commands
 
 
 ### [1.31.0] - 2017-10-12
@@ -59,13 +60,13 @@ All notable changes to Rainbow-CLI will be documented in this file.
 
 ### [1.30.1] - 2017-09-28
 ---
-- #29125: Fix login regression issue
+- 29125: Fix login regression issue
 
 
 ### [1.30.0] - 2017-09-26
 ---
-- #28981: Add verbose option to all commands
-- #28864: Fix command `newco` in case of errors
+- 28981: Add verbose option to all commands
+- 28864: Fix command `newco` in case of errors
 
 
 ### [0.8.0] - 2017-08-15

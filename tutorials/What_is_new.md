@@ -3,8 +3,11 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
+
 ### Rainbow CLI 1.37 (Beta) - March 2018
 ---
+
+This release introduces commands for configuring **Push notifications** on your application for the Android platform (FCM) and IOS platform (APNS).
 
 **3-Release Breaking Changes**
 
@@ -20,11 +23,19 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 - New command `rbw masspro delete status` has been added to remove an import status done.
 
+- New commands `rbw application pns` and `rbw application pn` have been added to list the available push notification settings of an application and have access to all information.
+
+- New commands `rbw application create fcm`, `rbw application create void` and `rbw application create im` have been added to configure push notification settings for Android (FCM) and IOS (APNS). 
+
+- New command `rbw application delete pn` has been added to remove an existing push notification setting.
+
 - New option `--proxy` has been added to command `rbw login` in order to log-in through a proxy.
 
 **Others changes**
 
 - Fix a crash when exporting users to a csv file
+
+- Fix alignment of data in table
 
 
 ### Rainbow CLI 1.36 (Beta) - February 2018

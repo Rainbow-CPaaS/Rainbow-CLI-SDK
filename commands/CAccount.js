@@ -194,9 +194,11 @@ class CAccount {
 
                     json.data = json.data.concat(data_user);
                 }
+                
 
                 if (that._prefs.user.roles.includes("app_admin") ||  that._prefs.user.roles.includes("app_superadmin")) {
                     var data_dev = [
+
                         {
                             "level": "----------", 
                             "theme": "----------", 
@@ -212,13 +214,13 @@ class CAccount {
                         {
                             "level": "app_admin", 
                             "theme": "Applications", 
-                            "command": "delete application <id>", 
+                            "command": "delete application <appid>", 
                             "details": "Delete an existing application"
                         },
                         {
                             "level": "app_admin", 
                             "theme": "Applications", 
-                            "command": "application <id>", 
+                            "command": "application <appid>", 
                             "details": "List application's information"
                         },
                         {
@@ -227,23 +229,67 @@ class CAccount {
                             "command": "applications", 
                             "details": "List applications"
                         },
+                        
                         {
                             "level": "app_admin", 
-                            "theme": "", 
-                            "command": "", 
-                            "details": ""
+                            "theme": " ", 
+                            "command": " ", 
+                            "details": " "
                         },
+                        
+                        {
+                            "level": "app_admin", 
+                            "theme": "Notifications", 
+                            "command": "application create fcm <appid> <key>", 
+                            "details": "Create a push notifications setting for Android FCM"
+                        },
+                        {
+                            "level": "app_admin", 
+                            "theme": "Notifications", 
+                            "command": "application create im <appid> <file>", 
+                            "details": "Create a push notifications setting IM for IOS APNS"
+                        },
+                        {
+                            "level": "app_admin", 
+                            "theme": "Notifications", 
+                            "command": "application create voip <appid> <file>", 
+                            "details": "Create a push notifications setting VOIP for IOS APNS"
+                        },
+                        {
+                            "level": "app_admin", 
+                            "theme": "Notifications", 
+                            "command": "application delete pn <appid> <file>", 
+                            "details": "Delete an existing push notification setting"
+                        },
+                        {
+                            "level": "app_admin", 
+                            "theme": "Notifications", 
+                            "command": "application pn <appid> <id>", 
+                            "details": "List information of a push notifications setting"
+                        },
+                        {
+                            "level": "app_admin", 
+                            "theme": "Notifications", 
+                            "command": "application pns", 
+                            "details": "List application push notifications settings"
+                        },
+                        {
+                            "level": "app_admin", 
+                            "theme": " ", 
+                            "command": " ", 
+                            "details": " "
+                        },
+                        
                         {
                             "level": "app_admin", 
                             "theme": "Metrics", 
-                            "command": "application metrics <id>", 
+                            "command": "application metrics <appid>", 
                             "details": "List application's metrics"
-                        },
+                        }
                     ];
 
                     json.data = json.data.concat(data_dev);
                 }
-
 
                 if (that._prefs.user.roles.includes("admin") || that._prefs.user.roles.includes("bp_admin") ||  that._prefs.user.roles.includes("superadmin")) {
                     var data_company = [
@@ -303,9 +349,9 @@ class CAccount {
                         },
                         {
                             "level": "company_admin", 
-                            "theme": "", 
-                            "command": "", 
-                            "details": ""
+                            "theme": " ", 
+                            "command": " ", 
+                            "details": " "
                         },
                         {
                             "level": "company_admin", 
@@ -321,9 +367,9 @@ class CAccount {
                         },
                         {
                             "level": "company_admin", 
-                            "theme": "", 
-                            "command": "",
-                            "details": ""
+                            "theme": " ", 
+                            "command": " ",
+                            "details": " "
                         },
                         {
                             "level": "company_admin", 
@@ -351,9 +397,9 @@ class CAccount {
                         },
                         {
                             "level": "company_admin", 
-                            "theme": "", 
-                            "command": "", 
-                            "details": ""
+                            "theme": " ", 
+                            "command": " ", 
+                            "details": " "
                         },
                         {
                             "level": "company_admin", 
@@ -393,9 +439,9 @@ class CAccount {
                         },
                         {
                             "level": "company_admin", 
-                            "theme": "",
-                            "command": "", 
-                            "details": ""
+                            "theme": " ",
+                            "command": " ", 
+                            "details": " "
                         },
                         {
                             "level": "company_admin", 
@@ -411,9 +457,9 @@ class CAccount {
                         },
                         {
                             "level": "company_admin", 
-                            "theme": "", 
-                            "command": "", 
-                            "details": ""
+                            "theme": " ", 
+                            "command": " ", 
+                            "details": " "
                         },
                         {
                             "level": "company_admin", 
@@ -462,7 +508,6 @@ class CAccount {
                     json.data = json.data.concat(data_company);
 
                 }
-                        
 
                 if(that._prefs.user.adminType === "organization_admin" || that._prefs.user.roles.includes("bp_admin") || that._prefs.user.roles.includes("superadmin")) {
                     
@@ -523,9 +568,9 @@ class CAccount {
                         var data_orga_only = [
                             {
                                 "level": "organization_admin", 
-                                "theme": "", 
-                                "command": "", 
-                                "details": ""
+                                "theme": " ", 
+                                "command": " ", 
+                                "details": " "
                             },
                             {
                                 "level": "organization_admin", 
@@ -554,9 +599,9 @@ class CAccount {
                             },
                             {
                                 "level": "bp_admin", 
-                                "theme":  "",
-                                "command":  "",
-                                "details": ""
+                                "theme":  " ",
+                                "command":  " ",
+                                "details": " "
                             },
                             {
                                 "level": "bp_admin", 
@@ -627,9 +672,9 @@ class CAccount {
                             },
                             {
                                 "level": "superadmin", 
-                                "theme":  "",
-                                "command":  "",
-                                "details": ""
+                                "theme":  " ",
+                                "command":  " ",
+                                "details": " "
                             },
                             {
                                 "level": "superadmin", 
@@ -672,8 +717,8 @@ class CAccount {
                         json.data = json.data.concat(data_superadmin);
                     }
                 }
-
                 Message.lineFeed();
+
                 Message.tableCommands(json, options);
                 Message.log("finished!");
             }).catch(function(err) {

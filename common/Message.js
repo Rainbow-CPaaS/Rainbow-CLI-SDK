@@ -442,7 +442,7 @@ class Message {
         Screen.table(array);
         Screen.print('');
 
-        Screen.success(apnsList.length + ' applications found');
+        Screen.success(apnsList.length + ' push notification settings found');
     }
 
     tableUsers(json, options) {
@@ -632,7 +632,7 @@ class Message {
             index+=1;
         }
 
-        Screen.table(array);
+        Screen.table2D(array);
     }
 
     tableImports(json, options) {
@@ -667,7 +667,7 @@ class Message {
         var array = [];
 
         array.push([ "Level".gray, "Theme".gray, "Commands".gray, "Details".gray]);
-        array.push([ "----------".gray, "----------".gray, "----------".gray, "----------".gray]);  
+        array.push([ "-----".gray, "-----".gray, "--------".gray, "-------".gray]);  
 
         var previousLevel = "";
         var previousTheme = "";
@@ -684,7 +684,7 @@ class Message {
             previousTheme = command.theme;
             
             if(theme === "----------") {
-                array.push([ level.grey, theme.grey, command.command.grey, command.details.grey]); 
+                array.push([ level.gray, theme.gray, command.command.gray, command.details.gray]); 
             } else {
                 array.push([ level.cyan, theme.white, command.command.yellow, command.details.white]); 
             }

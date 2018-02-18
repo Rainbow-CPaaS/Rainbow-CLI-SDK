@@ -1,4 +1,5 @@
 "use strict";
+const fs        = require('fs');
 
 const NodeSDK   = require('../common/SDK');
 const Message   = require('../common/Message');
@@ -12,10 +13,10 @@ class CApplication {
         this._prefs = prefs;
     }
 
-    _getMetrics(token, options, id) {
+    _getMetrics(token, options) {
         return new Promise(function(resolve, reject) {
             
-            NodeSDK.get('/api/rainbow/metrics/v1.0/cpaas/' + id, token).then(function(json) {
+            NodeSDK.get('/api/rainbow/metrics/v1.0/cpaas/' + options.appid, token).then(function(json) {
                 resolve(json);
             }).catch(function(err) {
                 reject(err);
@@ -23,11 +24,34 @@ class CApplication {
         });
     }
 
-    _getApplication(token, id) {
+    _getApns(token, options) {
+        return new Promise(function(resolve, reject) {
+            
+            NodeSDK.get('/api/rainbow/applications/v1.0/applications/' + options.appid + '/push-settings', token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
+    _getApplication(token, options) {
         
         return new Promise(function(resolve, reject) {
 
-            NodeSDK.get('/api/rainbow/applications/v1.0/applications/' + id, token).then(function(json) {
+            NodeSDK.get('/api/rainbow/applications/v1.0/applications/' + options.appid, token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
+    _getPush(token, options) {
+        
+        return new Promise(function(resolve, reject) {
+
+            NodeSDK.get('/api/rainbow/applications/v1.0/applications/' + options.appid + '/push-settings/' + options.id, token).then(function(json) {
                 resolve(json);
             }).catch(function(err) {
                 reject(err);
@@ -86,10 +110,16 @@ class CApplication {
         });
     }
 
-    _delete(token, id) {
+    _createFCM(token, options) {
 
         return new Promise(function(resolve, reject) {
-            NodeSDK.delete('/api/rainbow/applications/v1.0/applications/' + id, token).then(function(json) {
+
+            let fcm = {
+                "type": "fcm",
+                "authorizationKey": options.key
+            };
+
+            NodeSDK.post('/api/rainbow/applications/v1.0/applications/' + options.appid + '/push-settings', token, fcm).then(function(json) {
                 resolve(json);
             }).catch(function(err) {
                 reject(err);
@@ -97,7 +127,55 @@ class CApplication {
         });
     }
 
-    getApplication(id, options) {
+    _createAPNS(token, options) {
+
+        return new Promise(function(resolve, reject) {
+
+            fs.readFile(options.file, 'utf8', (err, data) => {
+
+                let apns = {
+                    "type": "apns",
+                    "certificateType": options.type,
+                    "certificateFile": data
+                };
+
+                if (err) {
+                    console.log("EERR", err);
+                    reject(err);
+                } else {
+                    NodeSDK.post('/api/rainbow/applications/v1.0/applications/' + options.appid + '/push-settings', token, apns).then(function(json) {
+                        resolve(json);
+                    }).catch(function(err) {
+                        reject(err);
+                    });
+                }
+            });
+        });
+    }
+
+    _delete(token, options) {
+
+        return new Promise(function(resolve, reject) {
+            NodeSDK.delete('/api/rainbow/applications/v1.0/applications/' + options.appid, token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
+    _deletePush(token, options) {
+
+        return new Promise(function(resolve, reject) {
+            NodeSDK.delete('/api/rainbow/applications/v1.0/applications/' + options.appid + '/push-settings/' + options.id, token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
+    getApplication(options) {
         var that = this;
 
         try {
@@ -106,12 +184,12 @@ class CApplication {
 
             if(this._prefs.token && this._prefs.user) {
                 Message.loggedin(this._prefs, options);
-                Message.action("Get information for application" , id, options);
+                Message.action("Get information for application" , options.appid, options);
                 
                 let spin = Message.spin(options);
                 NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                     Message.log("execute action...");
-                    return that._getApplication(that._prefs.token, id);
+                    return that._getApplication(that._prefs.token, options);
                 }).then(function(json) {
 
                     Message.unspin(spin);
@@ -188,13 +266,13 @@ class CApplication {
     deleteApplication(options) {
         var that = this;
 
-        var doDelete = function(id) {
+        var doDelete = function(options) {
             
 
             let spin = Message.spin(options);
             NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host).then(function() {
                 Message.log("execute action...");
-                return that._delete(that._prefs.token, options.id);
+                return that._delete(that._prefs.token, options.appid);
             }).then(function(json) {
                 Message.unspin(spin);
                 Message.log("action done...", json);
@@ -213,14 +291,14 @@ class CApplication {
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
 
-            Message.action("Delete application", options.id, options);
+            Message.action("Delete application", options.appid, options);
             if(options.noconfirmation) {
-                doDelete(options.id);
+                doDelete(options);
             }
             else {
                 Message.confirm('Are-you sure ? It will remote it completely').then(function(confirm) {
                     if(confirm) {
-                        doDelete(options.id);
+                        doDelete(options);
                     }
                     else {
                         Message.canceled(options);
@@ -287,7 +365,7 @@ class CApplication {
         }
     }
 
-    getMetrics(id, options) {
+    getMetrics(options) {
         var that = this;
         
         Message.welcome(options);
@@ -296,13 +374,13 @@ class CApplication {
             Message.loggedin(this._prefs, options);
 
             if(!options.csv) {
-                Message.action("List metrics for application " + id, null, options);
+                Message.action("List metrics for application " + options.appid, null, options);
             }
             
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
                 Message.log("execute action...");
-                return that._getMetrics(that._prefs.token, options, id);
+                return that._getMetrics(that._prefs.token, options);
             }).then(function(json) {
                 
                 Message.unspin(spin);
@@ -332,6 +410,224 @@ class CApplication {
                 Message.error(err, options);
                 Exit.error();
             });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    getApns(options) {
+        var that = this;
+        
+        Message.welcome(options);
+
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            if(!options.csv) {
+                Message.action("List apns for application " + options.appid, null, options);
+            }
+            
+            let spin = Message.spin(options);
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+                Message.log("execute action...");
+                return that._getApns(that._prefs.token, options);
+            }).then(function(json) {
+                
+                Message.unspin(spin);
+                Message.log("action done...", json);
+
+                if(options.noOutput) {
+                    Message.out(json.data);
+                }
+                else {
+                    Message.lineFeed();
+                    Message.tableApns(json, options);
+                }
+                Message.log("finished!");
+
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    createFCM(options) {
+        var that = this;
+
+        Message.welcome(options);
+            
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+        
+            Message.action("Create Android FCM authorization key for application", options.appid, options);
+            let spin = Message.spin(options);
+
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+                Message.log("execute action...");
+                return that._createFCM(that._prefs.token, options);
+            }).then(function(json) {
+                Message.unspin(spin);
+
+                Message.log("action done...", json);
+
+                if(options.noOutput) {
+                    Message.out(json.data);
+                }
+                else {
+                    Message.lineFeed();
+                    Message.printSuccess('Application FCM created with Id', json.data.id, options);    
+                    Message.success(options);
+                }
+                Message.log("finished!");
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    createAPNS(options) {
+        var that = this;
+
+        Message.welcome(options);
+            
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+        
+            Message.action("Create IOS APNS for application", options.appid, options);
+            let spin = Message.spin(options);
+
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+                Message.log("execute action...");
+                return that._createAPNS(that._prefs.token, options);
+            }).then(function(json) {
+                Message.unspin(spin);
+
+                Message.log("action done...", json);
+
+                if(options.noOutput) {
+                    Message.out(json.data);
+                }
+                else {
+                    Message.lineFeed();
+                    Message.printSuccess('Application APNS created with Id', json.data.id, options);    
+                    Message.success(options);
+                }
+                Message.log("finished!");
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    getPush(options) {
+        var that = this;
+
+        try {
+
+            Message.welcome(options);
+
+            if(this._prefs.token && this._prefs.user) {
+                Message.loggedin(this._prefs, options);
+                Message.action("Get information for push notification" , options.appid, options);
+                
+                let spin = Message.spin(options);
+                NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+                    Message.log("execute action...");
+                    return that._getPush(that._prefs.token, options);
+                }).then(function(json) {
+
+                    Message.unspin(spin);
+                    Message.log("action done...", json);
+
+                    if(options.noOutput) {
+                        Message.out(json.data);
+                    }
+                    else {
+                        Message.lineFeed();
+                        Message.table2D(json.data);
+                        Message.lineFeed();
+                        Message.success(options);
+                    }
+                    Message.log("finished!");
+
+                }).catch(function(err) {
+                    Message.unspin(spin);
+                    Message.error(err, options);
+                    Exit.error();
+                });
+            }
+            else {
+                Message.notLoggedIn(options);
+                Exit.error();
+            }
+        }
+        catch(err) {
+            Message.error(err, options);
+            Exit.error();
+        }
+    }
+
+    deletePush(options) {
+        var that = this;
+
+        var doDelete = function(id) {
+            let spin = Message.spin(options);
+            NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host).then(function() {
+                Message.log("execute action...");
+                return that._deletePush(that._prefs.token, options);
+            }).then(function(json) {
+                Message.unspin(spin);
+                Message.log("action done...", json);
+                Message.lineFeed();
+                Message.success(options);
+                Message.log("finished!");
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        
+        Message.welcome(options);
+                
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            Message.action("Delete push notification setting", options.appid, options);
+            if(options.noconfirmation) {
+                doDelete(options.id);
+            }
+            else {
+                Message.confirm('Are-you sure ? It will remote it completely').then(function(confirm) {
+                    if(confirm) {
+                        doDelete(options.id);
+                    }
+                    else {
+                        Message.canceled(options);
+                        Exit.error();
+                    }
+                });
+            }
         }
         else {
             Message.notLoggedIn(options);
