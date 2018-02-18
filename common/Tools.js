@@ -6,7 +6,7 @@ class Tools {
     }
 
     isArray(a) {
-        return (!!a) && (a.constructor === Array);
+        return (Array.isArray(a));
     };
 
     isObject(a) {

@@ -1,12 +1,12 @@
 "use strict";
 
-const table         = require('text-table');
 const inquirer      = require('inquirer');
 const CLI           = require('clui');
 const Spinner       = CLI.Spinner;
 const csv           = require('csv');
 const fs            = require('fs');
 const Logger        = require('./Logger');
+const moment        = require('moment');
 
 const Screen = require("./Print");
 const Tools = require('./Tools');
@@ -179,8 +179,7 @@ class Message {
             array.push([ number.toString().white, company.name.cyan, offerType, visibility, active ,organisation, company.id.white]); 
         }
 
-        var t = table(array);
-        Screen.table(t);
+        Screen.table(array);
         Screen.print('');
         Screen.success(json.companies.total + ' companies found.');
     }
@@ -207,8 +206,7 @@ class Message {
             array.push([ number.toString().white, org.name.cyan, visibility, org.id.white]); 
         }
 
-        var t = table(array);
-        Screen.table(t);
+        Screen.table(array);
         Screen.print('');
         Screen.success(json.total + ' organizations found.');
     }
@@ -245,8 +243,7 @@ class Message {
             array.push([ number.toString().white, sn.cyan, fromSystem, vm.white, longNumber.white, isMonitored, phone.id.white]); 
         }
 
-        var t = table(array);
-        Screen.table(t);
+        Screen.table(array);
         Screen.print('');
         Screen.success(json.total + ' systems found.');
     }
@@ -281,8 +278,7 @@ class Message {
             array.push([ number.toString().white, name.cyan, version.white, stats, type.white, system.id.white, pbxId]); 
         }
 
-        var t = table(array);
-        Screen.table(t);
+        Screen.table(array);
         Screen.print('');
         Screen.success(json.total + ' systems found.');
     }
@@ -304,8 +300,7 @@ class Message {
             array.push([(i+1).toString().white, json[i].name.white,  strState, strVersion ]);
         }
 
-        var t = table(array);
-        Screen.table(t);
+        Screen.table(array);
         Screen.print('');
         Screen.success('status successfully executed.');
     }
@@ -329,8 +324,7 @@ class Message {
             array.push([(i+1).toString().white, json[i].name.white, json[i].status.cyan, rtt > 300 ? rttStr.red : rttStr.white, eventLoop > 300 ? eventLoopStr.red : eventLoopStr.white ]);
         }
 
-        var t = table(array);
-        Screen.table(t);
+        Screen.table(array);
         Screen.print('');
         Screen.success('status successfully executed.');
     }
@@ -363,9 +357,7 @@ class Message {
             array.push([ number.toString().white, companyName.cyan, companyId.white, type.magenta, period.white, initiated.white, path.white]);  
         }
 
-        var t = table(array);
-        Screen.table(t);
-
+        Screen.table(array);
         Screen.print('');
         
         if(options.companyId) {
@@ -378,8 +370,8 @@ class Message {
     tableApplications(json, options) {
 
         var array = [];
-        array.push([ "#".gray, "Name".gray, "Type".gray, "Environment".gray, "State".gray, "OwnerId".gray, "id".gray]);
-        array.push([ "-".gray, "----".gray, "----".gray, "-----------".gray, "-----".gray, "-------".gray, "--".gray, ""]);  
+        array.push([ "#".gray, "Name".gray, "Type".gray, "Environment".gray, "State".gray, "OwnerId".gray, "Id".gray]);
+        array.push([ "-".gray, "----".gray, "----".gray, "-----------".gray, "-----".gray, "-------".gray, "--".gray]);  
 
         var apps = json.data;
 
@@ -414,12 +406,43 @@ class Message {
             number++;
         });
 
-        var t = table(array);
-        Screen.table(t);
-
+        Screen.table(array);
         Screen.print('');
 
         Screen.success(json.total + ' applications found');
+    }
+
+    tableApns(json, options) {
+
+        var array = [];
+        array.push([ "#".gray, "OS".gray, "Type".gray, "Last Update".gray, "Id".gray]);
+        array.push([ "-".gray, "--".gray, "----".gray, "-----------".gray, "--".gray]);  
+
+        var apnsList = json.data;
+
+        let number = 0;
+
+        apnsList.forEach((apns) => {
+
+            let os = apns.type === "apns" ? "IOS".cyan : "Android".magenta;
+
+            let type = apns.type === "apns" ? apns.certificateType : apns.type;
+
+            let id = apns.id || "";
+
+            let lastUpdate = apns.lastUpdateDate ? apns.lastUptadeDate : apns.dateOfCreation;
+
+            let lastUpdateStr = moment(lastUpdate).format("lll");
+
+            array.push([(number+1).toString().white, os, type.white, lastUpdateStr.white, id.yellow]);
+
+            number++;
+        });
+
+        Screen.table(array);
+        Screen.print('');
+
+        Screen.success(apnsList.length + ' applications found');
     }
 
     tableUsers(json, options) {
@@ -469,9 +492,7 @@ class Message {
             array.push([ number.toString().white, name.cyan, users[i].loginEmail.white, companyName.white, accountType, roles.white, active, users[i].id.white]);  
         }
 
-        var t = table(array);
-        Screen.table(t);
-
+        Screen.table(array);
         Screen.print('');
 
         if(options.company) {
@@ -506,8 +527,7 @@ class Message {
             array.push([ number.toString().white, site.name.cyan, active, site.id.white, site.companyId.white]); 
         }
 
-        var t = table(array);
-        Screen.table(t);
+        Screen.table(array);
         Screen.print('');
         Screen.success(json.total + ' sites found.');
     }
@@ -540,8 +560,7 @@ class Message {
             array.push([ number.toString().white, offer.name.cyan, business.white, canBeSold, offer.profileId.white, offer.id.white, offer.description.white]); 
         }
 
-        var t = table(array);
-        Screen.table(t);
+        Screen.table(array);
         Screen.print('');
         Screen.success(json.total + ' offers found.');
     }
@@ -596,8 +615,7 @@ class Message {
             
         }
 
-        var t = table(array);
-        Screen.table(t);
+        Screen.table(array);
         Screen.print('');
         Screen.success(json.total + ' catalogs found.');
     }
@@ -605,53 +623,16 @@ class Message {
     table2D(json) {
 
         var array = [];
-        array.push([ "#".gray, "Attribute".gray, "Value".gray]);
-        array.push([ "-".gray, "---------".gray, "-----".gray]);  
+        array.push([ "#".gray, "Attribute".gray, "Content".gray]);
+        array.push([ "-".gray, "---------".gray, "-------".gray]);  
         var index = 1;
         for (var key in json) {
             var data = json[key];
-            if(data === null) {
-                array.push([ index.toString().white, key.toString().cyan, 'null'.white ]);  
-            } 
-            else if(typeof data === "string" && data.length === 0) {
-                array.push([  index.toString().white, key.toString().cyan, "''".white ]);  
-            }
-            else if(Tools.isArray(data) && data.length === 0) {
-                array.push([  index.toString().white, key.toString().cyan, "[ ]".white ]);  
-            }
-            else if((Tools.isArray(data)) && data.length === 1) {
-                array.push([  index.toString().white, key.toString().cyan, "[ ".white + JSON.stringify(data[0]).white + " ]".white]);  
-            }
-            else if((Tools.isArray(data)) && data.length > 1) {
-                var item = ""
-                for (var i=0; i < data.length; i++) {
-                    if(typeof data[i] === "string") {
-                        item +=  JSON.stringify(data[i]).white;
-                        if(i < data.length -1) {
-                            item += ","
-                        }
-                    }
-                    else {
-                        item += "[ " + JSON.stringify(data[i]).white + " ]";
-                        if(i < data.length -1) {
-                            item += ","
-                        }
-                    }
-                }
-                array.push([  index.toString().white, key.toString().cyan, "[ ".white + item.white + " ]" ]);  
-            }
-            else if(Tools.isObject(data)) {
-                array.push([  index.toString().white, key.toString().cyan, JSON.stringify(data).white ]);  
-            }
-            else {
-                array.push([  index.toString().white, key.toString().cyan, data.toString().white ]);
-            }
+            array.push([ index.toString().white, key.toString().cyan, JSON.stringify(data).white]);
             index+=1;
-
         }
 
-        let t = table(array);
-        Screen.table(t);
+        Screen.table(array);
     }
 
     tableImports(json, options) {
@@ -676,8 +657,7 @@ class Message {
             array.push([ number.white, request.white, status.yellow, success.green, failed.red, warning.red, company.white, from.white, date.white ]); 
         }
 
-        var t = table(array);
-        Screen.table(t);
+        Screen.table(array);
         Screen.print('');
         Screen.success(json.length + ' import(s) found.');
     }
@@ -710,8 +690,7 @@ class Message {
             }
         }
 
-        var t = table(array);
-        Screen.table(t);
+        Screen.table(array);
         Screen.print('');
         Screen.success('Avallable commands for your level listed.');
     }
