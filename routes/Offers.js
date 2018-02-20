@@ -26,7 +26,7 @@ class Offers {
         .description("Retrieve information about an existing offer")
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw offer 57ea7475d78f3ba5aae98935');
@@ -56,7 +56,7 @@ class Offers {
         .option('-n, --name <name>', 'Filter by name')
         .option('--json', 'Write the JSON result to standard stdout')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw offers');
@@ -110,7 +110,7 @@ class Offers {
         .description("Retrieve information about an existing catalog")
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw catalog 57ea7475d78f3ba5aae98935');
@@ -140,7 +140,7 @@ class Offers {
         .option('-n, --name <name>', 'Filter by name')
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw catalogs');
@@ -195,7 +195,7 @@ class Offers {
         .description("Create a new catalog")
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw create catalog "aCatalog"');
@@ -223,7 +223,7 @@ class Offers {
         .option('-l, --list <items>', 'A list', function(val) {
             return val.split(',');})
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw delete catalog 57ea7475d78f3ba5aae98935');

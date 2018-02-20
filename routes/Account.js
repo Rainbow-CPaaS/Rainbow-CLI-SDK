@@ -25,7 +25,7 @@ class Account {
 
         this._program.command('login', '<email> <password>')
             .description("Log-in to Rainbow")
-            .option('-h, --host <hostname>', "Log-in to a specific host. 'hostname' can be 'official' or any hostname. If no --host, 'sandbox' is used")
+            .option('--host <hostname>', "Log-in to a specific host. 'hostname' can be 'official' or any hostname. If no --host, 'sandbox' is used")
             .option('--json', 'Write the JSON result to standard stdout')
             .option('-p, --proxy <address>', 'Proxy to use')
             .option('-v, --verbose', 'Use verbose console mode')

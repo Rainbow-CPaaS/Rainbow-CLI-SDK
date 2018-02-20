@@ -11,6 +11,7 @@ All notable changes to Rainbow-CLI will be documented in this file.
 - CRRAINB-1781: Fix crash when exporting users to file
 - CRRAINB-1914: Fix data in table alignment
 - CRRAINB-1915: Add commands for managing push notifications on IOS and Android
+- CRRAINB-1942: Fix documentation issue
 
 ### [1.36.0] - 2018-02-02
 - CRRAINB-1518: Display host information when connected

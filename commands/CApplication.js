@@ -6,6 +6,7 @@ const Message   = require('../common/Message');
 const Exit      = require('../common/Exit');
 const Helper    = require('../common/Helper');
 const pkg       = require('../package.json');
+const moment        = require('moment');
 
 class CApplication {
 
@@ -15,8 +16,23 @@ class CApplication {
 
     _getMetrics(token, options) {
         return new Promise(function(resolve, reject) {
+
+            let day = options.day;
+
+            let param = "?";
+
+            let fromDate = moment().startOf('day');
+            let toDate = moment().endOf('day');
+
+            if(day) {
+                fromDate = moment(day, 'YYYYMMDD').startOf('day');
+                toDate = moment(day, 'YYYYMMDD').endOf('day');
+            }
+
+            param += "fromDate=" + fromDate.toISOString();
+            param += "&toDate=" + toDate.toISOString();
             
-            NodeSDK.get('/api/rainbow/metrics/v1.0/cpaas/' + options.appid, token).then(function(json) {
+            NodeSDK.get('/api/rainbow/metrics/v1.0/cpaasmetrics/' + options.appid + param, token).then(function(json) {
                 resolve(json);
             }).catch(function(err) {
                 reject(err);
@@ -401,7 +417,7 @@ class CApplication {
                         Message.tablePage(json, options);
                     }
                     Message.lineFeed();
-                    Message.tableApplications(json, options);
+                    Message.tableMetrics(json, options);
                 }
                 Message.log("finished!");
 

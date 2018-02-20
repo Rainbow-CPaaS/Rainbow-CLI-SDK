@@ -25,7 +25,7 @@ class User {
         .description("Retrieve information about an existing user")
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw user 593065822799299343b8501d');
@@ -54,7 +54,7 @@ class User {
         .option('-o, --org <orgid>', 'With a org_admin role for an organisation identified by an orgid')
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw create user 'john.doe@mycompany.com' '********' 'John' 'Doe'");
@@ -85,7 +85,7 @@ class User {
         .description("Delete an existing user")
         .option('--nc', 'Do not ask confirmation')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw delete user 593065822799299343b8501d");
@@ -110,7 +110,7 @@ class User {
         this._program.command('changelogin user', '<id> <login>')
         .description("Change login of a user")
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw changelogin user 'alogin@acompany.com'");
@@ -129,7 +129,7 @@ class User {
         this._program.command('changepwd user', '<id> <password>')
         .description("Change password of a user")
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw changepwd user 593065822799299343b8501d 'myPassword123!");
@@ -148,7 +148,7 @@ class User {
         this._program.command('block user', '<id>')
         .description("Block a user")
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw block user '593065822799299343b8501d'");
@@ -169,7 +169,7 @@ class User {
         this._program.command('unblock user', '<id>')
         .description("Unblock a user")
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw unblock user '593065822799299343b8501d'");
@@ -200,7 +200,7 @@ class User {
         .option('-f, --file <filename>', 'Print result to a file in CSV')
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw users --limit 1000");

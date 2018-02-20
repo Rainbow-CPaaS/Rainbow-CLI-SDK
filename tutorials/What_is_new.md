@@ -4,16 +4,18 @@
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
 
-### Rainbow CLI 1.37 (Beta) - March 2018
+### Rainbow CLI 1.37 (Beta) - February 2018
 ---
 
-This release introduces commands for configuring **Push notifications** on your application for the Android platform (FCM) and IOS platform (APNS).
+This release introduces commands for configuring **Push notifications** on your application for the Android platform (FCM) and IOS platform (APNS). 
 
 **3-Release Breaking Changes**
 
 - None.
 
 **Breaking Changes**
+
+- To avoid conflict with the inline documentation, shortcut parameter `-h` has been removed from command `rbw login`. In order to specify the target host to connect, you have to use the parameter `--host` instead.
 
 - Due to the introduction of the new command `rbw masspro template device`, the command `rbw masspro template` has been renamed to `rbw masspro template user` in order to share an homogeneous naming.
 
@@ -29,6 +31,8 @@ This release introduces commands for configuring **Push notifications** on your 
 
 - New command `rbw application delete pn` has been added to remove an existing push notification setting.
 
+- New command `rbw metrics application` has been added to list metrics (API usage) on a specific application.
+
 - New option `--proxy` has been added to command `rbw login` in order to log-in through a proxy.
 
 **Others changes**
@@ -36,6 +40,8 @@ This release introduces commands for configuring **Push notifications** on your 
 - Fix a crash when exporting users to a csv file
 
 - Fix alignment of data in table
+
+- Fix command documentation which was not correctly displayed
 
 
 ### Rainbow CLI 1.36 (Beta) - February 2018

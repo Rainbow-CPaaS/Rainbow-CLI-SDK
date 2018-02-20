@@ -25,7 +25,7 @@ class System {
         .description("Retrieve information about an existing system")
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw system 58920fdd0bbe4b2f703bd386');
@@ -50,7 +50,7 @@ class System {
         .description("Create a new system")
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw create system PBX-1 58920e130bbe4b2f703bd382');
@@ -75,7 +75,7 @@ class System {
         .description("Delete an existing system")
         .option('--nc', 'Do not ask confirmation')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw delete system 58920e130bbe4b2f703bd382');
@@ -95,7 +95,7 @@ class System {
         this._program.command('link system', '<systemid>, <siteId>')
         .description("Link a system to an other site")
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw link system 58920e130bbe4b2f703bd382 58920e130bbe4b2f703b523');
@@ -114,7 +114,7 @@ class System {
         this._program.command('unlink system', '<systemid>, <siteId>')
         .description("Unlink a system from a site")
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw unlink system 58920e130bbe4b2f703bd382 58920e130bbe4b2f703b523');
@@ -138,7 +138,7 @@ class System {
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw systems');

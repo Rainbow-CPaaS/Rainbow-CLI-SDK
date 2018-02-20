@@ -26,7 +26,7 @@ class Phone {
         .description("Retrieve information about an existing phone")
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw phone 58920e130bbe4b2f703bd382 589dc6ba0bbe4b2f703bd67d');
@@ -55,7 +55,7 @@ class Phone {
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw phones 589dc6ba0bbe4b2f703bd67d');

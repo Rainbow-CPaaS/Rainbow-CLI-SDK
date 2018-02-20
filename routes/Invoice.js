@@ -32,7 +32,7 @@ class Invoice {
         .option('--cdr', 'Filter by invoice with file type CDR')
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw invoices");
@@ -69,7 +69,7 @@ class Invoice {
         .option('-y, --year <year>', 'Filter by a year')
         .option('-m, --month <month>', 'Filter by a year')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw download cdr services');
@@ -97,7 +97,7 @@ class Invoice {
         .option('-y, --year <year>', 'Filter by a year')
         .option('-m, --month <month>', 'Filter by a year')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw download cdr conference');
@@ -122,7 +122,7 @@ class Invoice {
         this._program.command('download invoice', '<downloadFile> [toFile]')
         .description("Retrieve information about an existing invoice")
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw invoice 58cc15ff8a69092b8ac07143/2017-10/services/CDR_SERV_2017-10-13_mycompany.csv /path/to/my/file.csv');

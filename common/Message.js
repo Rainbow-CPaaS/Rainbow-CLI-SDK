@@ -412,6 +412,43 @@ class Message {
         Screen.success(json.total + ' applications found');
     }
 
+    tableMetrics(json, options) {
+
+        let array = [];
+        array.push([ "#".gray, "Period".gray, "Group".gray, "Value".gray]);
+        array.push([ "-".gray, "------".gray, "-----".gray, "-----".gray]);  
+
+        let metrics = json.data;
+
+        let number = 0;
+
+        metrics.forEach((metric) => {
+
+            let groups = metric.groupCounters;
+            let startDate = moment(metric.aggregationStartDate).format('lll');
+            let subTotal = 0;
+            let firstLine = true;
+
+            groups.forEach( (group) => {
+                if(firstLine) {
+                    array.push([(number+1).toString().white, startDate.white, group.group.white, group.count.toString().cyan]);
+                    firstLine = false;
+                }
+                else {
+                    array.push(["", "", group.group.white, group.count.toString().cyan]);
+                }
+                subTotal += group.count;
+            });
+            array.push(["", "", "TOTAL".bgYellow, subTotal.toString().bgYellow]);
+            number++;
+        });
+
+        Screen.table(array);
+        Screen.print('');
+
+        Screen.success(json.total + ' metrics found');
+    }
+
     tableApns(json, options) {
 
         var array = [];
@@ -707,7 +744,7 @@ class Message {
 
         Screen.print('You are logged in as'.grey + " " + user.loginEmail.yellow + " on platform ".grey + host.yellow);
         Screen.print('Your roles'.grey + " " + user.roles.join(' + ').magenta);
-        
+
         if(user.roles.includes("user")) {
             if(adminType.length === 0) {
                 adminType = "user";

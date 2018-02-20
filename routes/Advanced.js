@@ -26,7 +26,7 @@ class Advanced {
         .description("Retrieve information associated to an id (ie: user, company...")
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw find 593065822799299343b8501d');
@@ -51,7 +51,7 @@ class Advanced {
         this._program.command('newco')
         .description("Interactive creation of a company + a user")
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw newco');

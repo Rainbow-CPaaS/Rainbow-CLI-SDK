@@ -25,7 +25,7 @@ class Mass {
         this._program.command('masspro template user', '[filename]')
         .description("Download the csv template for importing users")
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw masspro template");
@@ -50,7 +50,7 @@ class Mass {
         this._program.command('masspro template device', '[filename]')
         .description("Download the csv template for importing devices")
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw masspro template");
@@ -75,7 +75,7 @@ class Mass {
         this._program.command('masspro check', '<filename>')
         .description("Check a csv file before uploading it")
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw masspro check users.csv");
@@ -95,7 +95,7 @@ class Mass {
         this._program.command('masspro import', '<filename>')
         .description("Import a csv file to Rainbow")
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw masspro import users.csv");
@@ -115,7 +115,7 @@ class Mass {
         this._program.command('masspro status', '<reqid>')
         .description("Get a status on an import done")
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw masspro status d44dd0ba8d1f7f4bce08b7e909f23a55b422c65ebdcb67ccfc9ada99438902cc");
@@ -135,7 +135,7 @@ class Mass {
         this._program.command('masspro delete status', '<reqid>')
         .description("Delete a status on an import done")
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw masspro delete status d44dd0ba8d1f7f4bce08b7e909f23a55b422c65ebdcb67ccfc9ada99438902cc");
@@ -155,7 +155,7 @@ class Mass {
         this._program.command('masspro status company', '[companyId]')
         .description("Get a status of all imports done on a company")
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw masspro status company");

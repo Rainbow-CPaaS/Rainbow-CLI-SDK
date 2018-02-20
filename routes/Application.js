@@ -26,7 +26,7 @@ class Application {
         .description("Retrieve information about an existing application")
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw application 593065822799299343b8501d');
@@ -56,7 +56,7 @@ class Application {
         .option('-b, --bot', 'Force the type to bot')
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw create application 'A new app'");
@@ -85,7 +85,7 @@ class Application {
         .description("Delete an existingapplication")
         .option('--nc', 'Do not ask confirmation')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw delete application 593065822799299343b8501d");
@@ -105,13 +105,15 @@ class Application {
         });
 
         this._program.command('metrics application', '<appid>')
-        .description("Retrieve API usage metrics about an existing application")
+        .description("Retrieve API usage metrics of an application for the current day per hour")
         .option('-j, --json', 'Write the JSON result to standard stdout')
+        .option('-d, --day <date>', 'Get metrics for a specific day. Format is YYYMMDD')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw application metrics 593065822799299343b8501d');
+            console.log('    $ rbw application metrics 593065822799299343b8501d -d 20180218');
             console.log('    $ rbw application metrics 593065822799299343b8501d --json');
             console.log('');
             console.log('  Details:');
@@ -123,7 +125,8 @@ class Application {
 
             var options= {
                 noOutput: commands.json || false,
-                appid: appid
+                appid: appid,
+                day: commands.day
             }
 
             Logger.isActive = commands.verbose || false;
@@ -135,7 +138,7 @@ class Application {
         .description("Retrieve the list of push notifications settings data for an application")
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw application push 593065822799299343b8501d');
@@ -162,7 +165,7 @@ class Application {
         .description("Retrieve information about an existing push notifications setting")
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw push 3893c8c00dae11e8b55f759655b0616d 5a882a56fd551af4da28c4bd');
@@ -190,7 +193,7 @@ class Application {
         .description("Delete an existing push notifications setting")
         .option('--nc', 'Do not ask confirmation')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw application delete push 53893c8c00dae11e8b55f759655b0616d 5a882a56fd551af4da28c4bd");
@@ -214,7 +217,7 @@ class Application {
         .description("Add an authorization key for Android Firebase Cloud Message")
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw application create fcm 593065822799299343b8501d AIzaSyZ-1u...0GBYzPu7Udno5aA');
@@ -242,7 +245,7 @@ class Application {
         .description("Add a VOIP certificate for Apple Push Notifications service")
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw application create apns voip 593065822799299343b8501d cert.file');
@@ -271,7 +274,7 @@ class Application {
         .description("Add an IM certificate for Apple Push Notifications service")
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw application create apns voip 593065822799299343b8501d cert.file');
@@ -304,7 +307,7 @@ class Application {
         .option('-f, --file <filename>', 'Print result to a file in CSV')
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
-        .on('-h, --help', function(){
+        .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw applications --limit 1000");
