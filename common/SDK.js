@@ -15,8 +15,8 @@ const config = {
       "password": ""
   },
   application: {
-    "appID": "595a9fed159edbaee3aa4f88",
-    "appSecret": "bUjJn7MEBY3uLTjP62ttHHYj"
+    "appID": "",
+    "appSecret": ""
   },
   proxy: {
     host: "",

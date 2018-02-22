@@ -24,7 +24,7 @@
     "rbw": "./index.js"
   },
   "dependencies": {
-    "chalk": "^2.3.0",
+    "chalk": "^2.3.1",
     "clui": "^0.3.1",
     "colors": "^1.1.2",
     "commander-plus": "0.0.6",
@@ -32,7 +32,7 @@
     "inquirer": "^3.3.0",
     "moment": "^2.20.1",
     "preferences": "^1.0.2",
-    "rainbow-node-sdk": "^1.36.1",
+    "rainbow-node-sdk": "^1.37.0",
     "standard": "^10.0.2",
     "table": "^4.0.2",
     "winston": "^2.4.0"
