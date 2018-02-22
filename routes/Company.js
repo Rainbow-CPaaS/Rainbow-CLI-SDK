@@ -186,6 +186,69 @@ class Company {
             that._company.linkCompany(id, orgid);
         });
 
+        this._program.command('setpublic company', '[id]')
+        .description("Set the visibility of the company to public")
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw setpublic company 57ea7475d78f3ba5aae98935');
+            console.log('    $ rbw setpublic company');
+            console.log('');
+        })
+        .action(function (id, commands) {
+
+            var options = {
+                "id": id || null,
+                "visibility": "public"
+            };
+
+            Logger.isActive = commands.verbose || false;
+            that._company.setVisibility(options);
+        });
+
+        this._program.command('setprivate company', '[id]')
+        .description("Set the visibility of the company to private")
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw setprivate company 57ea7475d78f3ba5aae98935');
+            console.log('    $ rbw setprivate company');
+            console.log('');
+        })
+        .action(function (id, commands) {
+
+            var options = {
+                "id": id || null,
+                "visibility": "private"
+            };
+
+            Logger.isActive = commands.verbose || false;
+            that._company.setVisibility(options);
+        });
+
+        this._program.command('setorgpublic company', '[id]')
+        .description("Set the visibility of the company to public inside organization only")
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw setorgpublic company 57ea7475d78f3ba5aae98935');
+            console.log('    $ rbw setorgpublic company');
+            console.log('');
+        })
+        .action(function (id, commands) {
+
+            var options = {
+                "id": id || null,
+                "visibility": "organization"
+            };
+
+            Logger.isActive = commands.verbose || false;
+            that._company.setVisibility(options);
+        });
+
         this._program.command('unlink company', '<id>')
         .description("unlink a company from its organization")
         .option('-v, --verbose', 'Use verbose console mode')

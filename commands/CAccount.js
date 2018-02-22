@@ -362,8 +362,26 @@ class CAccount {
                         {
                             "level": "company_admin", 
                             "theme": "Company", 
-                            "command": "company", 
+                            "command": "company [companyId]", 
                             "details": "List company's information"
+                        },
+                        {
+                            "level": "company_admin", 
+                            "theme": "Company", 
+                            "command": "setpublic [companyId]", 
+                            "details": "Change the visibility of a company to public"
+                        },
+                        {
+                            "level": "company_admin", 
+                            "theme": "Company", 
+                            "command": "setprivate [companyId]", 
+                            "details": "Change the visibility of a company to private"
+                        },
+                        {
+                            "level": "company_admin", 
+                            "theme": "Company", 
+                            "command": "setorgpublic [companyId]", 
+                            "details": "Change the visibility of a company to public inside an organization"
                         },
                         {
                             "level": "company_admin", 

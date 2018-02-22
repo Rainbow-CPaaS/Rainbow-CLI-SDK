@@ -100,6 +100,29 @@ class CCompany {
         });
     }
 
+
+    _setVisibility(token, options) {
+
+        var that = this;
+
+        return new Promise(function(resolve, reject) {
+
+            let id = options.id;
+
+            if(!id) {
+                id = that._prefs.user.companyId;
+            }
+
+            console.log(">>>", id);
+
+            NodeSDK.put('/api/rainbow/admin/v1.0/companies/' + id, token, {visibility: options.visibility}).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
     _getCompany(token, id) {
 
         let that = this;
@@ -316,6 +339,46 @@ class CCompany {
                 }
                 Message.log("finished!");
 
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    setVisibility(options) {
+        var that = this;
+
+        Message.welcome(options);
+            
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+        
+            Message.action("Set company visibility to", options.visibility, options);
+            let spin = Message.spin(options);
+
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+                Message.log("execute action...");
+                return that._setVisibility(that._prefs.token, options);
+            }).then(function(json) {
+                Message.unspin(spin);
+
+                Message.log("action done...", json);
+
+                if(options.noOutput) {
+                    Message.out(json.data);
+                }
+                else {
+                    Message.lineFeed();
+                    Message.printSuccess('Company is now ' + options.visibility, json.data.id, options);    
+                    Message.success(options);
+                }
+                Message.log("finished!");
             }).catch(function(err) {
                 Message.unspin(spin);
                 Message.error(err, options);

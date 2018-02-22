@@ -27,11 +27,13 @@ This release introduces commands for configuring **Push notifications** on your 
 
 - New commands `rbw application pns` and `rbw application pn` have been added to list the available push notification settings of an application and have access to all information.
 
-- New commands `rbw application create fcm`, `rbw application create void` and `rbw application create im` have been added to configure push notification settings for Android (FCM) and IOS (APNS). 
+- New commands `rbw application create fcm`, `rbw application create voip` and `rbw application create im` have been added to configure push notification settings for Android (FCM) and IOS (APNS). 
 
 - New command `rbw application delete pn` has been added to remove an existing push notification setting.
 
 - New command `rbw metrics application` has been added to list metrics (API usage) on a specific application.
+
+- New command `rbw setpublic company`, `rbw setprivate company` and `setorgpublic company` have been added to change the visibility of a company.
 
 - New option `--proxy` has been added to command `rbw login` in order to log-in through a proxy.
 

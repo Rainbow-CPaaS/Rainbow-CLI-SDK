@@ -12,6 +12,7 @@ All notable changes to Rainbow-CLI will be documented in this file.
 - CRRAINB-1914: Fix data in table alignment
 - CRRAINB-1915: Add commands for managing push notifications on IOS and Android
 - CRRAINB-1942: Fix documentation issue
+- CRRAINB-1970: Add commands for changing the visibility of a company
 
 ### [1.36.0] - 2018-02-02
 - CRRAINB-1518: Display host information when connected
@@ -26,25 +27,18 @@ All notable changes to Rainbow-CLI will be documented in this file.
 - Update readme with Getting started content
 
 ### [1.34.0] - 2017-12-17
----
 - RQRAINB-479: Download invoices in CSV
 - RQRAINB-511: Add more portals to status
 - RQRAINB-517: Update getting started guide
 
-
 ### [1.33.1] - 2017-11-27
----
 - 30024: Fix login issue with Rainbow 1.33
 
-
 ### [1.33.0] - 2017-11-24
----
 - 29883: Filter users by an email address
 - 29921: Add command for getting all users & companies quickly
 
-
 ### [1.32.0] - 2017-11-06
----
 - 29641: Add tutorial for explaining how to create developer's accounts
 - 29640: Change password and login of a user
 - 29639: Create and delete catalogs
@@ -53,30 +47,22 @@ All notable changes to Rainbow-CLI will be documented in this file.
 - 29597: Display admin level
 - 29598: Enhance company commands
 
-
 ### [1.31.0] - 2017-10-12
----
 - Only fix in documentation
 
 
 ### [1.30.1] - 2017-09-28
----
 - 29125: Fix login regression issue
 
-
 ### [1.30.0] - 2017-09-26
----
 - 28981: Add verbose option to all commands
 - 28864: Fix command `newco` in case of errors
 
 
 ### [0.8.0] - 2017-08-15
----
-
 Lots of change for that new version of Rainbow CLI. A big rework has been done to simplify code and to be able to export a JSON result format to the console.
 
 #### Added
----
 * Filter companies by name using command: `rbw companies --name "..."`
 * Filter users by name using command: `rbw users --name "..."`
 * Filter users by company name using command: `rbw users --company "..."`
@@ -86,7 +72,6 @@ Lots of change for that new version of Rainbow CLI. A big rework has been done t
 * New command `rbw newco` to create a new company and a new user interactively
 
 #### Changed
----
 * Order the list of users by display name (firstname lastname)
 * [Compatibility Break] Filter users by company id using command: `rbw users --cid "..."` instead of `rbw users -c "..."`
 * [Compatibility Break] Rename command `rbw create ...` to `rbw create user ...`
@@ -96,19 +81,15 @@ Lots of change for that new version of Rainbow CLI. A big rework has been done t
 
 
 ### [0.7.5] - 2017-06-09
----
 
 #### Added
----
 * List the phones number of a system
 * Retrieve information about a phone 
 
 
 ### [0.6.2] - May 2017
----
 
 #### Added
----
 * List the systems
 * Retrieve information about a system 
 * Create a new system associated to a site
@@ -116,10 +97,8 @@ Lots of change for that new version of Rainbow CLI. A big rework has been done t
 * Link/unlink a system to/from a site
 
 ### [v0.5.7] - April 2017
----
 
 #### Added
----
 * List the sites
 * Retrieve information about a site
 * Create a new site associated to a company
@@ -128,10 +107,8 @@ Lots of change for that new version of Rainbow CLI. A big rework has been done t
 * Sign-out from Rainbow
 
 ### [0.4.4] - March 2017
----
 
 #### Added
----
 * Link/unlink a company to/from an organization 
 * Retrieve information about an organization
 * Create a new organization
@@ -139,10 +116,8 @@ Lots of change for that new version of Rainbow CLI. A big rework has been done t
 * List the organizations 
 
 ### [0.3.11] - February 2017
----
 
 #### Added
----
 * Create a new user
 * Delete a user
 * List of users
@@ -151,10 +126,8 @@ Lots of change for that new version of Rainbow CLI. A big rework has been done t
 * Remove all users from a company
 
 ### [0.2.7] - January 2017
----
 
 #### Added
----
 * Get the status of the API
 * Retrieve information about a company
 * Delete a company
@@ -162,9 +135,7 @@ Lots of change for that new version of Rainbow CLI. A big rework has been done t
 * List the companies
 
 ### [0.1.0] - December 2016
----
 
 #### Added
----
 * Retrieve the information about the connected user
 * Sign-in to Rainbow
