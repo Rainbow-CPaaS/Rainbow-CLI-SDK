@@ -65,6 +65,7 @@ class Preferences {
         this.prefs.user =  null;
         this.prefs.rainbow = null;
         this.prefs.proxy = null;
+        this.prefs.clear();
     }
 
     log() {

@@ -98,6 +98,46 @@ class Account {
 
                 that._account.logout();
             });
+
+        this._program.command('set developer')
+            .description("Add developer account")
+            .option('-v, --verbose', 'Use verbose console mode')
+            .on('--help', function(){
+                console.log('  Examples:');
+                console.log('');
+                console.log('    $ rbw set developer');
+                console.log('');
+            })
+            .action(function (commands) {
+
+                Logger.isActive = commands.verbose || false;
+
+                let options = {
+
+                };
+
+                that._account.setDeveloper();
+            });
+
+            this._program.command('preferences')
+            .description("List the preferences saved on this computer")
+            .option('-v, --verbose', 'Use verbose console mode')
+            .on('--help', function(){
+                console.log('  Examples:');
+                console.log('');
+                console.log('    $ rbw preferences');
+                console.log('');
+            })
+            .action(function (commands) {
+
+                Logger.isActive = commands.verbose || false;
+
+                let options = {
+
+                };
+
+                that._account.preferences(options);
+            });
         
         this._program.command('whoami')
             .description("Display information about the connected user")

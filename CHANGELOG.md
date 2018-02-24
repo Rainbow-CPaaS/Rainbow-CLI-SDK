@@ -5,6 +5,9 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+### [1.38.0] - 2018-19-03
+- CRRAINB-1986: Add command for adding developer role
+
 ### [1.37.0] - 2018-25-02
 - RQRAINB-760: Rework mass-provisionning for devices management
 - CRRAINB-1779: Can't log though a proxy

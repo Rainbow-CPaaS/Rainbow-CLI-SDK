@@ -736,67 +736,77 @@ class Message {
 
         let user = prefs.user;
         let host = prefs.host;
-        let adminType = "";
 
         if(!this._shouldDisplayOutput(options)) {
             return;
         }
 
-        Screen.print('You are logged in as'.grey + " " + user.loginEmail.yellow + " on platform ".grey + host.yellow);
-        Screen.print('Your roles'.grey + " " + user.roles.join(' + ').magenta);
-
-        if(user.roles.includes("user")) {
-            if(adminType.length === 0) {
-                adminType = "user";
-            }
+        let email = "???";
+        let roles = "???";
+        let level = "???";
+        let adminType = "";
+        if( user && user.loginEmail) {
+            email = user.loginEmail;
+        }
+        if(user && user.roles) {
+            roles = user.roles.join(' + ');
         }
 
-        if(user.roles.includes("app_admin")) {
-            if(adminType.length > 0) {
-                adminType = "app_admin > " + adminType;
+        Screen.print('You are logged in as'.grey + " " + email.yellow + " on platform ".grey + host.yellow);
+        Screen.print('Your roles'.grey + " " + roles.magenta);
+
+        if(user && user.roles) {
+            if(user.roles.includes("user")) {
+                if(adminType.length === 0) {
+                    adminType = "user";
+                }
             }
-            else {
-                adminType = "app_admin > user";
+    
+            if(user.roles.includes("app_admin")) {
+                if(adminType.length > 0) {
+                    adminType = "app_admin > " + adminType;
+                }
+                else {
+                    adminType = "app_admin > user";
+                }
+            }
+    
+            if(user.roles.includes("app_superadmin")) {
+                if(adminType.length > 0) {
+                    adminType = "app_superadmin > " + adminType;
+                }
+                else {
+                    adminType = "app_superadmin > app_admin > user";
+                }
+            }
+    
+            switch (user.adminType) {
+                case "company_admin":
+                    adminType = "company_admin" + " > " + adminType;
+                    break;
+                case "organization_admin":
+                    adminType = "organization_admin" + " > " + adminType;
+                    break;
+            }
+    
+            if(user.roles.includes("bp_admin")) {
+                if(adminType.length > 0) {
+                    adminType = "bp_admin > " + adminType;
+                }
+                else {
+                    adminType = "bp_admin > organization_admin (*) > company_admin > user";
+                }
+            }
+    
+            if(user.roles.includes("superadmin")) {
+                if(adminType.length > 0) {
+                    adminType = "superadmin > " + adminType;
+                }
+                else {
+                    adminType = "superadmin > organization_admin (*) > company_admin > user";
+                }
             }
         }
-
-        if(user.roles.includes("app_superadmin")) {
-            if(adminType.length > 0) {
-                adminType = "app_superadmin > " + adminType;
-            }
-            else {
-                adminType = "app_superadmin > app_admin > user";
-            }
-        }
-
-        switch (user.adminType) {
-            case "company_admin":
-                adminType = "company_admin" + " > " + adminType;
-                break;
-            case "organization_admin":
-                adminType = "organization_admin" + " > " + adminType;
-                break;
-        }
-
-        if(user.roles.includes("bp_admin")) {
-            if(adminType.length > 0) {
-                adminType = "bp_admin > " + adminType;
-            }
-            else {
-                adminType = "bp_admin > organization_admin (*) > company_admin > user";
-            }
-        }
-
-        if(user.roles.includes("superadmin")) {
-            if(adminType.length > 0) {
-                adminType = "superadmin > " + adminType;
-            }
-            else {
-                adminType = "superadmin > organization_admin (*) > company_admin > user";
-            }
-        }
-
-       
 
         Screen.print('Your level'.grey + " "  + adminType.cyan);
         
@@ -817,6 +827,14 @@ class Message {
         }
 
         Screen.success('Command successfully completed');
+    }
+
+    print(text, options) {
+        if(!this._shouldDisplayOutput(options)) {
+            return;
+        }
+
+        Screen.print(text.white);
     }
 
     printSuccess(text, value, options) {

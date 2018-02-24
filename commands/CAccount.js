@@ -22,6 +22,16 @@ class CAccount {
         });
     }
 
+    _setDeveloper(token, options) {
+        return new Promise(function(resolve, reject) {
+            NodeSDK.post('/api/rainbow/applications/v1.0/developers/register?withoutConfirmationEmail', token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
     getConnectedUserInformation(options) {
         var that = this;
 
@@ -102,7 +112,8 @@ class CAccount {
 
             Message.log("save credentials...");
 
-            that._prefs.save({
+            that._prefs.save(
+                {
                     email: email,
                     password: password
                 },
@@ -141,6 +152,102 @@ class CAccount {
         }
         else {
             Message.error({details: 'You are not signed-in'});
+            Exit.error();
+        }
+    }
+
+    preferences(options) {
+        var that = this;
+
+        Message.welcome(options);
+            
+        Message.loggedin(this._prefs, options);
+    
+        Message.action("List preferences", "", options);
+        
+        Message.log("execute action...");
+
+        Message.log("action done...");
+
+        let json = {
+            "email": that._prefs.email,
+            "password": that._prefs.password ? "******" : "",
+            "data": that._prefs.user,
+            "host": that._prefs.host,
+            "proxy": that._prefs.proxy,
+            "token": that._prefs.token ? that._prefs.token.substr(0, 20) + "..." : ""
+        };
+
+        if(options.noOutput) {
+            Message.out(json);
+        }
+        else {
+            Message.lineFeed();
+            Message.table2D(json);
+            Message.lineFeed();
+            Message.success(options);
+            Message.log("finished!");
+        }
+    }
+
+    setDeveloper(options) {
+        var that = this;
+
+        var doAddDeveloperRole = function(options) {
+            Message.action("Add developer role", options);
+
+            let spin = Message.spin(options);
+            NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host).then(function() {
+                Message.log("execute action...");
+                return that._setDeveloper(that._prefs.token, options);
+            }).then(function(json) {
+                Message.unspin(spin);
+
+                Message.log("save credentials...");
+
+                that._prefs.save({
+                        email: that._prefs.email,
+                        password: that._prefs.password
+                    },
+                    that._prefs.token,
+                    json.data,
+                    that._prefs.host,
+                    that._prefs.proxy
+                );
+                Message.log("action done...", json);
+                Message.lineFeed();
+                Message.success(options);
+                Message.log("finished!");
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+
+        Message.welcome(options);
+            
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            if(this._prefs.user.roles.includes("app_admin")) {
+                Message.warn("You already have the role", 'app_admin', options);
+            } else {
+                Message.print("You need to accept the developer agreement to continue.", options);
+
+                Message.confirm('I accept the developer aggreement?').then(function(confirm) {
+                    if(confirm) {
+                        doAddDeveloperRole(options);
+                    }
+                    else {
+                        Message.canceled(options);
+                        Exit.error();
+                    }
+                });
+            }
+        }
+        else {
+            Message.notLoggedIn(options);
             Exit.error();
         }
     }
@@ -187,9 +294,28 @@ class CAccount {
                         {
                             "level": "user", 
                             "theme": "General", 
+                            "command": "preferences", 
+                            "details": "List preferences stored"
+                        },
+                        {
+                            "level": "user", 
+                            "theme": " ", 
+                            "command": " ", 
+                            "details": " "
+                        },
+                        {
+                            "level": "user", 
+                            "theme": "Rainbow", 
                             "command": "status api", 
                             "details": "List Rainbow portals status"
-                        }
+                        },
+                        {
+                            "level": "user", 
+                            "theme": "Rainbow", 
+                            "command": "status platform", 
+                            "details": "List Rainbow platform status"
+                        },
+                        
                     ];
 
                     json.data = json.data.concat(data_user);
@@ -204,6 +330,18 @@ class CAccount {
                             "theme": "----------", 
                             "command": "----------", 
                             "details": "----------"
+                        },
+                        {
+                            "level": "app_admin", 
+                            "theme": "Developer", 
+                            "command": "set developer", 
+                            "details": "Add role developer to account"
+                        },
+                        {
+                            "level": "app_admin", 
+                            "theme": " ", 
+                            "command": " ", 
+                            "details": " "
                         },
                         {
                             "level": "app_admin", 
