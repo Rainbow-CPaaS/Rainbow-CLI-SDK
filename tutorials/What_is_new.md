@@ -4,7 +4,7 @@
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
 
-### Rainbow CLI 1.37 (Beta) - February 2018
+### Rainbow CLI 1.37 (Beta) - March 2018
 ---
 
 This release introduces commands for configuring **Push notifications** on your application for the Android platform (FCM) and IOS platform (APNS). 
