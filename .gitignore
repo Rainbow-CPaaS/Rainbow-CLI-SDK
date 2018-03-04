@@ -3,5 +3,6 @@
 # Example .gitignore files: https://github.com/github/gitignore
 artifacts/
 node_modules/
+tmp/
 npm-debug.log
 bot.js
