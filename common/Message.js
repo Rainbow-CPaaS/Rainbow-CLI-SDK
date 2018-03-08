@@ -182,6 +182,7 @@ class Message {
         Screen.table(array);
         Screen.print('');
         Screen.success(json.companies.total + ' companies found.');
+        Screen.print('');
     }
 
     tableOrganizations(json, options) {
@@ -209,6 +210,7 @@ class Message {
         Screen.table(array);
         Screen.print('');
         Screen.success(json.total + ' organizations found.');
+        Screen.print('');
     }
 
     tablePhones(json, options) {
@@ -246,6 +248,7 @@ class Message {
         Screen.table(array);
         Screen.print('');
         Screen.success(json.total + ' systems found.');
+        Screen.print('');
     }
 
     tableSystems(json, options) {
@@ -281,6 +284,7 @@ class Message {
         Screen.table(array);
         Screen.print('');
         Screen.success(json.total + ' systems found.');
+        Screen.print('');
     }
 
     tableAPI(json, options) {
@@ -303,6 +307,7 @@ class Message {
         Screen.table(array);
         Screen.print('');
         Screen.success('status successfully executed.');
+        Screen.print('');
     }
 
     tablePlatform(json, options) {
@@ -327,6 +332,7 @@ class Message {
         Screen.table(array);
         Screen.print('');
         Screen.success('status successfully executed.');
+        Screen.print('');
     }
 
     tableInvoiceCSV(json, options) {
@@ -334,6 +340,7 @@ class Message {
         Screen.print('');
         Screen.print(json);
         Screen.success('Invoice ' + options.path + 'retrieved');
+        Screen.print('');
     }
 
     tableInvoices(json, options) {
@@ -365,6 +372,7 @@ class Message {
         } else {
             Screen.success(invoices.length + ' invoices found');
         }
+        Screen.print('');
     }
 
     tableApplications(json, options) {
@@ -410,6 +418,7 @@ class Message {
         Screen.print('');
 
         Screen.success(json.total + ' applications found');
+        Screen.print('');
     }
 
     tableMetrics(json, options) {
@@ -455,14 +464,19 @@ class Message {
             total +=subTotal;
         });
 
-        array.push(["".gray, "".gray, "-----".gray, "-----".gray]);
-        array.push(["", "", "GRAND TOTAL".bgCyan, total.toString().bgCyan]);
+        if(number > 0) {
+            array.push(["".gray, "".gray, "-----".gray, "-----".gray]);
+        }
+        
+        array.push(["", start.bgCyan + ' to '.bgCyan + end.bgCyan, "GRAND TOTAL".bgCyan, total.toString().bgCyan]);
 
         Screen.print('');
         Screen.table(array);
         Screen.print('');
-        Screen.print('From '.gray + start.magenta + ' to '.gray + end.magenta + ", by ".gray + period.yellow);
+        Screen.print('Interval used'.gray +  ' ' + period.yellow + ' per '.gray + period.yellow);
+        Screen.print('');
         Screen.success(number + ' metrics found');
+        Screen.print('');
     }
 
     tableApns(json, options) {
@@ -496,6 +510,7 @@ class Message {
         Screen.print('');
 
         Screen.success(apnsList.length + ' push notification settings found');
+        Screen.print('');
     }
 
     tableUsers(json, options) {
@@ -555,6 +570,7 @@ class Message {
         } else {
             Screen.success(json.total + ' users found');
         }
+        Screen.print('');
     }
 
     tableSites(json, options) {
@@ -583,6 +599,7 @@ class Message {
         Screen.table(array);
         Screen.print('');
         Screen.success(json.total + ' sites found.');
+        Screen.print('');
     }
 
     tableOffers(json, options) {
@@ -616,6 +633,7 @@ class Message {
         Screen.table(array);
         Screen.print('');
         Screen.success(json.total + ' offers found.');
+        Screen.print('');
     }
 
     tableCatalogs(json, options, offers) {
@@ -671,6 +689,7 @@ class Message {
         Screen.table(array);
         Screen.print('');
         Screen.success(json.total + ' catalogs found.');
+        Screen.print('');
     }
 
     table2D(json) {
@@ -686,6 +705,7 @@ class Message {
         }
 
         Screen.table2D(array);
+        Screen.print('');
     }
 
     tableImports(json, options) {
@@ -713,6 +733,7 @@ class Message {
         Screen.table(array);
         Screen.print('');
         Screen.success(json.length + ' import(s) found.');
+        Screen.print('');
     }
 
     tableCommands(json, options) {
@@ -746,6 +767,7 @@ class Message {
         Screen.table(array);
         Screen.print('');
         Screen.success('Avallable commands for your level listed.');
+        Screen.print('');
     }
 
     loggedin(prefs, options) {
