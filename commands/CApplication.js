@@ -303,7 +303,7 @@ class CApplication {
             let spin = Message.spin(options);
             NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host).then(function() {
                 Message.log("execute action...");
-                return that._delete(that._prefs.token, options.appid);
+                return that._delete(that._prefs.token, options);
             }).then(function(json) {
                 Message.unspin(spin);
                 Message.log("action done...", json);

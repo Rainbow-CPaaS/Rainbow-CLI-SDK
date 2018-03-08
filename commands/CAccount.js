@@ -315,7 +315,18 @@ class CAccount {
                             "command": "status platform", 
                             "details": "List Rainbow platform status"
                         },
-                        
+                        {
+                            "level": "user", 
+                            "theme": " ", 
+                            "command": " ", 
+                            "details": " "
+                        },
+                        {
+                            "level": "user", 
+                            "theme": "Developer", 
+                            "command": "set developer", 
+                            "details": "Add role developer to account"
+                        }
                     ];
 
                     json.data = json.data.concat(data_user);
@@ -330,18 +341,6 @@ class CAccount {
                             "theme": "----------", 
                             "command": "----------", 
                             "details": "----------"
-                        },
-                        {
-                            "level": "app_admin", 
-                            "theme": "Developer", 
-                            "command": "set developer", 
-                            "details": "Add role developer to account"
-                        },
-                        {
-                            "level": "app_admin", 
-                            "theme": " ", 
-                            "command": " ", 
-                            "details": " "
                         },
                         {
                             "level": "app_admin", 

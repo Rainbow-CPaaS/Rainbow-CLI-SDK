@@ -419,7 +419,7 @@ class Message {
         array.push([ "-".gray, "------".gray, "-----".gray, "-----".gray]);  
 
         let metrics = json.data;
-        let total = json.total || "No";
+        let total = json.total || 0;
         let period = json.aggregationPeriod || "hour";
         let start = json.start.format("ll") || "";
         let end = json.end.format("ll") || "";
@@ -430,15 +430,15 @@ class Message {
 
             let groups = metric.groupCounters;
             let startDate = metric.aggregationStartDate;
+
+            let subTotal = 0;
+            let firstLine = true;
             
             if(period !== "hour") {
                 startDate = moment(startDate).format('ll');
             } else {
                 startDate = moment(startDate).format('lll');
             }
-
-            let subTotal = 0;
-            let firstLine = true;
 
             groups.forEach( (group) => {
                 if(firstLine) {
@@ -452,15 +452,17 @@ class Message {
             });
             array.push(["", "", "TOTAL".bgYellow, subTotal.toString().bgYellow]);
             number++;
+            total +=subTotal;
         });
 
+        array.push(["".gray, "".gray, "-----".gray, "-----".gray]);
+        array.push(["", "", "GRAND TOTAL".bgCyan, total.toString().bgCyan]);
+
+        Screen.print('');
         Screen.table(array);
         Screen.print('');
-
-        Screen.print('From ' + start.magenta + ' To ' + end.magenta);
-        Screen.print('By ' + period.yellow);
-
-        Screen.success(total + ' metrics found');
+        Screen.print('From '.gray + start.magenta + ' to '.gray + end.magenta + ", by ".gray + period.yellow);
+        Screen.success(number + ' metrics found');
     }
 
     tableApns(json, options) {

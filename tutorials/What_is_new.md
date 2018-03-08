@@ -23,6 +23,8 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 **Others changes**
 
+- Fix issue that prevents deleting an application.
+
 
 ### Rainbow CLI 1.37 (Beta) - March 2018
 ---

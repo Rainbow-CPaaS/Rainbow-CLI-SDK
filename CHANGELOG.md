@@ -8,6 +8,7 @@ All notable changes to Rainbow-CLI will be documented in this file.
 ### [1.38.0] - 2018-19-03
 - CRRAINB-1986: Add command for adding developer role
 - CRRAINB-2095: Add options for retrieving application metrics by month and by year
+- CRRAINB-2106: Can't delete an application
 
 ### [1.37.0] - 2018-25-02
 - RQRAINB-760: Rework mass-provisionning for devices management
