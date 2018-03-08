@@ -107,13 +107,17 @@ class Application {
         this._program.command('metrics application', '<appid>')
         .description("Retrieve API usage metrics of an application for the current day per hour")
         .option('-j, --json', 'Write the JSON result to standard stdout')
-        .option('-d, --day <date>', 'Get metrics for a specific day. Format is YYYMMDD')
+        .option('-d, --day <date>', 'Get metrics for a specific day, hour by hour. Format is YYYMMDD')
+        .option('m, --month <month>', 'Get metrics for a specific month, day by day. Format is YYYYMM')
+        .option('y, --year <year', 'Get metrics for a specific year, month by month. Format is YYYY')
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log('    $ rbw application metrics 593065822799299343b8501d');
             console.log('    $ rbw application metrics 593065822799299343b8501d -d 20180218');
+            console.log('    $ rbw application metrics 593065822799299343b8501d -m 201802');
+            console.log('    $ rbw application metrics 593065822799299343b8501d -y 2018');
             console.log('    $ rbw application metrics 593065822799299343b8501d --json');
             console.log('');
             console.log('  Details:');
@@ -123,11 +127,13 @@ class Application {
         })
         .action(function (appid, commands) {
 
-            var options= {
+            let options= {
                 noOutput: commands.json || false,
                 appid: appid,
-                day: commands.day
-            }
+                day: commands.day,
+                month: commands.month,
+                year: commands.year
+            };
 
             Logger.isActive = commands.verbose || false;
 

@@ -17,22 +17,37 @@ class CApplication {
     _getMetrics(token, options) {
         return new Promise(function(resolve, reject) {
 
-            let day = options.day;
+            let day = options.day,
+                month = options.month,
+                year = options.year;
 
             let param = "?";
 
+            let period = "hour";
             let fromDate = moment().startOf('day');
             let toDate = moment().endOf('day');
 
             if(day) {
                 fromDate = moment(day, 'YYYYMMDD').startOf('day');
                 toDate = moment(day, 'YYYYMMDD').endOf('day');
+            } else if(month) {
+                fromDate = moment(month, 'YYYYMM').startOf('month');
+                toDate = moment(month, 'YYYYMM').endOf('month');
+                period = "day";
+            } else if(year) {
+                fromDate = moment(year, 'YYYY').startOf('year');
+                toDate = moment(year, 'YYYY').endOf('year');
+                period = "month";
             }
 
             param += "fromDate=" + fromDate.toISOString();
             param += "&toDate=" + toDate.toISOString();
+
+            param += "&period=" + period;
             
             NodeSDK.get('/api/rainbow/metrics/v1.0/cpaasmetrics/' + options.appid + param, token).then(function(json) {
+                json.start = fromDate;
+                json.end = toDate;
                 resolve(json);
             }).catch(function(err) {
                 reject(err);

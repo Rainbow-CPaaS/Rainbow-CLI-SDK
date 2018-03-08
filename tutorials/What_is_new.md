@@ -19,6 +19,8 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 - New command `rbw set developer` has been added to update your account as a developer.
 
+- New options `--month` and `--year` have been added to command `rbw metrics application` to retrieve API usage over a month (day by day) and over a year (month by month). 
+
 **Others changes**
 
 

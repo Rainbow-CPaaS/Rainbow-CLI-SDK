@@ -419,13 +419,24 @@ class Message {
         array.push([ "-".gray, "------".gray, "-----".gray, "-----".gray]);  
 
         let metrics = json.data;
+        let total = json.total || "No";
+        let period = json.aggregationPeriod || "hour";
+        let start = json.start.format("ll") || "";
+        let end = json.end.format("ll") || "";
 
         let number = 0;
 
         metrics.forEach((metric) => {
 
             let groups = metric.groupCounters;
-            let startDate = moment(metric.aggregationStartDate).format('lll');
+            let startDate = metric.aggregationStartDate;
+            
+            if(period !== "hour") {
+                startDate = moment(startDate).format('ll');
+            } else {
+                startDate = moment(startDate).format('lll');
+            }
+
             let subTotal = 0;
             let firstLine = true;
 
@@ -446,7 +457,10 @@ class Message {
         Screen.table(array);
         Screen.print('');
 
-        Screen.success(json.total + ' metrics found');
+        Screen.print('From ' + start.magenta + ' To ' + end.magenta);
+        Screen.print('By ' + period.yellow);
+
+        Screen.success(total + ' metrics found');
     }
 
     tableApns(json, options) {
