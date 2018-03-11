@@ -195,6 +195,50 @@ class CApplication {
         });
     }
 
+    _block(token, options) {
+
+        return new Promise(function(resolve, reject) {
+            NodeSDK.put('/api/rainbow/applications/v1.0/applications/' + options.appid + '/block', token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
+    _unblock(token, options) {
+
+        return new Promise(function(resolve, reject) {
+            NodeSDK.put('/api/rainbow/applications/v1.0/applications/' + options.appid + '/unblock', token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
+    _deploy(token, options) {
+
+        return new Promise(function(resolve, reject) {
+            NodeSDK.put('/api/rainbow/applications/v1.0/applications/' + options.appid + '/deploy', token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
+    _dismiss(token, options) {
+
+        return new Promise(function(resolve, reject) {
+            NodeSDK.put('/api/rainbow/applications/v1.0/applications/' + options.appid + '/decline', token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
     _deletePush(token, options) {
 
         return new Promise(function(resolve, reject) {
@@ -337,6 +381,166 @@ class CApplication {
                     }
                 });
             }
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    blockApplication(options) {
+        var that = this;
+
+        Message.welcome(options);
+            
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+        
+            Message.action("Block an application", options.appid, options);
+            let spin = Message.spin(options);
+
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+                Message.log("execute action...");
+                return that._block(that._prefs.token, options);
+            }).then(function(json) {
+                Message.unspin(spin);
+
+                Message.log("action done...", json);
+
+                if(options.noOutput) {
+                    Message.out(json.data);
+                }
+                else {
+                    Message.lineFeed();
+                    Message.printSuccess('Application blocked', json.data.id, options);    
+                    Message.success(options);
+                }
+                Message.log("finished!");
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    unblockApplication(options) {
+        var that = this;
+
+        Message.welcome(options);
+            
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+        
+            Message.action("Unblock an application", options.appid, options);
+            let spin = Message.spin(options);
+
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+                Message.log("execute action...");
+                return that._unblock(that._prefs.token, options);
+            }).then(function(json) {
+                Message.unspin(spin);
+
+                Message.log("action done...", json);
+
+                if(options.noOutput) {
+                    Message.out(json.data);
+                }
+                else {
+                    Message.lineFeed();
+                    Message.printSuccess('Application unblocked', json.data.id, options);    
+                    Message.success(options);
+                }
+                Message.log("finished!");
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    deployApplication(options) {
+        var that = this;
+
+        Message.welcome(options);
+            
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+        
+            Message.action("Deploy an application", options.appid, options);
+            let spin = Message.spin(options);
+
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+                Message.log("execute action...");
+                return that._deploy(that._prefs.token, options);
+            }).then(function(json) {
+                Message.unspin(spin);
+
+                Message.log("action done...", json);
+
+                if(options.noOutput) {
+                    Message.out(json.data);
+                }
+                else {
+                    Message.lineFeed();
+                    Message.printSuccess('Application deployed', json.data.id, options);    
+                    Message.success(options);
+                }
+                Message.log("finished!");
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    dismissApplication(options) {
+        var that = this;
+
+        Message.welcome(options);
+            
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+        
+            Message.action("Decline a request of deployment of application", options.appid, options);
+            let spin = Message.spin(options);
+
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+                Message.log("execute action...");
+                return that._dismiss(that._prefs.token, options);
+            }).then(function(json) {
+                Message.unspin(spin);
+
+                Message.log("action done...", json);
+
+                if(options.noOutput) {
+                    Message.out(json.data);
+                }
+                else {
+                    Message.lineFeed();
+                    Message.printSuccess('Application deployment declined', json.data.id, options);    
+                    Message.success(options);
+                }
+                Message.log("finished!");
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
         }
         else {
             Message.notLoggedIn(options);

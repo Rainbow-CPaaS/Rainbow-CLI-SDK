@@ -82,7 +82,7 @@ class Application {
         });
 
         this._program.command('delete application', '<appid>')
-        .description("Delete an existingapplication")
+        .description("Delete an existing application")
         .option('--nc', 'Do not ask confirmation')
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
@@ -96,12 +96,101 @@ class Application {
 
             var options= {
                 appid: appid,
+                noconfirmation: commands.nc || false,
                 noOutput: commands.json || false,
             }
 
             Logger.isActive = commands.verbose || false;
 
             that._application.deleteApplication(options);
+        });
+
+        this._program.command('block application', '<appid>')
+        .description("Block an existing application")
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw block application 593065822799299343b8501d");
+            console.log("    $ rbw block application 593065822799299343b8501d --json");
+            console.log('');
+        })
+        .action(function (appid, commands) {
+
+            var options= {
+                appid: appid,
+                noOutput: commands.json || false,
+            }
+
+            Logger.isActive = commands.verbose || false;
+
+            that._application.blockApplication(options);
+        });
+
+        this._program.command('unblock application', '<appid>')
+        .description("Unblock an existing application")
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw unblock application 593065822799299343b8501d");
+            console.log("    $ rbw unblock application 593065822799299343b8501d --json");
+            console.log('');
+        })
+        .action(function (appid, commands) {
+
+            var options= {
+                appid: appid,
+                noOutput: commands.json || false,
+            }
+
+            Logger.isActive = commands.verbose || false;
+
+            that._application.unblockApplication(options);
+        });
+
+        this._program.command('deploy application', '<appid>')
+        .description("Accept a request of deployment of an application")
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw deploy application 593065822799299343b8501d");
+            console.log("    $ rbw deploy application 593065822799299343b8501d --json");
+            console.log('');
+        })
+        .action(function (appid, commands) {
+
+            var options= {
+                appid: appid,
+                noOutput: commands.json || false,
+            }
+
+            Logger.isActive = commands.verbose || false;
+
+            that._application.deployApplication(options);
+        });
+
+        this._program.command('dismiss application', '<appid>')
+        .description("Decline a request of deployment of an application")
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw dismiss application 593065822799299343b8501d");
+            console.log("    $ rbw dismiss application 593065822799299343b8501d --json");
+            console.log('');
+        })
+        .action(function (appid, commands) {
+
+            var options= {
+                appid: appid,
+                noOutput: commands.json || false,
+            }
+
+            Logger.isActive = commands.verbose || false;
+
+            that._application.dismissApplication(options);
         });
 
         this._program.command('metrics application', '<appid>')
