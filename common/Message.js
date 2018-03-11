@@ -442,11 +442,20 @@ class Message {
 
             let subTotal = 0;
             let firstLine = true;
-            
-            if(period !== "hour") {
-                startDate = moment(startDate).format('ll');
-            } else {
+
+            switch (period) {
+                case "hour":
                 startDate = moment(startDate).format('lll');
+                break;
+                case "day":
+                startDate = moment(startDate).format('ll');
+                break;
+                case "month":
+                startDate = moment(startDate).format('MMM YYYY');
+                break;
+                default:
+                startDate = moment(startDate).format('lll');
+                break;
             }
 
             groups.forEach( (group) => {
