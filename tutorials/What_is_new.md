@@ -21,6 +21,10 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 - New options `--month` and `--year` have been added to command `rbw metrics application` to retrieve API usage over a month (day by day) and over a year (month by month). 
 
+- New internal commands `rbw block application` and `rbw unblock application` have been added for user with `app_superadmin` role to block or unblock an existing application.
+
+- New internal commands `rbw deploy application` and `rbw dismiss application` have been added for user with `app_superadmin` role to accept or decline a request of deployment.
+
 **Others changes**
 
 - Fix issue that prevents deleting an application.

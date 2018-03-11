@@ -434,6 +434,44 @@ class CAccount {
                     json.data = json.data.concat(data_dev);
                 }
 
+                if (that._prefs.user.roles.includes("app_superadmin")) {
+                    var data_dev = [
+
+                        {
+                            "level": "----------", 
+                            "theme": "----------", 
+                            "command": "----------", 
+                            "details": "----------"
+                        },
+                        {
+                            "level": "app_superadmin", 
+                            "theme": "Applications", 
+                            "command": "block application <appid>", 
+                            "details": "Block an existing application"
+                        },
+                        {
+                            "level": "app_superadmin", 
+                            "theme": "Applications", 
+                            "command": "unblock application <appid>", 
+                            "details": "Unblock an existing application"
+                        },
+                        {
+                            "level": "app_superadmin", 
+                            "theme": "Applications", 
+                            "command": "deploy application <appid>", 
+                            "details": "Accept a request of deployment"
+                        },
+                        {
+                            "level": "app_superadmin", 
+                            "theme": "Applications", 
+                            "command": "dismiss application <appid>", 
+                            "details": "Decline a request of deployment"
+                        }
+                    ];
+
+                    json.data = json.data.concat(data_dev);
+                }
+
                 if (that._prefs.user.roles.includes("admin") || that._prefs.user.roles.includes("bp_admin") ||  that._prefs.user.roles.includes("superadmin")) {
                     var data_company = [
                         {
