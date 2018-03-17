@@ -721,7 +721,7 @@ class Message {
 
         var array = [];
 
-        array.push([ "#".gray, "Request".gray, "Status".gray, "Success".gray, "Warning".gray, "Failed".gray, "Company".gray, "From".gray, "Date".gray]);
+        array.push([ "#".gray, "ReqId".gray, "Status".gray, "Success".gray, "Warning".gray, "Failed".gray, "Company".gray, "From".gray, "Date".gray]);
         array.push([ "-".gray, "-------".gray, "------".gray, "-------".gray, "-------".gray, "------".gray, "-------".gray, "----".gray, "----".gray]);  
 
         for (var i = 0; i < json.length; i++) {
