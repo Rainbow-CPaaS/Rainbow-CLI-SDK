@@ -11,6 +11,7 @@ All notable changes to Rainbow-CLI will be documented in this file.
 - CRRAINB-2106: Can't delete an application
 - CRRAINB-2114: Block and unblock an application (app_superadmin)
 - CRRAINB-2115: Deploy and dismiss an application (app_superadmin)
+- CRRAINB-2206: Add mass-provisioning guide
 
 ### [1.37.0] - 2018-25-02
 - RQRAINB-760: Rework mass-provisionning for devices management

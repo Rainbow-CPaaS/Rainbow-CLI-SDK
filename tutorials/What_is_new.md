@@ -6,7 +6,6 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 ### Rainbow CLI 1.38 (Beta) - March 2018
 ---
 
-
 **3-Release Breaking Changes**
 
 - None.
@@ -26,6 +25,8 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 - New internal commands `rbw deploy application` and `rbw dismiss application` have been added for user with `app_superadmin` role to accept or decline a request of deployment.
 
 **Others changes**
+
+- A new guide `Mass-provisioning` has been added to explains the commands to use to import users or associate devices and users.
 
 - Fix issue that prevents deleting an application.
 
