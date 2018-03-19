@@ -1,6 +1,6 @@
 ---
 - RAINBOW CLI:
-  - Getting started: 'doc/sdk/cli/Getting_started.md'
-  - What's new ?: 'doc/sdk/cli/What_is_new.md'
-  - Mass-provisioning: 'doc/sdk/cli/Mass_provisioning.md'
-  - Managing Developer's accounts: 'doc/sdk/cli/Managing_developers_accounts.md'
+  - Getting started: 'doc/sdk/cli/tutorials/Getting_started.md'
+  - What's new ?: 'doc/sdk/cli/tutorials/What_is_new.md'
+  - Mass-provisioning: 'doc/sdk/cli/tutorials/Mass_provisioning.md'
+  - Managing Developer's accounts: 'doc/sdk/cli/tutorials/Managing_developers_accounts.md'
