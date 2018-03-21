@@ -20,6 +20,14 @@ class Helper {
         ];
     }
 
+    get Rainbow_platform() {
+        return [
+            {name: 'Rainbow Developers Sandbox platform', value:'sandbox'},
+            {name: 'Rainbow Production platform', value:'official'},
+            {name: 'Private Rainbow platform...', value:'others'}
+        ];
+    }
+
     get country_list() {
         return [
             { "name": "Australia", "value": "AUS", "country-code": "036" },
@@ -203,6 +211,33 @@ class Helper {
             { "name": "Zambia", "value": "ZMB", "country-code": "894" }, 
             { "name": "Zimbabwe", "value": "ZWE", "country-code": "716" }
         ];
+    }
+
+    getProxyFromString(proxy) {
+        let proxyJSON = null;
+        let protocol = "", url = "", port= null;
+
+        let parts = proxy.split('/');
+        protocol = (parts && parts.length > 0) ? parts[0] : "";
+        let partsUrl = (parts && parts.length>=2) ? parts[2].split(':') : null;
+        if(partsUrl) {
+            url = (partsUrl && partsUrl.length > 0) ? partsUrl[0] : "";
+            let portStr = (partsUrl && partsUrl.length >=2) ? partsUrl[1] : ""; 
+            try {
+                port = Number(portStr);
+            }
+            catch(err) {
+            }
+        }
+        if(protocol && url && port) {
+            proxyJSON = {
+                protocol: protocol,
+                host: url,
+                port: port
+            }
+        }
+
+        return proxyJSON;
     }
 
 }
