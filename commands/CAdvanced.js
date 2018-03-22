@@ -109,7 +109,7 @@ class CAdvanced {
             
             let spin = Message.spin(options);
 
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._find(that._prefs.token, id);
             }).then(function(json) {
@@ -182,7 +182,7 @@ class CAdvanced {
 
                 let spin = Message.spin(options);
 
-                NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+                NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                     Message.log("execute action...");
                     return that._newco(that._prefs.token, companyName, loginEmail, loginPassword, userFirstname, userLastname, hasAdminRight);
                 }).then(function(json) {

@@ -44,7 +44,7 @@ class CAccount {
             
             let spin = Message.spin(options);
 
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._getUserInfo(that._prefs.user.id, that._prefs.token);
             }).then(function(json) {
@@ -95,12 +95,15 @@ class CAccount {
             options.host = this._prefs.host || "sandbox";
         }
 
+        options.appid = this._prefs.appid || "";
+        options.appsecret = this._prefs.appsecret || "";
+
         Message.log("signin with", options.email);
         Message.log("signin on", options.host);
 
         let spin = Message.spin(options);
 
-        NodeSDK.start(options.email, options.password, options.host, options.proxy).then(function() {
+        NodeSDK.start(options.email, options.password, options.host, options.proxy, options.appid, options.appsecret).then(function() {
             Message.log("execute action...");
             return NodeSDK.signin();
         }).then(function(json) {

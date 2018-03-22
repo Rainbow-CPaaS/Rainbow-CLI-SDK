@@ -262,7 +262,7 @@ class CApplication {
                 Message.action("Get information for application" , options.appid, options);
                 
                 let spin = Message.spin(options);
-                NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+                NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                     Message.log("execute action...");
                     return that._getApplication(that._prefs.token, options);
                 }).then(function(json) {
@@ -309,7 +309,7 @@ class CApplication {
             Message.action("Create new application", options.name, options);
             let spin = Message.spin(options);
 
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._createApplication(that._prefs.token, options);
             }).then(function(json) {
@@ -399,7 +399,7 @@ class CApplication {
             Message.action("Block an application", options.appid, options);
             let spin = Message.spin(options);
 
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._block(that._prefs.token, options);
             }).then(function(json) {
@@ -439,7 +439,7 @@ class CApplication {
             Message.action("Unblock an application", options.appid, options);
             let spin = Message.spin(options);
 
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._unblock(that._prefs.token, options);
             }).then(function(json) {
@@ -479,7 +479,7 @@ class CApplication {
             Message.action("Deploy an application", options.appid, options);
             let spin = Message.spin(options);
 
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._deploy(that._prefs.token, options);
             }).then(function(json) {
@@ -519,7 +519,7 @@ class CApplication {
             Message.action("Decline a request of deployment of application", options.appid, options);
             let spin = Message.spin(options);
 
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._dismiss(that._prefs.token, options);
             }).then(function(json) {
@@ -561,7 +561,7 @@ class CApplication {
             }
             
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._getApplications(that._prefs.token, options, that._prefs);
             }).then(function(json) {
@@ -613,7 +613,7 @@ class CApplication {
             }
             
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._getMetrics(that._prefs.token, options);
             }).then(function(json) {
@@ -665,7 +665,7 @@ class CApplication {
             }
             
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._getApns(that._prefs.token, options);
             }).then(function(json) {
@@ -705,7 +705,7 @@ class CApplication {
             Message.action("Create Android FCM authorization key for application", options.appid, options);
             let spin = Message.spin(options);
 
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._createFCM(that._prefs.token, options);
             }).then(function(json) {
@@ -745,7 +745,7 @@ class CApplication {
             Message.action("Create IOS APNS for application", options.appid, options);
             let spin = Message.spin(options);
 
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._createAPNS(that._prefs.token, options);
             }).then(function(json) {
@@ -786,7 +786,7 @@ class CApplication {
                 Message.action("Get information for push notification" , options.appid, options);
                 
                 let spin = Message.spin(options);
-                NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+                NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                     Message.log("execute action...");
                     return that._getPush(that._prefs.token, options);
                 }).then(function(json) {
