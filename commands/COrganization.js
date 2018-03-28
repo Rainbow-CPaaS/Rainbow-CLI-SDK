@@ -146,7 +146,7 @@ class COrganization {
             }
             
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._getListOfOrganizations(that._prefs.token, options);
             }).then(function(json) {
@@ -194,7 +194,7 @@ class COrganization {
             Message.action("Get informaton for organization", id, options);
             
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._getOrganization(that._prefs.token, id);
             }).then(function(json) {
@@ -235,7 +235,7 @@ class COrganization {
             Message.action("Create new organization", name, options);
             
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._createOrganization(that._prefs.token, name, options);
             }).then(function(json) {

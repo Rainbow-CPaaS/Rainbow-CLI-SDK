@@ -775,7 +775,7 @@ class Message {
 
         Screen.table(array);
         Screen.print('');
-        Screen.success('Avallable commands for your level listed.');
+        Screen.success('Avallable commands listed successfully.');
         Screen.print('');
     }
 
@@ -788,9 +788,8 @@ class Message {
             return;
         }
 
-        let email = "???";
-        let roles = "???";
-        let level = "???";
+        let email = null;
+        let roles = null;
         let adminType = "";
         if( user && user.loginEmail) {
             email = user.loginEmail;
@@ -798,9 +797,6 @@ class Message {
         if(user && user.roles) {
             roles = user.roles.join(' + ');
         }
-
-        Screen.print('You are logged in as'.grey + " " + email.yellow + " on platform ".grey + host.yellow);
-        Screen.print('Your roles'.grey + " " + roles.magenta);
 
         if(user && user.roles) {
             if(user.roles.includes("user")) {
@@ -855,7 +851,14 @@ class Message {
             }
         }
 
-        Screen.print('Your level'.grey + " "  + adminType.cyan);
+        if(email && roles && adminType) {
+            Screen.print('You are logged in as'.grey + " " + email.yellow + " on platform ".grey + host.yellow);
+            Screen.print('Your roles'.grey + " " + roles.magenta);
+            Screen.print('Your level'.grey + " "  + adminType.cyan);
+        }
+        else {
+            Screen.print('You are '.grey + 'not logged in'.yellow + ' to Rainbow'.grey);
+        }
         
         Screen.print('');
     }
@@ -1015,7 +1018,7 @@ class Message {
         });
     }
 
-    ask(message, name) {
+    ask(message, defaultValue) {
         return new Promise(function(resolve) {
 
             var question = {
@@ -1023,6 +1026,10 @@ class Message {
                 message: message,
                 name: 'query'
             };
+
+            if(defaultValue !== undefined) {
+                question.default = defaultValue;
+            }
 
             inquirer.prompt([question]).then(function (answer) {
                 resolve(answer.query);

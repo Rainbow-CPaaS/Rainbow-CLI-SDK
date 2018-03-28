@@ -197,8 +197,8 @@ class Application {
         .description("Retrieve API usage metrics of an application for the current day per hour")
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-d, --day <date>', 'Get metrics for a specific day, hour by hour. Format is YYYMMDD')
-        .option('m, --month <month>', 'Get metrics for a specific month, day by day. Format is YYYYMM')
-        .option('y, --year <year', 'Get metrics for a specific year, month by month. Format is YYYY')
+        .option('-m, --month <month>', 'Get metrics for a specific month, day by day. Format is YYYYMM')
+        .option('-y, --year <year', 'Get metrics for a specific year, month by month. Format is YYYY')
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');

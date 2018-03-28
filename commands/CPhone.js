@@ -60,7 +60,7 @@ class CPhone {
             }
             
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._getListOfPhones(that._prefs.token, systemid, options);
             }).then(function(json) {
@@ -109,7 +109,7 @@ class CPhone {
             Message.action("Get informaton for phone", id, actions);
             
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._getPhone(that._prefs.token, id, systemid);
             }).then(function(json) {

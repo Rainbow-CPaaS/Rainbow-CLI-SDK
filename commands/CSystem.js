@@ -181,7 +181,7 @@ class CSystem {
             }
             
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._getListOfSystems(that._prefs.token, options);
             }).then(function(json) {
@@ -231,7 +231,7 @@ class CSystem {
             Message.action("Get informaton for system", id, options);
 
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._getSystem(that._prefs.token, id);
             }).then(function(json) {
@@ -316,7 +316,7 @@ class CSystem {
             Message.action("Link system", systemid);
 
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._linkSystem(that._prefs.token, systemid, siteid, options);
             }).then(function(json) {
@@ -347,7 +347,7 @@ class CSystem {
             Message.action("Unlink system", systemid);
 
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._unlinkSystem(that._prefs.token, systemid, siteid, options);
             }).then(function(json) {

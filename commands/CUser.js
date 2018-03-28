@@ -166,7 +166,7 @@ class CUser {
             }
             
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._getUsers(that._prefs.token, options, that._prefs);
             }).then(function(json) {
@@ -215,7 +215,7 @@ class CUser {
             Message.action("Create new user", email, options);
 
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._createSimple(that._prefs.token, email, password, firstname, lastname, options);
             }).then(function(json) {
@@ -254,7 +254,7 @@ class CUser {
             Message.action("Change password of user", id, options);
 
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._changedata(that._prefs.token, id, {
                     password: password
@@ -295,7 +295,7 @@ class CUser {
             Message.action("Change login of user", id, options);
 
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._changedata(that._prefs.token, id, {
                     loginEmail: login,
@@ -388,7 +388,7 @@ class CUser {
                 Message.action("Get information for user" , id, options);
                 
                 let spin = Message.spin(options);
-                NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+                NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                     Message.log("execute action...");
                     return that._getUser(that._prefs.token, id);
                 }).then(function(json) {
@@ -439,7 +439,7 @@ class CUser {
             }
 
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._changedata(that._prefs.token, options.id, {
                     isActive: !options.toBlock

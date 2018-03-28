@@ -42,7 +42,7 @@ class SDK {
         this.nodeSDK = null;
     }
 
-    start(login, password, platform, proxy) {
+    start(login, password, platform, proxy, appid, appsecret) {
 
         var that = this;
     
@@ -54,7 +54,25 @@ class SDK {
             config.credentials.password = password;
             config.rainbow.host = platform;
 
-            if(proxy) {
+            if (config.rainbow.host === "openrainbow.com") {
+                config.application.appID = appid;
+                config.application.appSecret = appsecret;
+            } else {
+
+                config.application.appID = "b34c674000f011e886d9b5bbd3260792";
+
+                if (config.rainbow.host === "sandbox.openrainbow.com") {
+                    config.application.appSecret = "MAjWllXH84YVhn0yp3ZuGmuPleXlYQhIeNghRgdo8NAVKEcIDc7M61Wes6Dp0cLy";
+                } else if(config.rainbow.host === "openrainbow.net") {
+                    config.application.appSecret = "QPxaSRzGDcQ5ZIHQtWOpGrDU2j7GEgBpBii6l6N64RyF6QRxaFIJMhAHM4sIhWx7";
+                } else if(config.rainbow.host === "openrainbow.org") {
+                    config.application.appSecret = "ftF0ZEpriOhNjwBMej3x8g0f0bhjGOGcnOBgHrQIfWrXE984yWnBmAa6qGRhUcaZ";
+                } else { 
+                    config.application.appSecret = "Tz8biItumw6Ay6DaThff7Cy9T6rLKIMr2qIk0WcixWkJYxZdZfXBa2kqkIcvlemI";
+                }
+            }
+
+            if (proxy) {
                 config.proxy = proxy;
             }
 

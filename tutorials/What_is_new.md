@@ -3,6 +3,35 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
+
+### Rainbow CLI 1.39 (Beta) - Avril 2018
+---
+
+**3-Release Breaking Changes**
+
+- None.
+
+**Breaking Changes**
+
+- None.
+
+**Changes**
+
+- New command `rbw configure` has been added to configure you Rainbow CLI application in an easy way.
+
+- New command `rbw set email`, `rbw set password`, `rbw set host`, `rbw set proxy`, `rbw set keys`, `rbw remove proxy` and `rbw remove keys` have been added to change quickly any configuration parameter.
+
+- New command  `rbw remove preferences` has been added to remove all preference stored locally.
+
+- Command `rbw login` can now be used without specifiying a login email account, a password, a proxy and a host. All these information are taken into account from the preferences.
+
+- Command `rbw logout` now only logout from Rainbow without removing your preferences.
+
+**Others changes**
+
+- None.
+
+
 ### Rainbow CLI 1.38 (Beta) - March 2018
 ---
 
