@@ -84,7 +84,10 @@ Each command returns an exit status code:
 
 Depending the role and profile associated to your Rainbow account, you can have access to more or less commands.
 
-To know the list of commands available to your role and profile, use the following command:
+
+## Commands
+
+To know the list of commands available, use the following command:
 
 
 ```bash
@@ -93,6 +96,40 @@ $ rbw commands
 
 ```
 
+
+## Help on commands
+
+To get help on a command and display the list of available options, use the following syntax:
+
+
+```bash
+
+$ rbw <command> --help
+
+```
+
+## Configure the Rainbow CLI and connect to Rainbow
+
+For general use, the Rainbow CLI `configure` command is the fastest way to set up your connection information.
+
+
+```bash
+
+$ rbw configure
+
+```
+
+The Rainbow CLI will prompt you for information such as the host to connect,  the login information, the proxy parameter and your application ID and secret for connecting to the Rainbow production platform.
+
+Note: At this time of writing, application ID and secret are not mandatory to connect to the Rainbow production platform. 
+
+Once configured, use the command `login` to connect to Rainbow.
+
+```bash
+
+$ rbw login
+
+```
 
 ## Outputs
 
@@ -155,82 +192,6 @@ In case of issue, you can have more information on what happens by adding the op
 rbw user 58e36805d45e61221b571363 --verbose
 
 ```
-
-
-## Commands
-
-Here is the complete list of commands:
-
-| Category | Commands | Details |
-|:---------|:---------|:--------|
-| Account | **login** <username> <password> | Log-in to Rainbow |
-| | **logout** | Log-out from Rainbow | 
-| | **whoami** | Display information about the user connected |
-| | **commands** | Display the list of commands available to your account |
-| User | **user** <id> | Display information about a user |
-| | **create user** <username> | Create a new user |
-| | **delete user** <id> | Delete a user |
-| | **changepwd user** <id> | Change password of a user |
-| | **changelogin user** <id> | Change login of a user |
-| | **block user** <id> | Block a user from connecting |
-| | **unblock user** <id> | Allow a user to connect |
-| Company | **company** <id> | Display information about a company |
-| | **free company** <id> | Remove all users from a company |
-| | **create company** <name> | Create a new company |
-| | **delete company** <id> | Delete an existing company |
-| | **link company** <id> <orgid> | Link a company to an organization |
-| | **status company** <id> | Get a status of the company |
-| | **unlink company** <id> | Unlink a company from its organization |
-| Site | **site** <id> | Display information about a site |
-| | **create site** <name> <id> | Create a new site |
-| | **delete site** <id> | Delete an existing site |
-| System | **system** <id> | Display information about a system |
-| | **create system** <name> <id> | Create a new system |
-| | **delete system** <id> | Delete an existing system |
-| | **link system** <id> <siteid> | Link a system to a site |
-| | **unlink system** <id> <siteid> | Unlink a system from a site |
-| Phone | **phone** <id> <systemid> | Display information about a phone |
-| Organization | **org** <id> | Display information about an organization |
-| | **create org** <name> | Create a new organization |
-| | **delete org** <id> | Delete an existing organization |
-| Application | **application <id>** | Display information about an application |
-| | **create application <name>** | Create a new application |
-| | **delete application <id>** | Delete an application |
-| Invoice | **download invoice** | Download a invoice as a CVS file
-| | **download cdr services** | Download a CVS file associated to a CDR for services usage |
-| | **download cdr conference** | Download a CVS file associated to a CDR for conference usage |
-| Users | **users** | List the users |
-| Companies | **companies** | List the companies |
-| | **customers** | List the companies managed by the BP |
-| Sites | **sites** | List the sites |
-| Systems | **systems** | List the systems |
-| Phones | **phones** <id> | List the phones number of a system |
-| Organizations | **orgs** | List the organizations |
-| Invoices | **invoices** | List the invoices for companies managed |
-| Applications | **applications** | List all applications |
-| Advanced | **find** <id> | Find an item by its name |
-| | **newco** | Create a new company and a new user interactively |
-| Status | **status api** | Get a status of the Rainbow API portals |
-| MassPro | **masspro template user [filename]** | Download a CSV template file for users |
-| | **masspro template device [filename]** | Download a CSV template file for devices |
-| | **masspro check <filename>** | Check a CSV file before importing it |
-| | **masspro import <filename>** | Import a CSV file |
-| | **masspro status <reqId>** | Get details of an import |
-| | **masspro delete status <reqId>** | Delete a details of an import |
-| | **masspro status company [companyId]** | Get imports done to a company |
-
-
-## Help on commands
-
-To get help on a command and display the list of available options, use the following syntax:
-
-
-```bash
-
-$ rbw <command> --help
-
-```
-
 
 ## Beta disclaimer
 
