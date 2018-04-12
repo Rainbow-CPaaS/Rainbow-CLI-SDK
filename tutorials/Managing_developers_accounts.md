@@ -12,7 +12,7 @@ This guide helps you understanding how to use the Rainbow CLI for creating accou
 ### Install
 ---
 
-As explaining in the [Getting Started](/#/documentation/doc/cli/Getting_started) guide, you need to install the Rainbow CLI using the following command:
+As explaining in the [Getting Started](/#/documentation/doc/sdk/cli/tutorials/Getting_started) guide, you need to install the Rainbow CLI using the following command:
 
 ```bash
 
