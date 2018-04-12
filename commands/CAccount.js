@@ -763,6 +763,12 @@ class CAccount {
                         "theme": "Developers", 
                         "command": "application developers methods <userid>", 
                         "details": "List developer payment methods"
+                    },
+                    {
+                        "level": "app_admin", 
+                        "theme": "Developers", 
+                        "command": "application developers subscriptions <userid>", 
+                        "details": "List developer subscriptions associated to applications"
                     }
                 ];
 

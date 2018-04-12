@@ -822,6 +822,44 @@ class Message {
         Screen.print('');
     }
 
+    tableSubscriptions(json, options) {
+        
+        var array = [];
+
+        array.push([ "#".gray, "Application ID".gray, "Name".gray, "Id".gray, "Date".gray]);
+        array.push([ "-".gray, "--------------".gray, "----".gray, "--".gray, "----".gray]);  
+
+        let total = 0;
+
+        for (var i = 0; i < json.length; i++) {
+            let subscriptions = json[i].subscriptions;
+            let applicationid = json[i].applicationId ? json[i].applicationId.toString() : json[i].id.toString() || "";
+
+            if (subscriptions.length === 0) {
+                array.push([ "", applicationid.cyan, "No subscription", "", "" ]);
+            } else {
+                for (var j = 0; j < subscriptions.length; j++) {
+                    total++;
+                    var number = (j+1).toString();
+                    let name = subscriptions[j].offerName || "";
+                    let id = subscriptions[j].offerId || "";
+                    let date = moment(subscriptions[j].creationDate).format("LLL") || "";
+
+                    if(number === 1) {
+                        array.push([ number.white, applicationid.magenta, name.white, id.yelow, date.white ]);
+                    } else {
+                        array.push([ number.white, "", name.white, id.yelow, date.white ]);
+                    }
+                }
+            }
+        }
+
+        Screen.table(array);
+        Screen.print('');
+        Screen.success(total + ' subscription(s) found.');
+        Screen.print('');
+    }
+
     loggedin(prefs, options) {
 
         let user = prefs.user;

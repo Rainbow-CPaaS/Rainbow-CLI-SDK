@@ -75,6 +75,33 @@ class Developer {
 
             that._developer.getMethods(options);
         });
+
+        this._program.command('developers subscriptions', '[id]')
+        .description("Retrieve developer subscriptions if exists")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw developers subscriptions 57ea7475d78f3ba5aae98935');
+            console.log('    $ rbw developers subscriptions 57ea7475d78f3ba5aae98935 --json');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the user to the console');
+            console.log('');
+        })
+        .action(function (id, commands) {
+
+            var options= {
+                id: id || null,
+                noOutput: commands.json || false,
+            };
+
+            Logger.isActive = commands.verbose || false;
+
+            that._developer.getSubscriptions(options);
+        });
     }
 }
 

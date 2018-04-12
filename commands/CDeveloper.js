@@ -52,6 +52,25 @@ class CDeveloper {
         });
     }
 
+    _getSubscriptions(token, options, prefs) {
+
+        let that = this;
+
+        return new Promise(function(resolve, reject) {
+
+            var id = prefs.user.id;
+            if(options.id) {
+                id = options.id;
+            }
+
+            NodeSDK.get('/api/rainbow/subscription/v1.0/developers/' + id + '/subscriptions', token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
     getPayments(options) {
         var that = this;
 
@@ -123,6 +142,50 @@ class CDeveloper {
                 else {
                     Message.lineFeed();
                     Message.tableMethods(json, options);
+                    Message.lineFeed();
+                    Message.success(options);
+                }
+                Message.log("finished!");
+
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    getSubscriptions(options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            if(!options.csv) {
+                Message.action("List subscriptions for user ", options.id, options);
+            }
+            
+            let spin = Message.spin(options);
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
+                Message.log("execute action...");
+                return that._getSubscriptions(that._prefs.token, options, that._prefs);
+            }).then(function(json) {
+                
+                Message.unspin(spin);
+                Message.log("action done...", json);
+
+                if(options.noOutput) {
+                    Message.out(json.data);
+                }
+                else {
+                    Message.lineFeed();
+                    Message.tableSubscriptions(json, options);
                     Message.lineFeed();
                     Message.success(options);
                 }
