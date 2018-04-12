@@ -740,12 +740,29 @@ class CAccount {
                         "command": " ", 
                         "details": " "
                     },
-                    
                     {
                         "level": "app_admin", 
                         "theme": "Metrics", 
                         "command": "application metrics <appid>", 
                         "details": "List application's metrics"
+                    },
+                    {
+                        "level": "app_admin", 
+                        "theme": " ", 
+                        "command": " ", 
+                        "details": " "
+                    },
+                    {
+                        "level": "app_admin", 
+                        "theme": "Developers", 
+                        "command": "application developers payment <userid>", 
+                        "details": "List developer payment information"
+                    },
+                    {
+                        "level": "app_admin", 
+                        "theme": "Developers", 
+                        "command": "application developers methods <userid>", 
+                        "details": "List developer payment methods"
                     }
                 ];
 

@@ -24,6 +24,7 @@ const Advanced        = require('./routes/Advanced');
 const Offers          = require('./routes/Offers');
 const Invoices        = require('./routes/Invoice');
 const Application     = require('./routes/Application');
+const Developer       = require('./routes/Developer');
 
 start = function() {
 
@@ -47,6 +48,7 @@ start = function() {
   let offers = new Offers(program, prefs);
   let invoices = new Invoices(program, prefs);
   let applications = new Application(program, prefs);
+  let developers = new Developer(program, prefs);
 
   // Start the routes
   account.start();
@@ -63,6 +65,7 @@ start = function() {
   advanced.start();
   status.start();
   applications.start();
+  developers.start();
 
   program
     .command('*')

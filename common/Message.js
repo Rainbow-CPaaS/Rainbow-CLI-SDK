@@ -779,6 +779,49 @@ class Message {
         Screen.print('');
     }
 
+    tableMethods(json, options) {
+        
+        var array = [];
+
+        array.push([ "#".gray, "Id".gray, "Exp".gray, "Holder".gray, "Active".gray, "Type".gray, "Mask".gray, "Bank".gray, "Date".gray]);
+        array.push([ "-".gray, "---".gray, "--".gray, "------".gray, "------".gray, "----".gray, "----".gray, "----".gray, "----".gray]);  
+
+        for (var i = 0; i < json.data.length; i++) {
+            let method = json.data[i];
+
+            var number = (i+1).toString();
+            let id = method.Id.toString() || "";
+            let exp = method.CreditCardExpirationMonth.toString() + '/' + method.CreditCardExpirationYear.toString();
+            let holder = method.CreditCardHolderName.toString() || "-";
+            let active = method.Active.toString() || "-";
+            let type = method.Type.toString() + '/' + method.CreditCardType.toString() || "-";
+            let mask = method.CreditCardMaskNumber.toString() || "";
+            let bank = method.BankIdentificationNumber.toString() || "";
+            let date = moment(method.UpdatedDate.toString()).format("LLL") || "";
+
+            if(active === 'false') {
+                active = active.white;
+            }
+            else {
+                active = active.bgYellow
+            }
+
+            if (moment().isAfter(moment(method.CreditCardExpirationYear.toString() + method.CreditCardExpirationYear.toString(), 'YYYYM'))) {
+                exp = exp.red;
+            }
+            else {
+                exp = exp.bgBlue;
+            }
+
+            array.push([ number.white, id.white, exp.white, holder.green, active, type.white, mask.white, bank.white, date.white ]); 
+        }
+
+        Screen.table(array);
+        Screen.print('');
+        Screen.success(json.data.length + ' method(s) found.');
+        Screen.print('');
+    }
+
     loggedin(prefs, options) {
 
         let user = prefs.user;

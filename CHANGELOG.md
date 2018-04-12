@@ -5,6 +5,9 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+### [1.40.0] - 2018-04-29
+- RQRAINB-888: Add commands for retrieving developer's billing account and payment methods
+
 ### [1.39.0] - 2018-04-08
 - RQRAINB-830: Inject official appID/appSecret in Rainbow CLI
 - RQRAINB-829: Add command configure
