@@ -14,6 +14,77 @@ class CApplication {
         this._prefs = prefs;
     }
 
+    _formatCSVMetrics(json) {
+
+        let csvJSON = {
+            "data":[]
+        };
+
+        let categories = [
+            "administration",
+            "applications",
+            "billing",  
+            "bots",
+            "bubbles",
+            "calendar",
+            "channels",
+            "company",
+            "conference",  
+            "conversations",
+            "files",
+            "groups",
+            "instantmessages",
+            "login",
+            "mobile",
+            "office365",
+            "pbxtelephony",
+            "provisioning",,
+            "roster",  
+            "subscriptions",
+            "technical",
+            "users"
+        ];
+
+        let metrics = json.data;
+        let period = json.aggregationPeriod || "hour";
+
+        metrics.forEach((metric) => {
+
+            let groups = metric.groupCounters;
+            let startDate = metric.aggregationStartDate;
+
+            switch (period) {
+                case "hour":
+                startDate = moment(startDate).format('lll');
+                break;
+                case "day":
+                startDate = moment(startDate).format('ll');
+                break;
+                case "month":
+                startDate = moment(startDate).format('MMM YYYY');
+                break;
+                default:
+                startDate = moment(startDate).format('lll');
+                break;
+            }
+
+            let line = {
+                "date": startDate,
+            }
+
+            categories.forEach((category) => {
+                line[category] = 0;
+            });
+
+            groups.forEach( (group) => {
+                line[group.group] = group.count; 
+            });
+            csvJSON["data"].push(line);
+        });
+
+        return csvJSON;
+    }
+
     _getMetrics(token, options) {
         return new Promise(function(resolve, reject) {
 
@@ -617,12 +688,15 @@ class CApplication {
                 Message.log("execute action...");
                 return that._getMetrics(that._prefs.token, options);
             }).then(function(json) {
-                
+               
                 Message.unspin(spin);
                 Message.log("action done...", json);
 
                 if(options.csv) {
-                    Message.csv(options.csv, json.data).then(() => {
+
+                    let jsonCSV = that._formatCSVMetrics(json);
+
+                    Message.csv(options.csv, jsonCSV.data).then(() => {
                     }).catch((err) => {
                         Exit.error();
                     });

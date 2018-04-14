@@ -100,7 +100,7 @@ class Message {
                     header: true
                 }).pipe(writeStream);
                 writeStream.on('close', function () {
-                    Screen.success("Successfully saved".white + " " + json.length.toString().magenta + " user(s) to".white + " '".white + file.yellow + "'".white);
+                    Screen.success("Successfully saved".white + " " + json.length.toString().magenta + " information to".white + " '".white + file.yellow + "'".white);
                     resolve();
                 });
                 writeStream.on('error', function (err) {
@@ -786,6 +786,20 @@ class Message {
         array.push([ "#".gray, "Id".gray, "Exp".gray, "Holder".gray, "Active".gray, "Type".gray, "Mask".gray, "Bank".gray, "Date".gray]);
         array.push([ "-".gray, "---".gray, "--".gray, "------".gray, "------".gray, "----".gray, "----".gray, "----".gray, "----".gray]);  
 
+        // ack detect default payment
+        let defaultPayment = null;
+
+        json.data.forEach((method) => {
+            
+            if(!defaultPayment) {
+                defaultPayment = method;
+            } else {
+                if(moment(defaultPayment.CreatedDate).isBefore(moment(method.CreatedDate))) {
+                    defaultPayment = method;
+                }
+            }
+        });
+
         for (var i = 0; i < json.data.length; i++) {
             let method = json.data[i];
 
@@ -799,21 +813,11 @@ class Message {
             let bank = method.BankIdentificationNumber.toString() || "";
             let date = moment(method.UpdatedDate.toString()).format("LLL") || "";
 
-            if(active === 'false') {
-                active = active.white;
+            if (defaultPayment.Id === method.Id) {
+                array.push([ number.bgYellow, id.bgYellow, exp.bgYellow, holder.bgYellow, 'true'.bgYellow, type.bgYellow, mask.bgYellow, bank.bgYellow, date.bgYellow ]); 
+            } else {
+                array.push([ number.white, id.white, exp.white, holder.green, 'false'.white, type.white, mask.white, bank.white, date.white ]); 
             }
-            else {
-                active = active.bgYellow
-            }
-
-            if (moment().isAfter(moment(method.CreditCardExpirationYear.toString() + method.CreditCardExpirationYear.toString(), 'YYYYM'))) {
-                exp = exp.red;
-            }
-            else {
-                exp = exp.bgBlue;
-            }
-
-            array.push([ number.white, id.white, exp.white, holder.green, active, type.white, mask.white, bank.white, date.white ]); 
         }
 
         Screen.table(array);

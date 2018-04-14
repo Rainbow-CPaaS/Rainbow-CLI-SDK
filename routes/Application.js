@@ -199,6 +199,7 @@ class Application {
         .option('-d, --day <date>', 'Get metrics for a specific day, hour by hour. Format is YYYMMDD')
         .option('-m, --month <month>', 'Get metrics for a specific month, day by day. Format is YYYYMM')
         .option('-y, --year <year', 'Get metrics for a specific year, month by month. Format is YYYY')
+        .option('-f, --file <filename>', 'Print result to a file in CSV')
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
@@ -207,7 +208,9 @@ class Application {
             console.log('    $ rbw application metrics 593065822799299343b8501d -d 20180218');
             console.log('    $ rbw application metrics 593065822799299343b8501d -m 201802');
             console.log('    $ rbw application metrics 593065822799299343b8501d -y 2018');
+            console.log('    $ rbw application metrics 593065822799299343b8501d -y 2018 --file metrics.csv');
             console.log('    $ rbw application metrics 593065822799299343b8501d --json');
+
             console.log('');
             console.log('  Details:');
             console.log('');
@@ -221,7 +224,8 @@ class Application {
                 appid: appid,
                 day: commands.day,
                 month: commands.month,
-                year: commands.year
+                year: commands.year,
+                csv: commands.file,
             };
 
             Logger.isActive = commands.verbose || false;
