@@ -755,19 +755,19 @@ class CAccount {
                     {
                         "level": "app_admin", 
                         "theme": "Developers", 
-                        "command": "application developers payment <userid>", 
+                        "command": "developers payment [userid]", 
                         "details": "List developer payment information"
                     },
                     {
                         "level": "app_admin", 
                         "theme": "Developers", 
-                        "command": "application developers methods <userid>", 
+                        "command": "developers methods [userid]", 
                         "details": "List developer payment methods"
                     },
                     {
                         "level": "app_admin", 
                         "theme": "Developers", 
-                        "command": "application developers subscriptions <userid>", 
+                        "command": "developers subscriptions [userid]", 
                         "details": "List developer subscriptions associated to applications"
                     }
                 ];
@@ -807,7 +807,19 @@ class CAccount {
                         "theme": "Applications", 
                         "command": "dismiss application <appid>", 
                         "details": "Decline a request of deployment"
-                    }
+                    },
+                    {
+                        "level": "----------", 
+                        "theme": "----------", 
+                        "command": "----------", 
+                        "details": "----------"
+                    },
+                    {
+                        "level": "app_superadmin", 
+                        "theme": "Developers", 
+                        "command": "developers delete payment <userid>", 
+                        "details": "Remove a existing developer payment account"
+                    },
                 ];
 
                 json.data = json.data.concat(data_dev);

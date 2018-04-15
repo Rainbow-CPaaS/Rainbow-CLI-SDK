@@ -21,6 +21,8 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 - New command `rbw developers subscriptions` has been added to list the subscriptions associated to each application.
 
+- New command `rbw developers delete payment` to remove a developer's billing account (`app_superAdmin` role only).
+
 - New option `--file <file>` or `-f <file>` has been added to API `rbw metrics application` in order to extract and save metrics in a CSV file.
 
 **Others changes**

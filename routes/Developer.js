@@ -49,6 +49,33 @@ class Developer {
             that._developer.getPayments(options);
         });
 
+        this._program.command('developers delete payment', '[id]')
+        .description("Delete a developer payment account if exists. Only works when no active subscription")
+        .option('--nc', 'Do not ask confirmation')
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw developers delete payment 57ea7475d78f3ba5aae98935');
+            console.log('    $ rbw developers delete payment 57ea7475d78f3ba5aae98935 -nc');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the user to the console');
+            console.log('');
+        })
+        .action(function (id, commands) {
+
+            var options= {
+                id: id || null,
+                noconfirmation: commands.nc || false
+            };
+
+            Logger.isActive = commands.verbose || false;
+
+            that._developer.deletePayment(options);
+        });
+
         this._program.command('developers methods', '[id]')
         .description("Retrieve developer payment methods if exists")
         .option('-j, --json', 'Write the JSON result to standard stdout')
