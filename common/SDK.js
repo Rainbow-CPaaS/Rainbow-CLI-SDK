@@ -63,7 +63,7 @@ class SDK {
 
                 if (config.rainbow.host === "sandbox.openrainbow.com") {
                     config.application.appSecret = "MAjWllXH84YVhn0yp3ZuGmuPleXlYQhIeNghRgdo8NAVKEcIDc7M61Wes6Dp0cLy";
-                } else if(config.rainbow.host === "openrainbow.net") {
+                } else if(config.rainbow.host === "openrainbow.net" || config.rainbow.host === "cpaaspreprod.openrainbow.net" ) {
                     config.application.appSecret = "QPxaSRzGDcQ5ZIHQtWOpGrDU2j7GEgBpBii6l6N64RyF6QRxaFIJMhAHM4sIhWx7";
                 } else if(config.rainbow.host === "openrainbow.org") {
                     config.application.appSecret = "ftF0ZEpriOhNjwBMej3x8g0f0bhjGOGcnOBgHrQIfWrXE984yWnBmAa6qGRhUcaZ";
