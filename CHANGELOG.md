@@ -10,6 +10,7 @@ All notable changes to Rainbow-CLI will be documented in this file.
 - RQRAINB-889: Add commands for retrieving developer's subscriptions
 - RQRAINB-890: Extract API metrics in CSV
 - RQRAINB-909: Remove a developer payment account
+- RQRAINB-914: Remove a developer payment method
 
 ### [1.39.0] - 2018-04-08
 - RQRAINB-830: Inject official appID/appSecret in Rainbow CLI

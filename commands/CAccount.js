@@ -767,6 +767,18 @@ class CAccount {
                     {
                         "level": "app_admin", 
                         "theme": "Developers", 
+                        "command": "developers method <methodid> [userid]", 
+                        "details": "List information of a developer payment method"
+                    },
+                    {
+                        "level": "app_admin", 
+                        "theme": "Developers", 
+                        "command": "developers delete method <methodid> [userid]", 
+                        "details": "Remove a developer payment method"
+                    },
+                    {
+                        "level": "app_admin", 
+                        "theme": "Developers", 
                         "command": "developers subscriptions [userid]", 
                         "details": "List developer subscriptions associated to applications"
                     }

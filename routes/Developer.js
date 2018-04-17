@@ -103,6 +103,62 @@ class Developer {
             that._developer.getMethods(options);
         });
 
+        this._program.command('developers method', '<methodid> [id]')
+        .description("Retrieve information of a developer payment method")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw developers method 57ea7475d78f3ba5aae98935');
+            console.log('    $ rbw developers method 57ea7475d78f3ba5aae98935 64ba6453E4563ba5bce98534 --json');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the user to the console');
+            console.log('');
+        })
+        .action(function (methodid, id, commands) {
+
+            var options= {
+                id: id || null,
+                methodid: methodid,
+                noOutput: commands.json || false,
+            };
+
+            Logger.isActive = commands.verbose || false;
+
+            that._developer.getMethod(options);
+        });
+
+        this._program.command('developers delete method', '<methodid> [id]')
+        .description("Delete a developer payment method")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw developers delete method 57ea7475d78f3ba5aae98935');
+            console.log('    $ rbw developers delete method 57ea7475d78f3ba5aae98935 64ba6453E4563ba5bce98534');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the user to the console');
+            console.log('');
+        })
+        .action(function (methodid, id, commands) {
+
+            var options= {
+                id: id || null,
+                methodid: methodid,
+                noOutput: commands.json || false,
+            };
+
+            Logger.isActive = commands.verbose || false;
+
+            that._developer.deleteMethod(options);
+        });
+
         this._program.command('developers subscriptions', '[id]')
         .description("Retrieve developer subscriptions if exists")
         .option('-j, --json', 'Write the JSON result to standard stdout')

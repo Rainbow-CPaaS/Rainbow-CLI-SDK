@@ -703,13 +703,46 @@ class Message {
 
     table2D(json) {
 
+        function isObject (value) {
+            return value && typeof value === 'object' && value.constructor === Object;
+        };
+
         var array = [];
         array.push([ "#".gray, "Attribute".gray, "Content".gray]);
         array.push([ "-".gray, "---------".gray, "-------".gray]);  
         var index = 1;
         for (var key in json) {
             var data = json[key];
-            array.push([ index.toString().white, key.toString().cyan, JSON.stringify(data).white]);
+            if(isObject(data)) {
+                array.push([ index.toString().white, key.toString().cyan, ""]);
+                for(key in data) {
+                    if(data[key] == null) {
+                        array.push(["", "", key.yellow + ": ".white + JSON.stringify(data[key]).blue]);
+                    } else if(typeof(data[key]) === "boolean"){
+                        array.push(["", "", key.yellow + ": ".white + JSON.stringify(data[key]).magenta]);
+                    } else {
+                        array.push(["", "", key.yellow + ": ".white + JSON.stringify(data[key]).white]);
+                    }
+                    
+                }
+            } else {
+                if (key === "id") {
+                    key = key.white.bgCyan;
+                    data = JSON.stringify(data).white.bgCyan;
+                } else {
+                    key = key.cyan;
+                    if(data == null) {
+                        data = JSON.stringify(data).blue;
+                    } else if(typeof(data) === "boolean"){
+                        data = JSON.stringify(data).magenta;
+                    } else {
+                        data = JSON.stringify(data).white;
+                    }
+                }
+                
+                array.push([ index.toString().white, key, data]);
+            }
+            
             index+=1;
         }
 

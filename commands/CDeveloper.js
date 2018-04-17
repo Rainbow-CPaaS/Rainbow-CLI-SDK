@@ -52,6 +52,30 @@ class CDeveloper {
         });
     }
 
+    _getMethod(token, options, prefs) {
+
+        let that = this;
+
+        return new Promise(function(resolve, reject) {
+
+            var id = prefs.user.id;
+            if(options.id) {
+                id = options.id;
+            }
+
+            NodeSDK.get('/api/rainbow/subscription/v1.0/developers/' + id + '/payments/methods', token).then(function(json) {
+
+                let method = json.data.find((existingMethod) => {
+                    return (existingMethod.Id === options.methodid);
+                });
+
+                resolve(method);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
     _getSubscriptions(token, options, prefs) {
 
         let that = this;
@@ -80,6 +104,22 @@ class CDeveloper {
 
         return new Promise(function(resolve, reject) {
             NodeSDK.put('/api/rainbow/subscription/v1.0/developers/' + id + '/accounts/cancel', token, null).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
+    _deleteMethod(token, options, prefs) {
+
+        var id = prefs.user.id;
+        if(options.id) {
+            id = options.id;
+        }
+
+        return new Promise(function(resolve, reject) {
+            NodeSDK.delete('/api/rainbow/subscription/v1.0/developers/' + id + '/payments/methods/' + options.methodid, token).then(function(json) {
                 resolve(json);
             }).catch(function(err) {
                 reject(err);
@@ -175,6 +215,50 @@ class CDeveloper {
         }
     }
 
+    getMethod(options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            if(!options.csv) {
+                Message.action("List information of payment method ", options.methodid, options);
+            }
+            
+            let spin = Message.spin(options);
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
+                Message.log("execute action...");
+                return that._getMethod(that._prefs.token, options, that._prefs);
+            }).then(function(json) {
+                
+                Message.unspin(spin);
+                Message.log("action done...", json);
+
+                if(options.noOutput) {
+                    Message.out(json.data);
+                }
+                else {
+                    Message.lineFeed();
+                    Message.table2D(json, options);
+                    Message.lineFeed();
+                    Message.success(options);
+                }
+                Message.log("finished!");
+
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
     getSubscriptions(options) {
         var that = this;
 
@@ -229,6 +313,55 @@ class CDeveloper {
             NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host).then(function() {
                 Message.log("execute action...");
                 return that._deletePayment(that._prefs.token, options, that._prefs);
+            }).then(function(json) {
+                Message.unspin(spin);
+                Message.log("action done...", json);
+                Message.lineFeed();
+                Message.success(options);
+                Message.log("finished!");
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        
+        Message.welcome(options);
+                
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            if(options.noconfirmation) {
+                doDelete(options);
+            }
+            else {
+                Message.confirm('Are-you sure ? It will remote it completely').then(function(confirm) {
+                    if(confirm) {
+                        doDelete(options);
+                    }
+                    else {
+                        Message.canceled(options);
+                        Exit.error();
+                    }
+                });
+            }
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    deleteMethod(options) {
+        var that = this;
+
+        var doDelete = function(options) {
+            Message.action("Delete payment method", options.methodid, options);
+
+            let spin = Message.spin(options);
+            NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host).then(function() {
+                Message.log("execute action...");
+                return that._deleteMethod(that._prefs.token, options, that._prefs);
             }).then(function(json) {
                 Message.unspin(spin);
                 Message.log("action done...", json);
