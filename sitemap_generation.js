@@ -34,7 +34,7 @@ try {
 
     appendUrl(index, "", (value) => {
         sitemap.add({
-            url: value.replace(/ref:(.*).md/g, pathPrefix + "$1")
+            url: value.replace(/(ref:)?(.*).md/g, pathPrefix + "$2")
         });
     });
 
