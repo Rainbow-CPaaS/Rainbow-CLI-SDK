@@ -4,6 +4,8 @@
 Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
+## [1.39.4] - 2018_04_20
+- #CRRAINB-916: Add sitemap indexation
 
 ### [1.39.0] - 2018-04-08
 - RQRAINB-830: Inject official appID/appSecret in Rainbow CLI
