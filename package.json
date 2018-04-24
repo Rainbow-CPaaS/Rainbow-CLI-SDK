@@ -1,10 +1,6 @@
 {
   "name": "rainbow-cli",
-<<<<<<< HEAD
   "version": "1.40.0",
-=======
-  "version": "1.39.1",
->>>>>>> 2044362... CRRAINB-916: Add sitemap indexation
   "description": "Rainbow CLI application based on the Rainbow SDK for Node.js",
   "main": "index.js",
   "scripts": {

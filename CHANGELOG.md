@@ -4,8 +4,6 @@
 Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
-## [1.39.4] - 2018_04_20
-- #CRRAINB-916: Add sitemap indexation
 
 ### [1.40.0] - 2018-04-29
 - RQRAINB-888: Add commands for retrieving developer's billing account and payment methods
@@ -13,6 +11,9 @@ All notable changes to Rainbow-CLI will be documented in this file.
 - RQRAINB-890: Extract API metrics in CSV
 - RQRAINB-909: Remove a developer payment account
 - RQRAINB-914: Remove a developer payment method
+
+### [1.39.4] - 2018-04-20
+- CRRAINB-916: Add sitemap indexation
 
 ### [1.39.0] - 2018-04-08
 - RQRAINB-830: Inject official appID/appSecret in Rainbow CLI
