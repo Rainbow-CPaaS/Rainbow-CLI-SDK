@@ -24,20 +24,20 @@
     "rbw": "./index.js"
   },
   "dependencies": {
-    "chalk": "^2.3.2",
+    "chalk": "^2.4.1",
     "clui": "^0.3.1",
     "colors": "^1.2.1",
     "commander-plus": "0.0.6",
     "csv": "^1.2.1",
     "inquirer": "^5.2.0",
     "js-yaml": "^3.11.0",
-    "moment": "^2.22.0",
+    "moment": "^2.22.1",
     "preferences": "^1.0.2",
     "rainbow-node-sdk": "^1.39.0",
     "sitemap": "^1.13.0",
     "standard": "^10.0.2",
     "table": "^4.0.3",
-    "winston": "^2.4.1"
+    "winston": "^2.4.2"
   },
   "devDependencies": {}
 }
