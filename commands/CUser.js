@@ -359,7 +359,7 @@ class CUser {
                 doDelete(id);
             }
             else {
-                Message.confirm('Are-you sure ? It will remote it completely').then(function(confirm) {
+                Message.confirm('Are-you sure ? It will remove it completely').then(function(confirm) {
                     if(confirm) {
                         doDelete(id);
                     }

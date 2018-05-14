@@ -5,6 +5,9 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+### [1.41.0] - 2018-05-27
+- CRRAINB-2571: Fix Remote wording
+
 ### [1.40.0] - 2018-04-29
 - RQRAINB-888: Add commands for retrieving developer's billing account and payment methods
 - RQRAINB-889: Add commands for retrieving developer's subscriptions

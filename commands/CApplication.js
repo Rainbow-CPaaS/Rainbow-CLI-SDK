@@ -218,7 +218,8 @@ class CApplication {
 
             let fcm = {
                 "type": "fcm",
-                "authorizationKey": options.key
+                "authorizationKey": options.key,
+                "isEnabled": true
             };
 
             NodeSDK.post('/api/rainbow/applications/v1.0/applications/' + options.appid + '/push-settings', token, fcm).then(function(json) {
@@ -238,7 +239,8 @@ class CApplication {
                 let apns = {
                     "type": "apns",
                     "certificateType": options.type,
-                    "certificateFile": data
+                    "certificateFile": data,
+                    "isEnabled": true
                 };
 
                 if (err) {
@@ -442,7 +444,7 @@ class CApplication {
                 doDelete(options);
             }
             else {
-                Message.confirm('Are-you sure ? It will remote it completely').then(function(confirm) {
+                Message.confirm('Are-you sure ? It will remove it completely').then(function(confirm) {
                     if(confirm) {
                         doDelete(options);
                     }
@@ -927,7 +929,7 @@ class CApplication {
                 doDelete(options.id);
             }
             else {
-                Message.confirm('Are-you sure ? It will remote it completely').then(function(confirm) {
+                Message.confirm('Are-you sure ? It will remove it completely').then(function(confirm) {
                     if(confirm) {
                         doDelete(options.id);
                     }

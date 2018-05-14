@@ -160,7 +160,7 @@ class Developer {
         });
 
         this._program.command('developers subscriptions', '[id]')
-        .description("Retrieve developer subscriptions if exists")
+        .description("Retrieve developer subscriptions if exist")
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
@@ -184,6 +184,33 @@ class Developer {
             Logger.isActive = commands.verbose || false;
 
             that._developer.getSubscriptions(options);
+        });
+
+        this._program.command('developers invoices', '[userid]')
+        .description("Retrieve developer invoices if exist")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw developers invoices');
+            console.log('    $ rbw developers invoices 57ea7475d78f3ba5aae98935 --json');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the user to the console');
+            console.log('');
+        })
+        .action(function (userid, commands) {
+
+            var options= {
+                id: userid || null,
+                noOutput: commands.json || false,
+            };
+
+            Logger.isActive = commands.verbose || false;
+
+            that._developer.getInvoices(options);
         });
     }
 }
