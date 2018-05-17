@@ -20,6 +20,8 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 **Others changes**
 
+- Add guide [Managing applications](/#/documentation/doc/sdk/cli/tutorials/Managing_applications)
+
 - Fix a wording issue when removing an item.
 
 
