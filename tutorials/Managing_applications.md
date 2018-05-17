@@ -4,9 +4,9 @@
 ### Preamble
 ---
 
-As a Rainbow developer, you have access to the Rainbow developers Sandbox platform which is the platform where you can start developing your application for free.
+As a Rainbow developer, you have access to our **Rainbow Developers Sandbox platform** which is the playground dedicated for developers who want to start developing their applications for free.
 
-But event on that platform, your application need to be identified and authorized (ie. by an application ID and a secret key) in order to access to Rainbow. This guide will describe the main commands that can be used with the **Rainbow CLI** in order to manage your application on the Rainbow Developers Sandbox platform.
+But even on that platform, your application needs to be identified (ie. by an application ID and a secret key) and authorized (ie: deployed) in order to access to Rainbow. This guide will describe the main commands you can use with your **Rainbow CLI** in order to manage your applications on the Rainbow Developers Sandbox platform.
 
 
 ### Rainbow Knowledge
@@ -16,25 +16,25 @@ Here is some Rainbow wordings that will help you understanding this guide
 
 | Rainbow | Details |
 |:--------|:--------|
-| **Application ID and secret key** | When connecting to Rainbow, your application need to have an identifier (application ID) and a key (secret key) to be authorized. <br/> These information have to be added in your SDK or REST APIs. |
-| **Application environment** | An application can be `not_deployed`, `in_deployment` or `deployed`. <br/>Only `deployed` applications can connect to Rainbow. <br/>On the Rainbow developers Sandbox platform, applications created are automatically `deployed` in order for you to be able to develop and test your application directly. <br/>On Rainbow production platform, applications are `not_deployed`. <br/> It's up to you to deploy it when you are ready (ie. Your application will go to `in_deployment` when you request a deploiment and then to `deployed` when we authorize it.) |
-| **Rainbow PUSH Notifications** | On Android and IOS devices, Rainbow can send notifications to your application when someone sends you a instant message, invite you to a bubble, calls you, etc... <br/>In order to activate those notifications, you need to configure you application by setting the **token** (Android) or the certificates (IOS). |
+| **Application Identification** | When connecting to Rainbow, your application need to have an identifier (application ID) and a key (secret key) to be identified. <br/> These information have to be added in your SDK or REST APIs and are sent to Rainbow and validated. |
+| **Application Authorization** | Once identified, applications need to be authorized to access to Rainbow. <br/>Only `deployed` applications are authorized to connect to Rainbow. <br/>On the Rainbow Developers Sandbox platform, applications created are automatically `deployed` in order for you to be able to develop and test your application directly. <br/>On Rainbow Production platform, applications are `not_deployed` when created. <br/> It's up to you to deploy it when you are ready (ie. Your application will go to `in_deployment` when you request a deployment and then to `deployed` when we authorize it.) |
+| **Rainbow PUSH Notifications** | On Android and IOS devices and when your application is in background, Rainbow can send PUSH notifications to your application when for example someone sends you a instant message, invites you to a bubble, calls you, etc... <br/>In order to activate those notifications, you need to configure your application by setting a **token** for Android an certificates for IOS. |
 
 
-### Connecting to Sandbox platform
+### Connecting to the Rainbow Developers Sandbox platform
 ---
 
 The first thing to do is to connect your Rainbow CLI to the Rainbow Developers Sandbox platform using the command `rbw configure` and `rbw login`.
 
 Once connected, using the command `rbw whoami` you can check that you have the developer role (ie. `app_admin`) which is mandatory to execute commands on applications.
 
-The command `rbw commands` lists all the available command and particularly the commands for managing your applications (in section `app_admin`).
+The command `rbw commands` lists all the available commands and particularly the commands for managing your applications (in section `app_admin`).
 
 
 ### Retrieving your applications
 ---
 
-Once connected you can launch the command `rbw applications` to list your applications and the command `rbw application <id>` to list the information of an application particularly.
+Once connected you can launch the command `rbw applications` to list your applications and the command `rbw application <id>` to list the information of an application in  particular.
 
 ```bash
 
@@ -42,11 +42,13 @@ $ rbw application e17f9fa059cf11e8ae01d9b5fe1c68ca
 
 ```
 
+The id of the application could be retrieved by using the command `rbw applications`.
+
 
 ### Creating and removing applications
 ---
 
-To create a new application that will be automatically available, use the command `rbw create application`.
+To create a new application that will be automatically **deployed**, use the command `rbw create application`.
 
 ```bash
 
@@ -54,9 +56,9 @@ $ rbw create application 'My new application'
 
 ```
 
-Once you have you application use the command `rbw application <id>` to list the application id (ie: `id`) and the secret key (ie: `appSecret`).
+Once you have you application use the command `rbw application <id>` to get the application id (ie: `id`) and the secret key (ie: `appSecret`).
 
-You can check that your application has property `env` equals to `deployed` which means that you can inject the application id and secret key to your SDK or REST API and you should be able to connect to the Rainbow Developers Sandbox platform.
+You can check that your application has the property `env` equals to `deployed` which means that you can inject the application id and secret key to your SDK or REST API and you should be able to connect your application to the Rainbow Developers Sandbox platform.
 
 If you want to remove your application, just call the command `rbw delete application <id>`.
 
@@ -64,7 +66,7 @@ If you want to remove your application, just call the command `rbw delete applic
 ### Adding PUSH Notifications for your Android or IOS application
 ---
 
-When you are building an Android or an IOS application, you want that your users receive notifications even if their application is not used (ie. in background). In order to receive PUSH notifications from Rainbow, you need to configure your application.
+When you are building an Android or an IOS application, you need that your users receive notifications even if their application is not used (ie. in background). In order to receive PUSH notifications from Rainbow, you need to configure your application.
 
 
 #### Android
@@ -82,7 +84,7 @@ To find it:
 
 - Copy the **Server key** token value
 
-Once you have it, launch the command `rbw application create fcm` such as the following
+Once you have it, execute the command `rbw application create fcm` by passing the server key token such as the following
 
 ```bash
 
@@ -92,7 +94,11 @@ $ rbw application create fcm e17f9fa059cf11e8ae01d9b5fe1c68ca AAAAenlyB01:APA91b
 
 The first parameter is your application id and the second is your Firebase server key.
 
-Check the [Android Getting started guide](/#/documentation/doc/sdk/android/guides/Getting%20started) for having more information on how to use your SDK to activate the Rainbow PUSH notifications for you application.  
+Please note that we have no way to check that your token is valid. You can send something that is not a valid token without being refused by Rainbow. The token is limited to 255 characters.
+
+Once you have executed these commands with a valid token, Rainbow will be configured and ready to send PUSH notifications to your application. 
+
+The last task is to configure your SDK to activate the PUSH Notifications. Check the [Android Getting started guide](/#/documentation/doc/sdk/android/guides/Getting%20started) for having more information on how to use your SDK to activate the Rainbow PUSH notifications for you application.  
 
 
 #### IOS
@@ -100,9 +106,9 @@ Check the [Android Getting started guide](/#/documentation/doc/sdk/android/guide
 
 For IOS, you need to configure your application with the **Apple IM Development SSL certificate** and the **Apple VOIP Development SSL certificate**.
 
-Please note that the Rainbow Developers Sandbox platform is configured to use the **development certificates** and not the **production certificates**. This will allow you to test the PUSH Notifications during development phase. Check the [IOS Getting started guide](/#/documentation/doc/sdk/ios/guides/Getting_Started) for having more information.
+Please note that the Rainbow Developers Sandbox platform is configured to use the **development certificates** and not the **production certificates** from Apple. This will allow you to test the PUSH Notifications during development step. Check the [IOS Getting started guide](/#/documentation/doc/sdk/ios/guides/Getting_Started) for having more information.
 
-Once you have them, launch the command `rbw application create im` for uploading the certificate for IM notifications and the command `rbw application create voip` for uploading the certificate for VOIP notifications.
+Once you have these development certificates, launch the command `rbw application create im` for uploading the certificate for IM notifications and the command `rbw application create voip` for uploading the certificate for VOIP notifications.
 
 ```bash
 
@@ -112,11 +118,13 @@ $ rbw application create voip e17f9fa059cf11e8ae01d9b5fe1c68ca development_certi
 
 ```
 
-The certificate should be a PEM file.
+The first parameter is your application id and the second is the certificate file. It should be a **PEM file**.
 
-Please note that If the certificate is not valid (eg. bad format, etc...), an error message is displayed.
+Please note that if the certificate content is not valid (eg. bad format, etc...), an error message is displayed to the console and the certificate will be refused by Rainbow.
 
-Once you have executed these commands, Rainbow is ready to send PUSH notifications to your application. Check the [IOS Getting started guide](/#/documentation/doc/sdk/ios/guides/Getting_Started) for having more information on how to use your SDK to activate the Rainbow PUSH notifications for you application.
+Once you have executed these commands successfully, Rainbow will be configured and ready to send PUSH notifications to your application. 
+
+The last task is to configure your SDK to activate the PUSH Notifications. Check the [IOS Getting started guide](/#/documentation/doc/sdk/ios/guides/Getting_Started) for having more information on how to use your SDK to activate the Rainbow PUSH notifications for you application.
 
 
 ### Retrieving the PUSH notifications configured for your application
@@ -140,7 +148,7 @@ $ rbw application pn e17f9fa059cf11e8ae01d9b5fe1c68ca b8f5fb949cf11e8ae01d9b5fe1
 
 ```
 
-The second parameter is the PUSH notification setting id got from the command `rbw application pns`
+As usual, the first parameter is your application id and the second parameter is the PUSH notification setting id got from the command `rbw application pns`
 
 
 ### Removing PUSH notifications from your application
@@ -178,7 +186,7 @@ $ rbw metrics application e17f9fa059cf11e8ae01d9b5fe1c68ca
 
 Without any other options, this command retrieve the numbers for the current day and grouped by hour.
 
-If you want to have the numbers on a particular month, use the option `--month YYYYMM`. For example, this will retrive the numbers for March 2018
+If you want to have the numbers on a particular month, use the option `--month YYYYMM`. For example, this will retrieve the numbers for March 2018
 
 ```bash
 
@@ -186,7 +194,7 @@ $ rbw metrics application e17f9fa059cf11e8ae01d9b5fe1c68ca --month 201803
 
 ```
 
-Use the command `rbw metrics application --help` to get the list of all period options.
+Use the command `rbw metrics application --help` to get the list of all period options supported.
 
 
 #### Export API usage to CSV
@@ -209,11 +217,11 @@ Application metrics are grouped into the following categories:
 
 | Category | Content |
 |:---------|:--------|
-| **Administration APIs** | This is the number of Rainbow API called by your application when doing administrative tasks like creating users, managing your companies, etc...<br/>This is overall total for all your users. <br/> The unit represents one Rainbow API called. |
-| **Resources APIs** | This is the number of Rainbow API called by your application when doing applicative tasks like sending a chat message, creating a bubble, etc... <br/>This is overall total for all your users.<br/>The unit represents one Rainbow API called. |
-| **WebRTC minutes** | This is the number of minutes consumed by your application when in communication using WebRTC (audio, video and screen sharing). <br/>This is overall total for all your users.<br/>The unit represents one minute spent. |
+| **Administration APIs** | This is the number of Rainbow API called by your application when doing administrative tasks like creating users, managing your companies, etc...<br/>This is the overall total for all your users. <br/> The unit represents one Rainbow API called. |
+| **Resources APIs** | This is the number of Rainbow API called by your application when doing applicative tasks like sending a chat message, creating a bubble, etc... <br/>This is the overall total for all your users.<br/>The unit represents one Rainbow API called. |
+| **WebRTC minutes** | This is the number of minutes consumed by your application when in communication using WebRTC (audio, video and screen sharing). <br/>This is the overall total for all your users.<br/>The unit represents one minute spent. |
 
-Note: When using a SDK, calling a method is not synonymous to calling a Rainbow API. In order to work correctly, the SDK could do additional requests in order to retrieve for you information that your application or the SDK will need to work properly. 
+Note: When using a SDK, calling a method is not synonymous to calling a Rainbow API. In order to work correctly, the SDK could do additional requests in order to retrieve information that your application or the SDK will need to work properly. 
 
 
 ### Interested in

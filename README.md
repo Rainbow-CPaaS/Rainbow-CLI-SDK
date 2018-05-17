@@ -37,6 +37,25 @@ The Rainbow CLI application is supported only when using a Node.JS LTS version.
 Note: Others Linux distributions can be used but without support.
 
 
+## Rainbow Application ID and Secret Key
+
+The Rainbow CLI is free of charge when using on the Rainbow Sandbox developers platform. No application ID and secret key is needed to connect to that platform. So, you can manage for free your application and tests accounts when developing your application on the Sandbox platform.
+
+To connect to the Rainbow production platform for doing the same or much more like provisionning users, managing your company, the Rainbow CLI needs an **application ID** and a **secret key**.
+
+To get your application ID and secret key:
+
+- Connect to the Rainbow HUB with your Rainbow developer account, 
+
+- Create a new application and deploy it,
+
+- Get the associated application ID and secret key
+
+- Inject it to your Rainbow CLI application either using command `rbw configure` or command `rbw set keys`.
+
+**Note: Application ID and secret key will be mandatory to connect to Rainbow production platform on September'18. You will be able to create your application ID and secret key starting July'18**.
+
+
 ## Rainbow account
 
 Your need a **Rainbow** account to use the Rainbow CLI application. Most of the administrative commands need a **company_admin** or a **organisation_admin** role.
