@@ -9,9 +9,11 @@ The Alcatel-Lucent Enterprise (ALE) Rainbow CLI application is a shell tool for 
 ### Preamble
 ---
 
+This is a **C**ommand **L**ine **I**nterface for executing Rainbow commands from the shell.
+
 This Rainbow CLI application is based on the [Rainbow SDK for Node.js](https://www.npmjs.com/package/rainbow-node-sdk). It's a desktop application.
 
-Its powerfull CLI commands enable you to connect to Alcatel-Lucent Enterprise [Rainbow](https://www.openrainbow.com) and do a lot of administrative tasks.
+Its powerfull commands enable you to connect to Alcatel-Lucent Enterprise [Rainbow](https://www.openrainbow.com) and do a lot of administrative tasks.
 
 This documentation will help you to use it.
 
@@ -42,6 +44,35 @@ The Rainbow CLI application is supported only when using a Node.JS LTS version.
 Note: Others Linux distributions can be used but without support.
 
 
+#### Rainbow account
+---
+
+Your need a **Rainbow** account to use the Rainbow CLI application. Most of the administrative commands need an account with **admin rights** such as:
+
+- A **company** (admin) account: A Rainbow account that can administrate a Rainbow company
+
+- An **organisation** (admin) account: A Rainbow account that can adminstrate a Rainbow organisation (ie. several companies grouped together)
+
+- A **developer** account: A Rainbow account that can administrate applications
+
+The following table sums-up how you can obtain the account depending on the platform you use.
+
+On Rainbow Production platform:
+
+| Steps | Tasks to do | Rainbow CLI benefits |
+|:--------------|:----------------------------|:--------------------|
+| **A. Own a company** | 1. Create a Rainbow user<br>2. Create your own company<br><br> Your Rainbow account will obtain the `Company admin rights` | You can use the **company** commands to manage your users.|
+| **B. Become developer** |1. Sign-in to the Rainbow HUB<br>2. Accept the terms and conditions<br><br>Your Rainbow account will obtain the `Developer rights` | You can use the **developer** commands to create and manage your application.
+| **C. Manage several companies** | If you need more that one companies, please contact the Rainbow [support](mailto:support@openrainbow.com) team in order to obtain the **Organization rights**. | You can use the **organization** commands to create companies and manage users in all ot them. |
+
+On Rainbow Developers Sandbox platform:
+
+| Steps | Tasks to do | Rainbow CLI benefits |
+|:--------------|:----------------------------|:--------------------|
+| **A. Activate your Sandbox account** | 1. Log-in to the Rainbow Hub<br>2. Create your Developer Sandbox account. | You can use the **company** and **developer** commands to manage users and applications|
+ **B. Manage several companies** | Please contact the Rainbow [support](mailto:support@openrainbow.com) team in order to obtain the `Organization rights`| You can use the **organization** commands to create companies and manage users in all ot them. |
+
+
 #### Rainbow Application ID and Secret Key
 ---
 
@@ -62,12 +93,14 @@ To get your application ID and secret key:
 **Note: Application ID and secret key will be mandatory to connect to Rainbow production platform on September'18. You will be able to create your application ID and secret key starting July'18**.
 
 
-### Rainbow account
+#### Rainbow Pre-requisites summary
 ---
 
-Your need a **Rainbow** account to use the Rainbow CLI application. Most of the administrative commands need a **company_admin** or a **organisation_admin** role.
+This table sums-up the pre-requisites for working with the Rainbow CLI on the Rainbow production platform and on the Rainbow Developers Sandbox platform.
 
-You can test it on the **Sandbox Developer Platform** or on Rainbow official if you have an admin role for your company or your organization. Please contact the Rainbow [support](mailto:support@openrainbow.com) team if you need an account on the Sandbox Developer Platform.
+| Working on Production platform | Working on Developers Sandbox platform |
+|:------------------|:--------------------------|
+| 1. Sign-in the Rainbow HUB and accept the terms and conditions<br> 2. Create an application. <br>3. Execute command `rbw configure` to select the production platform and enter the application ID and secret key.<br>4. Execute command `rbw login` to connect to Rainbow Production platform<br>5. Opt-in. Create your own company to manage your users. | 1. Log-in to the Rainbow HUB<br>2. Create your Developers Sandbox account <br>3. Execute command `rbw configure` to select the developers sandbox platform platform<br> Execute command `rbw login` to connect to Rainbow Developers Sandbox Platform.|
 
 
 ### Install
@@ -112,7 +145,6 @@ Each command returns an exit status code:
 ---
 
 Depending the role and profile associated to your Rainbow account, you can have access to more or less commands.
-
 
 
 ### Commands
@@ -242,4 +274,4 @@ If you encounter any bugs, lack of functionality or other problems regarding the
 
 ---
 
-_Last updated March, 21th 2018_
+_Last updated May, 21th 2018_

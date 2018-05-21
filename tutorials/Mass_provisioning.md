@@ -4,9 +4,21 @@
 ### Preamble
 ---
 
-The Rainbow CLI can be use to quickly import a long list of users to Rainbow or to associate devices to users just by using some commands. 
+Creating lot of Rainbow account manually can be very boring. The Rainbow CLI can be use to quickly import a long list of users to Rainbow or to associate devices to users just by using some commands. 
 
 This guide describes the different commands to use to do mass provisioning of users and devices.
+
+
+
+### Rainbow Knowledge
+---
+
+Here is some Rainbow wordings that will help you understanding this guide
+
+| Rainbow | Details |
+|:--------|:--------|
+| **Mass-pro** | This is the action of importing to Rainbow a list of users to provision from an input file (ie: generally a CSV file). |
+| **CSV template** | To ease the provisionning, you can download a template file that is in fact a sample of file that can be importing. In this sample, you will have an example of how to add a new user, how to remove it, etc... |
 
 
 ### Getting the mass-provisioning template
@@ -220,6 +232,11 @@ $ rbw masspro delete status 94aff94e4253858afd80f66def028f1e7ad32109b2b6edbe4171
 
 This will remove it from the list of operations.
 
+
+### Interested in
+---
+
+- [Configuring your Rainbow CLI](/#/documentation/doc/sdk/cli/tutorials/Getting_started)
 
 ---
 
