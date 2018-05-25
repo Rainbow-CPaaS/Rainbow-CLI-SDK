@@ -20,6 +20,8 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 **Others changes**
 
+- In order to help you keeping your Rainbow CLI up-to-date, a message will be displayed in the console if your Rainbow CLI version is not the latest one.
+
 - Rework existing guides to add a knowledge section that explains some Rainbow `terms` and add links to related guides to continue the reading.
 
 - Add guide [Managing applications](/#/documentation/doc/sdk/cli/tutorials/Managing_applications)

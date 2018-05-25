@@ -23,6 +23,9 @@
   "bin": {
     "rbw": "./index.js"
   },
+  "engines": {
+    "node" : ">=8.0.0"
+  },
   "dependencies": {
     "chalk": "^2.4.1",
     "clui": "^0.3.1",
@@ -37,6 +40,7 @@
     "sitemap": "^1.13.0",
     "standard": "^10.0.2",
     "table": "^4.0.3",
+    "update-notifier": "^2.5.0",
     "winston": "^2.4.2"
   },
   "devDependencies": {}
