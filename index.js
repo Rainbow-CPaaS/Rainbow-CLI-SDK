@@ -26,15 +26,10 @@ const Invoices        = require('./routes/Invoice');
 const Application     = require('./routes/Application');
 const Developer       = require('./routes/Developer');
 
-const Common = require('./common/Common');
-
 start = function() {
 
   // Initialize the program
   program.version(pkg.version);
-
-  // Check for available new version
-  Common.checkNewVersion();
 
   let prefs = new Preferences();
 
@@ -80,8 +75,6 @@ start = function() {
         Message.lineFeed();
         Message.notFound();
   });
-
-
 
   program.parse(process.argv);
 }

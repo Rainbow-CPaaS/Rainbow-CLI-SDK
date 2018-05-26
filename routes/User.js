@@ -12,7 +12,7 @@ class User {
     }
 
     start() {
-        this.listOfCommands()
+        this.listOfCommands();
     }
 
     stop() {

@@ -66,6 +66,11 @@ class Account {
                 Logger.isActive = commands.verbose || false;
 
                 that._account.login(options);
+
+                // Check for a new version
+                if(!commands.json) {
+                    require('../common/Common').checkNewVersion();
+                }
             });
 
         this._program.command('logout')
@@ -107,6 +112,7 @@ class Account {
         this._program.command('preferences')
             .description("List the preferences saved on this computer")
             .option('-v, --verbose', 'Use verbose console mode')
+            .option('--json', 'Write the JSON result to standard stdout')
             .on('--help', function(){
                 console.log('  Examples:');
                 console.log('');
@@ -118,10 +124,15 @@ class Account {
                 Logger.isActive = commands.verbose || false;
 
                 let options = {
-
+                    noOutput: commands.json || false
                 };
 
                 that._account.preferences(options);
+
+                // Check for a new version
+                if(!commands.json) {
+                    require('../common/Common').checkNewVersion();
+                }
             });
 
         this._program.command('remove preferences')
@@ -167,6 +178,11 @@ class Account {
                 Logger.isActive = commands.verbose || false;
 
                 that._account.getConnectedUserInformation(options);
+
+                // Check for a new version
+                if(!commands.json) {
+                    require('../common/Common').checkNewVersion();
+                }
             });
 
         this._program.command('set keys', '<appid> <appsecret>')
@@ -333,6 +349,9 @@ class Account {
                 Logger.isActive = commands.verbose || false;
 
                 that._account.configure(options);
+
+                // Check for a new version
+                require('../common/Common').checkNewVersion();
             });
     }
 }
