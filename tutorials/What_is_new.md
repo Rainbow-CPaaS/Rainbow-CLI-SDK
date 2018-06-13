@@ -3,6 +3,26 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
+### Rainbow CLI 1.42 (Beta) - June 2018
+---
+
+**3-Release Breaking Changes**
+
+- None.
+
+**Breaking Changes**
+
+- None.
+
+**Changes**
+
+- New command `rbw metrics groups` has been added to list the available metrics for any applications.
+
+- New option `-g` or `--group` has been added to command `rbw metrics application` for grouping application's metrics by category (ie: 'resources', 'administration') like on Rainbow API Hub.
+
+**Others changes**
+
+
 ### Rainbow CLI 1.41 (Beta) - May 2018
 ---
 

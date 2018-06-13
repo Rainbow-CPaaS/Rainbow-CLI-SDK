@@ -3,8 +3,6 @@
 const NodeSDK   = require('../common/SDK');
 const Message   = require('../common/Message');
 const Exit      = require('../common/Exit');
-const Helper    = require('../common/Helper');
-const pkg       = require('../package.json');
 
 class CDeveloper {
 

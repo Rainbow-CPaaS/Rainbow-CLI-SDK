@@ -421,7 +421,7 @@ class Message {
         Screen.print('');
     }
 
-    tableMetrics(json, options) {
+    tableMetrics(json, options, categories) {
 
         let array = [];
         array.push([ "#".gray, "Period".gray, "Group".gray, "Value".gray]);
@@ -458,7 +458,33 @@ class Message {
                 break;
             }
 
-            groups.forEach( (group) => {
+            var aggregatedData = [];
+
+            if(options.group) {
+                for(var category in categories) {
+                    aggregatedData.push({
+                        "group": category,
+                        "count": 0
+                    });
+                }
+
+                groups.forEach( (group) => {
+    
+                    for(var category in categories) {
+                        if(categories[category].includes(group.group)) {
+                            aggregatedData.forEach( (aggregated, index) => {
+                                if(aggregated.group === category) {
+                                    aggregatedData[index].count += group.count;
+                                }
+                            });
+                        }
+                    }
+                });
+            } else {
+                aggregatedData = groups; 
+            }
+
+            aggregatedData.forEach( (group) => {
                 if(firstLine) {
                     array.push([(number+1).toString().white, startDate.white, group.group.white, group.count.toString().cyan]);
                     firstLine = false;
@@ -471,6 +497,7 @@ class Message {
             array.push(["", "", "TOTAL".bgYellow, subTotal.toString().bgYellow]);
             number++;
             total +=subTotal;
+            
         });
 
         if(number > 0) {

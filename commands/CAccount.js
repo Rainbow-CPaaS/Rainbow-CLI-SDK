@@ -737,6 +737,12 @@ class CAccount {
                     {
                         "level": "app_admin", 
                         "theme": "Metrics", 
+                        "command": "metrics groups", 
+                        "details": "List metrics available for any applications"
+                    },
+                    {
+                        "level": "app_admin", 
+                        "theme": "Metrics", 
                         "command": "metrics application <appid>", 
                         "details": "List application's metrics"
                     },

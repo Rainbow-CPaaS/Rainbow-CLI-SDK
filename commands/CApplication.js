@@ -4,8 +4,6 @@ const fs        = require('fs');
 const NodeSDK   = require('../common/SDK');
 const Message   = require('../common/Message');
 const Exit      = require('../common/Exit');
-const Helper    = require('../common/Helper');
-const pkg       = require('../package.json');
 const moment        = require('moment');
 
 class CApplication {
@@ -14,43 +12,18 @@ class CApplication {
         this._prefs = prefs;
     }
 
-    _formatCSVMetrics(json) {
+    _formatCSVMetrics(json, groups, categories, options) {
 
         let csvJSON = {
             "data":[]
         };
-
-        let categories = [
-            "administration",
-            "applications",
-            "billing",  
-            "bots",
-            "bubbles",
-            "calendar",
-            "channels",
-            "company",
-            "conference",  
-            "conversations",
-            "files",
-            "groups",
-            "instantmessages",
-            "login",
-            "mobile",
-            "office365",
-            "pbxtelephony",
-            "provisioning",,
-            "roster",  
-            "subscriptions",
-            "technical",
-            "users"
-        ];
 
         let metrics = json.data;
         let period = json.aggregationPeriod || "hour";
 
         metrics.forEach((metric) => {
 
-            let groups = metric.groupCounters;
+            let metricsGroups = metric.groupCounters;
             let startDate = metric.aggregationStartDate;
 
             switch (period) {
@@ -69,20 +42,48 @@ class CApplication {
             }
 
             let line = {
-                "date": startDate,
+                "date": startDate
             }
 
-            categories.forEach((category) => {
-                line[category] = 0;
-            });
+            // Prepare CSV
+            if(options.group) {
+                for(var category in categories) {
+                    line[category] = 0;
+                }    
+            } else {
+                groups.forEach((group) => {
+                    line[group] = 0;
+                });
+            } 
 
-            groups.forEach( (group) => {
-                line[group.group] = group.count; 
+            metricsGroups.forEach( (group) => {
+                if(options.group) {
+                    for(category in categories) {
+                        if(categories[category].includes(group.group)) {
+                            line[category] += group.count;
+                        }
+                    }
+                } else {
+                    line[group.group] = group.count;
+                }
+                 
             });
             csvJSON["data"].push(line);
         });
 
         return csvJSON;
+    }
+
+    _getGroupMetrics(token) {
+        
+        return new Promise(function(resolve, reject) {
+
+            NodeSDK.get('/api/rainbow/metrics/v1.0/cpaasmetrics/apiGroupsMapping', token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
     }
 
     _getMetrics(token, options) {
@@ -675,6 +676,9 @@ class CApplication {
 
     getMetrics(options) {
         var that = this;
+
+        var groups = [];
+        var categories = [];
         
         Message.welcome(options);
 
@@ -688,6 +692,18 @@ class CApplication {
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
+                return that._getGroupMetrics(that._prefs.token);
+            }).then(function(json) {
+
+                if(json.data) {
+                    for(var group in json.data) {
+                        json.data[group].forEach(function(metric) {
+                            groups.push(metric);
+                        });
+                    }
+                    categories = json.data;
+                }
+
                 return that._getMetrics(that._prefs.token, options);
             }).then(function(json) {
                
@@ -696,7 +712,7 @@ class CApplication {
 
                 if(options.csv) {
 
-                    let jsonCSV = that._formatCSVMetrics(json);
+                    let jsonCSV = that._formatCSVMetrics(json, groups, categories, options);
 
                     Message.csv(options.csv, jsonCSV.data).then(() => {
                     }).catch((err) => {
@@ -712,7 +728,7 @@ class CApplication {
                         Message.tablePage(json, options);
                     }
                     Message.lineFeed();
-                    Message.tableMetrics(json, options);
+                    Message.tableMetrics(json, options, categories);
                 }
                 Message.log("finished!");
 
@@ -939,6 +955,48 @@ class CApplication {
                     }
                 });
             }
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    getGroupsOfMetrics(options) {
+        var that = this;
+        
+        Message.welcome(options);
+
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            if(!options.csv) {
+                Message.action("List available metrics", null, options);
+            }
+            
+            let spin = Message.spin(options);
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
+                Message.log("execute action...");
+                return that._getGroupMetrics(that._prefs.token, options);
+            }).then(function(json) {
+                
+                Message.unspin(spin);
+                Message.log("action done...", json);
+
+                if(options.noOutput) {
+                    Message.out(json.data);
+                }
+                else {
+                    Message.lineFeed();
+                    Message.table2D(json.data, options);
+                }
+                Message.log("finished!");
+
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
         }
         else {
             Message.notLoggedIn(options);

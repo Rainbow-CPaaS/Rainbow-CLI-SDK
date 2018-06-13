@@ -5,6 +5,11 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+
+### [1.42.0] - 2018-06-17
+- RQRAINB-969: List the groups of metrics
+- RQRAINB-970: Group metrics
+
 ### [1.41.0] - 2018-05-27
 - CRRAINB-2571: Fix Remote wording
 - RQRAINB-938: Add guide Managing applications

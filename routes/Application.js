@@ -199,6 +199,7 @@ class Application {
         .option('-d, --day <date>', 'Get metrics for a specific day, hour by hour. Format is YYYMMDD')
         .option('-m, --month <month>', 'Get metrics for a specific month, day by day. Format is YYYYMM')
         .option('-y, --year <year', 'Get metrics for a specific year, month by month. Format is YYYY')
+        .option('-g, --group', 'Group metrics by categories')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
@@ -226,11 +227,37 @@ class Application {
                 month: commands.month,
                 year: commands.year,
                 csv: commands.file,
+                group: commands.group
             };
 
             Logger.isActive = commands.verbose || false;
 
             that._application.getMetrics(options);
+        });
+
+        this._program.command('metrics groups')
+        .description("Retrieve the list metrics available for any applications")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw metrics groups');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the user to the console');
+            console.log('');
+        })
+        .action(function (commands) {
+
+            var options= {
+                noOutput: commands.json || false,
+            }
+
+            Logger.isActive = commands.verbose || false;
+
+            that._application.getGroupsOfMetrics(options);
         });
 
         this._program.command('application pns', '<appid>')
