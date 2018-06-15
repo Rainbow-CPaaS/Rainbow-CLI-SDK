@@ -22,6 +22,8 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 **Others changes**
 
+- New guide `Legals` has been added to list the third party libraries used by the Rainbow CLI.
+
 
 ### Rainbow CLI 1.41 (Beta) - May 2018
 ---

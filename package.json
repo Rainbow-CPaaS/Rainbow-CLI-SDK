@@ -43,5 +43,7 @@
     "update-notifier": "^2.5.0",
     "winston": "^2.4.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "got": "^8.3.1"
+  }
 }
