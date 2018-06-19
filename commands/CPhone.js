@@ -9,7 +9,7 @@ class CPhone {
     constructor(prefs) {
         this._prefs = prefs;
     }
-    
+
     _getPhone(token, id, systemid) {
 
         return new Promise(function(resolve, reject) {
@@ -51,14 +51,14 @@ class CPhone {
         var that = this;
 
         Message.welcome(options);
-        
+
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
 
             if(!options.csv) {
                 Message.action("List phones", null, options);
             }
-            
+
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
@@ -85,7 +85,7 @@ class CPhone {
                     Message.tablePhones(json, options);
                 }
                 Message.log("finished!");
-                
+
             }).catch(function(err) {
                 Message.unspin(spin);
                 Message.error(err, options);
@@ -102,12 +102,12 @@ class CPhone {
         var that = this;
 
         Message.welcome(options);
-            
+
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
-        
-            Message.action("Get informaton for phone", id, actions);
-            
+
+            Message.action("Get informaton for phone", id);
+
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
@@ -116,7 +116,7 @@ class CPhone {
 
                 Message.unspin(spin);
                 Message.log("action done...", json);
-                
+
                 if(options.noOutput) {
                     Message.out(json.data);
                 }

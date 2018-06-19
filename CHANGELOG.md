@@ -10,6 +10,7 @@ All notable changes to Rainbow-CLI will be documented in this file.
 - RQRAINB-969: List the groups of metrics
 - RQRAINB-970: Group metrics
 - RQRAINB-971: Add guide Legals
+- CRRAINB-2904: Fix crash when using command phone
 
 ### [1.41.0] - 2018-05-27
 - CRRAINB-2571: Fix Remote wording
@@ -117,14 +118,14 @@ Lots of change for that new version of Rainbow CLI. A big rework has been done t
 
 #### Added
 * List the phones number of a system
-* Retrieve information about a phone 
+* Retrieve information about a phone
 
 
 ### [0.6.2] - May 2017
 
 #### Added
 * List the systems
-* Retrieve information about a system 
+* Retrieve information about a system
 * Create a new system associated to a site
 * Delete a system
 * Link/unlink a system to/from a site
@@ -142,11 +143,11 @@ Lots of change for that new version of Rainbow CLI. A big rework has been done t
 ### [0.4.4] - March 2017
 
 #### Added
-* Link/unlink a company to/from an organization 
+* Link/unlink a company to/from an organization
 * Retrieve information about an organization
 * Create a new organization
 * Delete an organization
-* List the organizations 
+* List the organizations
 
 ### [0.3.11] - February 2017
 

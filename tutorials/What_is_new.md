@@ -24,6 +24,8 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 - New guide `Legals` has been added to list the third party libraries used by the Rainbow CLI.
 
+- Fix crash when using command `rbw phone`
+
 
 ### Rainbow CLI 1.41 (Beta) - May 2018
 ---
@@ -124,7 +126,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 - New command `rbw set developer` has been added to update your account as a developer.
 
-- New options `--month` and `--year` have been added to command `rbw metrics application` to retrieve API usage over a month (day by day) and over a year (month by month). 
+- New options `--month` and `--year` have been added to command `rbw metrics application` to retrieve API usage over a month (day by day) and over a year (month by month).
 
 - New internal commands `rbw block application` and `rbw unblock application` have been added for user with `app_superadmin` role to block or unblock an existing application.
 
@@ -140,7 +142,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 ### Rainbow CLI 1.37 (Beta) - March 2018
 ---
 
-This release introduces commands for configuring **Push notifications** on your application for the Android platform (FCM) and IOS platform (APNS). 
+This release introduces commands for configuring **Push notifications** on your application for the Android platform (FCM) and IOS platform (APNS).
 
 **3-Release Breaking Changes**
 
@@ -160,7 +162,7 @@ This release introduces commands for configuring **Push notifications** on your 
 
 - New commands `rbw application pns` and `rbw application pn` have been added to list the available push notification settings of an application and have access to all information.
 
-- New commands `rbw application create fcm`, `rbw application create voip` and `rbw application create im` have been added to configure push notification settings for Android (FCM) and IOS (APNS). 
+- New commands `rbw application create fcm`, `rbw application create voip` and `rbw application create im` have been added to configure push notification settings for Android (FCM) and IOS (APNS).
 
 - New command `rbw application delete pn` has been added to remove an existing push notification setting.
 
