@@ -45,7 +45,7 @@ class SDK {
     start(login, password, platform, proxy, appid, appsecret) {
 
         var that = this;
-    
+
         return new Promise(function(resolve, reject) {
 
             Logger.logs("CLI/SDK - (start) use account", login);
@@ -54,20 +54,20 @@ class SDK {
             config.credentials.password = password;
             config.rainbow.host = platform;
 
-            if (config.rainbow.host === "openrainbow.com") {
+            if (config.rainbow.host === "openrainbow.com" || "official") {
                 config.application.appID = appid;
                 config.application.appSecret = appsecret;
             } else {
 
                 config.application.appID = "b34c674000f011e886d9b5bbd3260792";
 
-                if (config.rainbow.host === "sandbox.openrainbow.com") {
+                if (config.rainbow.host === "sandbox.openrainbow.com" || "sandbox") {
                     config.application.appSecret = "MAjWllXH84YVhn0yp3ZuGmuPleXlYQhIeNghRgdo8NAVKEcIDc7M61Wes6Dp0cLy";
                 } else if(config.rainbow.host === "openrainbow.net" || config.rainbow.host === "cpaaspreprod.openrainbow.net" ) {
                     config.application.appSecret = "QPxaSRzGDcQ5ZIHQtWOpGrDU2j7GEgBpBii6l6N64RyF6QRxaFIJMhAHM4sIhWx7";
                 } else if(config.rainbow.host === "openrainbow.org") {
                     config.application.appSecret = "ftF0ZEpriOhNjwBMej3x8g0f0bhjGOGcnOBgHrQIfWrXE984yWnBmAa6qGRhUcaZ";
-                } else { 
+                } else {
                     config.application.appSecret = "Tz8biItumw6Ay6DaThff7Cy9T6rLKIMr2qIk0WcixWkJYxZdZfXBa2kqkIcvlemI";
                 }
             }
@@ -79,7 +79,7 @@ class SDK {
             config.logs.enableConsoleLogs = Logger.isActive;
 
             that._nodeSDK = new NodeSDK(config);
-        
+
             that._nodeSDK.events.once('rainbow_onerror', function(jsonMessage) {
                 reject();
             });
@@ -93,7 +93,7 @@ class SDK {
                 reject(err);
             });
         });
-    } 
+    }
 
     signin() {
 
@@ -110,8 +110,8 @@ class SDK {
                 Logger.error("CLI/SDK - (signin) call startCLI error", err);
                 reject(err);
             });
-        });  
-    } 
+        });
+    }
 
     get(url, token) {
         var that = this;
