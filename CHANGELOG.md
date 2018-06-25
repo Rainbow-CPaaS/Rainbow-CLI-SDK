@@ -11,7 +11,7 @@ All notable changes to Rainbow-CLI will be documented in this file.
 - RQRAINB-970: Group metrics
 - RQRAINB-971: Add guide Legals
 - CRRAINB-2904: Fix crash when using command phone
-- CRRAINB-2934: Fix regression when using using 'sandbox' and 'official'
+- CRRAINB-2934: Fix regression when using --host 'sandbox' or 'official'
 
 ### [1.41.0] - 2018-05-27
 - CRRAINB-2571: Fix Remote wording
