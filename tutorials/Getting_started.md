@@ -29,7 +29,7 @@ This section lists the prerequisites for using the Rainbow CLI application.
 
 [Node.JS](https://nodejs.org) must be installed on your computer.
 
-The Rainbow CLI application is supported only when using a Node.JS LTS version. 
+The Rainbow CLI application is supported only when using a Node.JS LTS version.
 
 
 #### Operating systems support
@@ -82,7 +82,7 @@ To connect to the Rainbow production platform for doing the same or much more li
 
 To get your application ID and secret key:
 
-- Connect to the Rainbow HUB with your Rainbow developer account, 
+- Connect to the Rainbow HUB with your Rainbow developer account,
 
 - Create a new application and deploy it,
 
@@ -177,9 +177,6 @@ $ rbw <command> --help
 
 For general use, the Rainbow CLI `configure` command is the fastest way to set up your connection information.
 
-![alt text](./img/configure-cli.gif)
-
-
 ```bash
 
 $ rbw configure
@@ -188,7 +185,7 @@ $ rbw configure
 
 The Rainbow CLI will prompt you for information such as the host to connect,  the login information, the proxy parameter and your application ID and secret for connecting to the Rainbow production platform.
 
-Note: At this time of writing, application ID and secret are not mandatory to connect to the Rainbow production platform. 
+Note: At this time of writing, application ID and secret are not mandatory to connect to the Rainbow production platform.
 
 Once configured, use the command `login` to connect to Rainbow.
 
@@ -227,7 +224,7 @@ process.stdin.on('data', function(chunk) {
 });
 
 process.stdin.on('end', function() {
-    
+
     // Do something with the data received
     let json = JSON.parse(data);
     let loginEmail = json.loginEmail;
@@ -246,7 +243,7 @@ This command will retrieve the user from Rainbow CLI and pass the information to
 
 ```bash
 
-rbw user 58e36805d45e61221b571363 --json | node displayLogin.js 
+rbw user 58e36805d45e61221b571363 --json | node displayLogin.js
 
 ```
 
@@ -270,7 +267,7 @@ Please note that this is a Beta version of the Rainbow CLI application which is 
 
 Alcatel-Lucent Enterprise will not be liable for any loss, whether such loss is direct, indirect, special or consequential, suffered by any party as a result of their use of the Rainbow CLI application, the application sample software or the documentation content.
 
-If you encounter any bugs, lack of functionality or other problems regarding the Rainbow CLI application, the application samples or the documentation, please let us know immediately so we can rectify these accordingly. Your help in this regard is greatly appreciated. 
+If you encounter any bugs, lack of functionality or other problems regarding the Rainbow CLI application, the application samples or the documentation, please let us know immediately so we can rectify these accordingly. Your help in this regard is greatly appreciated.
 
 ---
 

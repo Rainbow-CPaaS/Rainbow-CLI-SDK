@@ -6,7 +6,10 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 All notable changes to Rainbow-CLI will be documented in this file.
 
 
-### [1.42.0] - 2018-06-17
+### [1.42.1] - 2018-06-27
+- Remove embedded gif in guide `Getting Started`
+
+### [1.42.0] - 2018-06-27
 - RQRAINB-969: List the groups of metrics
 - RQRAINB-970: Group metrics
 - RQRAINB-971: Add guide Legals
