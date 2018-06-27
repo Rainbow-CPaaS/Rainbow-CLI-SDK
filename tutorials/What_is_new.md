@@ -26,6 +26,8 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 - Fix crash when using command `rbw phone`
 
+- Linked with `Rainbow Node.JS SDK 1.42.3`
+
 
 ### Rainbow CLI 1.41 (Beta) - May 2018
 ---
