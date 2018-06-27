@@ -100,7 +100,7 @@ This table sums-up the pre-requisites for working with the Rainbow CLI on the Ra
 
 | Working on Production platform | Working on Developers Sandbox platform |
 |:------------------|:--------------------------|
-| 1. Sign-in the Rainbow HUB and accept the terms and conditions<br> 2. Create an application. <br>3. Execute command `rbw configure` to select the production platform and enter the application ID and secret key.<br>4. Execute command `rbw login` to connect to Rainbow Production platform<br>5. Opt-in. Create your own company to manage your users. | 1. Log-in to the Rainbow HUB<br>2. Create your Developers Sandbox account <br>3. Execute command `rbw configure` to select the developers sandbox platform platform<br> Execute command `rbw login` to connect to Rainbow Developers Sandbox Platform.|
+| 1. Sign-in the Rainbow HUB and accept the terms and conditions<br> 2. Create an application. <br>3. Execute command `rbw configure` to select the production platform and enter the application ID and secret key.<br>4. Execute command `rbw login` to connect to Rainbow Production platform<br>5. Opt-in. Create your own company to manage your users. | 1. Log-in to the Rainbow HUB<br>2. Create your Developers Sandbox account <br>3. Execute command `rbw configure` to select the developers sandbox platform platform<br> 4. Execute command `rbw login` to connect to Rainbow Developers Sandbox Platform.|
 
 
 ### Install
