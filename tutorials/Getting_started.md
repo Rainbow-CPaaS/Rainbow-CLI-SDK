@@ -57,7 +57,9 @@ Your need a **Rainbow** account to use the Rainbow CLI application. Most of the 
 
 The following table sums-up how you can obtain the account depending on the platform you use.
 
-On Rainbow Production platform:
+
+#### Rainbow account on Production platform
+---
 
 | Steps | Tasks to do | Rainbow CLI benefits |
 |:--------------|:----------------------------|:--------------------|
@@ -65,7 +67,9 @@ On Rainbow Production platform:
 | **B. Become developer** |1. Sign-in to the Rainbow HUB<br>2. Accept the terms and conditions<br><br>Your Rainbow account will obtain the `Developer rights` | You can use the **developer** commands to create and manage your application.
 | **C. Manage several companies** | If you need more that one companies, please contact the Rainbow [support](mailto:support@openrainbow.com) team in order to obtain the **Organization rights**. | You can use the **organization** commands to create companies and manage users in all ot them. |
 
-On Rainbow Developers Sandbox platform:
+
+#### Rainbow account on Developers Sandbox platform
+---
 
 | Steps | Tasks to do | Rainbow CLI benefits |
 |:--------------|:----------------------------|:--------------------|
