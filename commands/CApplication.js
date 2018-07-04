@@ -49,12 +49,12 @@ class CApplication {
             if(options.group) {
                 for(var category in categories) {
                     line[category] = 0;
-                }    
+                }
             } else {
                 groups.forEach((group) => {
                     line[group] = 0;
                 });
-            } 
+            }
 
             metricsGroups.forEach( (group) => {
                 if(options.group) {
@@ -66,7 +66,7 @@ class CApplication {
                 } else {
                     line[group.group] = group.count;
                 }
-                 
+
             });
             csvJSON["data"].push(line);
         });
@@ -75,7 +75,7 @@ class CApplication {
     }
 
     _getGroupMetrics(token) {
-        
+
         return new Promise(function(resolve, reject) {
 
             NodeSDK.get('/api/rainbow/metrics/v1.0/cpaasmetrics/apiGroupsMapping', token).then(function(json) {
@@ -116,7 +116,7 @@ class CApplication {
             param += "&toDate=" + toDate.toISOString();
 
             param += "&period=" + period;
-            
+
             NodeSDK.get('/api/rainbow/metrics/v1.0/cpaasmetrics/' + options.appid + param, token).then(function(json) {
                 json.start = fromDate;
                 json.end = toDate;
@@ -129,7 +129,7 @@ class CApplication {
 
     _getApns(token, options) {
         return new Promise(function(resolve, reject) {
-            
+
             NodeSDK.get('/api/rainbow/applications/v1.0/applications/' + options.appid + '/push-settings', token).then(function(json) {
                 resolve(json);
             }).catch(function(err) {
@@ -139,7 +139,7 @@ class CApplication {
     }
 
     _getApplication(token, options) {
-        
+
         return new Promise(function(resolve, reject) {
 
             NodeSDK.get('/api/rainbow/applications/v1.0/applications/' + options.appid, token).then(function(json) {
@@ -151,7 +151,7 @@ class CApplication {
     }
 
     _getPush(token, options) {
-        
+
         return new Promise(function(resolve, reject) {
 
             NodeSDK.get('/api/rainbow/applications/v1.0/applications/' + options.appid + '/push-settings/' + options.id, token).then(function(json) {
@@ -163,7 +163,7 @@ class CApplication {
     }
 
     _getApplications(token, options) {
-        
+
         let that = this;
 
         return new Promise(function(resolve, reject) {
@@ -172,6 +172,21 @@ class CApplication {
 
             if(options.format) {
                 filterToApply = "format=" + options.format;
+            }
+
+            if(options.filter) {
+                switch(options.filter) {
+                    case "deployed":
+                    case "in_deployment":
+                    case "not_deployed":
+                        filterToApply += `&env=${options.filter}`;
+                        break;
+                    case "blocked":
+                        filterToApply += `&state=${options.filter}`;
+                        break;
+                    default:
+                        break;
+                }
             }
 
             if(options.page > 0) {
@@ -334,7 +349,7 @@ class CApplication {
             if(this._prefs.token && this._prefs.user) {
                 Message.loggedin(this._prefs, options);
                 Message.action("Get information for application" , options.appid, options);
-                
+
                 let spin = Message.spin(options);
                 NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                     Message.log("execute action...");
@@ -376,10 +391,10 @@ class CApplication {
         var that = this;
 
         Message.welcome(options);
-            
+
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
-        
+
             Message.action("Create new application", options.name, options);
             let spin = Message.spin(options);
 
@@ -396,7 +411,7 @@ class CApplication {
                 }
                 else {
                     Message.lineFeed();
-                    Message.printSuccess('Application created with Id', json.data.id, options);    
+                    Message.printSuccess('Application created with Id', json.data.id, options);
                     Message.success(options);
                 }
                 Message.log("finished!");
@@ -416,7 +431,7 @@ class CApplication {
         var that = this;
 
         var doDelete = function(options) {
-            
+
 
             let spin = Message.spin(options);
             NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host).then(function() {
@@ -434,9 +449,9 @@ class CApplication {
                 Exit.error();
             });
         }
-        
+
         Message.welcome(options);
-                
+
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
 
@@ -466,10 +481,10 @@ class CApplication {
         var that = this;
 
         Message.welcome(options);
-            
+
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
-        
+
             Message.action("Block an application", options.appid, options);
             let spin = Message.spin(options);
 
@@ -486,7 +501,7 @@ class CApplication {
                 }
                 else {
                     Message.lineFeed();
-                    Message.printSuccess('Application blocked', json.data.id, options);    
+                    Message.printSuccess('Application blocked', json.data.id, options);
                     Message.success(options);
                 }
                 Message.log("finished!");
@@ -506,10 +521,10 @@ class CApplication {
         var that = this;
 
         Message.welcome(options);
-            
+
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
-        
+
             Message.action("Unblock an application", options.appid, options);
             let spin = Message.spin(options);
 
@@ -526,7 +541,7 @@ class CApplication {
                 }
                 else {
                     Message.lineFeed();
-                    Message.printSuccess('Application unblocked', json.data.id, options);    
+                    Message.printSuccess('Application unblocked', json.data.id, options);
                     Message.success(options);
                 }
                 Message.log("finished!");
@@ -546,10 +561,10 @@ class CApplication {
         var that = this;
 
         Message.welcome(options);
-            
+
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
-        
+
             Message.action("Deploy an application", options.appid, options);
             let spin = Message.spin(options);
 
@@ -566,7 +581,7 @@ class CApplication {
                 }
                 else {
                     Message.lineFeed();
-                    Message.printSuccess('Application deployed', json.data.id, options);    
+                    Message.printSuccess('Application deployed', json.data.id, options);
                     Message.success(options);
                 }
                 Message.log("finished!");
@@ -586,10 +601,10 @@ class CApplication {
         var that = this;
 
         Message.welcome(options);
-            
+
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
-        
+
             Message.action("Decline a request of deployment of application", options.appid, options);
             let spin = Message.spin(options);
 
@@ -606,7 +621,7 @@ class CApplication {
                 }
                 else {
                     Message.lineFeed();
-                    Message.printSuccess('Application deployment declined', json.data.id, options);    
+                    Message.printSuccess('Application deployment declined', json.data.id, options);
                     Message.success(options);
                 }
                 Message.log("finished!");
@@ -633,13 +648,13 @@ class CApplication {
             if(!options.csv) {
                 Message.action("List applications", null, options);
             }
-            
+
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._getApplications(that._prefs.token, options, that._prefs);
             }).then(function(json) {
-                
+
                 Message.unspin(spin);
                 Message.log("action done...", json);
 
@@ -679,7 +694,7 @@ class CApplication {
 
         var groups = [];
         var categories = [];
-        
+
         Message.welcome(options);
 
         if(this._prefs.token && this._prefs.user) {
@@ -688,7 +703,7 @@ class CApplication {
             if(!options.csv) {
                 Message.action("List metrics for application " + options.appid, null, options);
             }
-            
+
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
@@ -706,7 +721,7 @@ class CApplication {
 
                 return that._getMetrics(that._prefs.token, options);
             }).then(function(json) {
-               
+
                 Message.unspin(spin);
                 Message.log("action done...", json);
 
@@ -746,7 +761,7 @@ class CApplication {
 
     getApns(options) {
         var that = this;
-        
+
         Message.welcome(options);
 
         if(this._prefs.token && this._prefs.user) {
@@ -755,13 +770,13 @@ class CApplication {
             if(!options.csv) {
                 Message.action("List apns for application " + options.appid, null, options);
             }
-            
+
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._getApns(that._prefs.token, options);
             }).then(function(json) {
-                
+
                 Message.unspin(spin);
                 Message.log("action done...", json);
 
@@ -790,10 +805,10 @@ class CApplication {
         var that = this;
 
         Message.welcome(options);
-            
+
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
-        
+
             Message.action("Create Android FCM authorization key for application", options.appid, options);
             let spin = Message.spin(options);
 
@@ -810,7 +825,7 @@ class CApplication {
                 }
                 else {
                     Message.lineFeed();
-                    Message.printSuccess('Application FCM created with Id', json.data.id, options);    
+                    Message.printSuccess('Application FCM created with Id', json.data.id, options);
                     Message.success(options);
                 }
                 Message.log("finished!");
@@ -830,10 +845,10 @@ class CApplication {
         var that = this;
 
         Message.welcome(options);
-            
+
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
-        
+
             Message.action("Create IOS APNS for application", options.appid, options);
             let spin = Message.spin(options);
 
@@ -850,7 +865,7 @@ class CApplication {
                 }
                 else {
                     Message.lineFeed();
-                    Message.printSuccess('Application APNS created with Id', json.data.id, options);    
+                    Message.printSuccess('Application APNS created with Id', json.data.id, options);
                     Message.success(options);
                 }
                 Message.log("finished!");
@@ -876,7 +891,7 @@ class CApplication {
             if(this._prefs.token && this._prefs.user) {
                 Message.loggedin(this._prefs, options);
                 Message.action("Get information for push notification" , options.appid, options);
-                
+
                 let spin = Message.spin(options);
                 NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                     Message.log("execute action...");
@@ -934,9 +949,9 @@ class CApplication {
                 Exit.error();
             });
         }
-        
+
         Message.welcome(options);
-                
+
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
 
@@ -964,7 +979,7 @@ class CApplication {
 
     getGroupsOfMetrics(options) {
         var that = this;
-        
+
         Message.welcome(options);
 
         if(this._prefs.token && this._prefs.user) {
@@ -973,13 +988,13 @@ class CApplication {
             if(!options.csv) {
                 Message.action("List available metrics", null, options);
             }
-            
+
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._getGroupMetrics(that._prefs.token, options);
             }).then(function(json) {
-                
+
                 Message.unspin(spin);
                 Message.log("action done...", json);
 

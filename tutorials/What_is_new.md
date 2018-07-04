@@ -3,6 +3,26 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
+### Rainbow CLI 1.43 (Beta) - July 2018
+---
+
+**3-Release Breaking Changes**
+
+- None.
+
+**Breaking Changes**
+
+- None.
+
+**Changes**
+
+- New options `--deployed`, `--indeployment`, `--notdeployed` and `--blocked` have been added to command `rbw applications` to filter applications received.
+
+**Others changes**
+
+- Linked with `Rainbow Node.JS SDK 1.42.3`
+
+
 ### Rainbow CLI 1.42 (Beta) - June 2018
 ---
 

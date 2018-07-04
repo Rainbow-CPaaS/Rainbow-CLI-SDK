@@ -1,6 +1,6 @@
 {
   "name": "rainbow-cli",
-  "version": "1.42.1",
+  "version": "1.43.0",
   "description": "Rainbow CLI application based on the Rainbow SDK for Node.js",
   "main": "index.js",
   "scripts": {
@@ -36,7 +36,7 @@
     "js-yaml": "^3.11.0",
     "moment": "^2.22.1",
     "preferences": "^1.0.2",
-    "rainbow-node-sdk": "^1.42.3",
+    "rainbow-node-sdk": "1.42.3",
     "sitemap": "^1.13.0",
     "standard": "^10.0.2",
     "table": "^4.0.3",

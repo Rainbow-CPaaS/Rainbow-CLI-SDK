@@ -18,7 +18,7 @@ class Application {
     stop() {
 
     }
-    
+
     listOfCommands() {
         var that = this;
 
@@ -433,12 +433,17 @@ class Application {
         .option('-f, --file <filename>', 'Print result to a file in CSV')
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
+        .option('-n, --notdeployed', 'Filter applications not deployed only')
+        .option('-b, --blocked', 'Filter applications blocked only')
+        .option('-i, --indeployment', 'Filter applications in deployment only')
+        .option('-d, --deployed', 'Filter applications blocked only')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
             console.log("    $ rbw applications --limit 1000");
             console.log("    $ rbw applications --json");
             console.log("    $ rbw applications -f doe.csv");
+            console.log("    $ rbw applications -f doe.csv -d");
             console.log('');
             console.log('');
             console.log('  Details:');
@@ -449,39 +454,44 @@ class Application {
         })
         .action(function (commands) {
 
-            var options = {
-                csv: "",
-                format: "full",
-                page: "1",
-                limit: "25"
-            };
-
             var page = "1";
             var limit = "25";
             var format = "full";
-           
+            var filter = null;
+
             if("page" in commands) {
                 if(commands.page > 1) {
                     page = commands.page;
                 }
             }
-            
+
             if("limit" in commands && commands.limit) {
                 if(commands.limit > 0) {
                     limit = commands.limit;
                 }
             }
-            
+
+            if(commands.deployed) {
+                filter = "deployed";
+            } else if(commands.indeployment) {
+                filter = "in_deployment";
+            } else if(commands.notdeployed) {
+                filter = "not_deployed";
+            } else if(commands.blocked) {
+                filter = "blocked";
+            }
+
             if(commands.csv) {
                 format = "medium";
             }
 
-            options = {
+            let options = {
                 noOutput: commands.json || false,
                 csv: commands.file || "",
-                format: format,
+                format: commands.csv ? "medium" : format || "full",
                 page: page,
-                limit: limit
+                limit: limit,
+                filter: filter
             };
 
             if(commands.max) {
