@@ -89,7 +89,7 @@ class Message {
             else {
                 let stringify = csv.stringify;
                 let writeStream = fs.createWriteStream(file, { flags : 'w' });
-    
+
                 stringify(json, {
                     formatters: {
                         date: function(value) {
@@ -118,7 +118,7 @@ class Message {
         if(!this._shouldDisplayOutput(options)) {
             return;
         }
-            
+
         let status = new Spinner('In progress, please wait...');
         status.start();
         return status;
@@ -137,7 +137,7 @@ class Message {
 
         let page = Math.floor(json.offset / json.limit) + 1
         let totalPage = Math.floor(json.total / json.limit) + 1;
-                        
+
         Screen.print('Displaying Page '.white + page.toString().yellow + " on ".white + totalPage.toString().yellow);
     }
 
@@ -146,7 +146,7 @@ class Message {
         var array = [];
 
         array.push([ "#".gray, "Company name".gray, "Type".gray, "Visibility".gray, "Active".gray, "Organization".gray, "Identifier".gray]);
-        array.push([ "-".gray, "------------".gray, "----".gray, "----------".gray, "------".gray, "-----------".gray, "----------".gray]);  
+        array.push([ "-".gray, "------------".gray, "----".gray, "----------".gray, "------".gray, "-----------".gray, "----------".gray]);
 
         for (var i = 0; i < json.companies.data.length; i++) {
             var company = json.companies.data[i];
@@ -176,7 +176,7 @@ class Message {
                 number = ((Number(options.page)-1) * json.companies.limit) + (i+1);
             }
 
-            array.push([ number.toString().white, company.name.cyan, offerType, visibility, active ,organisation, company.id.white]); 
+            array.push([ number.toString().white, company.name.cyan, offerType, visibility, active ,organisation, company.id.white]);
         }
 
         Screen.table(array);
@@ -189,22 +189,22 @@ class Message {
         var array = [];
 
         array.push([ "#".gray, "Organization name".gray, "Visibility".gray, "Identifier".gray]);
-        array.push([ "-".gray, "-----------------".gray, "----------".gray, "----------".gray]);  
+        array.push([ "-".gray, "-----------------".gray, "----------".gray, "----------".gray]);
 
         for (var i = 0; i < json.data.length; i++) {
             var org = json.data[i];
-            
+
             var visibility = "private".white;
             if(org.visibility === "public") {
                 visibility = "public".yellow;
             }
-            
+
             var number = (i+1);
             if(options.page > 0) {
                 number = ((options.page-1) * json.limit) + (i+1);
             }
 
-            array.push([ number.toString().white, org.name.cyan, visibility, org.id.white]); 
+            array.push([ number.toString().white, org.name.cyan, visibility, org.id.white]);
         }
 
         Screen.table(array);
@@ -217,12 +217,12 @@ class Message {
         var array = [];
 
         array.push([ "#".gray, "Short number".gray, "From System".gray, "Voice Mail number".gray, "Number".gray, "Monitored".gray, "ID".gray]);
-        array.push([ "-".gray, "------------".gray, "-----------".gray, "-----------------".gray, "------".gray, "---------".gray, "--".gray]);  
+        array.push([ "-".gray, "------------".gray, "-----------".gray, "-----------------".gray, "------".gray, "---------".gray, "--".gray]);
 
         for (var i = 0; i < json.data.length; i++) {
 
             var phone = json.data[i];
-            
+
             var number = (i+1);
             if(options.page > 0) {
                 number = ((options.page-1) * json.limit) + (i+1);
@@ -242,7 +242,7 @@ class Message {
             var vm = phone.voiceMailNumber || "";
             var sn = phone.shortNumber || "";
 
-            array.push([ number.toString().white, sn.cyan, fromSystem, vm.white, longNumber.white, isMonitored, phone.id.white]); 
+            array.push([ number.toString().white, sn.cyan, fromSystem, vm.white, longNumber.white, isMonitored, phone.id.white]);
         }
 
         Screen.table(array);
@@ -255,7 +255,7 @@ class Message {
         var array = [];
 
         array.push([ "#".gray, "System name".gray, "Version".gray, "Status".gray, "Type".gray, "ID".gray, "PBX ID".gray]);
-        array.push([ "-".gray, "-----------".gray, "-------".gray, "------".gray, "----".gray, "--".gray, "------".gray]);  
+        array.push([ "-".gray, "-----------".gray, "-------".gray, "------".gray, "----".gray, "--".gray, "------".gray]);
 
         for (var i = 0; i < json.data.length; i++) {
 
@@ -278,7 +278,7 @@ class Message {
             }
             var pbxId = system.pbxId.yellow || ""
 
-            array.push([ number.toString().white, name.cyan, version.white, stats, type.white, system.id.white, pbxId]); 
+            array.push([ number.toString().white, name.cyan, version.white, stats, type.white, system.id.white, pbxId]);
         }
 
         Screen.table(array);
@@ -290,7 +290,7 @@ class Message {
     tableAPI(json, options) {
         var array = [];
         array.push([ "#".gray, "API".gray, "State".gray, "Version".gray]);
-        array.push([ "-".gray, "---".gray, "-----".gray, "_______".gray]);  
+        array.push([ "-".gray, "---".gray, "-----".gray, "_______".gray]);
 
         for(var i=0; i < json.length; i++) {
 
@@ -313,7 +313,7 @@ class Message {
     tablePlatform(json, options) {
         var array = [];
         array.push([ "#".gray, "Rainbow".gray, "Status".gray, "RTT".gray, "EventLoop".gray]);
-        array.push([ "-".gray, "-------".gray, "------".gray, "---".gray, "---------".gray]);  
+        array.push([ "-".gray, "-------".gray, "------".gray, "---".gray, "---------".gray]);
 
         for(var i=0; i < json.length; i++) {
 
@@ -323,7 +323,7 @@ class Message {
             }
 
             let rtt = json[i].rtt;
-            let rttStr = rtt.toString() + " ms"; 
+            let rttStr = rtt.toString() + " ms";
             let eventLoopStr =  eventLoop.toString() + " ms";
 
             array.push([(i+1).toString().white, json[i].name.white, json[i].status.cyan, rtt > 300 ? rttStr.red : rttStr.white, eventLoop > 300 ? eventLoopStr.red : eventLoopStr.white ]);
@@ -348,9 +348,9 @@ class Message {
         var array = [];
         array.push([ "#".gray, "Company".gray, "Company ID".gray, "Type".gray, "Period".gray, "Initiated".gray, "Path".gray]);
         array.push([ "-".gray, "-------".gray, "----------".gray, "----".gray, "------".gray, "---------".gray, "----".gray]);
-        
+
         var invoices = json;
-        
+
         for(var i = 0; i < invoices.length; i++) {
 
             var companyId = invoices[i].companyId || "";
@@ -361,12 +361,12 @@ class Message {
             var path = invoices[i].filepath || "";
             var number = (i+1);
 
-            array.push([ number.toString().white, companyName.cyan, companyId.white, type.magenta, period.white, initiated.white, path.white]);  
+            array.push([ number.toString().white, companyName.cyan, companyId.white, type.magenta, period.white, initiated.white, path.white]);
         }
 
         Screen.table(array);
         Screen.print('');
-        
+
         if(options.companyId) {
             Screen.success(invoices.length + ' invoices found for company ' + options.companyId);
         } else {
@@ -378,8 +378,8 @@ class Message {
     tableApplications(json, options) {
 
         var array = [];
-        array.push([ "#".gray, "Name".gray, "Type".gray, "Environment".gray, "State".gray, "OwnerId".gray, "Id".gray]);
-        array.push([ "-".gray, "----".gray, "----".gray, "-----------".gray, "-----".gray, "-------".gray, "--".gray]);  
+        array.push([ "#".gray, "Name".gray, "Type".gray, "Environment".gray, "State".gray, "OwnerId".gray, "Id".gray, "Created".gray, "Payment".gray]);
+        array.push([ "-".gray, "----".gray, "----".gray, "-----------".gray, "-----".gray, "-------".gray, "--".gray, "-------".gray, "--------".gray]);
 
         var apps = json.data;
 
@@ -390,6 +390,8 @@ class Message {
             let name = app.name || "";
 
             let type = app.type || "";
+
+            let subscription = app.subscriptions && app.subscriptions.length > 0 ? "YES".green : "NO".red;
 
             let env = app.env;
             if(env === "sandbox") {
@@ -405,11 +407,13 @@ class Message {
                 state = state.white;
             }
 
+            let date = moment(app.dateOfCreation).format("LL");
+
             let ownerId = app.ownerId || "";
 
             let id = app.id || "";
 
-            array.push([(number+1).toString().white, name.white, type.cyan, env, state, ownerId.white, id.white]);
+            array.push([(number+1).toString().white, name.white, type.cyan, env, state, ownerId.white, id.white, date.white, subscription]);
 
             number++;
         });
@@ -425,7 +429,7 @@ class Message {
 
         let array = [];
         array.push([ "#".gray, "Period".gray, "Group".gray, "Value".gray]);
-        array.push([ "-".gray, "------".gray, "-----".gray, "-----".gray]);  
+        array.push([ "-".gray, "------".gray, "-----".gray, "-----".gray]);
 
         let metrics = json.data;
         let total = json.total || 0;
@@ -469,7 +473,7 @@ class Message {
                 }
 
                 groups.forEach( (group) => {
-    
+
                     for(var category in categories) {
                         if(categories[category].includes(group.group)) {
                             aggregatedData.forEach( (aggregated, index) => {
@@ -481,7 +485,7 @@ class Message {
                     }
                 });
             } else {
-                aggregatedData = groups; 
+                aggregatedData = groups;
             }
 
             aggregatedData.forEach( (group) => {
@@ -497,13 +501,13 @@ class Message {
             array.push(["", "", "TOTAL".bgYellow, subTotal.toString().bgYellow]);
             number++;
             total +=subTotal;
-            
+
         });
 
         if(number > 0) {
             array.push(["".gray, "".gray, "-----".gray, "-----".gray]);
         }
-        
+
         array.push(["", start.bgCyan + ' to '.bgCyan + end.bgCyan, "GRAND TOTAL".bgCyan, total.toString().bgCyan]);
 
         Screen.print('');
@@ -519,7 +523,7 @@ class Message {
 
         var array = [];
         array.push([ "#".gray, "OS".gray, "Type".gray, "Last Update".gray, "Id".gray]);
-        array.push([ "-".gray, "--".gray, "----".gray, "-----------".gray, "--".gray]);  
+        array.push([ "-".gray, "--".gray, "----".gray, "-----------".gray, "--".gray]);
 
         var apnsList = json.data;
 
@@ -553,7 +557,7 @@ class Message {
 
         var array = [];
         array.push([ "#".gray, "Name".gray, "LoginEmail".gray, "Company".gray, "Account".gray, "Roles".gray, "Active".gray, "ID".gray]);
-        array.push([ "-".gray, "----".gray, "----------".gray, "-------".gray, "-------".gray, "-----".gray, "------".gray, "--".gray]);  
+        array.push([ "-".gray, "----".gray, "----------".gray, "-------".gray, "-------".gray, "-----".gray, "------".gray, "--".gray]);
 
         var users = json.data;
 
@@ -593,7 +597,7 @@ class Message {
 
             var companyName = users[i].companyName || "";
 
-            array.push([ number.toString().white, name.cyan, users[i].loginEmail.white, companyName.white, accountType, roles.white, active, users[i].id.white]);  
+            array.push([ number.toString().white, name.cyan, users[i].loginEmail.white, companyName.white, accountType, roles.white, active, users[i].id.white]);
         }
 
         Screen.table(array);
@@ -614,7 +618,7 @@ class Message {
         var array = [];
 
         array.push([ "#".gray, "Site name".gray, "Status".gray, "ID".gray, "Company ID".gray]);
-        array.push([ "-".gray, "---------".gray, "------".gray, "--".gray]);  
+        array.push([ "-".gray, "---------".gray, "------".gray, "--".gray]);
 
         for (var i = 0; i < json.data.length; i++) {
             var site = json.data[i];
@@ -623,13 +627,13 @@ class Message {
             if(site.status !== "active") {
                 active = "false".red;
             }
-            
+
             var number = (i+1);
             if(options.page > 0) {
                 number = ((options.page-1) * json.limit) + (i+1);
             }
 
-            array.push([ number.toString().white, site.name.cyan, active, site.id.white, site.companyId.white]); 
+            array.push([ number.toString().white, site.name.cyan, active, site.id.white, site.companyId.white]);
         }
 
         Screen.table(array);
@@ -639,11 +643,11 @@ class Message {
     }
 
     tableOffers(json, options) {
-        
+
         var array = [];
 
         array.push([ "#".gray, "Name".gray, "Business Model".gray, "Can be sold".gray, "Profile Id".gray, "ID".gray, "Description".gray]);
-        array.push([ "-".gray, "----".gray, "--------------".gray, "-----------".gray, "-----------".gray, "--".gray, , "-----------".gray]);  
+        array.push([ "-".gray, "----".gray, "--------------".gray, "-----------".gray, "-----------".gray, "--".gray, , "-----------".gray]);
 
         for (var i = 0; i < json.data.length; i++) {
             var offer = json.data[i];
@@ -657,13 +661,13 @@ class Message {
             if( offer.businessModel) {
                 business = offer.businessModel;
             }
-            
+
             var number = (i+1);
             if(options.page > 0) {
                 number = ((options.page-1) * json.limit) + (i+1);
             }
 
-            array.push([ number.toString().white, offer.name.cyan, business.white, canBeSold, offer.profileId.white, offer.id.white, offer.description.white]); 
+            array.push([ number.toString().white, offer.name.cyan, business.white, canBeSold, offer.profileId.white, offer.id.white, offer.description.white]);
         }
 
         Screen.table(array);
@@ -673,11 +677,11 @@ class Message {
     }
 
     tableCatalogs(json, options, offers) {
-        
+
         var array = [];
 
         array.push([ "#".gray, "Name".gray, "ID".gray, "Offer Id".gray, "Offer name".gray]);
-        array.push([ "-".gray, "----".gray, "--".gray, "--------".gray, "-----------".gray]);  
+        array.push([ "-".gray, "----".gray, "--".gray, "--------".gray, "-----------".gray]);
 
         for (var i = 0; i < json.data.length; i++) {
             var catalog = json.data[i];
@@ -703,7 +707,7 @@ class Message {
                 details = "";
             }
 
-            array.push([ number.toString().white, catalog.name.cyan, catalog.id.white, offer, details]); 
+            array.push([ number.toString().white, catalog.name.cyan, catalog.id.white, offer, details]);
 
             catalog.offersList.forEach((offerId) => {
 
@@ -712,14 +716,14 @@ class Message {
                 });
 
                 if(offer) {
-                    array.push([ " ".white, " ".cyan, " ".white, offerId.white, offer.name]); 
+                    array.push([ " ".white, " ".cyan, " ".white, offerId.white, offer.name]);
                 } else {
 
                 }
 
             });
-            
-            
+
+
         }
 
         Screen.table(array);
@@ -736,7 +740,7 @@ class Message {
 
         var array = [];
         array.push([ "#".gray, "Attribute".gray, "Content".gray]);
-        array.push([ "-".gray, "---------".gray, "-------".gray]);  
+        array.push([ "-".gray, "---------".gray, "-------".gray]);
         var index = 1;
         for (var key in json) {
             var data = json[key];
@@ -750,7 +754,7 @@ class Message {
                     } else {
                         array.push(["", "", key.yellow + ": ".white + JSON.stringify(data[key]).white]);
                     }
-                    
+
                 }
             } else {
                 if (key === "id") {
@@ -766,10 +770,10 @@ class Message {
                         data = JSON.stringify(data).white;
                     }
                 }
-                
+
                 array.push([ index.toString().white, key, data]);
             }
-            
+
             index+=1;
         }
 
@@ -782,7 +786,7 @@ class Message {
         var array = [];
 
         array.push([ "#".gray, "ReqId".gray, "Status".gray, "Success".gray, "Warning".gray, "Failed".gray, "Company".gray, "From".gray, "Date".gray]);
-        array.push([ "-".gray, "-------".gray, "------".gray, "-------".gray, "-------".gray, "------".gray, "-------".gray, "----".gray, "----".gray]);  
+        array.push([ "-".gray, "-------".gray, "------".gray, "-------".gray, "-------".gray, "------".gray, "-------".gray, "----".gray, "----".gray]);
 
         for (var i = 0; i < json.length; i++) {
             let imports = json[i];
@@ -796,7 +800,7 @@ class Message {
             let from = imports.userId || "";
             let date = imports.startTime.toString() || "";
 
-            array.push([ number.white, request.white, status.yellow, success.green, failed.red, warning.red, company.white, from.white, date.white ]); 
+            array.push([ number.white, request.white, status.yellow, success.green, failed.red, warning.red, company.white, from.white, date.white ]);
         }
 
         Screen.table(array);
@@ -806,11 +810,11 @@ class Message {
     }
 
     tableCommands(json, options) {
-        
+
         var array = [];
 
         array.push([ "Level".gray, "Theme".gray, "Commands".gray, "Details".gray]);
-        array.push([ "-----".gray, "-----".gray, "--------".gray, "-------".gray]);  
+        array.push([ "-----".gray, "-----".gray, "--------".gray, "-------".gray]);
 
         var previousLevel = "";
         var previousTheme = "";
@@ -825,11 +829,11 @@ class Message {
 
             var theme = command.theme !== previousTheme ? command.theme : "";
             previousTheme = command.theme;
-            
+
             if(theme === "----------") {
-                array.push([ level.gray, theme.gray, command.command.gray, command.details.gray]); 
+                array.push([ level.gray, theme.gray, command.command.gray, command.details.gray]);
             } else {
-                array.push([ level.cyan, theme.white, command.command.yellow, command.details.white]); 
+                array.push([ level.cyan, theme.white, command.command.yellow, command.details.white]);
             }
         }
 
@@ -840,17 +844,17 @@ class Message {
     }
 
     tableMethods(json, options) {
-        
+
         var array = [];
 
         array.push([ "#".gray, "Id".gray, "Exp".gray, "Holder".gray, "Active".gray, "Type".gray, "Mask".gray, "Bank".gray, "Date".gray]);
-        array.push([ "-".gray, "---".gray, "--".gray, "------".gray, "------".gray, "----".gray, "----".gray, "----".gray, "----".gray]);  
+        array.push([ "-".gray, "---".gray, "--".gray, "------".gray, "------".gray, "----".gray, "----".gray, "----".gray, "----".gray]);
 
         // ack detect default payment
         let defaultPayment = null;
 
         json.data.forEach((method) => {
-            
+
             if(!defaultPayment) {
                 defaultPayment = method;
             } else {
@@ -874,9 +878,9 @@ class Message {
             let date = moment(method.UpdatedDate.toString()).format("LLL") || "";
 
             if (defaultPayment.Id === method.Id) {
-                array.push([ number.bgYellow, id.bgYellow, exp.bgYellow, holder.bgYellow, 'true'.bgYellow, type.bgYellow, mask.bgYellow, bank.bgYellow, date.bgYellow ]); 
+                array.push([ number.bgYellow, id.bgYellow, exp.bgYellow, holder.bgYellow, 'true'.bgYellow, type.bgYellow, mask.bgYellow, bank.bgYellow, date.bgYellow ]);
             } else {
-                array.push([ number.white, id.white, exp.white, holder.green, 'false'.white, type.white, mask.white, bank.white, date.white ]); 
+                array.push([ number.white, id.white, exp.white, holder.green, 'false'.white, type.white, mask.white, bank.white, date.white ]);
             }
         }
 
@@ -887,11 +891,11 @@ class Message {
     }
 
     tableSubscriptions(json, options) {
-        
+
         var array = [];
 
         array.push([ "#".gray, "Application ID".gray, "Name".gray, "Id".gray, "Date".gray]);
-        array.push([ "-".gray, "--------------".gray, "----".gray, "--".gray, "----".gray]);  
+        array.push([ "-".gray, "--------------".gray, "----".gray, "--".gray, "----".gray]);
 
         let total = 0;
 
@@ -925,11 +929,11 @@ class Message {
     }
 
     tableInvoicesDeveloper(json, options) {
-        
+
         var array = [];
 
         array.push([ "#".gray, "Name".gray, "Period".gray, "Amount".gray, "id".gray]);
-        array.push([ "-".gray, "----".gray, "------".gray, "------".gray, "--".gray]);  
+        array.push([ "-".gray, "----".gray, "------".gray, "------".gray, "--".gray]);
 
         let total = 0;
 
@@ -988,7 +992,7 @@ class Message {
                     adminType = "user";
                 }
             }
-    
+
             if(user.roles.includes("app_admin")) {
                 if(adminType.length > 0) {
                     adminType = "app_admin > " + adminType;
@@ -997,7 +1001,7 @@ class Message {
                     adminType = "app_admin > user";
                 }
             }
-    
+
             if(user.roles.includes("app_superadmin")) {
                 if(adminType.length > 0) {
                     adminType = "app_superadmin > " + adminType;
@@ -1006,7 +1010,7 @@ class Message {
                     adminType = "app_superadmin > app_admin > user";
                 }
             }
-    
+
             switch (user.adminType) {
                 case "company_admin":
                     adminType = "company_admin" + " > " + adminType;
@@ -1015,7 +1019,7 @@ class Message {
                     adminType = "organization_admin" + " > " + adminType;
                     break;
             }
-    
+
             if(user.roles.includes("bp_admin")) {
                 if(adminType.length > 0) {
                     adminType = "bp_admin > " + adminType;
@@ -1024,7 +1028,7 @@ class Message {
                     adminType = "bp_admin > organization_admin (*) > company_admin > user";
                 }
             }
-    
+
             if(user.roles.includes("superadmin")) {
                 if(adminType.length > 0) {
                     adminType = "superadmin > " + adminType;
@@ -1043,7 +1047,7 @@ class Message {
         else {
             Screen.print('You are '.grey + 'not logged in'.yellow + ' to Rainbow'.grey);
         }
-        
+
         Screen.print('');
     }
 
@@ -1162,7 +1166,7 @@ class Message {
                 else {
                     Screen.print("  No additional information");
                 }
-                
+
             }
         }
         Screen.print('');
@@ -1179,7 +1183,7 @@ class Message {
             };
 
             inquirer.prompt([question]).then(function (answer) {
-                resolve(answer.confirmation);        
+                resolve(answer.confirmation);
             });
 
         });
@@ -1196,7 +1200,7 @@ class Message {
             };
 
             inquirer.prompt([question]).then(function (answer) {
-                resolve(answer.confirmation);        
+                resolve(answer.confirmation);
             });
 
         });
