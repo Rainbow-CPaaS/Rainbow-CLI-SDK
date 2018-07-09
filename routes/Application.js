@@ -193,6 +193,29 @@ class Application {
             that._application.dismissApplication(options);
         });
 
+        this._program.command('usage application', '<appid> <year> <month>')
+        .description("Push application usage to business store - dev purpose only")
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw usage application 593065822799299343b8501d 2018 7");
+            console.log('');
+        })
+        .action(function (appid, year, month, commands) {
+
+            var options= {
+                appid,
+                year,
+                month,
+                noOutput: false,
+            }
+
+            Logger.isActive = commands.verbose || false;
+
+            that._application.usageApplication(options);
+        });
+
         this._program.command('metrics application', '<appid>')
         .description("Retrieve API usage metrics of an application for the current day per hour")
         .option('-j, --json', 'Write the JSON result to standard stdout')
@@ -458,6 +481,8 @@ class Application {
             var limit = "25";
             var format = "full";
             var filter = null;
+
+            console.log("COMMANDS", typeof commands);
 
             if("page" in commands) {
                 if(commands.page > 1) {

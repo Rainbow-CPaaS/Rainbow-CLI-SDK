@@ -41,7 +41,7 @@ class CAccount {
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
             Message.action("Connected user information", null, options);
-            
+
             let spin = Message.spin(options);
 
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
@@ -52,7 +52,7 @@ class CAccount {
                 Message.log("action done...", json);
 
                 Message.unspin(spin);
-                
+
                 if(options.noOutput) {
                     Message.out(json.data);
                 }
@@ -176,7 +176,7 @@ class CAccount {
         Message.action("Configure your Rainbow CLI");
 
         Message.log("execute action...");
-        
+
         let loginEmail = "";
         let loginPassword = "";
         let hostname = "sandbox";
@@ -200,7 +200,7 @@ class CAccount {
             }
 
         }).then((host) => {
-            
+
             switch (host) {
                 case "sandbox":
                     hostname = "sandbox.openrainbow.com";
@@ -219,14 +219,14 @@ class CAccount {
             proxyAddress = Helper.getProxyFromString(proxy);
 
             return Message.ask("Rainbow Login Email");
-        
+
         }).then((login) => {
-        
+
             loginEmail = login;
             return Message.askPassword("Rainbow Password");
-        
+
         }).then((password) => {
-        
+
             loginPassword = password;
             return Message.ask("Rainbow Application Id (For production only)", "None");
 
@@ -235,7 +235,7 @@ class CAccount {
             if(appid !== "None") {
                 applicationid = appid;
             }
-            
+
             return Message.ask("Rainbow Application Secret", "None");
 
         }).then((appsecret) => {
@@ -259,11 +259,11 @@ class CAccount {
         var that = this;
 
         Message.welcome(options);
-            
+
         Message.loggedin(this._prefs, options);
-    
+
         Message.action("List preferences", "", options);
-        
+
         Message.log("execute action...");
 
         Message.log("action done...");
@@ -295,13 +295,13 @@ class CAccount {
         var that = this;
 
         Message.welcome(options);
-            
+
         Message.loggedin(this._prefs, options);
-    
+
         Message.action("Remove all preferences", "", options);
 
         this._prefs.resetAll();
-        
+
         Message.log("execute action...");
 
         Message.log("action done...");
@@ -347,7 +347,7 @@ class CAccount {
         }
 
         Message.welcome(options);
-            
+
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
 
@@ -385,7 +385,7 @@ class CAccount {
         this._prefs.saveKeys(options.appid, options.appsecret);
 
         Message.unspin(spin);
-        
+
         Message.log("action done...");
 
         Message.lineFeed();
@@ -405,7 +405,7 @@ class CAccount {
         this._prefs.saveEmail(options.email);
 
         Message.unspin(spin);
-        
+
         Message.log("action done...");
 
         Message.lineFeed();
@@ -425,7 +425,7 @@ class CAccount {
         this._prefs.savePassword(options.password);
 
         Message.unspin(spin);
-        
+
         Message.log("action done...");
 
         Message.lineFeed();
@@ -445,7 +445,7 @@ class CAccount {
         this._prefs.saveHost(options.host);
 
         Message.unspin(spin);
-        
+
         Message.log("action done...");
 
         Message.lineFeed();
@@ -465,7 +465,7 @@ class CAccount {
         this._prefs.saveProxy(options.proxy);
 
         Message.unspin(spin);
-        
+
         Message.log("action done...");
 
         Message.lineFeed();
@@ -485,7 +485,7 @@ class CAccount {
         this._prefs.removeKeys();
 
         Message.unspin(spin);
-        
+
         Message.log("action done...");
 
         Message.lineFeed();
@@ -505,7 +505,7 @@ class CAccount {
         this._prefs.removeProxy();
 
         Message.unspin(spin);
-        
+
         Message.log("action done...");
 
         Message.lineFeed();
@@ -515,133 +515,133 @@ class CAccount {
 
     getCommands(options) {
         var that = this;
-        
+
         Message.welcome(options);
 
         Message.loggedin(this._prefs, options);
 
         let spin = Message.spin(options);
-        
+
         Message.log("execute action...");
         Message.action("List commands", null, options);
-    
+
         var json = {
             "data": []
         };
 
         var data_user = [
             {
-                "level": "user", 
-                "theme": "General", 
-                "command": "whoami", 
+                "level": "user",
+                "theme": "General",
+                "command": "whoami",
                 "details": "Display information about the connected user"
             },
             {
-                "level": "user", 
-                "theme": "General", 
-                "command": "login [email] [pwd]", 
+                "level": "user",
+                "theme": "General",
+                "command": "login [email] [pwd]",
                 "details": "Log-in to Rainbow"
             },
             {
-                "level": "user", 
-                "theme": "General", 
-                "command": "logout", 
+                "level": "user",
+                "theme": "General",
+                "command": "logout",
                 "details": "Log-out from Rainbow"
             },
             {
-                "level": "user", 
-                "theme": " ", 
-                "command": " ", 
+                "level": "user",
+                "theme": " ",
+                "command": " ",
                 "details": " "
             },
             {
-                "level": "user", 
-                "theme": "Preferences", 
-                "command": "configure", 
+                "level": "user",
+                "theme": "Preferences",
+                "command": "configure",
                 "details": "Configure Rainbow CLI and store your preferences"
             },
             {
-                "level": "user", 
-                "theme": "Preferences", 
-                "command": "set email", 
+                "level": "user",
+                "theme": "Preferences",
+                "command": "set email",
                 "details": "Update the login email to use"
             },
             {
-                "level": "user", 
-                "theme": "Preferences", 
-                "command": "set password", 
+                "level": "user",
+                "theme": "Preferences",
+                "command": "set password",
                 "details": "Update the password to use"
             },
             {
-                "level": "user", 
-                "theme": "Preferences", 
-                "command": "set host", 
+                "level": "user",
+                "theme": "Preferences",
+                "command": "set host",
                 "details": "Update the host to use"
             },
             {
-                "level": "user", 
-                "theme": "Preferences", 
-                "command": "set proxy", 
+                "level": "user",
+                "theme": "Preferences",
+                "command": "set proxy",
                 "details": "Update the proxy to use"
             },
             {
-                "level": "user", 
-                "theme": "Preferences", 
-                "command": "set keys", 
+                "level": "user",
+                "theme": "Preferences",
+                "command": "set keys",
                 "details": "Update the application id and secret key to use"
             },
             {
-                "level": "user", 
-                "theme": "Preferences", 
-                "command": "preferences", 
+                "level": "user",
+                "theme": "Preferences",
+                "command": "preferences",
                 "details": "List preferences stored"
             },
             {
-                "level": "user", 
-                "theme": "Preferences", 
-                "command": "remove keys", 
+                "level": "user",
+                "theme": "Preferences",
+                "command": "remove keys",
                 "details": "Remove application id and secret from preferences"
             },
             {
-                "level": "user", 
-                "theme": "Preferences", 
-                "command": "remove proxy", 
+                "level": "user",
+                "theme": "Preferences",
+                "command": "remove proxy",
                 "details": "Remove proxy from preferences"
             },
             {
-                "level": "user", 
-                "theme": "Preferences", 
-                "command": "remove preferences", 
+                "level": "user",
+                "theme": "Preferences",
+                "command": "remove preferences",
                 "details": "Remove all preferences stored"
             },
             {
-                "level": "user", 
-                "theme": " ", 
-                "command": " ", 
+                "level": "user",
+                "theme": " ",
+                "command": " ",
                 "details": " "
             },
             {
-                "level": "user", 
-                "theme": "Rainbow", 
-                "command": "status api", 
+                "level": "user",
+                "theme": "Rainbow",
+                "command": "status api",
                 "details": "List Rainbow portals status"
             },
             {
-                "level": "user", 
-                "theme": "Rainbow", 
-                "command": "status platform", 
+                "level": "user",
+                "theme": "Rainbow",
+                "command": "status platform",
                 "details": "List Rainbow platform status"
             },
             {
-                "level": "user", 
-                "theme": " ", 
-                "command": " ", 
+                "level": "user",
+                "theme": " ",
+                "command": " ",
                 "details": " "
             },
             {
-                "level": "user", 
-                "theme": "Developer", 
-                "command": "set developer", 
+                "level": "user",
+                "theme": "Developer",
+                "command": "set developer",
                 "details": "Add role developer to account"
             }
         ];
@@ -651,135 +651,135 @@ class CAccount {
         if(that._prefs && that._prefs.user) {
 
             if (that._prefs.user.roles.includes("app_admin") || that._prefs.user.roles.includes("app_superadmin")) {
-        
+
                 var data_dev = [
 
                     {
-                        "level": "----------", 
-                        "theme": "----------", 
-                        "command": "----------", 
+                        "level": "----------",
+                        "theme": "----------",
+                        "command": "----------",
                         "details": "----------"
                     },
                     {
-                        "level": "app_admin", 
-                        "theme": "Applications", 
-                        "command": "create application <name>", 
+                        "level": "app_admin",
+                        "theme": "Applications",
+                        "command": "create application <name>",
                         "details": "Create a new application"
                     },
                     {
-                        "level": "app_admin", 
-                        "theme": "Applications", 
-                        "command": "delete application <appid>", 
+                        "level": "app_admin",
+                        "theme": "Applications",
+                        "command": "delete application <appid>",
                         "details": "Delete an existing application"
                     },
                     {
-                        "level": "app_admin", 
-                        "theme": "Applications", 
-                        "command": "application <appid>", 
+                        "level": "app_admin",
+                        "theme": "Applications",
+                        "command": "application <appid>",
                         "details": "List application's information"
                     },
                     {
-                        "level": "app_admin", 
-                        "theme": "Applications", 
-                        "command": "applications", 
+                        "level": "app_admin",
+                        "theme": "Applications",
+                        "command": "applications",
                         "details": "List applications"
                     },
-                    
+
                     {
-                        "level": "app_admin", 
-                        "theme": " ", 
-                        "command": " ", 
+                        "level": "app_admin",
+                        "theme": " ",
+                        "command": " ",
                         "details": " "
                     },
-                    
+
                     {
-                        "level": "app_admin", 
-                        "theme": "Notifications", 
-                        "command": "application create fcm <appid> <key>", 
+                        "level": "app_admin",
+                        "theme": "Notifications",
+                        "command": "application create fcm <appid> <key>",
                         "details": "Create a push notifications setting for Android FCM"
                     },
                     {
-                        "level": "app_admin", 
-                        "theme": "Notifications", 
-                        "command": "application create im <appid> <file>", 
+                        "level": "app_admin",
+                        "theme": "Notifications",
+                        "command": "application create im <appid> <file>",
                         "details": "Create a push notifications setting IM for IOS APNS"
                     },
                     {
-                        "level": "app_admin", 
-                        "theme": "Notifications", 
-                        "command": "application create voip <appid> <file>", 
+                        "level": "app_admin",
+                        "theme": "Notifications",
+                        "command": "application create voip <appid> <file>",
                         "details": "Create a push notifications setting VOIP for IOS APNS"
                     },
                     {
-                        "level": "app_admin", 
-                        "theme": "Notifications", 
-                        "command": "application delete pn <appid> <id>", 
+                        "level": "app_admin",
+                        "theme": "Notifications",
+                        "command": "application delete pn <appid> <id>",
                         "details": "Delete an existing push notification setting"
                     },
                     {
-                        "level": "app_admin", 
-                        "theme": "Notifications", 
-                        "command": "application pn <appid> <id>", 
+                        "level": "app_admin",
+                        "theme": "Notifications",
+                        "command": "application pn <appid> <id>",
                         "details": "List information of a push notifications setting"
                     },
                     {
-                        "level": "app_admin", 
-                        "theme": "Notifications", 
-                        "command": "application pns <appid>", 
+                        "level": "app_admin",
+                        "theme": "Notifications",
+                        "command": "application pns <appid>",
                         "details": "List application push notifications settings"
                     },
                     {
-                        "level": "app_admin", 
-                        "theme": " ", 
-                        "command": " ", 
+                        "level": "app_admin",
+                        "theme": " ",
+                        "command": " ",
                         "details": " "
                     },
                     {
-                        "level": "app_admin", 
-                        "theme": "Metrics", 
-                        "command": "metrics groups", 
+                        "level": "app_admin",
+                        "theme": "Metrics",
+                        "command": "metrics groups",
                         "details": "List metrics available for any applications"
                     },
                     {
-                        "level": "app_admin", 
-                        "theme": "Metrics", 
-                        "command": "metrics application <appid>", 
+                        "level": "app_admin",
+                        "theme": "Metrics",
+                        "command": "metrics application <appid>",
                         "details": "List application's metrics"
                     },
                     {
-                        "level": "app_admin", 
-                        "theme": " ", 
-                        "command": " ", 
+                        "level": "app_admin",
+                        "theme": " ",
+                        "command": " ",
                         "details": " "
                     },
                     {
-                        "level": "app_admin", 
-                        "theme": "Developers", 
-                        "command": "developers payment [userid]", 
+                        "level": "app_admin",
+                        "theme": "Developers",
+                        "command": "developers payment [userid]",
                         "details": "List developer payment information"
                     },
                     {
-                        "level": "app_admin", 
-                        "theme": "Developers", 
-                        "command": "developers methods [userid]", 
+                        "level": "app_admin",
+                        "theme": "Developers",
+                        "command": "developers methods [userid]",
                         "details": "List developer payment methods"
                     },
                     {
-                        "level": "app_admin", 
-                        "theme": "Developers", 
-                        "command": "developers method <methodid> [userid]", 
+                        "level": "app_admin",
+                        "theme": "Developers",
+                        "command": "developers method <methodid> [userid]",
                         "details": "List information of a developer payment method"
                     },
                     {
-                        "level": "app_admin", 
-                        "theme": "Developers", 
-                        "command": "developers delete method <methodid> [userid]", 
+                        "level": "app_admin",
+                        "theme": "Developers",
+                        "command": "developers delete method <methodid> [userid]",
                         "details": "Remove a developer payment method"
                     },
                     {
-                        "level": "app_admin", 
-                        "theme": "Developers", 
-                        "command": "developers subscriptions [userid]", 
+                        "level": "app_admin",
+                        "theme": "Developers",
+                        "command": "developers subscriptions [userid]",
                         "details": "List developer subscriptions associated to applications"
                     }
                 ];
@@ -791,45 +791,45 @@ class CAccount {
                 var data_dev = [
 
                     {
-                        "level": "----------", 
-                        "theme": "----------", 
-                        "command": "----------", 
+                        "level": "----------",
+                        "theme": "----------",
+                        "command": "----------",
                         "details": "----------"
                     },
                     {
-                        "level": "app_superadmin", 
-                        "theme": "Applications", 
-                        "command": "block application <appid>", 
+                        "level": "app_superadmin",
+                        "theme": "Applications",
+                        "command": "block application <appid>",
                         "details": "Block an existing application"
                     },
                     {
-                        "level": "app_superadmin", 
-                        "theme": "Applications", 
-                        "command": "unblock application <appid>", 
+                        "level": "app_superadmin",
+                        "theme": "Applications",
+                        "command": "unblock application <appid>",
                         "details": "Unblock an existing application"
                     },
                     {
-                        "level": "app_superadmin", 
-                        "theme": "Applications", 
-                        "command": "deploy application <appid>", 
+                        "level": "app_superadmin",
+                        "theme": "Applications",
+                        "command": "deploy application <appid>",
                         "details": "Accept a request of deployment"
                     },
                     {
-                        "level": "app_superadmin", 
-                        "theme": "Applications", 
-                        "command": "dismiss application <appid>", 
+                        "level": "app_superadmin",
+                        "theme": "Applications",
+                        "command": "dismiss application <appid>",
                         "details": "Decline a request of deployment"
                     },
                     {
-                        "level": "----------", 
-                        "theme": "----------", 
-                        "command": "----------", 
+                        "level": "app_superadmin",
+                        "theme": "----------",
+                        "command": "----------",
                         "details": "----------"
                     },
                     {
-                        "level": "app_superadmin", 
-                        "theme": "Developers", 
-                        "command": "developers delete payment <userid>", 
+                        "level": "app_superadmin",
+                        "theme": "Developers",
+                        "command": "developers delete payment <userid>",
                         "details": "Remove a existing developer payment account"
                     },
                 ];
@@ -841,231 +841,231 @@ class CAccount {
 
                 var data_company = [
                     {
-                        "level": "----------", 
-                        "theme": "----------", 
-                        "command": "----------", 
+                        "level": "----------",
+                        "theme": "----------",
+                        "command": "----------",
                         "details": "----------"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "Users", 
-                        "command": "create user <email> <pwd> <firstname> <lastname>", 
+                        "level": "company_admin",
+                        "theme": "Users",
+                        "command": "create user <email> <pwd> <firstname> <lastname>",
                         "details": "Create a new Rainbow user in your company"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "Users", 
-                        "command": "delete user <id>", 
+                        "level": "company_admin",
+                        "theme": "Users",
+                        "command": "delete user <id>",
                         "details": "Delete an existing user in your company"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "Users", 
-                        "command": "user <id>", 
+                        "level": "company_admin",
+                        "theme": "Users",
+                        "command": "user <id>",
                         "details": "List user's information"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "Users", 
-                        "command": "users", 
+                        "level": "company_admin",
+                        "theme": "Users",
+                        "command": "users",
                         "details": "List users"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "Users", 
-                        "command": "changepwd user <id> <pwd>", 
+                        "level": "company_admin",
+                        "theme": "Users",
+                        "command": "changepwd user <id> <pwd>",
                         "details": "Change the password of a user"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "Users", 
-                        "command": "changelogin user <id> <loginEmail>", 
+                        "level": "company_admin",
+                        "theme": "Users",
+                        "command": "changelogin user <id> <loginEmail>",
                         "details": "Change the login email of a user"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "Users", 
-                        "command": "block user <id>", 
+                        "level": "company_admin",
+                        "theme": "Users",
+                        "command": "block user <id>",
                         "details": "Block a user from connecting to Rainbow"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "Users", 
-                        "command": "unblock user <id>", 
+                        "level": "company_admin",
+                        "theme": "Users",
+                        "command": "unblock user <id>",
                         "details": "Unblock a user"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": " ", 
-                        "command": " ", 
-                        "details": " "
-                    },
-                    {
-                        "level": "company_admin", 
-                        "theme": "Company", 
-                        "command": "company [companyId]", 
-                        "details": "List company's information"
-                    },
-                    {
-                        "level": "company_admin", 
-                        "theme": "Company", 
-                        "command": "setpublic [companyId]", 
-                        "details": "Change the visibility of a company to public"
-                    },
-                    {
-                        "level": "company_admin", 
-                        "theme": "Company", 
-                        "command": "setprivate [companyId]", 
-                        "details": "Change the visibility of a company to private"
-                    },
-                    {
-                        "level": "company_admin", 
-                        "theme": "Company", 
-                        "command": "setorgpublic [companyId]", 
-                        "details": "Change the visibility of a company to public inside an organization"
-                    },
-                    {
-                        "level": "company_admin", 
-                        "theme": "Company", 
-                        "command": "status company", 
-                        "details": "Status on a company"
-                    },
-                    {
-                        "level": "company_admin", 
-                        "theme": " ", 
+                        "level": "company_admin",
+                        "theme": " ",
                         "command": " ",
                         "details": " "
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "Site", 
-                        "command": "create site <name>", 
+                        "level": "company_admin",
+                        "theme": "Company",
+                        "command": "company [companyId]",
+                        "details": "List company's information"
+                    },
+                    {
+                        "level": "company_admin",
+                        "theme": "Company",
+                        "command": "setpublic [companyId]",
+                        "details": "Change the visibility of a company to public"
+                    },
+                    {
+                        "level": "company_admin",
+                        "theme": "Company",
+                        "command": "setprivate [companyId]",
+                        "details": "Change the visibility of a company to private"
+                    },
+                    {
+                        "level": "company_admin",
+                        "theme": "Company",
+                        "command": "setorgpublic [companyId]",
+                        "details": "Change the visibility of a company to public inside an organization"
+                    },
+                    {
+                        "level": "company_admin",
+                        "theme": "Company",
+                        "command": "status company",
+                        "details": "Status on a company"
+                    },
+                    {
+                        "level": "company_admin",
+                        "theme": " ",
+                        "command": " ",
+                        "details": " "
+                    },
+                    {
+                        "level": "company_admin",
+                        "theme": "Site",
+                        "command": "create site <name>",
                         "details": "Create a new site"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "Site", 
-                        "command": "delete site <id>", 
+                        "level": "company_admin",
+                        "theme": "Site",
+                        "command": "delete site <id>",
                         "details": "Delete an existing site"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "Site", 
-                        "command": "site <id>", 
+                        "level": "company_admin",
+                        "theme": "Site",
+                        "command": "site <id>",
                         "details": "List site's information"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "Site", 
-                        "command": "sites", 
+                        "level": "company_admin",
+                        "theme": "Site",
+                        "command": "sites",
                         "details": "List sites"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": " ", 
-                        "command": " ", 
+                        "level": "company_admin",
+                        "theme": " ",
+                        "command": " ",
                         "details": " "
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "System", 
-                        "command": "create system <name> <siteId>", 
+                        "level": "company_admin",
+                        "theme": "System",
+                        "command": "create system <name> <siteId>",
                         "details": "Create a new system for a site"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "System", 
-                        "command": "delete system <id>", 
+                        "level": "company_admin",
+                        "theme": "System",
+                        "command": "delete system <id>",
                         "details": "Delete an existing system"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "System", 
-                        "command": "link system <systemId> <siteId>", 
+                        "level": "company_admin",
+                        "theme": "System",
+                        "command": "link system <systemId> <siteId>",
                         "details": "Link a system to a site"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "System", 
-                        "command": "unlink system <systemId> <siteId>", 
+                        "level": "company_admin",
+                        "theme": "System",
+                        "command": "unlink system <systemId> <siteId>",
                         "details": "Unlink a system from a site"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "System", 
-                        "command": "system <id>", 
+                        "level": "company_admin",
+                        "theme": "System",
+                        "command": "system <id>",
                         "details": "List system's information"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "System", 
-                        "command": "systems", 
+                        "level": "company_admin",
+                        "theme": "System",
+                        "command": "systems",
                         "details": "List systems"
                     },
                     {
-                        "level": "company_admin", 
+                        "level": "company_admin",
                         "theme": " ",
-                        "command": " ", 
+                        "command": " ",
                         "details": " "
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "Phone", 
-                        "command": "phone <id> <systemId>", 
+                        "level": "company_admin",
+                        "theme": "Phone",
+                        "command": "phone <id> <systemId>",
                         "details": "List phone's information"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "Phone", 
-                        "command": "phones <systemId>", 
+                        "level": "company_admin",
+                        "theme": "Phone",
+                        "command": "phones <systemId>",
                         "details": "List phones"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": " ", 
-                        "command": " ", 
+                        "level": "company_admin",
+                        "theme": " ",
+                        "command": " ",
                         "details": " "
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "Mass-Provisioning", 
-                        "command": "masspro template user [filename]", 
+                        "level": "company_admin",
+                        "theme": "Mass-Provisioning",
+                        "command": "masspro template user [filename]",
                         "details": "Download the csv template for users"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "Mass-Provisioning", 
-                        "command": "masspro template device [filename]", 
+                        "level": "company_admin",
+                        "theme": "Mass-Provisioning",
+                        "command": "masspro template device [filename]",
                         "details": "Download the csv template for devices"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "Mass-Provisioning", 
-                        "command": "masspro check <filename>", 
+                        "level": "company_admin",
+                        "theme": "Mass-Provisioning",
+                        "command": "masspro check <filename>",
                         "details": "Check that a CSV file is correct"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "Mass-Provisioning", 
-                        "command": "masspro import <filename>", 
+                        "level": "company_admin",
+                        "theme": "Mass-Provisioning",
+                        "command": "masspro import <filename>",
                         "details": "Import a CSV file containing users"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "Mass-Provisioning", 
-                        "command": "masspro status company [companyId]", 
+                        "level": "company_admin",
+                        "theme": "Mass-Provisioning",
+                        "command": "masspro status company [companyId]",
                         "details": "List imports status done for a company"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "Mass-Provisioning", 
-                        "command": "masspro status <reqId>", 
+                        "level": "company_admin",
+                        "theme": "Mass-Provisioning",
+                        "command": "masspro status <reqId>",
                         "details": "List an import details"
                     },
                     {
-                        "level": "company_admin", 
-                        "theme": "Mass-Provisioning", 
-                        "command": "masspro delete status <reqId>", 
+                        "level": "company_admin",
+                        "theme": "Mass-Provisioning",
+                        "command": "masspro delete status <reqId>",
                         "details": "Delete an import details"
                     }
                 ];
@@ -1077,51 +1077,51 @@ class CAccount {
 
                 var data_organization_bp = [
                     {
-                        "level": "----------", 
-                        "theme": "----------", 
-                        "command": "----------", 
+                        "level": "----------",
+                        "theme": "----------",
+                        "command": "----------",
                         "details": "----------"
                     },
                     {
-                        "level": "organization_admin", 
-                        "theme": "Company", 
-                        "command": "create company <name>", 
+                        "level": "organization_admin",
+                        "theme": "Company",
+                        "command": "create company <name>",
                         "details": "Create a new company"
                     },
                     {
-                        "level": "organization_admin", 
-                        "theme": "Company", 
-                        "command": "delete company <id>", 
+                        "level": "organization_admin",
+                        "theme": "Company",
+                        "command": "delete company <id>",
                         "details": "Delete an existing company"
                     },
                     {
-                        "level": "organization_admin", 
-                        "theme": "Company", 
-                        "command": "link company <companyId>", 
+                        "level": "organization_admin",
+                        "theme": "Company",
+                        "command": "link company <companyId>",
                         "details": "Link a company to organization"
                     },
                     {
-                        "level": "organization_admin", 
-                        "theme": "Company", 
-                        "command": "unlink company <companyId>", 
+                        "level": "organization_admin",
+                        "theme": "Company",
+                        "command": "unlink company <companyId>",
                         "details": "Unlink a company from organization"
                     },
                     {
-                        "level": "organization_admin", 
-                        "theme": "Company", 
-                        "command": "free company <companyId>", 
+                        "level": "organization_admin",
+                        "theme": "Company",
+                        "command": "free company <companyId>",
                         "details": "Remove all users from a company"
                     },
                     {
-                        "level": "organization_admin", 
-                        "theme": "Company", 
-                        "command": "company <id>", 
+                        "level": "organization_admin",
+                        "theme": "Company",
+                        "command": "company <id>",
                         "details": "List company's information"
                     },
                     {
-                        "level": "organization_admin", 
-                        "theme": "Company", 
-                        "command": "companies", 
+                        "level": "organization_admin",
+                        "theme": "Company",
+                        "command": "companies",
                         "details": "List companies"
                     }
                 ];
@@ -1133,15 +1133,15 @@ class CAccount {
 
                 var data_orga_only = [
                     {
-                        "level": "organization_admin", 
-                        "theme": " ", 
-                        "command": " ", 
+                        "level": "organization_admin",
+                        "theme": " ",
+                        "command": " ",
                         "details": " "
                     },
                     {
-                        "level": "organization_admin", 
-                        "theme": "Organization", 
-                        "command": "org", 
+                        "level": "organization_admin",
+                        "theme": "Organization",
+                        "command": "org",
                         "details": "List organization's information"
                     }
                 ];
@@ -1153,45 +1153,45 @@ class CAccount {
 
                 var data_bp_only = [
                     {
-                        "level": "----------", 
-                        "theme": "----------", 
-                        "command": "----------", 
+                        "level": "----------",
+                        "theme": "----------",
+                        "command": "----------",
                         "details": "----------"
                     },
                     {
-                        "level": "bp_admin", 
-                        "theme": "Company", 
-                        "command": "customers", 
+                        "level": "bp_admin",
+                        "theme": "Company",
+                        "command": "customers",
                         "details": "List customers companies"
                     },
                     {
-                        "level": "bp_admin", 
+                        "level": "bp_admin",
                         "theme":  " ",
                         "command":  " ",
                         "details": " "
                     },
                     {
-                        "level": "bp_admin", 
-                        "theme": "Invoices", 
-                        "command": "invoices", 
+                        "level": "bp_admin",
+                        "theme": "Invoices",
+                        "command": "invoices",
                         "details": "List customers invoices"
                     },
                     {
-                        "level": "bp_admin", 
-                        "theme": "Invoices", 
-                        "command": "download invoice <invoicePath> [filename]", 
+                        "level": "bp_admin",
+                        "theme": "Invoices",
+                        "command": "download invoice <invoicePath> [filename]",
                         "details": "Download an invoice (CSV format)"
                     },
                     {
-                        "level": "bp_admin", 
-                        "theme": "Invoices", 
-                        "command": "download cdr services [filename]", 
+                        "level": "bp_admin",
+                        "theme": "Invoices",
+                        "command": "download cdr services [filename]",
                         "details": "Download detailed invoice for services (CSV format)"
                     },
                     {
-                        "level": "bp_admin", 
-                        "theme": "Invoices", 
-                        "command": "download cdr conference [filename]", 
+                        "level": "bp_admin",
+                        "theme": "Invoices",
+                        "command": "download cdr conference [filename]",
                         "details": "Download detailed invoice for conference (CSV format)"
                     }
                 ];
@@ -1202,81 +1202,81 @@ class CAccount {
             if(that._prefs.user.roles.includes("superadmin")) {
                 var data_superadmin = [
                     {
-                        "level": "----------", 
-                        "theme": "----------", 
-                        "command": "----------", 
+                        "level": "----------",
+                        "theme": "----------",
+                        "command": "----------",
                         "details": "----------"
                     },
                     {
-                        "level": "superadmin", 
-                        "theme": "Organization", 
-                        "command": "create org <name>", 
+                        "level": "superadmin",
+                        "theme": "Organization",
+                        "command": "create org <name>",
                         "details": "Create a new organization"
                     },
                     {
-                        "level": "superadmin", 
-                        "theme": "Organization", 
-                        "command": "delete org <id>", 
+                        "level": "superadmin",
+                        "theme": "Organization",
+                        "command": "delete org <id>",
                         "details": "Delete an existing organization"
                     },
                     {
-                        "level": "superadmin", 
-                        "theme": "Organization", 
-                        "command": "find <id>", 
+                        "level": "superadmin",
+                        "theme": "Organization",
+                        "command": "find <id>",
                         "details": "List information corresponding to an Id"
                     },
                     {
-                        "level": "superadmin", 
-                        "theme": "Organization", 
-                        "command": "org <id>", 
+                        "level": "superadmin",
+                        "theme": "Organization",
+                        "command": "org <id>",
                         "details": "List organization's information"
                     },
                     {
-                        "level": "superadmin", 
-                        "theme": "Organization", 
-                        "command": "orgs", 
+                        "level": "superadmin",
+                        "theme": "Organization",
+                        "command": "orgs",
                         "details": "List organizations"
                     },
                     {
-                        "level": "superadmin", 
+                        "level": "superadmin",
                         "theme":  " ",
                         "command":  " ",
                         "details": " "
                     },
                     {
-                        "level": "superadmin", 
-                        "theme": "Business", 
-                        "command": "offer <id>", 
+                        "level": "superadmin",
+                        "theme": "Business",
+                        "command": "offer <id>",
                         "details": "List offer's information"
                     },
                     {
-                        "level": "superadmin", 
-                        "theme": "Business", 
-                        "command": "offers", 
+                        "level": "superadmin",
+                        "theme": "Business",
+                        "command": "offers",
                         "details": "List offers"
                     },
                     {
-                        "level": "superadmin", 
-                        "theme": "Business", 
-                        "command": "create catalog <name>", 
+                        "level": "superadmin",
+                        "theme": "Business",
+                        "command": "create catalog <name>",
                         "details": "Create a new catalog"
                     },
                     {
-                        "level": "superadmin", 
-                        "theme": "Business", 
-                        "command": "delete catalog <id>", 
+                        "level": "superadmin",
+                        "theme": "Business",
+                        "command": "delete catalog <id>",
                         "details": "Delete existing catalog"
                     },
                     {
-                        "level": "superadmin", 
-                        "theme": "Business", 
-                        "command": "catalog <id>", 
+                        "level": "superadmin",
+                        "theme": "Business",
+                        "command": "catalog <id>",
                         "details": "List catalog's information"
                     },
                     {
-                        "level": "superadmin", 
-                        "theme": "Business", 
-                        "command": "catalogs", 
+                        "level": "superadmin",
+                        "theme": "Business",
+                        "command": "catalogs",
                         "details": "List catalogs"
                     }
                 ];
@@ -1293,10 +1293,10 @@ class CAccount {
         Message.lineFeed();
 
         Message.tableCommands(json, options);
-        
+
         Message.log("finished!");
     }
-    
+
 }
 
 module.exports = CAccount;

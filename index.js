@@ -28,6 +28,8 @@ const Developer       = require('./routes/Developer');
 
 start = function() {
 
+  program.setMaxListeners(100);
+
   // Initialize the program
   program.version(pkg.version);
 

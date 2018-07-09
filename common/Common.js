@@ -18,5 +18,5 @@ const checkNewVersion = () => {
 }
 
 module.exports = {
-    checkNewVersion: checkNewVersion
+    checkNewVersion: checkNewVersion,
 };

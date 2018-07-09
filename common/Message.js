@@ -378,8 +378,8 @@ class Message {
     tableApplications(json, options) {
 
         var array = [];
-        array.push([ "#".gray, "Name".gray, "Type".gray, "Environment".gray, "State".gray, "OwnerId".gray, "Id".gray, "Created".gray, "Payment".gray]);
-        array.push([ "-".gray, "----".gray, "----".gray, "-----------".gray, "-----".gray, "-------".gray, "--".gray, "-------".gray, "--------".gray]);
+        array.push([ "#".gray, "Name".gray, "Type".gray, "Environment".gray, "State".gray, "OwnerId".gray, "Id".gray, "Created".gray, "Subscription".gray]);
+        array.push([ "-".gray, "----".gray, "----".gray, "-----------".gray, "-----".gray, "-------".gray, "--".gray, "-------".gray, "------------".gray]);
 
         var apps = json.data;
 
@@ -407,7 +407,7 @@ class Message {
                 state = state.white;
             }
 
-            let date = moment(app.dateOfCreation).format("LL");
+            let date = moment(app.dateOfCreation).format("ll");
 
             let ownerId = app.ownerId || "";
 
@@ -1094,7 +1094,9 @@ class Message {
 
     notFound() {
         Screen.error("Command not found");
-        Screen.print("Type `rbw --help` for the list of available commands");
+        Screen.print("Type ".white + "rbw commands".yellow + " for the list of available commands".white);
+        Screen.print("Type ".white + "rbw <command> --help".yellow + " for the list of command's options".white);
+        Screen.print('');
     }
 
     found(number, type, options) {
@@ -1111,6 +1113,12 @@ class Message {
         }
 
         Screen.print("Warning, ".red + text.white  + " '".cyan + value.cyan + "'".cyan);
+    }
+
+    errorCommand() {
+        let msg = "Invalid command. Type option ".white + "--help".yellow + " to get the list of available options".white;
+        Screen.error(msg);
+        Screen.print('');
     }
 
     errorList(err, options, itemId) {

@@ -2,6 +2,7 @@
 
 var CUser = require('../commands/CUser');
 var Logger = require('../common/Logger');
+var Middleware = require('../common/Middleware');
 
 class User {
 
@@ -38,13 +39,17 @@ class User {
         })
         .action(function (id, commands) {
 
-            var options= {
-                noOutput: commands.json || false
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    noOutput: commands.json || false
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._user.getUser(id, options);
+                that._user.getUser(id, options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('create user', '<username> <password> <firstname> <lastname>')
@@ -69,16 +74,21 @@ class User {
         })
         .action(function (email, password, firstname, lastname, commands) {
 
-            var options = {
-                noOutput: commands.json || false,
-                companyId: commands.company || "",
-                isAdmin: commands.admin || false,
-                orgId: commands.org || false
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    noOutput: commands.json || false,
+                    companyId: commands.company || "",
+                    isAdmin: commands.admin || false,
+                    orgId: commands.org || false
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._user.create(email, password, firstname, lastname, options); 
+                that._user.create(email, password, firstname, lastname, options);
+
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('delete user', '<id>')
@@ -98,13 +108,17 @@ class User {
         })
         .action(function (id, commands) {
 
-            var options = {
-                noconfirmation: commands.nc || false
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    noconfirmation: commands.nc || false
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._user.delete(id, options); 
+                that._user.delete(id, options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('changelogin user', '<id> <login>')
@@ -118,12 +132,16 @@ class User {
         })
         .action(function (id, login, commands) {
 
-            var options = {
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._user.changelogin(id, login, options); 
+                that._user.changelogin(id, login, options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('changepwd user', '<id> <password>')
@@ -137,12 +155,16 @@ class User {
         })
         .action(function (id, password, commands) {
 
-            var options = {
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._user.changepwd(id, password, options); 
+                that._user.changepwd(id, password, options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('block user', '<id>')
@@ -156,14 +178,18 @@ class User {
         })
         .action(function (id, commands) {
 
-            var options = {
-                id: id,
-                toBlock: true
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    id: id,
+                    toBlock: true
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._user.blockOrUnblock(options); 
+                that._user.blockOrUnblock(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('unblock user', '<id>')
@@ -177,14 +203,18 @@ class User {
         })
         .action(function (id, commands) {
 
-            var options = {
-                id: id,
-                toBlock: false
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    id: id,
+                    toBlock: false
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._user.blockOrUnblock(options); 
+                that._user.blockOrUnblock(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('users')
@@ -221,57 +251,64 @@ class User {
         })
         .action(function (commands) {
 
-            var options = {
-                companyId:"",
-                onlyTerminated: false,
-                csv: "",
-                format: "full",
-                page: "1",
-                name: null,
-                email: null,
-                limit: "25"
-            };
+            let parse = (commands)
 
-            var page = "1";
-            var limit = "25";
-            var format = "full";
-           
-            if("page" in commands) {
-                if(commands.page > 1) {
-                    page = commands.page;
+            Middleware.parseCommand(commands).then( () => {
+
+                var options = {
+                    companyId:"",
+                    onlyTerminated: false,
+                    csv: "",
+                    format: "full",
+                    page: "1",
+                    name: null,
+                    email: null,
+                    limit: "25"
+                };
+
+                var page = "1";
+                var limit = "25";
+                var format = "full";
+
+                if("page" in commands) {
+                    if(commands.page > 1) {
+                        page = commands.page;
+                    }
                 }
-            }
-            
-            if("limit" in commands && commands.limit) {
-                if(commands.limit > 0) {
-                    limit = commands.limit;
+
+                if("limit" in commands && commands.limit) {
+                    if(commands.limit > 0) {
+                        limit = commands.limit;
+                    }
                 }
-            }
-            
-            if(commands.csv) {
-                format = "medium";
-            }
 
-            options = {
-                noOutput: commands.json || false,
-                companyId: commands.cid || "",
-                company: commands.company || null,
-                onlyTerminated: commands.terminated || false,
-                csv: commands.file || "",
-                format: format,
-                name: commands.name || null,
-                email: commands.email || null,
-                page: page,
-                limit: limit
-            };
+                if(commands.csv) {
+                    format = "medium";
+                }
 
-            if(commands.max) {
-                options.limit = 1000;
-            }
+                options = {
+                    noOutput: commands.json || false,
+                    companyId: commands.cid || "",
+                    company: commands.company || null,
+                    onlyTerminated: commands.terminated || false,
+                    csv: commands.file || "",
+                    format: format,
+                    name: commands.name || null,
+                    email: commands.email || null,
+                    page: page,
+                    limit: limit
+                };
 
-            Logger.isActive = commands.verbose || false;
+                if(commands.max) {
+                    options.limit = 1000;
+                }
 
-            that._user.getUsers(options);
+                Logger.isActive = commands.verbose || false;
+
+                that._user.getUsers(options);
+            }).catch(() => {
+
+            });
         });
     }
 }
