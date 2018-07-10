@@ -35,15 +35,19 @@ class CStatus {
                 doRequest('/api/rainbow/authentication/v1.0/about', "Rainbow Authentication API", token),
                 doRequest('/api/rainbow/calendar/v1.0/about', "Rainbow Calendar API", token),
                 doRequest('/api/rainbow/channels/v1.0/about', "Rainbow Channels API", token),
-                doRequest('/api/rainbow/cpaascounters/v1.0/about', "Rainbow CPaaS Counters API", token),
+                doRequest('/api/rainbow/conference/v1.0/about', "Rainbow Conference API", token),
                 doRequest('/api/rainbow/enduser/v1.0/about', "Rainbow End user API", token),
                 doRequest('/api/rainbow/filestorage/v1.0/about', "Rainbow File-storage API", token),
+                doRequest('/api/rainbow/geolocation/v1.0/about', "Rainbow Geolocation API", token),
                 doRequest('/api/rainbow/invoicing/v1.0/about', "Rainbow Invoices API", token),
                 doRequest('/api/rainbow/massprovisioning/v1.0/about', "Rainbow Mass-provisioning API", token),
                 doRequest('/api/rainbow/metrics/v1.0/about', "Rainbow Metrics API", token),
+                doRequest('/api/rainbow/search/v1.0/about', "Rainbow Search API", token),
                 doRequest('/api/rainbow/subscription/v1.0/about', "Rainbow Subscription API", token),
                 doRequest('/api/rainbow/telephony/v1.0/about', "Rainbow Telephony API", token),
-                
+                doRequest('/api/rainbow/mediapillar/v1.0/about', "Rainbow WebRTC Gateway API", token),
+                doRequest('/api/rainbow/mediapillarnumbering/v1.0/about', "Rainbow WebRTC Gateway Numbering API", token)
+
             ]).then((portals) => {
                 resolve(portals);
             }).catch((err) => {
@@ -89,14 +93,14 @@ class CStatus {
 
     getStatus(options) {
         var that = this;
-        
+
         Message.welcome(options);
-                
+
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
 
             Message.action("API status information for host " + this._prefs.host);
-            
+
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
@@ -104,8 +108,8 @@ class CStatus {
             }).then(function(json) {
 
                 Message.unspin(spin);
-                Message.log("action done...", json); 
-                
+                Message.log("action done...", json);
+
                 if(options.noOutput) {
                     Message.out(json);
                 }
@@ -129,14 +133,14 @@ class CStatus {
 
     getPlatformStatus(options) {
         var that = this;
-        
+
         Message.welcome(options);
-                
+
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
 
             Message.action("Platform status information for host " + this._prefs.host);
-            
+
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
@@ -144,8 +148,8 @@ class CStatus {
             }).then(function(json) {
 
                 Message.unspin(spin);
-                Message.log("action done...", json); 
-                
+                Message.log("action done...", json);
+
                 if(options.noOutput) {
                     Message.out(json);
                 }
