@@ -2,6 +2,7 @@
 
 var CCompany = require('../commands/CCompany');
 var Logger = require('../common/Logger');
+var Middleware = require('../common/Middleware');
 
 class Company {
 
@@ -45,13 +46,17 @@ class Company {
         })
         .action(function (id, commands) {
 
-            var options = {
-                noOutput: commands.json || false
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    noOutput: commands.json || false
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._company.getCompany(id, options);
+                that._company.getCompany(id, options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('create company', '<name>')
@@ -71,13 +76,17 @@ class Company {
         })
         .action(function (name, commands) {
 
-            var options = {
-                noOutput: commands.json || false
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    noOutput: commands.json || false
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._company.createCompany(name, options);
+                that._company.createCompany(name, options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('delete company', '<id>')
@@ -100,14 +109,18 @@ class Company {
         })
         .action(function (id, commands) {
 
-            var options = {
-                noconfirmation: commands.nc || false,
-                force: commands.force || false,
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    noconfirmation: commands.nc || false,
+                    force: commands.force || false,
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._company.deleteCompany(id, options);
+                that._company.deleteCompany(id, options);
+            }).catch( () => {
+
+            });
         });
 
         /*
@@ -117,7 +130,7 @@ class Company {
             return val.split(',');})
         .option('--nc', 'Do not ask confirmation')
         .option('-f, --force', 'Force to remove the company and the users if exist')
-        
+
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -130,7 +143,7 @@ class Company {
             console.log('');
         })
         .action(function (commands) {
-            
+
             var options = {
                 noconfirmation: commands.nc || false,
                 list: commands.list || null,
@@ -157,12 +170,16 @@ class Company {
         })
         .action(function (id, commands) {
 
-            var options = {
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._company.statusCompany(id, options);
+                that._company.statusCompany(id, options);
+            }).catch( () => {
+
+            });
         });
 
 
@@ -182,8 +199,12 @@ class Company {
         })
         .action(function (id, orgid, commands) {
 
-            Logger.isActive = commands.verbose || false;
-            that._company.linkCompany(id, orgid);
+            Middleware.parseCommand(commands).then( () => {
+                Logger.isActive = commands.verbose || false;
+                that._company.linkCompany(id, orgid);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('setpublic company', '[id]')
@@ -198,13 +219,17 @@ class Company {
         })
         .action(function (id, commands) {
 
-            var options = {
-                "id": id || null,
-                "visibility": "public"
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    "id": id || null,
+                    "visibility": "public"
+                };
 
-            Logger.isActive = commands.verbose || false;
-            that._company.setVisibility(options);
+                Logger.isActive = commands.verbose || false;
+                that._company.setVisibility(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('setprivate company', '[id]')
@@ -219,13 +244,17 @@ class Company {
         })
         .action(function (id, commands) {
 
-            var options = {
-                "id": id || null,
-                "visibility": "private"
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    "id": id || null,
+                    "visibility": "private"
+                };
 
-            Logger.isActive = commands.verbose || false;
-            that._company.setVisibility(options);
+                Logger.isActive = commands.verbose || false;
+                that._company.setVisibility(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('setorgpublic company', '[id]')
@@ -240,13 +269,17 @@ class Company {
         })
         .action(function (id, commands) {
 
-            var options = {
-                "id": id || null,
-                "visibility": "organization"
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    "id": id || null,
+                    "visibility": "organization"
+                };
 
-            Logger.isActive = commands.verbose || false;
-            that._company.setVisibility(options);
+                Logger.isActive = commands.verbose || false;
+                that._company.setVisibility(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('unlink company', '<id>')
@@ -264,8 +297,12 @@ class Company {
         })
         .action(function (id, commands) {
 
-            Logger.isActive = commands.verbose || false;
-            that._company.unlinkCompany(id);
+            Middleware.parseCommand(commands).then( () => {
+                Logger.isActive = commands.verbose || false;
+                that._company.unlinkCompany(id);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('companies')
@@ -299,48 +336,52 @@ class Company {
         })
         .action(function (commands) {
 
-            var options = {
-                bp: false,
-                org: "",
-                csv: "",
-                page: "1",
-                limit: "25"
-            };
-
-            if(typeof commands === "object") {
-
-                var page = "1";
-                if("page" in commands) {
-                    if(commands.page > 1) {
-                        page = commands.page;
-                    }
-                }
-
-                var limit = "25";
-                if("limit" in commands && commands.limit) {
-                    if(commands.limit > 0) {
-                        limit = commands.limit;
-                    }
-                }
-
-                options = {
-                    bp: commands.bp || false,
-                    org: commands.org ? commands.org : "",
-                    csv: commands.file || "",
-                    page: page,
-                    name: commands.name || null,
-                    noOutput: commands.json || false,
-                    limit: limit
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    bp: false,
+                    org: "",
+                    csv: "",
+                    page: "1",
+                    limit: "25"
                 };
 
-                if(commands.max) {
-                    options.limit = 1000;
+                if(typeof commands === "object") {
+
+                    var page = "1";
+                    if("page" in commands) {
+                        if(commands.page > 1) {
+                            page = commands.page;
+                        }
+                    }
+
+                    var limit = "25";
+                    if("limit" in commands && commands.limit) {
+                        if(commands.limit > 0) {
+                            limit = commands.limit;
+                        }
+                    }
+
+                    options = {
+                        bp: commands.bp || false,
+                        org: commands.org ? commands.org : "",
+                        csv: commands.file || "",
+                        page: page,
+                        name: commands.name || null,
+                        noOutput: commands.json || false,
+                        limit: limit
+                    };
+
+                    if(commands.max) {
+                        options.limit = 1000;
+                    }
                 }
-            }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._company.getCompanies(options);
+                that._company.getCompanies(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('customers')
@@ -369,40 +410,44 @@ class Company {
         })
         .action(function (commands) {
 
-            var options = {
-                csv: "",
-                page: "1",
-                limit: "25"
-            };
-
-            if(typeof commands === "object") {
-
-                var page = "1";
-                if("page" in commands) {
-                    if(commands.page > 1) {
-                        page = commands.page;
-                    }
-                }
-
-                var limit = "25";
-                if("limit" in commands && commands.limit) {
-                    if(commands.limit > 0) {
-                        limit = commands.limit;
-                    }
-                }
-
-                options = {
-                    csv: commands.file || "",
-                    page: page,
-                    name: commands.name || null,
-                    noOutput: commands.json || false,
-                    limit: limit
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    csv: "",
+                    page: "1",
+                    limit: "25"
                 };
-            }
 
-            Logger.isActive = commands.verbose || false;
+                if(typeof commands === "object") {
 
-            that._company.getCompanies(options, true);
+                    var page = "1";
+                    if("page" in commands) {
+                        if(commands.page > 1) {
+                            page = commands.page;
+                        }
+                    }
+
+                    var limit = "25";
+                    if("limit" in commands && commands.limit) {
+                        if(commands.limit > 0) {
+                            limit = commands.limit;
+                        }
+                    }
+
+                    options = {
+                        csv: commands.file || "",
+                        page: page,
+                        name: commands.name || null,
+                        noOutput: commands.json || false,
+                        limit: limit
+                    };
+                }
+
+                Logger.isActive = commands.verbose || false;
+
+                that._company.getCompanies(options, true);
+            }).catch( () => {
+
+            });
         });
     }
 }

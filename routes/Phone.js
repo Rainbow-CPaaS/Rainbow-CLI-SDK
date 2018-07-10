@@ -2,6 +2,7 @@
 
 var CPhone = require('../commands/CPhone');
 var Logger = require('../common/Logger');
+var Middleware = require('../common/Middleware');
 
 class Phone {
 
@@ -21,7 +22,7 @@ class Phone {
     listOfCommands() {
         var that = this;
 
-        
+
         this._program.command('phone', '<id> <systemid>')
         .description("Retrieve information about an existing phone")
         .option('-j, --json', 'Write the JSON result to standard stdout')
@@ -39,13 +40,17 @@ class Phone {
         })
         .action(function (id, systemid, commands) {
 
-            var options= {
-                noOutput: commands.json || false
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    noOutput: commands.json || false
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._phone.getPhone(id, systemid, options);
+                that._phone.getPhone(id, systemid, options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('phones', '<systemid>')
@@ -67,44 +72,48 @@ class Phone {
             console.log('');
             console.log('    The option `--json` exports an array of JSON objects representing the users retrieved to the console');
             console.log('    The options `--page` and `limit` allow to navigate between paginated results');
-            
+
         })
         .action(function (systemid, commands) {
 
-            var options = {
-                csv: "",
-                page: "1",
-                limit: "25"
-            };
-
-            if(typeof commands === "object") {
-
-                var page = "1";
-                if("page" in commands) {
-                    if(commands.page > 1) {
-                        page = commands.page;
-                    }
-                }
-            
-                var limit = "25";
-                if("limit" in commands && commands.limit) {
-                    if(commands.limit > 0) {
-                        limit = commands.limit;
-                    }
-                }
-
-                options = {
-                    csv: commands.file || "",
-                    noOutput: commands.json || false,
-                    page: page,
-                    limit: limit
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    csv: "",
+                    page: "1",
+                    limit: "25"
                 };
 
-            }
+                if(typeof commands === "object") {
 
-            Logger.isActive = commands.verbose || false;
+                    var page = "1";
+                    if("page" in commands) {
+                        if(commands.page > 1) {
+                            page = commands.page;
+                        }
+                    }
 
-            that._phone.getPhones(systemid, options);
+                    var limit = "25";
+                    if("limit" in commands && commands.limit) {
+                        if(commands.limit > 0) {
+                            limit = commands.limit;
+                        }
+                    }
+
+                    options = {
+                        csv: commands.file || "",
+                        noOutput: commands.json || false,
+                        page: page,
+                        limit: limit
+                    };
+
+                }
+
+                Logger.isActive = commands.verbose || false;
+
+                that._phone.getPhones(systemid, options);
+            }).catch( () => {
+
+            });
         });
     }
 }

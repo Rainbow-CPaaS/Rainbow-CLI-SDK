@@ -3,6 +3,7 @@
 var CAccount = require('../commands/CAccount');
 var Logger = require('../common/Logger');
 var Helper = require('../common/Helper');
+var Middleware = require('../common/Middleware');
 
 class Account {
 
@@ -47,30 +48,34 @@ class Account {
             })
             .action(function (email, password, commands) {
 
-                let proxyJSON = null;
+                Middleware.parseCommand(commands).then( () => {
+                    let proxyJSON = null;
 
-                if(commands.proxy) {
-                    proxyJSON = Helper.getProxyFromString(commands.proxy);
-                }
+                    if(commands.proxy) {
+                        proxyJSON = Helper.getProxyFromString(commands.proxy);
+                    }
 
-                var platform = commands.host ? commands.host : "sandbox";
+                    var platform = commands.host ? commands.host : "sandbox";
 
-                var options = {
-                    noOutput: commands.json || false,
-                    proxy: proxyJSON,
-                    email: email || null,
-                    password: password || null,
-                    host: commands.host || null
-                };
+                    var options = {
+                        noOutput: commands.json || false,
+                        proxy: proxyJSON,
+                        email: email || null,
+                        password: password || null,
+                        host: commands.host || null
+                    };
 
-                Logger.isActive = commands.verbose || false;
+                    Logger.isActive = commands.verbose || false;
 
-                that._account.login(options);
+                    that._account.login(options);
 
-                // Check for a new version
-                if(!commands.json) {
-                    require('../common/Common').checkNewVersion();
-                }
+                    // Check for a new version
+                    if(!commands.json) {
+                        require('../common/Common').checkNewVersion();
+                    }
+                }).catch( () => {
+
+                });
             });
 
         this._program.command('logout')
@@ -84,9 +89,13 @@ class Account {
             })
             .action(function (commands) {
 
-                Logger.isActive = commands.verbose || false;
+                Middleware.parseCommand(commands).then( () => {
+                    Logger.isActive = commands.verbose || false;
 
-                that._account.logout();
+                    that._account.logout();
+                }).catch( () => {
+
+                });
             });
 
         this._program.command('set developer')
@@ -100,13 +109,17 @@ class Account {
             })
             .action(function (commands) {
 
-                Logger.isActive = commands.verbose || false;
+                Middleware.parseCommand(commands).then( () => {
+                    Logger.isActive = commands.verbose || false;
 
-                let options = {
+                    let options = {
 
-                };
+                    };
 
-                that._account.setDeveloper();
+                    that._account.setDeveloper();
+                }).catch( () => {
+
+                });
             });
 
         this._program.command('preferences')
@@ -121,18 +134,22 @@ class Account {
             })
             .action(function (commands) {
 
-                Logger.isActive = commands.verbose || false;
+                Middleware.parseCommand(commands).then( () => {
+                    Logger.isActive = commands.verbose || false;
 
-                let options = {
-                    noOutput: commands.json || false
-                };
+                    let options = {
+                        noOutput: commands.json || false
+                    };
 
-                that._account.preferences(options);
+                    that._account.preferences(options);
 
-                // Check for a new version
-                if(!commands.json) {
-                    require('../common/Common').checkNewVersion();
-                }
+                    // Check for a new version
+                    if(!commands.json) {
+                        require('../common/Common').checkNewVersion();
+                    }
+                }).catch( () => {
+
+                });
             });
 
         this._program.command('remove preferences')
@@ -146,14 +163,18 @@ class Account {
             })
             .action(function (commands) {
 
-                Logger.isActive = commands.verbose || false;
+                Middleware.parseCommand(commands).then( () => {
+                    Logger.isActive = commands.verbose || false;
 
-                let options = {
-                };
+                    let options = {
+                    };
 
-                that._account.removePreferences(options);
+                    that._account.removePreferences(options);
+                }).catch( () => {
+
+                });
             });
-        
+
         this._program.command('whoami')
             .description("Display information about the connected user")
             .option('--json', 'Write the JSON result to standard stdout')
@@ -171,18 +192,22 @@ class Account {
             })
             .action(function (commands) {
 
-                var options = {
-                    noOutput: commands.json || false
-                }
+                Middleware.parseCommand(commands).then( () => {
+                    var options = {
+                        noOutput: commands.json || false
+                    }
 
-                Logger.isActive = commands.verbose || false;
+                    Logger.isActive = commands.verbose || false;
 
-                that._account.getConnectedUserInformation(options);
+                    that._account.getConnectedUserInformation(options);
 
-                // Check for a new version
-                if(!commands.json) {
-                    require('../common/Common').checkNewVersion();
-                }
+                    // Check for a new version
+                    if(!commands.json) {
+                        require('../common/Common').checkNewVersion();
+                    }
+                }).catch( () => {
+
+                });
             });
 
         this._program.command('set keys', '<appid> <appsecret>')
@@ -196,14 +221,18 @@ class Account {
             })
             .action(function (appid, appsecret, commands) {
 
-                Logger.isActive = commands.verbose || false;
+                Middleware.parseCommand(commands).then( () => {
+                    Logger.isActive = commands.verbose || false;
 
-                let options = {
-                    appid: appid,
-                    appsecret: appsecret
-                };
+                    let options = {
+                        appid: appid,
+                        appsecret: appsecret
+                    };
 
-                that._account.setKeys(options);
+                    that._account.setKeys(options);
+                }).catch( () => {
+
+                });
             });
 
         this._program.command('set password', '<password>')
@@ -217,13 +246,17 @@ class Account {
             })
             .action(function (password, commands) {
 
-                Logger.isActive = commands.verbose || false;
+                Middleware.parseCommand(commands).then( () => {
+                    Logger.isActive = commands.verbose || false;
 
-                let options = {
-                    password: password,
-                };
+                    let options = {
+                        password: password,
+                    };
 
-                that._account.setPassword(options);
+                    that._account.setPassword(options);
+                }).catch( () => {
+
+                });
             });
 
         this._program.command('set email', '<email>')
@@ -237,13 +270,17 @@ class Account {
             })
             .action(function (email, commands) {
 
-                Logger.isActive = commands.verbose || false;
+                Middleware.parseCommand(commands).then( () => {
+                    Logger.isActive = commands.verbose || false;
 
-                let options = {
-                    email: email,
-                };
+                    let options = {
+                        email: email,
+                    };
 
-                that._account.setEmail(options);
+                    that._account.setEmail(options);
+                }).catch( () => {
+
+                });
             });
 
         this._program.command('set host', '<host>')
@@ -257,13 +294,17 @@ class Account {
             })
             .action(function (host, commands) {
 
-                Logger.isActive = commands.verbose || false;
+                Middleware.parseCommand(commands).then( () => {
+                    Logger.isActive = commands.verbose || false;
 
-                let options = {
-                    host: host,
-                };
+                    let options = {
+                        host: host,
+                    };
 
-                that._account.setHost(options);
+                    that._account.setHost(options);
+                }).catch( () => {
+
+                });
             });
 
         this._program.command('set proxy', '<proxy>')
@@ -277,13 +318,17 @@ class Account {
             })
             .action(function (proxy, commands) {
 
-                Logger.isActive = commands.verbose || false;
+                Middleware.parseCommand(commands).then( () => {
+                    Logger.isActive = commands.verbose || false;
 
-                let options = {
-                    proxy: Helper.getProxyFromString(proxy),
-                };
+                    let options = {
+                        proxy: Helper.getProxyFromString(proxy),
+                    };
 
-                that._account.setProxy(options);
+                    that._account.setProxy(options);
+                }).catch( () => {
+
+                });
             });
 
         this._program.command('remove proxy')
@@ -297,13 +342,17 @@ class Account {
             })
             .action(function (commands) {
 
-                Logger.isActive = commands.verbose || false;
+                Middleware.parseCommand(commands).then( () => {
+                    Logger.isActive = commands.verbose || false;
 
-                let options = {
-                };
+                    let options = {
+                    };
 
-                that._account.removeProxy(options);
-            });  
+                    that._account.removeProxy(options);
+                }).catch( () => {
+
+                });
+            });
 
 
         this._program.command('remove keys')
@@ -317,41 +366,53 @@ class Account {
             })
             .action(function (commands) {
 
-                Logger.isActive = commands.verbose || false;
+                Middleware.parseCommand(commands).then( () => {
+                    Logger.isActive = commands.verbose || false;
 
-                let options = {
-                };
+                    let options = {
+                    };
 
-                that._account.removeKeys(options);
-            });   
-        
+                    that._account.removeKeys(options);
+                }).catch( () => {
+
+                });
+            });
+
         this._program.command('commands')
             .description("List commands depending the user profile")
             .option('-v, --verbose', 'Use verbose console mode')
             .action(function (commands) {
-            
-                var options = {
-                }
 
-                Logger.isActive = commands.verbose || false;
+                Middleware.parseCommand(commands).then( () => {
+                    var options = {
+                    }
 
-                that._account.getCommands(options);
+                    Logger.isActive = commands.verbose || false;
+
+                    that._account.getCommands(options);
+                }).catch( () => {
+
+                });
             });
 
         this._program.command('configure')
             .description("Configure the account to user and log-in to Rainbow")
             .option('-v, --verbose', 'Use verbose console mode')
             .action(function (commands) {
-            
-                var options = {
-                }
 
-                Logger.isActive = commands.verbose || false;
+                Middleware.parseCommand(commands).then( () => {
+                    var options = {
+                    }
 
-                that._account.configure(options);
+                    Logger.isActive = commands.verbose || false;
 
-                // Check for a new version
-                require('../common/Common').checkNewVersion();
+                    that._account.configure(options);
+
+                    // Check for a new version
+                    require('../common/Common').checkNewVersion();
+                }).catch( () => {
+
+                });
             });
     }
 }

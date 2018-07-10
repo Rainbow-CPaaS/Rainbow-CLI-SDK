@@ -2,6 +2,7 @@
 
 var CMass = require('../commands/CMass');
 var Logger = require('../common/Logger');
+var Middleware = require('../common/Middleware');
 
 class Mass {
 
@@ -38,13 +39,17 @@ class Mass {
         })
         .action(function(filename, commands) {
 
-            var options = {
-                "csv": filename || 'template.csv',
-                "type": "user"
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    "csv": filename || 'template.csv',
+                    "type": "user"
+                };
 
-            Logger.isActive = commands.verbose || false;
-            that._masspro.template(options); 
+                Logger.isActive = commands.verbose || false;
+                that._masspro.template(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('masspro template device', '[filename]')
@@ -63,13 +68,17 @@ class Mass {
         })
         .action(function(filename, commands) {
 
-            var options = {
-                "csv": filename || 'template.csv',
-                "type": "device"
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    "csv": filename || 'template.csv',
+                    "type": "device"
+                };
 
-            Logger.isActive = commands.verbose || false;
-            that._masspro.template(options); 
+                Logger.isActive = commands.verbose || false;
+                that._masspro.template(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('masspro check', '<filename>')
@@ -84,12 +93,16 @@ class Mass {
         })
         .action(function(filename, commands) {
 
-            var options = {
-                file: filename
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    file: filename
+                };
 
-            Logger.isActive = commands.verbose || false;
-            that._masspro.check(options); 
+                Logger.isActive = commands.verbose || false;
+                that._masspro.check(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('masspro import', '<filename>')
@@ -104,12 +117,16 @@ class Mass {
         })
         .action(function(filename, commands) {
 
-            var options = {
-                file: filename
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    file: filename
+                };
 
-            Logger.isActive = commands.verbose || false;
-            that._masspro.import(options); 
+                Logger.isActive = commands.verbose || false;
+                that._masspro.import(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('masspro status', '<reqid>')
@@ -124,12 +141,16 @@ class Mass {
         })
         .action(function(reqid, commands) {
 
-            var options = {
-                reqid: reqid
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    reqid: reqid
+                };
 
-            Logger.isActive = commands.verbose || false;
-            that._masspro.status(options); 
+                Logger.isActive = commands.verbose || false;
+                that._masspro.status(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('masspro delete status', '<reqid>')
@@ -144,12 +165,16 @@ class Mass {
         })
         .action(function(reqid, commands) {
 
-            var options = {
-                reqid: reqid
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    reqid: reqid
+                };
 
-            Logger.isActive = commands.verbose || false;
-            that._masspro.deleteStatus(options); 
+                Logger.isActive = commands.verbose || false;
+                that._masspro.deleteStatus(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('masspro status company', '[companyId]')
@@ -165,12 +190,16 @@ class Mass {
         })
         .action(function(companyId, commands) {
 
-            var options = {
-                companyId: companyId || null
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    companyId: companyId || null
+                };
 
-            Logger.isActive = commands.verbose || false;
-            that._masspro.statusCompany(options); 
+                Logger.isActive = commands.verbose || false;
+                that._masspro.statusCompany(options);
+            }).catch( () => {
+
+            });
         });
     }
 }

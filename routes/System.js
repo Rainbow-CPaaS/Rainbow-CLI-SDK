@@ -2,6 +2,7 @@
 
 var CSystem = require('../commands/CSystem');
 var Logger = require('../common/Logger');
+var Middleware = require('../common/Middleware');
 
 class System {
 
@@ -20,7 +21,7 @@ class System {
     }
     listOfCommands() {
         var that = this;
-        
+
         this._program.command('system', '<id>')
         .description("Retrieve information about an existing system")
         .option('-j, --json', 'Write the JSON result to standard stdout')
@@ -37,15 +38,19 @@ class System {
         })
         .action(function (id, commands) {
 
-            var options= {
-                noOutput: commands.json || false
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    noOutput: commands.json || false
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._system.getSystem(id, options);
+                that._system.getSystem(id, options);
+            }).catch( () => {
+
+            });
         });
-        
+
         this._program.command('create system', '<name>, <siteId>')
         .description("Create a new system")
         .option('-j, --json', 'Write the JSON result to standard stdout')
@@ -62,13 +67,17 @@ class System {
         })
         .action(function (name, siteId, commands) {
 
-            var options = {
-                noOutput: commands.json || false
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    noOutput: commands.json || false
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._system.createSystem(name, siteId, options);
+                that._system.createSystem(name, siteId, options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('delete system', '<id>')
@@ -83,13 +92,17 @@ class System {
         })
         .action(function (id, commands) {
 
-            var options = {
-                noconfirmation: commands.nc || false
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    noconfirmation: commands.nc || false
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._system.deleteSystem(id, options);
+                that._system.deleteSystem(id, options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('link system', '<systemid>, <siteId>')
@@ -103,12 +116,16 @@ class System {
         })
         .action(function (systemid, siteId, commands) {
 
-            var options = {
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._system.linkSystem(systemid, siteId, options);
+                that._system.linkSystem(systemid, siteId, options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('unlink system', '<systemid>, <siteId>')
@@ -122,12 +139,16 @@ class System {
         })
         .action(function (systemid, siteId, commands) {
 
-            var options = {
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._system.unlinkSystem(systemid, siteId, options);
+                that._system.unlinkSystem(systemid, siteId, options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('systems')
@@ -153,40 +174,44 @@ class System {
         })
         .action(function (commands) {
 
-            var options = {
-                csv: "",
-                siteid: "",
-                page: "1",
-                limit: "25"
-            };
-
-            if(typeof commands === "object") {
-                var page = "1";
-                if("page" in commands) {
-                    if(commands.page > 1) {
-                        page = commands.page;
-                    }
-                }
-            
-                var limit = "25";
-                if("limit" in commands && commands.limit) {
-                    if(commands.limit > 0) {
-                        limit = commands.limit;
-                    }
-                }
-
-                options = {
-                    csv: commands.file || "",
-                    siteid: commands.site || "",
-                    page: page,
-                    noOutput: commands.json || false,
-                    limit: limit
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    csv: "",
+                    siteid: "",
+                    page: "1",
+                    limit: "25"
                 };
-            }
 
-            Logger.isActive = commands.verbose || false;
+                if(typeof commands === "object") {
+                    var page = "1";
+                    if("page" in commands) {
+                        if(commands.page > 1) {
+                            page = commands.page;
+                        }
+                    }
 
-            that._system.getSystems(options);
+                    var limit = "25";
+                    if("limit" in commands && commands.limit) {
+                        if(commands.limit > 0) {
+                            limit = commands.limit;
+                        }
+                    }
+
+                    options = {
+                        csv: commands.file || "",
+                        siteid: commands.site || "",
+                        page: page,
+                        noOutput: commands.json || false,
+                        limit: limit
+                    };
+                }
+
+                Logger.isActive = commands.verbose || false;
+
+                that._system.getSystems(options);
+            }).catch( () => {
+
+            });
         });
     }
 }

@@ -2,6 +2,7 @@
 
 var CInvoice = require('../commands/CInvoice');
 var Logger = require('../common/Logger');
+var Middleware = require('../common/Middleware');
 
 class Invoice {
 
@@ -48,19 +49,23 @@ class Invoice {
         })
         .action(function (commands) {
 
-            var options = {
-                noOutput: commands.json ? true : false,
-                companyId: commands.cid || "",
-                period: commands.period || "",
-                conference: commands.conference ? true : false,
-                services: commands.services ? true: false,
-                cdr: commands.cdr ? true : false,
-                inv: commands.inv ? true : false
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    noOutput: commands.json ? true : false,
+                    companyId: commands.cid || "",
+                    period: commands.period || "",
+                    conference: commands.conference ? true : false,
+                    services: commands.services ? true: false,
+                    cdr: commands.cdr ? true : false,
+                    inv: commands.inv ? true : false
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._invoice.getInvoices(options);
+                that._invoice.getInvoices(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('download cdr services', '[toFile]')
@@ -78,17 +83,21 @@ class Invoice {
         })
         .action(function (toFile, commands) {
 
-            var options = {
-                noOutput: commands.json || false,
-                companyId: commands.company,
-                csv: toFile,
-                year: commands.year || "",
-                month: commands.month || ""
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    noOutput: commands.json || false,
+                    companyId: commands.company,
+                    csv: toFile,
+                    year: commands.year || "",
+                    month: commands.month || ""
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._invoice.getInvoiceService(options);
+                that._invoice.getInvoiceService(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('download cdr conference', '[toFile]')
@@ -106,17 +115,21 @@ class Invoice {
         })
         .action(function (toFile, commands) {
 
-            var options = {
-                noOutput: commands.json || false,
-                companyId: commands.company,
-                csv: toFile,
-                year: commands.year || "",
-                month: commands.month || ""
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    noOutput: commands.json || false,
+                    companyId: commands.company,
+                    csv: toFile,
+                    year: commands.year || "",
+                    month: commands.month || ""
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._invoice.getInvoiceConference(options);
+                that._invoice.getInvoiceConference(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('download invoice', '<downloadFile> [toFile]')
@@ -130,15 +143,19 @@ class Invoice {
         })
         .action(function (downloadFile, toFile, commands) {
 
-            var options = {
-                noOutput: commands.json || false,
-                path: downloadFile,
-                csv: toFile
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    noOutput: commands.json || false,
+                    path: downloadFile,
+                    csv: toFile
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._invoice.getInvoice(options);
+                that._invoice.getInvoice(options);
+            }).catch( () => {
+
+            });
         });
     }
 }

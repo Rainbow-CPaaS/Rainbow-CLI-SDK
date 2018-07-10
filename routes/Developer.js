@@ -2,6 +2,7 @@
 
 var CDeveloper = require('../commands/CDeveloper');
 var Logger = require('../common/Logger');
+var Middleware = require('../common/Middleware');
 
 class Developer {
 
@@ -18,7 +19,7 @@ class Developer {
     stop() {
 
     }
-    
+
     listOfCommands() {
         var that = this;
 
@@ -39,14 +40,18 @@ class Developer {
         })
         .action(function (id, commands) {
 
-            var options= {
-                id: id || null,
-                noOutput: commands.json || false,
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    id: id || null,
+                    noOutput: commands.json || false,
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._developer.getPayments(options);
+                that._developer.getPayments(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('developers delete payment', '[id]')
@@ -66,14 +71,18 @@ class Developer {
         })
         .action(function (id, commands) {
 
-            var options= {
-                id: id || null,
-                noconfirmation: commands.nc || false
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    id: id || null,
+                    noconfirmation: commands.nc || false
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._developer.deletePayment(options);
+                that._developer.deletePayment(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('developers methods', '[id]')
@@ -93,14 +102,18 @@ class Developer {
         })
         .action(function (id, commands) {
 
-            var options= {
-                id: id || null,
-                noOutput: commands.json || false,
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    id: id || null,
+                    noOutput: commands.json || false,
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._developer.getMethods(options);
+                that._developer.getMethods(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('developers method', '<methodid> [id]')
@@ -120,15 +133,19 @@ class Developer {
         })
         .action(function (methodid, id, commands) {
 
-            var options= {
-                id: id || null,
-                methodid: methodid,
-                noOutput: commands.json || false,
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    id: id || null,
+                    methodid: methodid,
+                    noOutput: commands.json || false,
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._developer.getMethod(options);
+                that._developer.getMethod(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('developers delete method', '<methodid> [id]')
@@ -148,15 +165,19 @@ class Developer {
         })
         .action(function (methodid, id, commands) {
 
-            var options= {
-                id: id || null,
-                methodid: methodid,
-                noOutput: commands.json || false,
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    id: id || null,
+                    methodid: methodid,
+                    noOutput: commands.json || false,
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._developer.deleteMethod(options);
+                that._developer.deleteMethod(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('developers subscriptions', '[id]')
@@ -176,14 +197,18 @@ class Developer {
         })
         .action(function (id, commands) {
 
-            var options= {
-                id: id || null,
-                noOutput: commands.json || false,
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    id: id || null,
+                    noOutput: commands.json || false,
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._developer.getSubscriptions(options);
+                that._developer.getSubscriptions(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('developers invoices', '[userid]')
@@ -203,14 +228,18 @@ class Developer {
         })
         .action(function (userid, commands) {
 
-            var options= {
-                id: userid || null,
-                noOutput: commands.json || false,
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    id: userid || null,
+                    noOutput: commands.json || false,
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._developer.getInvoices(options);
+                that._developer.getInvoices(options);
+            }).catch( () => {
+
+            });
         });
     }
 }

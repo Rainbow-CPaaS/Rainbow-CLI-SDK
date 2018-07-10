@@ -2,6 +2,7 @@
 
 var CAdvanced = require('../commands/CAdvanced');
 var Logger = require('../common/Logger');
+var Middleware = require('../common/Middleware');
 
 class Advanced {
 
@@ -18,7 +19,7 @@ class Advanced {
     stop() {
 
     }
-    
+
     listOfCommands() {
         var that = this;
 
@@ -39,13 +40,17 @@ class Advanced {
         })
         .action(function (id, commands) {
 
-            var options= {
-                noOutput: commands.json || false
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    noOutput: commands.json || false
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._advanced.find(id, options);
+                that._advanced.find(id, options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('newco')
@@ -59,14 +64,17 @@ class Advanced {
         })
         .action(function (commands) {
 
-            var options= {
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._advanced.newco(commands);
+                that._advanced.newco(commands);
+            }).catch( () => {
+
+            });
         });
-
     }
 }
 

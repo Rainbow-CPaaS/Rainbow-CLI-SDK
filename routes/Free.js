@@ -2,6 +2,7 @@
 
 var CFree = require('../commands/CFree');
 var Logger = require('../common/Logger');
+var Middleware = require('../common/Middleware');
 
 class Free {
 
@@ -25,8 +26,12 @@ class Free {
         .description("Remove all users from a company")
         .option('-v, --verbose', 'Use verbose console mode')
         .action(function (id, commands) {
-            Logger.isActive = commands.verbose || false;
-            that._free.removeAllUsersFromACompany(id);
+            Middleware.parseCommand(commands).then( () => {
+                Logger.isActive = commands.verbose || false;
+                that._free.removeAllUsersFromACompany(id);
+            }).catch( () => {
+
+            });
         });
     }
 }

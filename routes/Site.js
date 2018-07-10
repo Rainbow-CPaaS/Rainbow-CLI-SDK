@@ -2,6 +2,7 @@
 
 var CSite = require('../commands/CSite');
 var Logger = require('../common/Logger');
+var Middleware = require('../common/Middleware');
 
 class Site {
 
@@ -21,7 +22,6 @@ class Site {
     listOfCommands() {
         var that = this;
 
-        
         this._program.command('site', '<id>')
         .description("Retrieve information about an existing site")
         .option('-j, --json', 'Write the JSON result to standard stdout')
@@ -38,15 +38,19 @@ class Site {
         })
         .action(function (id, commands) {
 
-            var options= {
-                noOutput: commands.json || false
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    noOutput: commands.json || false
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._site.getSite(id, options);
+                that._site.getSite(id, options);
+            }).catch( () => {
+
+            });
         });
-        
+
         this._program.command('create site', '<name>, [companyId]')
         .description("Create a new site")
         .option('-v, --verbose', 'Use verbose console mode')
@@ -63,13 +67,17 @@ class Site {
         })
         .action(function (name, companyId, commands) {
 
-            var options = {
-                noOutput: commands.json || false
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    noOutput: commands.json || false
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._site.createSite(name, companyId, options);
+                that._site.createSite(name, companyId, options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('delete site', '<id>')
@@ -88,13 +96,17 @@ class Site {
         })
         .action(function (id, commands) {
 
-            var options = {
-                noconfirmation: commands.nc || false
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    noconfirmation: commands.nc || false
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._site.deleteSite(id, options);
+                that._site.deleteSite(id, options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('sites')
@@ -120,41 +132,46 @@ class Site {
             console.log('    The options `--page` and `limit` allow to navigate between paginated results');
         })
         .action(function (commands) {
-            var options = {
-                csv: "",
-                company: "",
-                page: "1",
-                limit: "25"
-            };
 
-            if(typeof commands === "object") {
-
-                var page = "1";
-                if("page" in commands) {
-                    if(commands.page > 1) {
-                        page = commands.page;
-                    }
-                }
-            
-                var limit = "25";
-                if("limit" in commands && commands.limit) {
-                    if(commands.limit > 0) {
-                        limit = commands.limit;
-                    }
-                }
-
-                options = {
-                    company: commands.company || "",
-                    noOutput: commands.json || false,
-                    csv: commands.file || "",
-                    page: page,
-                    limit: limit
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    csv: "",
+                    company: "",
+                    page: "1",
+                    limit: "25"
                 };
-            }
 
-            Logger.isActive = commands.verbose || false;
+                if(typeof commands === "object") {
 
-            that._site.getSites(options);
+                    var page = "1";
+                    if("page" in commands) {
+                        if(commands.page > 1) {
+                            page = commands.page;
+                        }
+                    }
+
+                    var limit = "25";
+                    if("limit" in commands && commands.limit) {
+                        if(commands.limit > 0) {
+                            limit = commands.limit;
+                        }
+                    }
+
+                    options = {
+                        company: commands.company || "",
+                        noOutput: commands.json || false,
+                        csv: commands.file || "",
+                        page: page,
+                        limit: limit
+                    };
+                }
+
+                Logger.isActive = commands.verbose || false;
+
+                that._site.getSites(options);
+            }).catch( () => {
+
+            });
         });
     }
 }

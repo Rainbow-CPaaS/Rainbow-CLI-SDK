@@ -2,6 +2,7 @@
 
 var COffers = require('../commands/COffers');
 var Logger = require('../common/Logger');
+var Middleware = require('../common/Middleware');
 
 class Offers {
 
@@ -18,7 +19,7 @@ class Offers {
     stop() {
 
     }
-    
+
     listOfCommands() {
         var that = this;
 
@@ -39,13 +40,17 @@ class Offers {
         })
         .action(function (id, commands) {
 
-            var options = {
-                noOutput: commands.json || false
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    noOutput: commands.json || false
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._offers.getOffer(id, options);
+                that._offers.getOffer(id, options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('offers')
@@ -73,38 +78,42 @@ class Offers {
         })
         .action(function (commands) {
 
-            var options = {
-                csv: "",
-                page: "1",
-                limit: "25"
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    csv: "",
+                    page: "1",
+                    limit: "25"
+                };
 
 
-            var page = "1";
-            if("page" in commands) {
-                if(commands.page > 1) {
-                    page = commands.page;
+                var page = "1";
+                if("page" in commands) {
+                    if(commands.page > 1) {
+                        page = commands.page;
+                    }
                 }
-            }
 
-            var limit = "25";
-            if("limit" in commands && commands.limit) {
-                if(commands.limit > 0) {
-                    limit = commands.limit;
+                var limit = "25";
+                if("limit" in commands && commands.limit) {
+                    if(commands.limit > 0) {
+                        limit = commands.limit;
+                    }
                 }
-            }
 
-            options = {
-                csv: commands.file || "",
-                page: page,
-                name: commands.name || null,
-                noOutput: commands.json || false,
-                limit: limit
-            };
+                options = {
+                    csv: commands.file || "",
+                    page: page,
+                    name: commands.name || null,
+                    noOutput: commands.json || false,
+                    limit: limit
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._offers.getOffers(options);
+                that._offers.getOffers(options);
+            }).catch( () => {
+
+            });
         });
         this._program.command('catalog', '<id>')
         .description("Retrieve information about an existing catalog")
@@ -123,13 +132,17 @@ class Offers {
         })
         .action(function (id, commands) {
 
-            var options = {
-                noOutput: commands.json || false
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    noOutput: commands.json || false
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._offers.getCatalog(id, options);
+                that._offers.getCatalog(id, options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('catalogs')
@@ -157,38 +170,42 @@ class Offers {
         })
         .action(function (commands) {
 
-            var options = {
-                csv: "",
-                page: "1",
-                limit: "25"
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    csv: "",
+                    page: "1",
+                    limit: "25"
+                };
 
 
-            var page = "1";
-            if("page" in commands) {
-                if(commands.page > 1) {
-                    page = commands.page;
+                var page = "1";
+                if("page" in commands) {
+                    if(commands.page > 1) {
+                        page = commands.page;
+                    }
                 }
-            }
 
-            var limit = "25";
-            if("limit" in commands && commands.limit) {
-                if(commands.limit > 0) {
-                    limit = commands.limit;
+                var limit = "25";
+                if("limit" in commands && commands.limit) {
+                    if(commands.limit > 0) {
+                        limit = commands.limit;
+                    }
                 }
-            }
 
-            options = {
-                csv: commands.file || "",
-                page: page,
-                name: commands.name || null,
-                noOutput: commands.json || false,
-                limit: limit
-            };
+                options = {
+                    csv: commands.file || "",
+                    page: page,
+                    name: commands.name || null,
+                    noOutput: commands.json || false,
+                    limit: limit
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._offers.getCatalogs(options);
+                that._offers.getCatalogs(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('create catalog', '<name> [description]')
@@ -207,14 +224,18 @@ class Offers {
             console.log('');
         })
         .action(function (name, description, commands) {
-    
-            var options = {
-                noOutput: commands.json || false
-            }
-    
-            Logger.isActive = commands.verbose || false;
-    
-            that._offers.createCatalog(name, description, options);
+
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    noOutput: commands.json || false
+                }
+
+                Logger.isActive = commands.verbose || false;
+
+                that._offers.createCatalog(name, description, options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('delete catalog', '<id>')
@@ -235,13 +256,17 @@ class Offers {
         })
         .action(function (id, commands) {
 
-            var options = {
-                noconfirmation: commands.nc || false
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    noconfirmation: commands.nc || false
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._offers.deleteCatalog(id, options);
+                that._offers.deleteCatalog(id, options);
+            }).catch( () => {
+
+            });
         });
     }
 }

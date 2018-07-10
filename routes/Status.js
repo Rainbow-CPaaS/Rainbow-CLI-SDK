@@ -2,6 +2,7 @@
 
 var CStatus = require('../commands/CStatus');
 var Logger = require('../common/Logger');
+var Middleware = require('../common/Middleware');
 
 class Status {
 
@@ -36,13 +37,17 @@ class Status {
         })
         .action(function (commands) {
 
-            var options= {
-                noOutput: commands.json || false
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    noOutput: commands.json || false
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._status.getStatus(options); 
+                that._status.getStatus(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('status platform')
@@ -61,13 +66,17 @@ class Status {
         })
         .action(function (commands) {
 
-            var options= {
-                noOutput: commands.json || false,
-            };
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    noOutput: commands.json || false,
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._status.getPlatformStatus(options); 
+                that._status.getPlatformStatus(options);
+            }).catch( () => {
+
+            });
         });
     }
 }

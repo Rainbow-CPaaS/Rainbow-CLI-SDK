@@ -2,6 +2,7 @@
 
 var CApplication = require('../commands/CApplication');
 var Logger = require('../common/Logger');
+var Middleware = require('../common/Middleware');
 
 class Application {
 
@@ -39,14 +40,18 @@ class Application {
         })
         .action(function (appid, commands) {
 
-            var options= {
-                noOutput: commands.json || false,
-                appid: appid
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    noOutput: commands.json || false,
+                    appid: appid
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._application.getApplication(options);
+                that._application.getApplication(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('create application', '<name>')
@@ -70,15 +75,19 @@ class Application {
         })
         .action(function (name, commands) {
 
-            var options= {
-                name: name,
-                noOutput: commands.json || false,
-                type: commands.srv ? "server" : commands.bot ? "bot" : commands.mob ? "mobile" : "web"
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    name: name,
+                    noOutput: commands.json || false,
+                    type: commands.srv ? "server" : commands.bot ? "bot" : commands.mob ? "mobile" : "web"
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._application.createApplication(options);
+                that._application.createApplication(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('delete application', '<appid>')
@@ -94,15 +103,19 @@ class Application {
         })
         .action(function (appid, commands) {
 
-            var options= {
-                appid: appid,
-                noconfirmation: commands.nc || false,
-                noOutput: commands.json || false,
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    appid: appid,
+                    noconfirmation: commands.nc || false,
+                    noOutput: commands.json || false,
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._application.deleteApplication(options);
+                that._application.deleteApplication(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('block application', '<appid>')
@@ -117,14 +130,18 @@ class Application {
         })
         .action(function (appid, commands) {
 
-            var options= {
-                appid: appid,
-                noOutput: commands.json || false,
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    appid: appid,
+                    noOutput: commands.json || false,
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._application.blockApplication(options);
+                that._application.blockApplication(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('unblock application', '<appid>')
@@ -139,14 +156,18 @@ class Application {
         })
         .action(function (appid, commands) {
 
-            var options= {
-                appid: appid,
-                noOutput: commands.json || false,
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    appid: appid,
+                    noOutput: commands.json || false,
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._application.unblockApplication(options);
+                that._application.unblockApplication(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('deploy application', '<appid>')
@@ -161,14 +182,18 @@ class Application {
         })
         .action(function (appid, commands) {
 
-            var options= {
-                appid: appid,
-                noOutput: commands.json || false,
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    appid: appid,
+                    noOutput: commands.json || false,
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._application.deployApplication(options);
+                that._application.deployApplication(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('dismiss application', '<appid>')
@@ -183,14 +208,18 @@ class Application {
         })
         .action(function (appid, commands) {
 
-            var options= {
-                appid: appid,
-                noOutput: commands.json || false,
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    appid: appid,
+                    noOutput: commands.json || false,
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._application.dismissApplication(options);
+                that._application.dismissApplication(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('usage application', '<appid> <year> <month>')
@@ -204,16 +233,20 @@ class Application {
         })
         .action(function (appid, year, month, commands) {
 
-            var options= {
-                appid,
-                year,
-                month,
-                noOutput: false,
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    appid,
+                    year,
+                    month,
+                    noOutput: false,
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._application.usageApplication(options);
+                that._application.usageApplication(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('metrics application', '<appid>')
@@ -243,19 +276,23 @@ class Application {
         })
         .action(function (appid, commands) {
 
-            let options= {
-                noOutput: commands.json || false,
-                appid: appid,
-                day: commands.day,
-                month: commands.month,
-                year: commands.year,
-                csv: commands.file,
-                group: commands.group
-            };
+            Middleware.parseCommand(commands).then( () => {
+                let options= {
+                    noOutput: commands.json || false,
+                    appid: appid,
+                    day: commands.day,
+                    month: commands.month,
+                    year: commands.year,
+                    csv: commands.file,
+                    group: commands.group
+                };
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._application.getMetrics(options);
+                that._application.getMetrics(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('metrics groups')
@@ -274,13 +311,17 @@ class Application {
         })
         .action(function (commands) {
 
-            var options= {
-                noOutput: commands.json || false,
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    noOutput: commands.json || false,
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._application.getGroupsOfMetrics(options);
+                that._application.getGroupsOfMetrics(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('application pns', '<appid>')
@@ -300,14 +341,18 @@ class Application {
         })
         .action(function (appid, commands) {
 
-            var options= {
-                noOutput: commands.json || false,
-                appid: appid
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    noOutput: commands.json || false,
+                    appid: appid
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._application.getApns(options);
+                that._application.getApns(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('application pn', '<appid> <id>')
@@ -327,15 +372,19 @@ class Application {
         })
         .action(function (appid, id, commands) {
 
-            var options= {
-                noOutput: commands.json || false,
-                appid: appid,
-                id: id
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    noOutput: commands.json || false,
+                    appid: appid,
+                    id: id
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._application.getPush(options);
+                that._application.getPush(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('application delete pn', '<appid> <id>')
@@ -351,15 +400,19 @@ class Application {
         })
         .action(function (appid, id, commands) {
 
-            var options= {
-                id: id,
-                appid: appid,
-                noOutput: commands.json || false,
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    id: id,
+                    appid: appid,
+                    noOutput: commands.json || false,
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._application.deletePush(options);
+                that._application.deletePush(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('application create fcm', '<appid> <key>')
@@ -379,15 +432,19 @@ class Application {
         })
         .action(function (appid, key, commands) {
 
-            var options= {
-                noOutput: commands.json || false,
-                appid: appid,
-                key: key
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    noOutput: commands.json || false,
+                    appid: appid,
+                    key: key
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._application.createFCM(options);
+                that._application.createFCM(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('application create voip', '<appid> <file>')
@@ -407,16 +464,20 @@ class Application {
         })
         .action(function (appid, file, commands) {
 
-            var options= {
-                noOutput: commands.json || false,
-                appid: appid,
-                file: file,
-                type: "voip"
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    noOutput: commands.json || false,
+                    appid: appid,
+                    file: file,
+                    type: "voip"
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._application.createAPNS(options);
+                that._application.createAPNS(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('application create im', '<appid> <file>')
@@ -436,16 +497,20 @@ class Application {
         })
         .action(function (appid, file, commands) {
 
-            var options= {
-                noOutput: commands.json || false,
-                appid: appid,
-                file: file,
-                type: "im"
-            }
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    noOutput: commands.json || false,
+                    appid: appid,
+                    file: file,
+                    type: "im"
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._application.createAPNS(options);
+                that._application.createAPNS(options);
+            }).catch( () => {
+
+            });
         });
 
         this._program.command('applications')
@@ -460,6 +525,7 @@ class Application {
         .option('-b, --blocked', 'Filter applications blocked only')
         .option('-i, --indeployment', 'Filter applications in deployment only')
         .option('-d, --deployed', 'Filter applications blocked only')
+        .option('--bydate', 'Sort applications by date. Recent first.')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
@@ -477,55 +543,59 @@ class Application {
         })
         .action(function (commands) {
 
-            var page = "1";
-            var limit = "25";
-            var format = "full";
-            var filter = null;
+            Middleware.parseCommand(commands).then( () => {
+                var page = "1";
+                var limit = "25";
+                var format = "full";
+                var filter = null;
+                var bydate = false;
 
-            console.log("COMMANDS", typeof commands);
-
-            if("page" in commands) {
-                if(commands.page > 1) {
-                    page = commands.page;
+                if("page" in commands) {
+                    if(commands.page > 1) {
+                        page = commands.page;
+                    }
                 }
-            }
 
-            if("limit" in commands && commands.limit) {
-                if(commands.limit > 0) {
-                    limit = commands.limit;
+                if("limit" in commands && commands.limit) {
+                    if(commands.limit > 0) {
+                        limit = commands.limit;
+                    }
                 }
-            }
 
-            if(commands.deployed) {
-                filter = "deployed";
-            } else if(commands.indeployment) {
-                filter = "in_deployment";
-            } else if(commands.notdeployed) {
-                filter = "not_deployed";
-            } else if(commands.blocked) {
-                filter = "blocked";
-            }
+                if(commands.deployed) {
+                    filter = "deployed";
+                } else if(commands.indeployment) {
+                    filter = "in_deployment";
+                } else if(commands.notdeployed) {
+                    filter = "not_deployed";
+                } else if(commands.blocked) {
+                    filter = "blocked";
+                }
 
-            if(commands.csv) {
-                format = "medium";
-            }
+                if(commands.csv) {
+                    format = "medium";
+                }
 
-            let options = {
-                noOutput: commands.json || false,
-                csv: commands.file || "",
-                format: commands.csv ? "medium" : format || "full",
-                page: page,
-                limit: limit,
-                filter: filter
-            };
+                let options = {
+                    noOutput: commands.json || false,
+                    csv: commands.file || "",
+                    format: commands.csv ? "medium" : format || "full",
+                    byDate: commands.bydate || false,
+                    page: page,
+                    limit: limit,
+                    filter: filter
+                };
 
-            if(commands.max) {
-                options.limit = 1000;
-            }
+                if(commands.max) {
+                    options.limit = 1000;
+                }
 
-            Logger.isActive = commands.verbose || false;
+                Logger.isActive = commands.verbose || false;
 
-            that._application.getApplications(options);
+                that._application.getApplications(options);
+            }).catch( () => {
+
+            });
         });
     }
 }
