@@ -188,6 +188,20 @@ class CApplication {
                         break;
                 }
             }
+            if(options.byDate) {
+                switch(options.filter) {
+                    case "blocked":
+                    case "deployed":
+                        filterToApply +="&sortField=dateOfDeployment&sortOrder=-1";
+                        break;
+                    case "in_deployment":
+                        filterToApply +="&sortField=dateOfDeploymentRequest&sortOrder=-1";
+                        break;
+                    default:
+                        filterToApply +="&sortField=dateOfCreation&sortOrder=-1";
+                        break;
+                }
+            }
 
             if(options.page > 0) {
                 filterToApply += "&offset=";
