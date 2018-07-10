@@ -18,9 +18,13 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 - New options `--deployed`, `--indeployment`, `--notdeployed` and `--blocked` have been added to command `rbw applications` to filter applications received.
 
+- New option `--bydate` has been added to command `rbw applications` to order results by creation date (when no filter or when using filters `--notdeployed` and `--indeployment`) or by deployment date (when using filters `--deployed` and `--blocked`).
+
 **Others changes**
 
-- Linked with `Rainbow Node.JS SDK 1.42.3`
+- Improve check of commands to avoid crash when `-` or `--` is missing in parameters.
+
+- Linked with `Rainbow Node.JS SDK 1.43.0`
 
 
 ### Rainbow CLI 1.42 (Beta) - June 2018
