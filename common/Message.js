@@ -378,7 +378,7 @@ class Message {
     tableApplications(json, options) {
 
         var array = [];
-        array.push([ "#".gray, "Name".gray, "Type".gray, "Environment".gray, "State".gray, "OwnerId".gray, "Created".gray, "InProgress".gray,"Deployed".gray, "Subscription".gray, "Id".gray]);
+        array.push([ "#".gray, "Name".gray, "Type".gray, "Environment".gray, "State".gray, "OwnerId".gray, "Created date".gray, "Request date".gray,"Deployed date".gray, "Subscription".gray, "Id".gray]);
         array.push([ "-".gray, "----".gray, "----".gray, "-----------".gray, "-----".gray, "-------".gray, "-------".gray, "----------".gray,"--------".gray, "------------".gray, "--".gray]);
 
         var apps = json.data;
