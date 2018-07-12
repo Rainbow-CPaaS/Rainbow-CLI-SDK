@@ -378,8 +378,8 @@ class Message {
     tableApplications(json, options) {
 
         var array = [];
-        array.push([ "#".gray, "Name".gray, "Type".gray, "Environment".gray, "State".gray, "OwnerId".gray, "Id".gray, "Created".gray, "Deployed".gray, "Subscription".gray]);
-        array.push([ "-".gray, "----".gray, "----".gray, "-----------".gray, "-----".gray, "-------".gray, "--".gray, "-------".gray, "--------".gray, "------------".gray]);
+        array.push([ "#".gray, "Name".gray, "Type".gray, "Environment".gray, "State".gray, "OwnerId".gray, "Created".gray, "InProgress".gray,"Deployed".gray, "Subscription".gray, "Id".gray]);
+        array.push([ "-".gray, "----".gray, "----".gray, "-----------".gray, "-----".gray, "-------".gray, "-------".gray, "----------".gray,"--------".gray, "------------".gray, "--".gray]);
 
         var apps = json.data;
 
@@ -409,16 +409,21 @@ class Message {
 
             let date = moment(app.dateOfCreation).format("ll");
 
+            let dateOfDeploymentRequest = "-".white;
+            if(app.dateOfDeploymentRequest) {
+                dateOfDeploymentRequest = moment(app.dateOfDeploymentRequest).format("ll").yellow;
+            }
+
             let dateOfDeployment = "-".white;
             if(app.dateOfDeployment) {
-                dateOfDeployment = moment(app.dateOfDeployment).format("ll").yellow;
+                dateOfDeployment = moment(app.dateOfDeployment).format("ll").magenta;
             }
 
             let ownerId = app.ownerId || "";
 
             let id = app.id || "";
 
-            array.push([(number+1).toString().white, name.white, type.cyan, env, state, ownerId.white, id.white, date.white, dateOfDeployment, subscription]);
+            array.push([(number+1).toString().white, name.white, type.cyan, env, state, ownerId.white, date.white, dateOfDeploymentRequest, dateOfDeployment, subscription, id.white]);
 
             number++;
         });
