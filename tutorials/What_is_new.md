@@ -12,9 +12,14 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 **Breaking Changes**
 
-- None.
+- To keep an consistent naming, commands `rbw create application`, `rbw delete application` and `rbw metrics application` have been renamed to `rbw application create`, `rbw application delete` and `rbw application metrics`.
+- To keep an consistent naming, command `rbw metrics groups` has been renamed to `rbw application metrics groups`
 
 **Changes**
+
+- New command `rbw application deploy` has been added to request the deployment of an application.
+
+- New command `rbw application stop` and `rbw application restart` have been added to temporarily stop access to Rainbow and allow access again.
 
 - New options `--deployed`, `--indeployment`, `--notdeployed` and `--blocked` have been added to command `rbw applications` to filter applications received.
 

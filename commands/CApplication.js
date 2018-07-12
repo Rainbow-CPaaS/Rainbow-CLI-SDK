@@ -323,7 +323,40 @@ class CApplication {
     _deploy(token, options) {
 
         return new Promise(function(resolve, reject) {
+            NodeSDK.put('/api/rainbow/applications/v1.0/applications/' + options.appid + '/request-deploy', token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
+    _approve(token, options) {
+
+        return new Promise(function(resolve, reject) {
             NodeSDK.put('/api/rainbow/applications/v1.0/applications/' + options.appid + '/deploy', token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
+    _stop(token, options) {
+
+        return new Promise(function(resolve, reject) {
+            NodeSDK.put('/api/rainbow/applications/v1.0/applications/' + options.appid + '/stop', token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
+    _restart(token, options) {
+
+        return new Promise(function(resolve, reject) {
+            NodeSDK.put('/api/rainbow/applications/v1.0/applications/' + options.appid + '/restart', token).then(function(json) {
                 resolve(json);
             }).catch(function(err) {
                 reject(err);
@@ -595,12 +628,52 @@ class CApplication {
         if(this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
 
-            Message.action("Deploy an application", options.appid, options);
+            Message.action("Request to deploy application", options.appid, options);
             let spin = Message.spin(options);
 
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._deploy(that._prefs.token, options);
+            }).then(function(json) {
+                Message.unspin(spin);
+
+                Message.log("action done...", json);
+
+                if(options.noOutput) {
+                    Message.out(json.data);
+                }
+                else {
+                    Message.lineFeed();
+                    Message.printSuccess('Application deployment request done', json.data.id, options);
+                    Message.success(options);
+                }
+                Message.log("finished!");
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    approveApplication(options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            Message.action("Deploy an application", options.appid, options);
+            let spin = Message.spin(options);
+
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
+                Message.log("execute action...");
+                return that._approve(that._prefs.token, options);
             }).then(function(json) {
                 Message.unspin(spin);
 
@@ -652,6 +725,86 @@ class CApplication {
                 else {
                     Message.lineFeed();
                     Message.printSuccess('Application deployment declined', json.data.id, options);
+                    Message.success(options);
+                }
+                Message.log("finished!");
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    stopApplication(options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            Message.action("Stop an application", options.appid, options);
+            let spin = Message.spin(options);
+
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
+                Message.log("execute action...");
+                return that._stop(that._prefs.token, options);
+            }).then(function(json) {
+                Message.unspin(spin);
+
+                Message.log("action done...", json);
+
+                if(options.noOutput) {
+                    Message.out(json.data);
+                }
+                else {
+                    Message.lineFeed();
+                    Message.printSuccess('Application stopped', json.data.id, options);
+                    Message.success(options);
+                }
+                Message.log("finished!");
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    restartApplication(options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            Message.action("Restart an application", options.appid, options);
+            let spin = Message.spin(options);
+
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
+                Message.log("execute action...");
+                return that._restart(that._prefs.token, options);
+            }).then(function(json) {
+                Message.unspin(spin);
+
+                Message.log("action done...", json);
+
+                if(options.noOutput) {
+                    Message.out(json.data);
+                }
+                else {
+                    Message.lineFeed();
+                    Message.printSuccess('Application restarted', json.data.id, options);
                     Message.success(options);
                 }
                 Message.log("finished!");

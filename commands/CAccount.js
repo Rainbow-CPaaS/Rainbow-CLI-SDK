@@ -650,7 +650,7 @@ class CAccount {
 
         if(that._prefs && that._prefs.user) {
 
-            if (that._prefs.user.roles.includes("app_admin") || that._prefs.user.roles.includes("app_superadmin")) {
+            if (that._prefs.user.roles.includes("app_admin") || that._prefs.user.roles.includes("app_superadmin" || that._prefs.user.roles.includes("superadmin"))) {
 
                 var data_dev = [
 
@@ -663,14 +663,32 @@ class CAccount {
                     {
                         "level": "app_admin",
                         "theme": "Applications",
-                        "command": "create application <name>",
+                        "command": "application create <name>",
                         "details": "Create a new application"
                     },
                     {
                         "level": "app_admin",
                         "theme": "Applications",
-                        "command": "delete application <appid>",
+                        "command": "application delete <appid>",
                         "details": "Delete an existing application"
+                    },
+                    {
+                        "level": "app_admin",
+                        "theme": "Applications",
+                        "command": "application deploy <appid>",
+                        "details": "Request to deploy an application"
+                    },
+                    {
+                        "level": "app_admin",
+                        "theme": "Applications",
+                        "command": "application stop <appid>",
+                        "details": "Request to stop an application"
+                    },
+                    {
+                        "level": "app_admin",
+                        "theme": "Applications",
+                        "command": "application restart <appid>",
+                        "details": "Request to restart an application"
                     },
                     {
                         "level": "app_admin",
@@ -737,13 +755,13 @@ class CAccount {
                     {
                         "level": "app_admin",
                         "theme": "Metrics",
-                        "command": "metrics groups",
+                        "command": "application metrics groups",
                         "details": "List metrics available for any applications"
                     },
                     {
                         "level": "app_admin",
                         "theme": "Metrics",
-                        "command": "metrics application <appid>",
+                        "command": "application metrics <appid>",
                         "details": "List application's metrics"
                     },
                     {
@@ -787,7 +805,7 @@ class CAccount {
                 json.data = json.data.concat(data_dev);
             }
 
-            if (that._prefs.user.roles.includes("app_superadmin")) {
+            if (that._prefs.user.roles.includes("app_superadmin") || that._prefs.user.roles.includes("superadmin")) {
                 var data_dev = [
 
                     {
@@ -799,25 +817,25 @@ class CAccount {
                     {
                         "level": "app_superadmin",
                         "theme": "Applications",
-                        "command": "block application <appid>",
+                        "command": "application block <appid>",
                         "details": "Block an existing application"
                     },
                     {
                         "level": "app_superadmin",
                         "theme": "Applications",
-                        "command": "unblock application <appid>",
+                        "command": "application unblock <appid>",
                         "details": "Unblock an existing application"
                     },
                     {
                         "level": "app_superadmin",
                         "theme": "Applications",
-                        "command": "deploy application <appid>",
-                        "details": "Accept a request of deployment"
+                        "command": "application approve <appid>",
+                        "details": "Approve a request of deployment"
                     },
                     {
                         "level": "app_superadmin",
                         "theme": "Applications",
-                        "command": "dismiss application <appid>",
+                        "command": "application decline <appid>",
                         "details": "Decline a request of deployment"
                     },
                     {
@@ -1149,7 +1167,7 @@ class CAccount {
                 json.data = json.data.concat(data_orga_only);
             }
 
-            if(that._prefs.user.roles.includes("bp_admin")) {
+            if(that._prefs.user.roles.includes("bp_admin") || that._prefs.user.roles.includes("app_superadmin")) {
 
                 var data_bp_only = [
                     {

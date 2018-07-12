@@ -54,7 +54,7 @@ class Application {
             });
         });
 
-        this._program.command('create application', '<name>')
+        this._program.command('application create', '<name>')
         .description("Create a new web application")
         .option('-m, --mob', 'Force the type to mobile')
         .option('-s, --srv', 'Force the type to server')
@@ -64,9 +64,9 @@ class Application {
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log("    $ rbw create application 'A new app'");
-            console.log("    $ rbw create application 'A new app' --bot");
-            console.log("    $ rbw create application 'A new app' --bot --json");
+            console.log("    $ rbw application create 'A new app'");
+            console.log("    $ rbw application create 'A new app' --bot");
+            console.log("    $ rbw application create 'A new app' --bot --json");
             console.log('');
             console.log('  Details:');
             console.log('');
@@ -90,15 +90,17 @@ class Application {
             });
         });
 
-        this._program.command('delete application', '<appid>')
+        this._program.command('application delete', '<appid>')
         .description("Delete an existing application")
         .option('--nc', 'Do not ask confirmation')
+        .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log("    $ rbw delete application 593065822799299343b8501d");
-            console.log("    $ rbw delete application 593065822799299343b8501d --json");
+            console.log("    $ rbw application delete 593065822799299343b8501d");
+            console.log("    $ rbw application delete 593065822799299343b8501d --nc");
+            console.log("    $ rbw application delete 593065822799299343b8501d --json");
             console.log('');
         })
         .action(function (appid, commands) {
@@ -118,14 +120,15 @@ class Application {
             });
         });
 
-        this._program.command('block application', '<appid>')
+        this._program.command('application block', '<appid>')
         .description("Block an existing application")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log("    $ rbw block application 593065822799299343b8501d");
-            console.log("    $ rbw block application 593065822799299343b8501d --json");
+            console.log("    $ rbw application block 593065822799299343b8501d");
+            console.log("    $ rbw application block 593065822799299343b8501d --json");
             console.log('');
         })
         .action(function (appid, commands) {
@@ -144,14 +147,15 @@ class Application {
             });
         });
 
-        this._program.command('unblock application', '<appid>')
+        this._program.command('application unblock', '<appid>')
         .description("Unblock an existing application")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log("    $ rbw unblock application 593065822799299343b8501d");
-            console.log("    $ rbw unblock application 593065822799299343b8501d --json");
+            console.log("    $ rbw application unblock 593065822799299343b8501d");
+            console.log("    $ rbw application unblock 593065822799299343b8501d --json");
             console.log('');
         })
         .action(function (appid, commands) {
@@ -170,14 +174,15 @@ class Application {
             });
         });
 
-        this._program.command('deploy application', '<appid>')
-        .description("Accept a request of deployment of an application")
+        this._program.command('application deploy', '<appid>')
+        .description("Request a deployment of an application")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log("    $ rbw deploy application 593065822799299343b8501d");
-            console.log("    $ rbw deploy application 593065822799299343b8501d --json");
+            console.log("    $ rbw application deploy 593065822799299343b8501d");
+            console.log("    $ rbw application deploy 593065822799299343b8501d --json");
             console.log('');
         })
         .action(function (appid, commands) {
@@ -196,14 +201,42 @@ class Application {
             });
         });
 
-        this._program.command('dismiss application', '<appid>')
-        .description("Decline a request of deployment of an application")
+        this._program.command('application approve', '<appid>')
+        .description("Approve a request of deployment of an application")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log("    $ rbw dismiss application 593065822799299343b8501d");
-            console.log("    $ rbw dismiss application 593065822799299343b8501d --json");
+            console.log("    $ rbw application approve 593065822799299343b8501d");
+            console.log("    $ rbw application approve 593065822799299343b8501d --json");
+            console.log('');
+        })
+        .action(function (appid, commands) {
+
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    appid: appid,
+                    noOutput: commands.json || false,
+                }
+
+                Logger.isActive = commands.verbose || false;
+
+                that._application.approveApplication(options);
+            }).catch( () => {
+
+            });
+        });
+
+        this._program.command('application dismiss', '<appid>')
+        .description("Decline a request of deployment of an application")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw application dismiss 593065822799299343b8501d");
+            console.log("    $ rbw application dismiss 593065822799299343b8501d --json");
             console.log('');
         })
         .action(function (appid, commands) {
@@ -222,13 +255,68 @@ class Application {
             });
         });
 
-        this._program.command('usage application', '<appid> <year> <month>')
-        .description("Push application usage to business store - dev purpose only")
+        this._program.command('application stop', '<appid>')
+        .description("Stop an application")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log("    $ rbw usage application 593065822799299343b8501d 2018 7");
+            console.log("    $ rbw application stop 593065822799299343b8501d");
+            console.log("    $ rbw application stop 593065822799299343b8501d --json");
+            console.log('');
+        })
+        .action(function (appid, commands) {
+
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    appid: appid,
+                    noOutput: commands.json || false,
+                }
+
+                Logger.isActive = commands.verbose || false;
+
+                that._application.stopApplication(options);
+            }).catch( () => {
+
+            });
+        });
+
+        this._program.command('application restart', '<appid>')
+        .description("Restart an application")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw application restart 593065822799299343b8501d");
+            console.log("    $ rbw application restart 593065822799299343b8501d --json");
+            console.log('');
+        })
+        .action(function (appid, commands) {
+
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    appid: appid,
+                    noOutput: commands.json || false,
+                }
+
+                Logger.isActive = commands.verbose || false;
+
+                that._application.restartApplication(options);
+            }).catch( () => {
+
+            });
+        });
+
+        this._program.command('application usage', '<appid> <year> <month>')
+        .description("Push application usage to business store - dev purpose only")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw application usage 593065822799299343b8501d 2018 7");
             console.log('');
         })
         .action(function (appid, year, month, commands) {
@@ -249,7 +337,7 @@ class Application {
             });
         });
 
-        this._program.command('metrics application', '<appid>')
+        this._program.command('application metrics', '<appid>')
         .description("Retrieve API usage metrics of an application for the current day per hour")
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-d, --day <date>', 'Get metrics for a specific day, hour by hour. Format is YYYMMDD')
@@ -295,14 +383,14 @@ class Application {
             });
         });
 
-        this._program.command('metrics groups')
+        this._program.command('application metrics groups')
         .description("Retrieve the list metrics available for any applications")
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log('    $ rbw metrics groups');
+            console.log('    $ rbw application metrics groups');
             console.log('');
             console.log('  Details:');
             console.log('');
@@ -331,8 +419,8 @@ class Application {
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log('    $ rbw application push 593065822799299343b8501d');
-            console.log('    $ rbw application push 593065822799299343b8501d --json');
+            console.log('    $ rbw application pns 593065822799299343b8501d');
+            console.log('    $ rbw application pns 593065822799299343b8501d --json');
             console.log('');
             console.log('  Details:');
             console.log('');
@@ -362,8 +450,8 @@ class Application {
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log('    $ rbw push 3893c8c00dae11e8b55f759655b0616d 5a882a56fd551af4da28c4bd');
-            console.log('    $ rbw push 3893c8c00dae11e8b55f759655b0616d 5a882a56fd551af4da28c4bd --json');
+            console.log('    $ rbw application pn 3893c8c00dae11e8b55f759655b0616d 5a882a56fd551af4da28c4bd');
+            console.log('    $ rbw application pn 3893c8c00dae11e8b55f759655b0616d 5a882a56fd551af4da28c4bd --json');
             console.log('');
             console.log('  Details:');
             console.log('');
@@ -390,12 +478,13 @@ class Application {
         this._program.command('application delete pn', '<appid> <id>')
         .description("Delete an existing push notifications setting")
         .option('--nc', 'Do not ask confirmation')
+        .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log("    $ rbw application delete push 53893c8c00dae11e8b55f759655b0616d 5a882a56fd551af4da28c4bd");
-            console.log("    $ rbw application delete push 3893c8c00dae11e8b55f759655b0616d 5a882a56fd551af4da28c4bd --json");
+            console.log("    $ rbw application delete pn 53893c8c00dae11e8b55f759655b0616d 5a882a56fd551af4da28c4bd");
+            console.log("    $ rbw application delete pn 3893c8c00dae11e8b55f759655b0616d 5a882a56fd551af4da28c4bd --json");
             console.log('');
         })
         .action(function (appid, id, commands) {
@@ -454,8 +543,8 @@ class Application {
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log('    $ rbw application create apns voip 593065822799299343b8501d cert.file');
-            console.log('    $ rbw application create apns voip 593065822799299343b8501d cert.file --json');
+            console.log('    $ rbw application create voip 593065822799299343b8501d cert.file');
+            console.log('    $ rbw application create voip 593065822799299343b8501d cert.file --json');
             console.log('');
             console.log('  Details:');
             console.log('');
@@ -487,8 +576,8 @@ class Application {
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log('    $ rbw application create apns voip 593065822799299343b8501d cert.file');
-            console.log('    $ rbw application create apns voip 593065822799299343b8501d cert.file --json');
+            console.log('    $ rbw application create im 593065822799299343b8501d cert.file');
+            console.log('    $ rbw application create im 593065822799299343b8501d cert.file --json');
             console.log('');
             console.log('  Details:');
             console.log('');

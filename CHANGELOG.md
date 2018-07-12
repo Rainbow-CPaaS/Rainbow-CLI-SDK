@@ -6,6 +6,8 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 All notable changes to Rainbow-CLI will be documented in this file.
 
 ### [1.43.0] - 2018-07-08
+- RQRAINB-1002: Request to deploy an application
+- RQRAINB-1001: Stop and restart application
 - RQRAINB-995: Filter applications
 
 ### [1.42.1] - 2018-06-27

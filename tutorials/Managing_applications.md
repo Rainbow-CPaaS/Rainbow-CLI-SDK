@@ -48,11 +48,11 @@ The id of the application could be retrieved by using the command `rbw applicati
 ### Creating and removing applications
 ---
 
-To create a new application that will be automatically **deployed**, use the command `rbw create application`.
+To create a new application that will be automatically **deployed**, use the command `rbw application create`.
 
 ```bash
 
-$ rbw create application 'My new application'
+$ rbw application create 'My new application'
 
 ```
 
@@ -60,7 +60,7 @@ Once you have you application use the command `rbw application <id>` to get the 
 
 You can check that your application has the property `env` equals to `deployed` which means that you can inject the application id and secret key to your SDK or REST API and you should be able to connect your application to the Rainbow Developers Sandbox platform.
 
-If you want to remove your application, just call the command `rbw delete application <id>`.
+If you want to remove your application, just call the command `rbw application delete <id>`.
 
 
 ### Adding PUSH Notifications for your Android or IOS application
@@ -72,7 +72,7 @@ When you are building an Android or an IOS application, you need that your users
 #### Android
 ---
 
-For Android, you need to configure your application with the **Firebase Server Key** token. 
+For Android, you need to configure your application with the **Firebase Server Key** token.
 
 To find it:
 
@@ -96,9 +96,9 @@ The first parameter is your application id and the second is your Firebase serve
 
 Please note that we have no way to check that your token is valid. You can send something that is not a valid token without being refused by Rainbow. The token is limited to 255 characters.
 
-Once you have executed these commands with a valid token, Rainbow will be configured and ready to send PUSH notifications to your application. 
+Once you have executed these commands with a valid token, Rainbow will be configured and ready to send PUSH notifications to your application.
 
-The last task is to configure your SDK to activate the PUSH Notifications. Check the [Android Getting started guide](/#/documentation/doc/sdk/android/guides/Getting%20started) for having more information on how to use your SDK to activate the Rainbow PUSH notifications for you application.  
+The last task is to configure your SDK to activate the PUSH Notifications. Check the [Android Getting started guide](/#/documentation/doc/sdk/android/guides/Getting%20started) for having more information on how to use your SDK to activate the Rainbow PUSH notifications for you application.
 
 
 #### IOS
@@ -122,7 +122,7 @@ The first parameter is your application id and the second is the certificate fil
 
 Please note that if the certificate content is not valid (eg. bad format, etc...), an error message is displayed to the console and the certificate will be refused by Rainbow.
 
-Once you have executed these commands successfully, Rainbow will be configured and ready to send PUSH notifications to your application. 
+Once you have executed these commands successfully, Rainbow will be configured and ready to send PUSH notifications to your application.
 
 The last task is to configure your SDK to activate the PUSH Notifications. Check the [IOS Getting started guide](/#/documentation/doc/sdk/ios/guides/Getting_Started) for having more information on how to use your SDK to activate the Rainbow PUSH notifications for you application.
 
@@ -167,20 +167,48 @@ $ rbw application create fcm e17f9fa059cf11e8ae01d9b5fe1c68ca b8f5fb949cf11e8ae0
 The second parameter is the PUSH notification setting id got from the command `rbw application pns`.
 
 
-### Application metrics
+### Application stop and restart
 ---
 
+#### Stopping an application
+---
+
+At any time, you can stop your application. Once done, your users will no more be able to invoke Rainbow services.
+
+Use the command `rbw application stop` to stop your application.
+
+```bash
+
+$ rbw application stop e17f9fa059cf11e8ae01d9b5fe1c68ca
+
+```
+
+#### Restarting an application
+---
+
+Any stopped applications can be restarting. Once done, your users will be able to invoke Rainbow services again.
+
+Use the command `rbw application restart` to restart your application.
+
+```bash
+
+$ rbw application restart e17f9fa059cf11e8ae01d9b5fe1c68ca
+
+```
+
+### Application metrics
+---
 
 #### Display API usage on console
 ---
 
 When your application is used, each Rainbow API called (which is different than a SDK method called) is counted.
 
-Use the command `rbw metrics application` to get the statistics on the number of APIs called by your application on a period.
+Use the command `rbw application metrics` to get the statistics on the number of APIs called by your application on a period.
 
 ```bash
 
-$ rbw metrics application e17f9fa059cf11e8ae01d9b5fe1c68ca
+$ rbw application metrics e17f9fa059cf11e8ae01d9b5fe1c68ca
 
 ```
 
@@ -194,7 +222,7 @@ $ rbw metrics application e17f9fa059cf11e8ae01d9b5fe1c68ca --month 201803
 
 ```
 
-Use the command `rbw metrics application --help` to get the list of all period options supported.
+Use the command `rbw application metrics --help` to get the list of all period options supported.
 
 
 #### Export API usage to CSV
@@ -206,7 +234,7 @@ Just use the option `--file` to export your API usage numbers to a file (CSV for
 
 ```bash
 
-$ rbw metrics application e17f9fa059cf11e8ae01d9b5fe1c68ca --month 201803 --file 'app_usage-march18.csv'
+$ rbw application metrics e17f9fa059cf11e8ae01d9b5fe1c68ca --month 201803 --file 'app_usage-march18.csv'
 
 ```
 
@@ -221,7 +249,7 @@ Application metrics are grouped into the following categories:
 | **Resources APIs** | This is the number of Rainbow API called by your application when doing applicative tasks like sending a chat message, creating a bubble, etc... <br/>This is the overall total for all your users.<br/>The unit represents one Rainbow API called. |
 | **WebRTC minutes** | This is the number of minutes consumed by your application when in communication using WebRTC (audio, video and screen sharing). <br/>This is the overall total for all your users.<br/>The unit represents one minute spent. |
 
-Note: When using a SDK, calling a method is not synonymous to calling a Rainbow API. In order to work correctly, the SDK could do additional requests in order to retrieve information that your application or the SDK will need to work properly. 
+Note: When using a SDK, calling a method is not synonymous to calling a Rainbow API. In order to work correctly, the SDK could do additional requests in order to retrieve information that your application or the SDK will need to work properly.
 
 
 ### Interested in
@@ -234,4 +262,4 @@ Note: When using a SDK, calling a method is not synonymous to calling a Rainbow 
 
 ---
 
-_Last updated May, 17th 2018_
+_Last updated July, 12th 2018_
