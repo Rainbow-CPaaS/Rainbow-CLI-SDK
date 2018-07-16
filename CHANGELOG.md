@@ -5,6 +5,9 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+### [1.43.1] - 2018-07-08
+- Switch to Rainbow-node-sdk 1.43.2 to fix Node6 issue
+
 ### [1.43.0] - 2018-07-08
 - RQRAINB-1002: Request to deploy an application
 - RQRAINB-1001: Stop and restart application

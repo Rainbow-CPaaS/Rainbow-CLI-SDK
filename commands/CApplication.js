@@ -933,7 +933,7 @@ class CApplication {
                 Message.log("execute action...");
                 return that._getGroupMetrics(that._prefs.token);
             }).then(function(json) {
-
+                Message.log("action group metrics done...", json);
                 if(json.data) {
                     for(var group in json.data) {
                         json.data[group].forEach(function(metric) {

@@ -29,7 +29,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 - Improve check of commands to avoid crash when `-` or `--` is missing in parameters.
 
-- Linked with `Rainbow Node.JS SDK 1.43.1`
+- Linked with `Rainbow Node.JS SDK 1.43.2`
 
 
 ### Rainbow CLI 1.42 (Beta) - June 2018
