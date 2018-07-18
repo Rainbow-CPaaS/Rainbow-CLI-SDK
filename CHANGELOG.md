@@ -6,7 +6,8 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 All notable changes to Rainbow-CLI will be documented in this file.
 
 ### [1.44.0] - 2018-07-08
-- RQRAINB-1008 Create application on behalf and change ownership of an application
+- RQRAINB-1010: Filter applications by ownerid
+- RQRAINB-1008: Create application on behalf and change ownership of an application
 - RQRAINB-1009: Renew the application secret
 
 ### [1.43.1] - 2018-07-08

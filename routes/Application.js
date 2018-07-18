@@ -680,6 +680,7 @@ class Application {
         .option('-b, --blocked', 'Filter applications blocked only')
         .option('-i, --indeployment', 'Filter applications in deployment only')
         .option('-d, --deployed', 'Filter applications blocked only')
+        .option('--owner <userid>', 'Filter applications by user')
         .option('--bydate', 'Sort applications by date. Recent first.')
         .on('--help', function(){
             console.log('  Examples:');
@@ -736,6 +737,7 @@ class Application {
                     csv: commands.file || "",
                     format: commands.csv ? "medium" : format || "full",
                     byDate: commands.bydate || false,
+                    owner: commands.owner || null,
                     page: page,
                     limit: limit,
                     filter: filter

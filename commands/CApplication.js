@@ -143,7 +143,15 @@ class CApplication {
         return new Promise(function(resolve, reject) {
 
             NodeSDK.get('/api/rainbow/applications/v1.0/applications/' + options.appid, token).then(function(json) {
-                resolve(json);
+                
+                if(json.data.ownerId) {
+                    NodeSDK.get('/api/rainbow/enduser/v1.0/users/' + json.data.ownerId, token).then(function(userJson) {
+                        json.data.owner = userJson.data;
+                        resolve(json);
+                    });                    
+                } else {
+                    resolve(json);
+                }
             }).catch(function(err) {
                 reject(err);
             });
@@ -201,6 +209,10 @@ class CApplication {
                         filterToApply +="&sortField=dateOfCreation&sortOrder=-1";
                         break;
                 }
+            }
+
+            if(options.owner) {
+                filterToApply += "&ownerId=" + options.owner;
             }
 
             if(options.page > 0) {
