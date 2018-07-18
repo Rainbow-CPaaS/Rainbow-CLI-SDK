@@ -232,9 +232,45 @@ class CApplication {
                 "origin": "",
                 "type": options.type,
                 "activity": "J"
+            };
+
+            if(options.owner) {
+                application.ownerId = options.owner;
             }
 
             NodeSDK.post('/api/rainbow/applications/v1.0/applications', token, application).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
+    _linkApplication(token, options) {
+
+        return new Promise(function(resolve, reject) {
+
+            let data = {
+                ownerId: options.ownerid
+            };
+
+            NodeSDK.put('/api/rainbow/applications/v1.0/applications/' + options.appid, token, data).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
+    _renewApplication(token, options) {
+
+        return new Promise(function(resolve, reject) {
+
+            let data = {
+                refreshAppSecret: true
+            };
+
+            NodeSDK.put('/api/rainbow/applications/v1.0/applications/' + options.appid, token, data).then(function(json) {
                 resolve(json);
             }).catch(function(err) {
                 reject(err);
@@ -475,6 +511,86 @@ class CApplication {
                 else {
                     Message.lineFeed();
                     Message.printSuccess('Application created with Id', json.data.id, options);
+                    Message.success(options);
+                }
+                Message.log("finished!");
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    linkApplication(options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            Message.action("Link application to user", options.ownerid, options);
+            let spin = Message.spin(options);
+
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
+                Message.log("execute action...");
+                return that._linkApplication(that._prefs.token, options);
+            }).then(function(json) {
+                Message.unspin(spin);
+
+                Message.log("action done...", json);
+
+                if(options.noOutput) {
+                    Message.out(json.data);
+                }
+                else {
+                    Message.lineFeed();
+                    Message.printSuccess('Application successfully linked to user', options.ownerid, options);
+                    Message.success(options);
+                }
+                Message.log("finished!");
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    renewApplication(options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            Message.action("Renew application secret for application", options.appid, options);
+            let spin = Message.spin(options);
+
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
+                Message.log("execute action...");
+                return that._renewApplication(that._prefs.token, options);
+            }).then(function(json) {
+                Message.unspin(spin);
+
+                Message.log("action done...", json);
+
+                if(options.noOutput) {
+                    Message.out(json.data);
+                }
+                else {
+                    Message.lineFeed();
+                    Message.printSuccess('Application secret successfully renewed for application', options.appid, options);
                     Message.success(options);
                 }
                 Message.log("finished!");

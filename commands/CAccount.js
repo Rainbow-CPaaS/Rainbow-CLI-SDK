@@ -693,6 +693,12 @@ class CAccount {
                     {
                         "level": "app_admin",
                         "theme": "Applications",
+                        "command": "application renew <appid>",
+                        "details": "Renew the application secret"
+                    },
+                    {
+                        "level": "app_admin",
+                        "theme": "Applications",
                         "command": "application <appid>",
                         "details": "List application's information"
                     },
@@ -837,6 +843,18 @@ class CAccount {
                         "theme": "Applications",
                         "command": "application decline <appid>",
                         "details": "Decline a request of deployment"
+                    },
+                    {
+                        "level": "app_superadmin",
+                        "theme": "----------",
+                        "command": "----------",
+                        "details": "----------"
+                    },
+                    {
+                        "level": "app_superadmin",
+                        "theme": "Ownership",
+                        "command": "application link <appid> <userid>",
+                        "details": "Change the ownership of an application"
                     },
                     {
                         "level": "app_superadmin",

@@ -59,6 +59,7 @@ class Application {
         .option('-m, --mob', 'Force the type to mobile')
         .option('-s, --srv', 'Force the type to server')
         .option('-b, --bot', 'Force the type to bot')
+        .option('--owner <ownerid>', 'Give ownership of the application to a specific user.')
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
@@ -66,6 +67,7 @@ class Application {
             console.log('');
             console.log("    $ rbw application create 'A new app'");
             console.log("    $ rbw application create 'A new app' --bot");
+            console.log("    $ rbw application create 'A new app' --bot --owner 603065822799299343b8503e");
             console.log("    $ rbw application create 'A new app' --bot --json");
             console.log('');
             console.log('  Details:');
@@ -79,12 +81,76 @@ class Application {
                 var options= {
                     name: name,
                     noOutput: commands.json || false,
-                    type: commands.srv ? "server" : commands.bot ? "bot" : commands.mob ? "mobile" : "web"
+                    type: commands.srv ? "server" : commands.bot ? "bot" : commands.mob ? "mobile" : "web",
+                    owner: commands.owner || null
                 }
 
                 Logger.isActive = commands.verbose || false;
 
                 that._application.createApplication(options);
+            }).catch( () => {
+
+            });
+        });
+
+        this._program.command('application link', '<appid> <userid>')
+        .description("Link an application to a user (eg: Change the ownership)")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw application link 603065822799299343b8503e 51e065822799299343b75e4");
+            console.log("    $ rbw application link 603065822799299343b8503e 51e065822799299343b75e4 --json");
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the user to the console');
+            console.log('');
+        })
+        .action(function (appid, userid, commands) {
+
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    appid: appid,
+                    ownerid: userid,
+                    noOutput: commands.json || false,
+                }
+
+                Logger.isActive = commands.verbose || false;
+
+                that._application.linkApplication(options);
+            }).catch( () => {
+
+            });
+        });
+
+        this._program.command('application renew', '<appid>')
+        .description("Renew the application secret")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log("    $ rbw application renew 603065822799299343b8503e");
+            console.log("    $ rbw application renew 603065822799299343b8503e --json");
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the user to the console');
+            console.log('');
+        })
+        .action(function (appid, commands) {
+
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    appid: appid,
+                    noOutput: commands.json || false,
+                }
+
+                Logger.isActive = commands.verbose || false;
+
+                that._application.renewApplication(options);
             }).catch( () => {
 
             });

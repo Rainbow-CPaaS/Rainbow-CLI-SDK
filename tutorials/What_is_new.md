@@ -3,6 +3,31 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
+
+### Rainbow CLI 1.44 (Beta) - July 2018
+---
+
+**3-Release Breaking Changes**
+
+- None.
+
+**Breaking Changes**
+
+- None.
+
+**Changes**
+
+- New command `rbw application renew` has been added to renew the application secret.
+
+- New command `rbw application link` has been added to allow ALE to change the ownership of an application to someone else.
+
+- New option `--owner` has been added to command `rbw application create` to allow ALE to create application on behalf a developer.
+
+**Others changes**
+
+- Linked with `Rainbow Node.JS SDK 1.43.2`
+
+
 ### Rainbow CLI 1.43 (Beta) - July 2018
 ---
 
