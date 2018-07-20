@@ -1,6 +1,7 @@
 "use strict";
 
-const winston = require("winston");
+//const winston = require("winston");
+const winston = require('winston');
 const fs = require("fs");
 
 const tsFormat = () => {
@@ -13,18 +14,23 @@ class Logger {
 
     constructor(config) {
 
-        this._logger = new (winston.Logger)({
-            transports: [
-                new (winston.transports.Console)({ 
-                    colorize: true, 
-                    timestamp: tsFormat, 
-                    level: "debug" 
-                })
-            ]
+        const myFormat = winston.format.printf(info => {
+            return `${info.timestamp} [${info.label}] - ${info.level}: ${info.message} ${JSON.stringify(info.data)}`;
+        });
+
+        this._logger = winston.createLogger({
+            level: 'debug',
+            format: winston.format.combine(
+                winston.format.colorize(),
+                winston.format.label({ label: 'rbw-cli' }),
+                winston.format.timestamp(),
+                myFormat,
+            ),
+            
+            transports:[new winston.transports.Console()]
         });
 
         this._isActive = false;
-        
     }
 
     set isActive(isActivated) {
