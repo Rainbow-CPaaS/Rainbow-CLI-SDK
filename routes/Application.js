@@ -294,15 +294,15 @@ class Application {
             });
         });
 
-        this._program.command('application dismiss', '<appid>')
+        this._program.command('application decline', '<appid>')
         .description("Decline a request of deployment of an application")
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log("    $ rbw application dismiss 593065822799299343b8501d");
-            console.log("    $ rbw application dismiss 593065822799299343b8501d --json");
+            console.log("    $ rbw application decline 593065822799299343b8501d");
+            console.log("    $ rbw application decline 593065822799299343b8501d --json");
             console.log('');
         })
         .action(function (appid, commands) {
