@@ -677,9 +677,12 @@ class Application {
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
         .option('-n, --notdeployed', 'Filter applications not deployed only')
-        .option('-b, --blocked', 'Filter applications blocked only')
         .option('-i, --indeployment', 'Filter applications in deployment only')
         .option('-d, --deployed', 'Filter applications blocked only')
+        .option('--active', 'Filter applications active only')
+        .option('--blocked', 'Filter applications blocked only')
+        .option('--notactive', 'Filter applications not active only')
+        .option('-s, --withsubscription', 'Filter applications with subscription only')
         .option('--owner <userid>', 'Filter applications by user')
         .option('--bydate', 'Sort applications by date. Recent first.')
         .on('--help', function(){
@@ -704,6 +707,7 @@ class Application {
                 var limit = "25";
                 var format = "full";
                 var filter = null;
+                var state = null;
                 var bydate = false;
 
                 if("page" in commands) {
@@ -724,8 +728,18 @@ class Application {
                     filter = "in_deployment";
                 } else if(commands.notdeployed) {
                     filter = "not_deployed";
-                } else if(commands.blocked) {
-                    filter = "blocked";
+                } else {
+                    filter = "";
+                }
+
+                if(commands.blocked) {
+                    state = "blocked";
+                } else if(commands.active) {
+                    state = "active";
+                } else if(commands.notactive) {
+                    state = "notactive";
+                } else {
+                    state = "";
                 }
 
                 if(commands.csv) {
@@ -738,9 +752,11 @@ class Application {
                     format: commands.csv ? "medium" : format || "full",
                     byDate: commands.bydate || false,
                     owner: commands.owner || null,
-                    page: page,
-                    limit: limit,
-                    filter: filter
+                    subscription: commands.withsubscription || null,
+                    page,
+                    limit,
+                    filter,
+                    state,
                 };
 
                 if(commands.max) {

@@ -4,6 +4,28 @@
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
 
+### Rainbow CLI 1.45 (Beta) - August 2018
+---
+
+**3-Release Breaking Changes**
+
+- None.
+
+**Breaking Changes**
+
+- None.
+
+**Changes**
+
+- New options `--active`, `--notactive` have been added to command `rbw applications` to filter applications received depending on their state.
+
+- New option `--subscription` have been added to command `rbw applications` to filter applications with a payment method only.
+
+**Others changes**
+
+- Linked with `Rainbow Node.JS SDK 1.44.0`
+
+
 ### Rainbow CLI 1.44 (Beta) - July 2018
 ---
 

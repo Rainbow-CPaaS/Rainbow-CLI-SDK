@@ -5,6 +5,10 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+### [1.45.0] - 2018-08-26
+- RQRAINB-1048: Filter applications by state and subscription
+- (alpha) Commands auto-completion
+
 ### [1.44.0] - 2018-07-08
 - RQRAINB-1010: Filter applications by ownerid
 - RQRAINB-1008: Create application on behalf and change ownership of an application

@@ -183,19 +183,17 @@ class CApplication {
             }
 
             if(options.filter) {
-                switch(options.filter) {
-                    case "deployed":
-                    case "in_deployment":
-                    case "not_deployed":
-                        filterToApply += `&env=${options.filter}`;
-                        break;
-                    case "blocked":
-                        filterToApply += `&state=${options.filter}`;
-                        break;
-                    default:
-                        break;
+                filterToApply += `&env=${options.filter}`;
+            }
+
+            if(options.state) {
+                if(options.state === "notactive") {
+                    filterToApply += `&state=blocked,stopped,new`;
+                } else {
+                    filterToApply += `&state=${options.state}`;
                 }
             }
+
             if(options.byDate) {
                 switch(options.filter) {
                     case "blocked":
@@ -213,6 +211,10 @@ class CApplication {
 
             if(options.owner) {
                 filterToApply += "&ownerId=" + options.owner;
+            }
+
+            if(options.subscription) {
+                filterToApply += "&subscriptionStatus=creating,active,alerting";
             }
 
             if(options.page > 0) {
