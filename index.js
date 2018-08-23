@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#! /usr/bin/env node
 
 process.on("SIGPIPE", process.exit);
 
@@ -7,8 +7,10 @@ const colors      = require('colors');
 
 const pkg = require('./package.json')
 
+// auto-complete
+const complete = require('./common/Autocomplete');
+
 const Preferences = require("./common/Preferences");
-const Message = require('./common/Message');
 
 const Account         = require('./routes/Account');
 const Company         = require('./routes/Company');
@@ -28,11 +30,16 @@ const Developer       = require('./routes/Developer');
 
 start = function() {
 
+  // auto-complete
+  complete.initialize();
+
+  // Set max listeners
   program.setMaxListeners(100);
 
   // Initialize the program
   program.version(pkg.version);
 
+  // Loads prefs
   let prefs = new Preferences();
 
   // Initialize the routes
@@ -69,15 +76,7 @@ start = function() {
   applications.start();
   developers.start();
 
-  program
-    .command('*')
-    .action(function () {
-        Message.welcome();
-        Message.version(pkg.version);
-        Message.lineFeed();
-        Message.notFound();
-  });
-
+  // Parse commands
   program.parse(process.argv);
 }
 

@@ -4,7 +4,8 @@
   "description": "Rainbow CLI application based on the Rainbow SDK for Node.js",
   "main": "index.js",
   "scripts": {
-    "test": "standard"
+    "test": "standard",
+    "install": "tabtab install --auto"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,7 @@
     "sitemap": "^1.13.0",
     "standard": "^11.0.1",
     "table": "^4.0.3",
+    "tabtab": "^2.2.2",
     "update-notifier": "^2.5.0",
     "winston": "^3.0.0"
   },
