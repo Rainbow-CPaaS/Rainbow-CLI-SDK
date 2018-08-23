@@ -1,6 +1,6 @@
 const Logger    = require('./Logger');
 
-const complete = null;
+let complete = null;
 
 const initialize = () => {
 
