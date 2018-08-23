@@ -4,8 +4,6 @@ let complete = null;
 
 const initialize = () => {
 
-    Logger.logs("CLI/Autocomplete - (initialize) add auto-completion...");
-
     complete = require('tabtab')({
         name: 'rbw'
     });

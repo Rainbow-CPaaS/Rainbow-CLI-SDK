@@ -36,11 +36,10 @@ class Message {
         if(!this._shouldDisplayOutput(options)) {
             return;
         }
-
-        this.log("options passed", options);
-
         Screen.print('');
         Screen.print('Welcome to '.white + 'Rainbow CLI'.rainbow);
+
+        this.log("CLI/MESSAGE - (welcome) command options", options);
     }
 
     version(v, options) {
