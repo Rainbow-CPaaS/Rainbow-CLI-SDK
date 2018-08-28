@@ -23,7 +23,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 **Others changes**
 
-- Linked with `Rainbow Node.JS SDK 1.44.0`
+- Linked with `Rainbow Node.JS SDK 1.45.0`
 
 
 ### Rainbow CLI 1.44 (Beta) - July 2018
