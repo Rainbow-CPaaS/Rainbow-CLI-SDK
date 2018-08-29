@@ -18,7 +18,7 @@ const argumentsToString = (v)=>{
     for(var k in args){
         if (typeof args[k] === "object"){
             //args[k] = util.inspect(args[k], false, null, true);
-            args[k] = util.inspect(args[k], { showHidden: false, depth: 3, colors: true, customInspect: false });
+            args[k] = util.inspect(args[k], { showHidden: false, depth: 5, colors: false, customInspect: false });
         }
     }
     var str = args.join(" ");
