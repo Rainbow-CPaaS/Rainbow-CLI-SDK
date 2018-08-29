@@ -3,6 +3,27 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
+### Rainbow CLI 1.46 (Beta) - September 2018
+---
+
+**3-Release Breaking Changes**
+
+- None.
+
+**Breaking Changes**
+
+- None.
+
+**Changes**
+
+- None.
+
+**Others changes**
+
+- Command `rbw application metrics` now displays the number of minutes consumed by the application (audio and video).
+
+- Linked with `Rainbow Node.JS SDK 1.46.0`
+
 
 ### Rainbow CLI 1.45 (Beta) - August 2018
 ---

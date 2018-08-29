@@ -448,6 +448,16 @@ class Message {
 
         let number = 0;
 
+        let grandTotalData = [];
+        let seconds = ["audio", "video", "webrtc_minutes"];
+
+        for(var category in categories) {
+            grandTotalData.push({
+                "group": category,
+                "count": 0
+            });
+        }
+
         metrics.forEach((metric) => {
 
             let groups = metric.groupCounters;
@@ -455,6 +465,13 @@ class Message {
 
             let subTotal = 0;
             let firstLine = true;
+
+            // Put webrtc trafic in minutes (received in s)
+            groups.forEach( (group) => {
+                if(seconds.includes(group.group)) {
+                    group.count = Math.round(group.count / 60);
+                }
+            });
 
             switch (period) {
                 case "hour":
@@ -472,7 +489,7 @@ class Message {
             }
 
             var aggregatedData = [];
-
+            
             if(options.group) {
                 for(var category in categories) {
                     aggregatedData.push({
@@ -482,12 +499,12 @@ class Message {
                 }
 
                 groups.forEach( (group) => {
-
                     for(var category in categories) {
                         if(categories[category].includes(group.group)) {
                             aggregatedData.forEach( (aggregated, index) => {
                                 if(aggregated.group === category) {
                                     aggregatedData[index].count += group.count;
+                                    grandTotalData[index].count += group.count;
                                 }
                             });
                         }
@@ -507,17 +524,28 @@ class Message {
                 }
                 subTotal += group.count;
             });
-            array.push(["", "", "TOTAL".bgYellow, subTotal.toString().bgYellow]);
             number++;
             total +=subTotal;
 
         });
 
-        if(number > 0) {
-            array.push(["".gray, "".gray, "-----".gray, "-----".gray]);
-        }
+        if(options.group) {
 
-        array.push(["", start.bgCyan + ' to '.bgCyan + end.bgCyan, "GRAND TOTAL".bgCyan, total.toString().bgCyan]);
+            let firstLineTotal = true;
+
+            if(number > 0) {
+                array.push(["".gray, "".gray, "-----".gray, "-----".gray]);
+            }
+            grandTotalData.forEach( (group) => {
+                if(firstLineTotal) {
+                    array.push(["", start.cyan + ' to '.cyan + end.cyan, "GRAND TOTAL " + group.group.toUpperCase(), group.count.toString().bgMagenta]);
+                    firstLineTotal = false;
+                }
+                else {
+                    array.push(["", "", "GRAND TOTAL " + group.group.toUpperCase(), group.count.toString().bgMagenta]);
+                }
+            });
+        }
 
         Screen.print('');
         Screen.table(array);

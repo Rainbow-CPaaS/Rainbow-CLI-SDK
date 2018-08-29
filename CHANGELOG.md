@@ -5,6 +5,9 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+### [1.46.0] - 2018-09-16
+- RQRAINB-1049: Display audio/video trafic
+
 ### [1.45.2] - 2018-09-05
 - CRRAINB-3548: Fix connection issue with appId
 
