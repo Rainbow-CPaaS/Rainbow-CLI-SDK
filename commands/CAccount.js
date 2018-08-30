@@ -33,6 +33,18 @@ class CAccount {
         });
     }
 
+    _changePassword(token, id, options) {
+
+        return new Promise(function(resolve, reject) {
+
+            NodeSDK.put(`/api/rainbow/enduser/v1.0/users/${id}/change-password`, token, {oldPassword: options.oldPassword, newPassword: options.newPassword}).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
     getConnectedUserInformation(options) {
         var that = this;
 
@@ -167,6 +179,38 @@ class CAccount {
             Message.error({details: 'You are not signed-in'});
             Exit.error();
         }
+    }
+
+    changePassword(options) {
+
+        Message.welcome(options);
+
+        Message.action("Change your password");
+
+        Message.log("execute action...");
+
+        Message.askPassword("Enter current password")
+        .then((oldPwd) => {
+            
+            options.oldPassword = oldPwd;
+            return Message.askPassword("Enter new password");
+
+        }).then((newPwd) => {
+
+            options.newPassword = newPwd;
+            return NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret);
+        }).then(() => {
+            
+            return this._changePassword(this._prefs.token, this._prefs.user.id, options);
+        }).then((json) => {
+
+            Message.log("action done...", json);
+            Message.lineFeed();
+            Message.success(options);
+            Message.log("finished!");
+        }).catch((err) => {
+            Message.error(err);
+        });
     }
 
     configure(options) {
@@ -547,6 +591,12 @@ class CAccount {
                 "theme": "General",
                 "command": "logout",
                 "details": "Log-out from Rainbow"
+            },
+            {
+                "level": "user",
+                "theme": "General",
+                "command": "change password",
+                "details": "Change the logged-in user's password"
             },
             {
                 "level": "user",
