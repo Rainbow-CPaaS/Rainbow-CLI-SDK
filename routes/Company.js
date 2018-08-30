@@ -182,6 +182,32 @@ class Company {
             });
         });
 
+        this._program.command('company metrics', '[id]')
+        .description("Give metrics on a company")
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw company metrics');
+            console.log('    $ rbw company metrics 57ea7475d78f3ba5aae98935');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+        })
+        .action(function (id, commands) {
+
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    id: id || null
+                };
+
+                Logger.isActive = commands.verbose || false;
+
+                that._company.metricsCompany(options);
+            }).catch( () => {
+
+            });
+        });
 
         this._program.command('company link', '<id> [orgid]')
         .description("Link the company to an organization")
