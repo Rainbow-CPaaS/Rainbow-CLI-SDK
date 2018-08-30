@@ -113,8 +113,6 @@ class CCompany {
                 id = that._prefs.user.companyId;
             }
 
-            console.log(">>>", id);
-
             NodeSDK.put('/api/rainbow/admin/v1.0/companies/' + id, token, {visibility: options.visibility}).then(function(json) {
                 resolve(json);
             }).catch(function(err) {
