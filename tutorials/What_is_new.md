@@ -12,7 +12,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 **Breaking Changes**
 
-- None.
+- To homogenize the naming, the existing commands `rbw create company`, `rbw delete company`, `rbw link company`, `rbw unlink company`, `rbw status company`, `rbw setpublic company`, `rbw setprivate company` and `rbw company free` have been renamed to `rbw company create`, `rbw company delete`, `rbw company link`, `rbw company unlink`, `rbw company status`, `rbw company setpublic`, `rbw company setprivate` and `rbw company free`.
 
 **Changes**
 

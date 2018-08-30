@@ -945,25 +945,25 @@ class CAccount {
                     {
                         "level": "company_admin",
                         "theme": "Company",
-                        "command": "setpublic [companyId]",
+                        "command": "company setpublic [companyId]",
                         "details": "Change the visibility of a company to public"
                     },
                     {
                         "level": "company_admin",
                         "theme": "Company",
-                        "command": "setprivate [companyId]",
+                        "command": "company setprivate [companyId]",
                         "details": "Change the visibility of a company to private"
                     },
                     {
                         "level": "company_admin",
                         "theme": "Company",
-                        "command": "setorgpublic [companyId]",
+                        "command": "company setorgpublic [companyId]",
                         "details": "Change the visibility of a company to public inside an organization"
                     },
                     {
                         "level": "company_admin",
                         "theme": "Company",
-                        "command": "status company",
+                        "command": "company status",
                         "details": "Status on a company"
                     },
                     {
@@ -1121,31 +1121,31 @@ class CAccount {
                     {
                         "level": "organization_admin",
                         "theme": "Company",
-                        "command": "create company <name>",
+                        "command": "company create <name>",
                         "details": "Create a new company"
                     },
                     {
                         "level": "organization_admin",
                         "theme": "Company",
-                        "command": "delete company <id>",
+                        "command": "company delete<id>",
                         "details": "Delete an existing company"
                     },
                     {
                         "level": "organization_admin",
                         "theme": "Company",
-                        "command": "link company <companyId>",
+                        "command": "company link <companyId>",
                         "details": "Link a company to organization"
                     },
                     {
                         "level": "organization_admin",
                         "theme": "Company",
-                        "command": "unlink company <companyId>",
+                        "command": "company unlink <companyId>",
                         "details": "Unlink a company from organization"
                     },
                     {
                         "level": "organization_admin",
                         "theme": "Company",
-                        "command": "free company <companyId>",
+                        "command": "company free <companyId>",
                         "details": "Remove all users from a company"
                     },
                     {
