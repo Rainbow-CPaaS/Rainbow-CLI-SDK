@@ -30,8 +30,12 @@ class CInternal {
         var that = this;
 
         let apps = [];
+        
+        let filterToApply = "format=small&env=deployed&limit=1000";
 
-        let filterToApply = "format=small&env=deployed&subscriptionStatus=creating,active,alerting,hold,terminating&limit=1000";
+        if(!options.all) {
+            filterToApply += "&subscriptionStatus=creating,active,alerting,hold,terminating";
+        }
 
         return new Promise((resolve, reject) => {
 
@@ -59,6 +63,7 @@ class CInternal {
                 });
 
                 return Promise.all(promisesUser);
+
             }).then((jsonUsers) => {
 
                 jsonUsers.forEach((user, index) => {
@@ -68,13 +73,14 @@ class CInternal {
                 let promises = [];
 
                 apps.forEach( (application) => {
-                    let appOptions = Object.assign({}, options);
-                    appOptions.appid = application.id;
-                    appOptions.forcePeriod = "month";
-                    promises.push(this._applications._getMetrics(token, appOptions));
+                   let appOptions = Object.assign({}, options);
+                   appOptions.appid = application.id;
+                   appOptions.forcePeriod = "month";
+                   promises.push(this._applications._getMetrics(token, appOptions));
                 });
 
                 return Promise.all(promises);
+
             }).then((jsonMetrics) => {
 
                 let seconds = ["audio", "video", "webrtc_minutes"];
