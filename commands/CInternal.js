@@ -12,6 +12,73 @@ class CInternal {
         this._applications = new CApplication(this._prefs);
     }
 
+    _formatCSVMetrics(json, options) {
+
+        let csvJSON = {
+            "data":[]
+        };
+
+        let apps = json.data;
+        csvJSON.data.push(["appid", "application name", "ownerid", "ownername", "API resources", "API adminstrations", "WEBRTC minutes", "File storage", "Cost"]);
+
+        apps.forEach((app) => {
+
+            let line = [];
+            line.push(app.id);
+            line.push(app.name);
+            line.push(app.ownerId);
+            line.push(app.user.firstName + " " + app.user.lastName);
+
+            let data = app.metrics;
+            let res = 0;
+            let admin = 0;
+            let webrtc = 0;
+            let file = 0;
+            let cost = 0;
+
+            if (data) {
+                data.forEach((metric) => {
+                    switch (metric.group) {
+                        case "administration":
+                            admin = metric.count;
+                            if(admin > 2000) {
+                                cost += (admin - 2000) * 0.005;
+                            }
+                        break;
+                        case "resources":
+                            res = metric.count;
+                            if(res > 5000) {
+                                cost += (res - 5000) * 0.001;
+                            }
+                        break;
+                        case "webrtc_minutes":
+                            webrtc = metric.count;
+                            if(webrtc > 500) {
+                                cost += (webrtc - 500) * 0.005;
+                            }
+                        break;
+                        case "storage":
+                            file = metric.count;
+                            if(file > 5) {
+                                cost += (file - 5) * 0.1;
+                            }
+                        break;
+                    }
+                });    
+            } 
+
+            line.push(res)
+            line.push(admin);
+            line.push(webrtc);
+            line.push(file);
+            line.push(cost);
+
+            csvJSON["data"].push(line);
+        });
+
+        return csvJSON;
+    }
+
     _getUser(token, id) {
 
         return new Promise(function(resolve, reject) {
@@ -122,7 +189,7 @@ class CInternal {
                     });
                 });
 
-                resolve(apps);
+                resolve({data: apps});
             }).catch(function(err) {
                 reject(err);
             });
@@ -149,10 +216,11 @@ class CInternal {
 
                 Message.unspin(spin);
                 Message.log("action done...", json);
-
                 
                 if(options.csv) {
-                    Message.csv(options.csv, json.data).then(() => {
+                    let jsonCSV = that._formatCSVMetrics(json, options);
+
+                    Message.csv(options.csv, jsonCSV.data).then(() => {
                     }).catch((err) => {
                         Exit.error();
                     });
@@ -161,12 +229,7 @@ class CInternal {
                     Message.out(json.data);
                 }
                 else {
-
-                    if(json.total > json.limit) {
-                        Message.tablePage(json, options);
-                    }
-                    Message.lineFeed();
-                    Message.tableDashboardMetrics(json, options);
+                    Message.tableDashboardMetrics(json.data, options);
                 }
                 
                 Message.log("finished!");
