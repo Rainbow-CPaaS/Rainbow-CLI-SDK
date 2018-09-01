@@ -112,14 +112,19 @@ class CApplication {
                 period = "month";
             }
 
+            if(options.forcePeriod) {
+                period = options.forcePeriod;
+            }
+
             param += "fromDate=" + fromDate.toISOString();
             param += "&toDate=" + toDate.toISOString();
 
             param += "&period=" + period;
 
             NodeSDK.get('/api/rainbow/metrics/v1.0/cpaasmetrics/' + options.appid + param, token).then(function(json) {
-                json.start = fromDate;
-                json.end = toDate;
+                json.start = fromDate.toDate();
+                json.end = toDate.toDate();
+                json.appid = options.appid;
                 resolve(json);
             }).catch(function(err) {
                 reject(err);

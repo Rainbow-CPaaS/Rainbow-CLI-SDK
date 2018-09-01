@@ -441,10 +441,9 @@ class Message {
         array.push([ "-".gray, "------".gray, "-----".gray, "-----".gray]);
 
         let metrics = json.data;
-        let total = json.total || 0;
         let period = json.aggregationPeriod || "hour";
-        let start = json.start.format("ll") || "";
-        let end = json.end.format("ll") || "";
+        let start = moment(json.start).format("ll") || "";
+        let end = moment(json.end).format("ll") || "";
 
         let number = 0;
 
@@ -463,7 +462,6 @@ class Message {
             let groups = metric.groupCounters;
             let startDate = metric.aggregationStartDate;
 
-            let subTotal = 0;
             let firstLine = true;
 
             // Put webrtc trafic in minutes (received in s)
@@ -522,11 +520,8 @@ class Message {
                 else {
                     array.push(["", "", group.group.white, group.count.toString().cyan]);
                 }
-                subTotal += group.count;
             });
             number++;
-            total +=subTotal;
-
         });
 
         if(options.group) {
@@ -551,6 +546,79 @@ class Message {
         Screen.table(array);
         Screen.print('');
         Screen.print('Interval used'.gray +  ' ' + period.yellow + ' per '.gray + period.yellow);
+        Screen.print('');
+        Screen.success(number + ' metrics found');
+        Screen.print('');
+    }
+
+    tableDashboardMetrics(json, options, categories) {
+
+        let array = [];
+        array.push([ "#".gray, "Name".gray, "Owner".gray, "ID".gray, "API Resources".gray, "API Admin".gray, "WebRTC Minutes".gray, "File Storage".gray, "Estimated cost".gray]);
+        array.push([ "-".gray, "----".gray, "-----".gray, "--".gray, "-------------".gray, "---------".gray, "--------------".gray, "------------".gray, "--------------".gray]);
+
+        let number = 0;
+
+        json.forEach((app) => {
+            let appid = app.id;
+            let name = app.name;
+            let data = app.metrics;
+            let user = app.user;
+            let res = 0;
+            let admin = 0;
+            let webrtc = 0;
+            let file = 0;
+            let cost = 0;
+            if (data) {
+                data.forEach((metric) => {
+                    switch (metric.group) {
+                        case "administration":
+                            admin = metric.count;
+                            if(admin > 2000) {
+                                cost += (admin - 2000) * 0.005;
+                            }
+                        break;
+                        case "resources":
+                            res = metric.count;
+                            if(res > 5000) {
+                                cost += (res - 5000) * 0.001;
+                            }
+                        break;
+                        case "webrtc_minutes":
+                            webrtc = metric.count;
+                            if(webrtc > 500) {
+                                cost += (res - 500) * 0.005;
+                            }
+                        break;
+                        case "storage":
+                            file = metric.count;
+                            if(file > 5) {
+                                cost += (file - 5) * 0.1;
+                            }
+                        break;
+                    }
+                });    
+            } 
+
+            array.push([
+                (number+1).toString().white, 
+                name.white, 
+                user.firstName.white + " " + user.lastName.white,
+                appid.white,
+                res > 0 ? res.toString().cyan : res.toString().white,
+                admin > 0 ? admin.toString().cyan : admin.toString().white,
+                webrtc > 0 ? webrtc.toString().cyan : webrtc.toString().white, 
+                file > 0 ? file.toString().cyan : file.toString().white,
+                cost > 0 ? cost.toFixed(3).toString().yellow : cost.toFixed(3).toString().white
+            ]);
+            
+            number+=1;
+        });
+
+        Screen.print('');
+        Screen.table(array);
+        Screen.print('');
+        //Screen.print('Interval used'.gray +  ' ' + period.yellow + ' per '.gray + period.yellow);
         Screen.print('');
         Screen.success(number + ' metrics found');
         Screen.print('');
@@ -1209,9 +1277,16 @@ class Message {
                     Screen.print("  (".gray + err.msg.gray + '/'.gray + err.code.toString().gray + ')'.gray);
                 }
                 else {
-                    Screen.print("  No additional information");
+                    if(err.name && err.message) {
+                        Screen.print(`  Error of type ${err.name} - ${err.message}`);
+                        if(err.fileName) {
+                            Screen.print(`  In file ${err.fileName}, ${err.lineNumber}:${err.columnNumber}`);
+                        }
+                        if(err.stack) {
+                            Screen.print(err.stack);
+                        }
+                    }
                 }
-
             }
         }
         Screen.print('');
