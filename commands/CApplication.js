@@ -5,6 +5,7 @@ const NodeSDK   = require('../common/SDK');
 const Message   = require('../common/Message');
 const Exit      = require('../common/Exit');
 const moment        = require('moment');
+const timezone = require('moment-timezone');
 
 class CApplication {
 
@@ -118,6 +119,11 @@ class CApplication {
 
             param += "fromDate=" + fromDate.toISOString();
             param += "&toDate=" + toDate.toISOString();
+            
+            let zone_name =  moment.tz.guess();
+            //var timezone = moment.tz(zone_name).zoneAbbr();
+
+            param += "&timezone=" + zone_name;
 
             param += "&period=" + period;
 

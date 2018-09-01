@@ -26,6 +26,7 @@ class Internal {
         this._program.command('dashboard metrics')
         .description("Display applications metrics for application with subscription")
         .option('-m, --month <month>', 'Get metrics for a specific month. Format is YYYYMM')
+        .option('-a, --all', 'Get metrics for all applications including business applications')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
         .option('-v, --verbose', 'Use verbose console mode')
         .action(function (commands) {
@@ -35,7 +36,8 @@ class Internal {
                 var options = {
                     month: commands.month,
                     group: true,
-                    csv: commands.file
+                    csv: commands.file,
+                    all: commands.all,
                 };
 
                 that._internal.dashboardMetrics(options);

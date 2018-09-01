@@ -560,6 +560,7 @@ class Message {
         let number = 0;
 
         json.forEach((app) => {
+            
             let appid = app.id;
             let name = app.name;
             let data = app.metrics;
@@ -569,6 +570,7 @@ class Message {
             let webrtc = 0;
             let file = 0;
             let cost = 0;
+
             if (data) {
                 data.forEach((metric) => {
                     switch (metric.group) {
@@ -587,7 +589,7 @@ class Message {
                         case "webrtc_minutes":
                             webrtc = metric.count;
                             if(webrtc > 500) {
-                                cost += (res - 500) * 0.005;
+                                cost += (webrtc - 500) * 0.005;
                             }
                         break;
                         case "storage":
@@ -611,6 +613,7 @@ class Message {
                 file > 0 ? file.toString().cyan : file.toString().white,
                 cost > 0 ? cost.toFixed(3).toString().yellow : cost.toFixed(3).toString().white
             ]);
+            
             
             number+=1;
         });
