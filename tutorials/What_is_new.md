@@ -18,6 +18,8 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 - New command `rbw change password` has been added to allow user to change quickly the password associated to his Rainbow account. Command `rbw set password` or command `rbw configure` has to be used to update the Rainbow CLI preference with the new password and finally command `rbw login` has to be used to log-in again to Rainbow.
 
+- Command `rbw configure` now propose previous existing values when changing from one Rainbow platform to a new one (eg: Sandbox to Production).
+
 **Others changes**
 
 - Command `rbw application metrics` now displays the number of minutes consumed by the application (audio and video). At this time of writing, only conference minutes are taken into account.
