@@ -257,12 +257,12 @@ class CAccount {
                     break;
             }
 
-            return Message.ask("Proxy", "None");
+            return Message.ask("Proxy", this._prefs.proxy || "None");
         }).then((proxy) => {
 
             proxyAddress = Helper.getProxyFromString(proxy);
 
-            return Message.ask("Rainbow Login Email");
+            return Message.ask("Rainbow Login Email", this._prefs.email || "");
 
         }).then((login) => {
 
@@ -272,7 +272,7 @@ class CAccount {
         }).then((password) => {
 
             loginPassword = password;
-            return Message.ask("Rainbow Application Id (For production only)", "None");
+            return Message.ask("Rainbow Application Id (For production only)", this._prefs.appid || "None");
 
         }).then((appid) => {
 
@@ -280,7 +280,7 @@ class CAccount {
                 applicationid = appid;
             }
 
-            return Message.ask("Rainbow Application Secret", "None");
+            return Message.ask("Rainbow Application Secret", this._prefs.appsecret || "None");
 
         }).then((appsecret) => {
 
