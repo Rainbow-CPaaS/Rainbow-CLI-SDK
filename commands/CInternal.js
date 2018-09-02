@@ -104,6 +104,10 @@ class CInternal {
             filterToApply += "&subscriptionStatus=creating,active,alerting,hold,terminating";
         }
 
+        if(options.owner) {
+            filterToApply += "&ownerId=" + options.owner;
+        }
+
         return new Promise((resolve, reject) => {
 
             this._applications._getGroupMetrics(token).then( (jsonGroups) => {

@@ -28,6 +28,7 @@ class Internal {
         .option('-m, --month <month>', 'Get metrics for a specific month. Format is YYYYMM')
         .option('-a, --all', 'Get metrics for all applications including business applications')
         .option('-f, --file <filename>', 'Print result to a file in CSV')
+        .option('-o, --owner <ownerid>', 'Filter by owner of applications')
         .option('-v, --verbose', 'Use verbose console mode')
         .action(function (commands) {
             Middleware.parseCommand(commands).then( () => {
@@ -38,6 +39,7 @@ class Internal {
                     group: true,
                     csv: commands.file,
                     all: commands.all,
+                    owner: commands.owner,
                 };
 
                 that._internal.dashboardMetrics(options);
