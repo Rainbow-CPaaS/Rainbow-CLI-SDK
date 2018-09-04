@@ -108,6 +108,8 @@ class CInternal {
             filterToApply += "&ownerId=" + options.owner;
         }
 
+        filterToApply += "&sortField=ownerId";
+
         return new Promise((resolve, reject) => {
 
             this._applications._getGroupMetrics(token).then( (jsonGroups) => {
