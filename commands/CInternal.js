@@ -204,30 +204,10 @@ class CInternal {
 
     _dashboardDevelopers(token, options) {
 
-        var groups = [];
-        var categories = [];
+        var filterToApply = "format=full&roles=app_admin&sortField=companyId";
 
-        var that = this;
 
-        let developers = [];
-        
-        var filterToApply = "format=full&roles=app_admin,app_superadmin&sortField=companyId";
-
-        if(options.format) {
-            filterToApply = "format=" + options.format;
-        }
-
-        if(options.page > 0) {
-            filterToApply += "&offset=";
-            if(options.page > 1) {
-                filterToApply += (options.limit * (options.page - 1));
-            }
-            else {
-                filterToApply +=0;
-            }
-        }
-
-        filterToApply += "&limit=" + Math.min(options.limit, 1000);
+        filterToApply += "&limit=1000";
 
         return new Promise((resolve, reject) => {
 
@@ -322,7 +302,7 @@ class CInternal {
                     Message.out(json.data);
                 }
                 else {
-                    Message.tableDashboardMetrics(json.data, options);
+                    Message.tableDashboardDevelopers(json, options);
                 }
                 
                 Message.log("finished!");

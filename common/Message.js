@@ -551,6 +551,82 @@ class Message {
         Screen.print('');
     }
 
+    tableDashboardDevelopers(json, options) {
+
+        var array = [];
+        array.push([ "#".gray, "Name".gray, "Company".gray, "Developer since".gray, "Sandbox since".gray, "Active".gray, "ID".gray]);
+        array.push([ "-".gray, "----".gray, "-------".gray, "---------------".gray, "-------------".gray, "------".gray, "--".gray]);
+
+        var users = json.data;
+
+        let fromDate = null, toDate = null;
+
+        if(options.month) {
+            fromDate = moment(options.month, 'YYYYMM').startOf('month');
+            toDate = moment(options.month, 'YYYYMM').endOf('month');
+        } else {
+            fromDate = moment().startOf('month');
+            toDate = moment().endOf('month');
+        }
+
+        let increment = 0;
+
+        for(var i = 0; i < users.length; i++) {
+
+            if(options.company || options.companyId) {
+                companyId = users[i].companyId;
+            }
+
+            var active = "YES".white;
+            if(!users[i].isActive) {
+                active = "NO".yellow;
+            }
+
+            var name = "";
+            name = users[i].displayName;
+            if(!name) {
+                name = users[i].firstName + " " +users[i].lastName;
+            }
+
+            var number = (increment+1);
+
+            var companyName = users[i].companyName || "";
+
+            let developerSince = "in error".magenta;
+            let sandboxSince = "not created".yellow;
+            let hasBeenRegisteredInMonth = false;
+            if(users[i].developer && users[i].developer.account && users[i].developer.account.status === "confirmed") {
+                let date = moment(users[i].developer.account.lastUpdateDate);
+                if(!options.sandbox) {
+                    if(date.isBetween(fromDate, toDate)) {
+                        hasBeenRegisteredInMonth = true;
+                    }
+                }
+                developerSince = date.format("LL").white;
+            }
+            if(users[i].developer && users[i].developer.sandbox && users[i].developer.sandbox.status === "succeeded") {
+                let date = moment(users[i].developer.sandbox.lastUpdateDate);
+                if(options.sandbox) {
+                    if(date.isBetween(fromDate, toDate)) {
+                        hasBeenRegisteredInMonth = true;
+                    }
+                }
+                sandboxSince = date.format("LL").white;
+            }
+
+            if(hasBeenRegisteredInMonth) {
+                array.push([ number.toString().white, name.cyan, companyName.white, developerSince, sandboxSince, active, users[i].id.white]);
+                increment +=1;
+            }
+        }
+
+        Screen.table(array);
+        Screen.print('');
+
+        Screen.success(increment + ' developers found');
+        Screen.print('');
+    }
+
     tableDashboardMetrics(json, options, categories) {
 
         let array = [];
