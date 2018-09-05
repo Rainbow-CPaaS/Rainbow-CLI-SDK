@@ -9,7 +9,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 **3-Release Breaking Changes**
 
-- None.
+- [Update v1.45.2] Rainbow CLI 1.45.2 will be the minimal version to connect to the Rainbow Sandbox developers platform when Rainbow platform will be updated to version 1.47.
 
 **Breaking Changes**
 
