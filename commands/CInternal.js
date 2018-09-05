@@ -89,7 +89,7 @@ class CInternal {
         });
     }
 
-    _dashboardMetrics(token, options) {
+    _dashboardApplications(token, options) {
 
         var groups = [];
         var categories = [];
@@ -202,7 +202,44 @@ class CInternal {
         });
     }
 
-    dashboardMetrics(options) {
+    _dashboardDevelopers(token, options) {
+
+        var groups = [];
+        var categories = [];
+
+        var that = this;
+
+        let developers = [];
+        
+        var filterToApply = "format=full&roles=app_admin,app_superadmin&sortField=companyId";
+
+        if(options.format) {
+            filterToApply = "format=" + options.format;
+        }
+
+        if(options.page > 0) {
+            filterToApply += "&offset=";
+            if(options.page > 1) {
+                filterToApply += (options.limit * (options.page - 1));
+            }
+            else {
+                filterToApply +=0;
+            }
+        }
+
+        filterToApply += "&limit=" + Math.min(options.limit, 1000);
+
+        return new Promise((resolve, reject) => {
+
+            NodeSDK.get('/api/rainbow/admin/v1.0/users?' + filterToApply, token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
+    dashboardApplications(options) {
         var that = this;
 
         Message.welcome(options);
@@ -211,13 +248,63 @@ class CInternal {
             Message.loggedin(this._prefs, options);
 
             if(!options.csv) {
-                Message.action("Dashboard Metrics", null, options);
+                Message.action("Dashboard applications metrics", null, options);
             }
 
             let spin = Message.spin(options);
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
-                return that._dashboardMetrics(that._prefs.token, options);
+                return that._dashboardApplications(that._prefs.token, options);
+            }).then(function(json) {
+
+                Message.unspin(spin);
+                Message.log("action done...", json);
+                
+                if(options.csv) {
+                    let jsonCSV = that._formatCSVMetrics(json, options);
+
+                    Message.csv(options.csv, jsonCSV.data).then(() => {
+                    }).catch((err) => {
+                        Exit.error();
+                    });
+                }
+                else if(options.noOutput) {
+                    Message.out(json.data);
+                }
+                else {
+                    Message.tableDashboardMetrics(json.data, options);
+                }
+                
+                Message.log("finished!");
+
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    dashboardDevelopers(options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if(this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            if(!options.csv) {
+                Message.action("Dashboard developers metrics", null, options);
+            }
+
+            let spin = Message.spin(options);
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
+                Message.log("execute action...");
+                return that._dashboardDevelopers(that._prefs.token, options);
             }).then(function(json) {
 
                 Message.unspin(spin);

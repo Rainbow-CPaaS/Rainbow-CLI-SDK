@@ -111,6 +111,10 @@ class CApplication {
                 fromDate = moment(year, 'YYYY').startOf('year');
                 toDate = moment(year, 'YYYY').endOf('year');
                 period = "month";
+            } else {
+                fromDate = moment().startOf('month');
+                toDate = moment().endOf('month');
+                period = "day";
             }
 
             if(options.forcePeriod) {
