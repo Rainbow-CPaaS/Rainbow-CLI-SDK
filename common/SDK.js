@@ -54,14 +54,14 @@ class SDK {
             config.credentials.password = password;
             config.rainbow.host = platform;
 
-            if (config.rainbow.host === "openrainbow.com" || "official") {
+            if (config.rainbow.host === "openrainbow.com" || config.rainbow.host === "official") {
                 config.application.appID = appid;
                 config.application.appSecret = appsecret;
             } else {
 
                 config.application.appID = "b34c674000f011e886d9b5bbd3260792";
 
-                if (config.rainbow.host === "sandbox.openrainbow.com" || "sandbox") {
+                if (config.rainbow.host === "sandbox.openrainbow.com" || config.rainbow.host === "sandbox") {
                     config.application.appSecret = "MAjWllXH84YVhn0yp3ZuGmuPleXlYQhIeNghRgdo8NAVKEcIDc7M61Wes6Dp0cLy";
                 } else if(config.rainbow.host === "openrainbow.net" || config.rainbow.host === "cpaaspreprod.openrainbow.net" ) {
                     config.application.appSecret = "QPxaSRzGDcQ5ZIHQtWOpGrDU2j7GEgBpBii6l6N64RyF6QRxaFIJMhAHM4sIhWx7";
