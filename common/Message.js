@@ -630,12 +630,15 @@ class Message {
     tableDashboardMetrics(json, options, categories) {
 
         let array = [];
-        array.push([ "#".gray, "Name".gray, "Owner".gray, "ID".gray, "API Resources".gray, "API Admin".gray, "WebRTC Minutes".gray, "File Storage".gray, "Estimated cost".gray]);
-        array.push([ "-".gray, "----".gray, "-----".gray, "--".gray, "-------------".gray, "---------".gray, "--------------".gray, "------------".gray, "--------------".gray]);
+        array.push([ "#".gray, "Name".gray, "Owner".gray, "External".gray, "Deployed".gray, "ID".gray, "API Resources".gray, "API Admin".gray, "WebRTC Minutes".gray, "File Storage".gray, "Estimated cost".gray]);
+        array.push([ "-".gray, "----".gray, "-----".gray, "--------".gray, "--------".gray, "--".gray, "-------------".gray, "---------".gray, "--------------".gray, "------------".gray, "--------------".gray]);
 
         let number = 0;
 
+
         json.forEach((app) => {
+
+            console.log(">>APP", app);
             
             let appid = app.id;
             let name = app.name;
@@ -678,10 +681,26 @@ class Message {
                 });    
             } 
 
+            let internalPatterns = [
+                "al-enterprise.com",
+                "al-mydemo.com",
+            ];
+
+            let dateOfDeployment = "-";
+            if(app.dateOfDeployment) {
+                dateOfDeployment = moment(app.dateOfDeployment).format("ll");
+            }
+
+            let isInternal = internalPatterns.some( (pattern) => {
+                return user.loginEmail.includes(pattern);
+            });
+
             array.push([
                 (number+1).toString().white, 
                 name.white, 
                 user.firstName.white + " " + user.lastName.white,
+                isInternal ? "NO".white : "YES".yellow,
+                dateOfDeployment.white,
                 appid.white,
                 res > 0 ? res.toString().cyan : res.toString().white,
                 admin > 0 ? admin.toString().cyan : admin.toString().white,
