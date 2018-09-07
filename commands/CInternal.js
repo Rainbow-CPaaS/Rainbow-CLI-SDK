@@ -83,7 +83,7 @@ class CInternal {
 
         return new Promise(function(resolve, reject) {
 
-            NodeSDK.get('/api/rainbow/enduser/v1.0/users/' + id, token).then(function(json) {
+            NodeSDK.get('/api/rainbow/admin/v1.0/users/' + id, token).then(function(json) {
                 resolve(json);
             });  
         });
@@ -98,7 +98,7 @@ class CInternal {
 
         let apps = [];
         
-        let filterToApply = "format=small&env=deployed&limit=1000";
+        let filterToApply = "format=full&env=deployed&limit=1000";
 
         if(!options.all) {
             filterToApply += "&subscriptionStatus=creating,active,alerting,hold,terminating";
