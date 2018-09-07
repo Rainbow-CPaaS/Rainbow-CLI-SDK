@@ -638,8 +638,6 @@ class Message {
 
         json.forEach((app) => {
 
-            console.log(">>APP", app);
-            
             let appid = app.id;
             let name = app.name;
             let data = app.metrics;

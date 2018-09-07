@@ -339,7 +339,7 @@ class CApplication {
                 };
 
                 if (err) {
-                    console.log("EERR", err);
+                    console.log("ERR", err);
                     reject(err);
                 } else {
                     NodeSDK.post('/api/rainbow/applications/v1.0/applications/' + options.appid + '/push-settings', token, apns).then(function(json) {
