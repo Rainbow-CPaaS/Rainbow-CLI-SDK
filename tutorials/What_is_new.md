@@ -22,7 +22,9 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 **Others changes**
 
-- Command `rbw application metrics` now displays the number of minutes consumed by the application (audio and video). At this time of writing, only conference minutes are taken into account.
+- Command `rbw application metrics` now displays the number of minutes consumed by the application (WebRTC audio and video). At this time of writing, only conference minutes are taken into account.
+
+- Fix crash when using command `rbw sites`.
 
 - Linked with `Rainbow Node.JS SDK 1.46.0`
 
