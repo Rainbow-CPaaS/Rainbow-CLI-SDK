@@ -8,6 +8,7 @@ All notable changes to Rainbow-CLI will be documented in this file.
 ### [1.46.0] - 2018-09-16
 - RQRAINB-1049: Display audio/video trafic
 - RQRAINB-1050: Change password
+- CRRAINB-3613: Fix crash when using rbw sites command
 - Reuse existing values in configure command
 
 ### [1.45.1] - 2018-08-28
