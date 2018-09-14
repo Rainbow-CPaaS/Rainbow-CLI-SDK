@@ -1,4 +1,5 @@
 const Message = require('./Message');
+const Screen = require("./Print"); 
 
 const parseCommand = (args) => {
     return new Promise( (resolve, reject) => {

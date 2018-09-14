@@ -3,6 +3,31 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
+### Rainbow CLI 1.46 (Beta) - September 2018
+---
+
+**3-Release Breaking Changes**
+
+- None.
+
+**Breaking Changes**
+
+- To homogenize the naming, the existing commands `rbw create company`, `rbw delete company`, `rbw link company`, `rbw unlink company`, `rbw status company`, `rbw setpublic company`, `rbw setprivate company` and `rbw company free` have been renamed to `rbw company create`, `rbw company delete`, `rbw company link`, `rbw company unlink`, `rbw company status`, `rbw company setpublic`, `rbw company setprivate` and `rbw company free`.
+
+**Changes**
+
+- New command `rbw change password` has been added to allow user to change quickly the password associated to his Rainbow account. Command `rbw set password` or command `rbw configure` has to be used to update the Rainbow CLI preference with the new password and finally command `rbw login` has to be used to log-in again to Rainbow.
+
+- Command `rbw configure` now propose previous existing values when changing from one Rainbow platform to a new one (eg: Sandbox to Production).
+
+**Others changes**
+
+- Command `rbw application metrics` now displays the number of minutes consumed by the application (WebRTC audio and video). At this time of writing, only conference minutes are taken into account.
+
+- Fix crash when using command `rbw sites`.
+
+- Linked with `Rainbow Node.JS SDK 1.46.0`
+
 
 ### Rainbow CLI 1.45 (Beta) - August 2018
 ---

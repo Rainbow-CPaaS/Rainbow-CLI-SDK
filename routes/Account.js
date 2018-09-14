@@ -259,6 +259,31 @@ class Account {
                 });
             });
 
+            this._program.command('change password')
+            .description("Change the password associated to your account")
+            .option('-v, --verbose', 'Use verbose console mode')
+            .on('--help', function(){
+                console.log('  Examples:');
+                console.log('');
+                console.log('    $ rbw change password');
+                console.log('');
+            })
+            .action(function (commands) {
+
+                console.log("coucou");
+
+                Middleware.parseCommand(commands).then( () => {
+                    Logger.isActive = commands.verbose || false;
+
+                    let options = {
+                    };
+
+                    that._account.changePassword(options);
+                }).catch( () => {
+
+                });
+            });
+
         this._program.command('set email', '<email>')
             .description("Set your login email to your preferences")
             .option('-v, --verbose', 'Use verbose console mode')

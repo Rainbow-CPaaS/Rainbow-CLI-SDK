@@ -113,8 +113,6 @@ class CCompany {
                 id = that._prefs.user.companyId;
             }
 
-            console.log(">>>", id);
-
             NodeSDK.put('/api/rainbow/admin/v1.0/companies/' + id, token, {visibility: options.visibility}).then(function(json) {
                 resolve(json);
             }).catch(function(err) {
@@ -259,13 +257,33 @@ class CCompany {
         });
     }
 
+    _metricsCompany(token, options) {
+
+        var that = this;
+
+        return new Promise(function(resolve, reject) {
+
+            let id = options.id;
+
+            if(!options.id) {
+                id = that._prefs.user.companyId;
+            }
+
+            NodeSDK.get(`/api/rainbow/metrics/v1.0/analyticmetrics/companies/${id}`, token).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
     _linkCompany(token, id, orgid) {
 
         var that = this;
 
         return new Promise(function(resolve, reject) {
 
-            if(!orgid) {
+            if(!id) {
                 orgid = that._prefs.user.organisationId;
             }
 
@@ -569,6 +587,40 @@ class CCompany {
             NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
                 Message.log("execute action...");
                 return that._statusCompany(that._prefs.token, id);
+            }).then(function(json) {
+                Message.unspin(spin);
+                Message.log("action done...", json);
+                Message.lineFeed();
+                Message.table2D(json);
+                Message.success(options);
+                Message.log("finished!");
+            }).catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        }
+        else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    metricsCompany(options) {
+
+        var that = this;
+
+        Message.welcome(options);
+
+        if(this._prefs.token && this._prefs.user) {
+           Message.loggedin(this._prefs, options);
+        
+            Message.action("Metrics of company", options);
+
+            let spin = Message.spin(options);
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
+                Message.log("execute action...");
+                return that._metricsCompany(that._prefs.token, options);
             }).then(function(json) {
                 Message.unspin(spin);
                 Message.log("action done...", json);

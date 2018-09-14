@@ -27,6 +27,7 @@ const Offers          = require('./routes/Offers');
 const Invoices        = require('./routes/Invoice');
 const Application     = require('./routes/Application');
 const Developer       = require('./routes/Developer');
+const Internal        = require('./routes/Internal');
 
 start = function() {
 
@@ -58,6 +59,7 @@ start = function() {
   let invoices = new Invoices(program, prefs);
   let applications = new Application(program, prefs);
   let developers = new Developer(program, prefs);
+  let internal = new Internal(program, prefs);
 
   // Start the routes
   account.start();
@@ -75,6 +77,7 @@ start = function() {
   status.start();
   applications.start();
   developers.start();
+  internal.start();
 
   // Parse commands
   program.parse(process.argv);

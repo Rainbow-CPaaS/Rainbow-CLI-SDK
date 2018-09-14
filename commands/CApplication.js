@@ -5,6 +5,7 @@ const NodeSDK   = require('../common/SDK');
 const Message   = require('../common/Message');
 const Exit      = require('../common/Exit');
 const moment        = require('moment');
+const timezone = require('moment-timezone');
 
 class CApplication {
 
@@ -110,16 +111,30 @@ class CApplication {
                 fromDate = moment(year, 'YYYY').startOf('year');
                 toDate = moment(year, 'YYYY').endOf('year');
                 period = "month";
+            } else {
+                fromDate = moment().startOf('month');
+                toDate = moment().endOf('month');
+                period = "day";
+            }
+
+            if(options.forcePeriod) {
+                period = options.forcePeriod;
             }
 
             param += "fromDate=" + fromDate.toISOString();
             param += "&toDate=" + toDate.toISOString();
+            
+            let zone_name =  moment.tz.guess();
+            //var timezone = moment.tz(zone_name).zoneAbbr();
+
+            param += "&timezone=" + zone_name;
 
             param += "&period=" + period;
 
             NodeSDK.get('/api/rainbow/metrics/v1.0/cpaasmetrics/' + options.appid + param, token).then(function(json) {
-                json.start = fromDate;
-                json.end = toDate;
+                json.start = fromDate.toDate();
+                json.end = toDate.toDate();
+                json.appid = options.appid;
                 resolve(json);
             }).catch(function(err) {
                 reject(err);
@@ -324,7 +339,7 @@ class CApplication {
                 };
 
                 if (err) {
-                    console.log("EERR", err);
+                    console.log("ERR", err);
                     reject(err);
                 } else {
                     NodeSDK.post('/api/rainbow/applications/v1.0/applications/' + options.appid + '/push-settings', token, apns).then(function(json) {

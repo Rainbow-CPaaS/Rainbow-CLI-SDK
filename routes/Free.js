@@ -22,7 +22,7 @@ class Free {
     listOfCommands() {
         var that = this;
 
-        this._program.command('free company', '<id>')
+        this._program.command('company free', '<id>')
         .description("Remove all users from a company")
         .option('-v, --verbose', 'Use verbose console mode')
         .action(function (id, commands) {

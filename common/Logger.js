@@ -17,7 +17,8 @@ const argumentsToString = (v)=>{
     var args = Array.prototype.slice.call(v, 1);
     for(var k in args){
         if (typeof args[k] === "object"){
-            args[k] = util.inspect(args[k], false, null, true);
+            //args[k] = util.inspect(args[k], false, null, true);
+            args[k] = util.inspect(args[k], { showHidden: false, depth: 5, colors: false, customInspect: false });
         }
     }
     var str = args.join(" ");

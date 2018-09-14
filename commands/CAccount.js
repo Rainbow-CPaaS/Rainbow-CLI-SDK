@@ -33,6 +33,18 @@ class CAccount {
         });
     }
 
+    _changePassword(token, id, options) {
+
+        return new Promise(function(resolve, reject) {
+
+            NodeSDK.put(`/api/rainbow/enduser/v1.0/users/${id}/change-password`, token, {oldPassword: options.oldPassword, newPassword: options.newPassword}).then(function(json) {
+                resolve(json);
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
     getConnectedUserInformation(options) {
         var that = this;
 
@@ -169,6 +181,38 @@ class CAccount {
         }
     }
 
+    changePassword(options) {
+
+        Message.welcome(options);
+
+        Message.action("Change your password");
+
+        Message.log("execute action...");
+
+        Message.askPassword("Enter current password")
+        .then((oldPwd) => {
+            
+            options.oldPassword = oldPwd;
+            return Message.askPassword("Enter new password");
+
+        }).then((newPwd) => {
+
+            options.newPassword = newPwd;
+            return NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret);
+        }).then(() => {
+            
+            return this._changePassword(this._prefs.token, this._prefs.user.id, options);
+        }).then((json) => {
+
+            Message.log("action done...", json);
+            Message.lineFeed();
+            Message.success(options);
+            Message.log("finished!");
+        }).catch((err) => {
+            Message.error(err);
+        });
+    }
+
     configure(options) {
 
         Message.welcome(options);
@@ -213,12 +257,12 @@ class CAccount {
                     break;
             }
 
-            return Message.ask("Proxy", "None");
+            return Message.ask("Proxy", this._prefs.proxy || "None");
         }).then((proxy) => {
 
             proxyAddress = Helper.getProxyFromString(proxy);
 
-            return Message.ask("Rainbow Login Email");
+            return Message.ask("Rainbow Login Email", this._prefs.email || "");
 
         }).then((login) => {
 
@@ -228,7 +272,7 @@ class CAccount {
         }).then((password) => {
 
             loginPassword = password;
-            return Message.ask("Rainbow Application Id (For production only)", "None");
+            return Message.ask("Rainbow Application Id (For production only)", this._prefs.appid || "None");
 
         }).then((appid) => {
 
@@ -236,7 +280,7 @@ class CAccount {
                 applicationid = appid;
             }
 
-            return Message.ask("Rainbow Application Secret", "None");
+            return Message.ask("Rainbow Application Secret", this._prefs.appsecret || "None");
 
         }).then((appsecret) => {
 
@@ -547,6 +591,12 @@ class CAccount {
                 "theme": "General",
                 "command": "logout",
                 "details": "Log-out from Rainbow"
+            },
+            {
+                "level": "user",
+                "theme": "General",
+                "command": "change password",
+                "details": "Change the logged-in user's password"
             },
             {
                 "level": "user",
@@ -945,25 +995,25 @@ class CAccount {
                     {
                         "level": "company_admin",
                         "theme": "Company",
-                        "command": "setpublic [companyId]",
+                        "command": "company setpublic [companyId]",
                         "details": "Change the visibility of a company to public"
                     },
                     {
                         "level": "company_admin",
                         "theme": "Company",
-                        "command": "setprivate [companyId]",
+                        "command": "company setprivate [companyId]",
                         "details": "Change the visibility of a company to private"
                     },
                     {
                         "level": "company_admin",
                         "theme": "Company",
-                        "command": "setorgpublic [companyId]",
+                        "command": "company setorgpublic [companyId]",
                         "details": "Change the visibility of a company to public inside an organization"
                     },
                     {
                         "level": "company_admin",
                         "theme": "Company",
-                        "command": "status company",
+                        "command": "company status",
                         "details": "Status on a company"
                     },
                     {
@@ -1121,31 +1171,31 @@ class CAccount {
                     {
                         "level": "organization_admin",
                         "theme": "Company",
-                        "command": "create company <name>",
+                        "command": "company create <name>",
                         "details": "Create a new company"
                     },
                     {
                         "level": "organization_admin",
                         "theme": "Company",
-                        "command": "delete company <id>",
+                        "command": "company delete<id>",
                         "details": "Delete an existing company"
                     },
                     {
                         "level": "organization_admin",
                         "theme": "Company",
-                        "command": "link company <companyId>",
+                        "command": "company link <companyId>",
                         "details": "Link a company to organization"
                     },
                     {
                         "level": "organization_admin",
                         "theme": "Company",
-                        "command": "unlink company <companyId>",
+                        "command": "company unlink <companyId>",
                         "details": "Unlink a company from organization"
                     },
                     {
                         "level": "organization_admin",
                         "theme": "Company",
-                        "command": "free company <companyId>",
+                        "command": "company free <companyId>",
                         "details": "Remove all users from a company"
                     },
                     {

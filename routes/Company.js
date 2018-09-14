@@ -59,15 +59,15 @@ class Company {
             });
         });
 
-        this._program.command('create company', '<name>')
+        this._program.command('company create', '<name>')
         .description("Create a new company")
         .option('-j, --json', 'Write the JSON result to standard stdout')
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log('    $ rbw create company "A new company"');
-            console.log('    $ rbw create company "A new company" --json');
+            console.log('    $ rbw company create "A new company"');
+            console.log('    $ rbw company create "A new company" --json');
             console.log('');
             console.log('  Details:');
             console.log('');
@@ -89,7 +89,7 @@ class Company {
             });
         });
 
-        this._program.command('delete company', '<id>')
+        this._program.command('company delete', '<id>')
         .description("Delete an existing company")
         .option('--nc', 'Do not ask confirmation')
         .option('-f, --force', 'Force to remove the company and the users if exist')
@@ -99,7 +99,7 @@ class Company {
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log('    $ rbw delete company 57ea7475d78f3ba5aae98935');
+            console.log('    $ rbw company delete 57ea7475d78f3ba5aae98935');
             console.log('');
             console.log('  Details:');
             console.log('');
@@ -156,14 +156,14 @@ class Company {
         });
         */
 
-        this._program.command('status company', '[id]')
+        this._program.command('company status', '[id]')
         .description("Give a status on a company")
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log('    $ rbw status company');
-            console.log('    $ rbw status company 57ea7475d78f3ba5aae98935');
+            console.log('    $ rbw company status');
+            console.log('    $ rbw company status 57ea7475d78f3ba5aae98935');
             console.log('');
             console.log('  Details:');
             console.log('');
@@ -182,15 +182,41 @@ class Company {
             });
         });
 
+        this._program.command('company metrics', '[id]')
+        .description("Give metrics on a company")
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw company metrics');
+            console.log('    $ rbw company metrics 57ea7475d78f3ba5aae98935');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+        })
+        .action(function (id, commands) {
 
-        this._program.command('link company', '<id> [orgid]')
+            Middleware.parseCommand(commands).then( () => {
+                var options = {
+                    id: id || null
+                };
+
+                Logger.isActive = commands.verbose || false;
+
+                that._company.metricsCompany(options);
+            }).catch( () => {
+
+            });
+        });
+
+        this._program.command('company link', '<id> [orgid]')
         .description("Link the company to an organization")
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log('    $ rbw link company 57ea7475d78f3ba5aae98935');
-            console.log('    $ rbw link company 57ea7475d78f3ba5aae98935 57ea7475d78f3ba5aae98935');
+            console.log('    $ rbw company link 57ea7475d78f3ba5aae98935');
+            console.log('    $ rbw company link 57ea7475d78f3ba5aae98935 57ea7475d78f3ba5aae98935');
             console.log('');
             console.log('  Details:');
             console.log('');
@@ -207,14 +233,14 @@ class Company {
             });
         });
 
-        this._program.command('setpublic company', '[id]')
+        this._program.command('company setpublic', '[id]')
         .description("Set the visibility of the company to public")
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log('    $ rbw setpublic company 57ea7475d78f3ba5aae98935');
-            console.log('    $ rbw setpublic company');
+            console.log('    $ rbw company setpublic 57ea7475d78f3ba5aae98935');
+            console.log('    $ rbw company setpublic');
             console.log('');
         })
         .action(function (id, commands) {
@@ -232,14 +258,14 @@ class Company {
             });
         });
 
-        this._program.command('setprivate company', '[id]')
+        this._program.command('company setprivate', '[id]')
         .description("Set the visibility of the company to private")
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log('    $ rbw setprivate company 57ea7475d78f3ba5aae98935');
-            console.log('    $ rbw setprivate company');
+            console.log('    $ rbw company setprivate 57ea7475d78f3ba5aae98935');
+            console.log('    $ rbw company');
             console.log('');
         })
         .action(function (id, commands) {
@@ -257,14 +283,14 @@ class Company {
             });
         });
 
-        this._program.command('setorgpublic company', '[id]')
+        this._program.command('company setorgpublic', '[id]')
         .description("Set the visibility of the company to public inside organization only")
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log('    $ rbw setorgpublic company 57ea7475d78f3ba5aae98935');
-            console.log('    $ rbw setorgpublic company');
+            console.log('    $ rbw company setorgpublic 57ea7475d78f3ba5aae98935');
+            console.log('    $ rbw company setorgpublic');
             console.log('');
         })
         .action(function (id, commands) {
@@ -282,13 +308,13 @@ class Company {
             });
         });
 
-        this._program.command('unlink company', '<id>')
+        this._program.command('company unlink', '<id>')
         .description("unlink a company from its organization")
         .option('-v, --verbose', 'Use verbose console mode')
         .on('--help', function(){
             console.log('  Examples:');
             console.log('');
-            console.log('    $ rbw unlink company 57ea7475d78f3ba5aae98935');
+            console.log('    $ rbw company unlink 57ea7475d78f3ba5aae98935');
             console.log('');
             console.log('  Details:');
             console.log('');
