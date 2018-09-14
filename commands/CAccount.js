@@ -107,6 +107,16 @@ class CAccount {
             options.host = this._prefs.host || "sandbox";
         }
 
+        if(!options.proxy) {
+          let proxyJSON = { host: '', port: 80, protocol: 'http' };
+
+          if(this._prefs.proxy) {
+            proxyJSON = this._prefs.proxy;
+          }
+
+          options.proxy = proxyJSON ;
+        }
+
         options.appid = this._prefs.appid || "";
         options.appsecret = this._prefs.appsecret || "";
 
@@ -257,7 +267,8 @@ class CAccount {
                     break;
             }
 
-            return Message.ask("Proxy", this._prefs.proxy || "None");
+            let proxyUrl = this._prefs.proxy.protocol + "://" + this._prefs.proxy.host + ":" + this._prefs.proxy.port;
+          return Message.ask("Proxy ", proxyUrl || "None");
         }).then((proxy) => {
 
             proxyAddress = Helper.getProxyFromString(proxy);

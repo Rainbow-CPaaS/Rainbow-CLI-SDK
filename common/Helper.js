@@ -219,6 +219,7 @@ class Helper {
 
         let parts = proxy.split('/');
         protocol = (parts && parts.length > 0) ? parts[0] : "";
+        protocol = protocol.replace(/:/g, '');
         let partsUrl = (parts && parts.length>=2) ? parts[2].split(':') : null;
         if(partsUrl) {
             url = (partsUrl && partsUrl.length > 0) ? partsUrl[0] : "";
