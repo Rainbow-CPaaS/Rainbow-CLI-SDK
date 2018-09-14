@@ -684,18 +684,22 @@ class Message {
             "#".gray,
             "Name".gray,
             "Company".gray,
+            "Country".gray,
+            "BP".gray,
             "Developer since".gray,
             "Sandbox since".gray,
-            "Active".gray,
+            "Pay as you go".gray,
             "ID".gray
         ]);
         array.push([
             "-".gray,
             "----".gray,
             "-------".gray,
+            "-------".gray,
+            "--".gray,
             "---------------".gray,
             "-------------".gray,
-            "------".gray,
+            "-------------".gray,
             "--".gray
         ]);
 
@@ -715,30 +719,36 @@ class Message {
         let increment = 0;
 
         for (var i = 0; i < users.length; i++) {
-            if (options.company || options.companyId) {
-                companyId = users[i].companyId;
-            }
-
-            var active = "YES".white;
-            if (!users[i].isActive) {
-                active = "NO".yellow;
-            }
+            let user = users[i];
 
             var name = "";
-            name = users[i].displayName;
+            name = user.displayName;
             if (!name) {
-                name = users[i].firstName + " " + users[i].lastName;
+                name = user.firstName + " " + user.lastName;
             }
 
             var number = increment + 1;
 
-            var companyName = users[i].companyName || "";
+            var companyName = user.companyName || "";
+
+            let payAsYouGo = user.developer.bsAccountId ? "YES".magenta : "NO".white;
+
+            let country = "".white;
+            let isBP = "-".white;
+            if (user.company) {
+                country = user.company.country.white;
+                if (user.company.isBP) {
+                    isBP = "YES".magenta;
+                } else {
+                    isBP = "NO".white;
+                }
+            }
 
             let developerSince = "in error".magenta;
             let sandboxSince = "not created".yellow;
             let hasBeenRegisteredInMonth = false;
-            if (users[i].developer && users[i].developer.account && users[i].developer.account.status === "confirmed") {
-                let date = moment(users[i].developer.account.lastUpdateDate);
+            if (user.developer && user.developer.account && user.developer.account.status === "confirmed") {
+                let date = moment(user.developer.account.lastUpdateDate);
                 if (!options.sandbox) {
                     if (date.isBetween(fromDate, toDate)) {
                         hasBeenRegisteredInMonth = true;
@@ -746,8 +756,8 @@ class Message {
                 }
                 developerSince = date.format("LL").white;
             }
-            if (users[i].developer && users[i].developer.sandbox && users[i].developer.sandbox.status === "succeeded") {
-                let date = moment(users[i].developer.sandbox.lastUpdateDate);
+            if (user.developer && user.developer.sandbox && user.developer.sandbox.status === "succeeded") {
+                let date = moment(user.developer.sandbox.lastUpdateDate);
                 if (options.sandbox) {
                     if (date.isBetween(fromDate, toDate)) {
                         hasBeenRegisteredInMonth = true;
@@ -761,10 +771,12 @@ class Message {
                     number.toString().white,
                     name.cyan,
                     companyName.white,
+                    country,
+                    isBP,
                     developerSince,
                     sandboxSince,
-                    active,
-                    users[i].id.white
+                    payAsYouGo,
+                    user.id.white
                 ]);
                 increment += 1;
             }
@@ -773,7 +785,7 @@ class Message {
         Screen.table(array);
         Screen.print("");
 
-        Screen.success(increment + " developers found");
+        Screen.success(increment + " developers found / " + users.length);
         Screen.print("");
     }
 
