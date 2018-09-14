@@ -26,8 +26,6 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 - Fix crash when using command `rbw sites`.
 
-- Linked with `Rainbow Node.JS SDK 1.46.0`
-
 
 ### Rainbow CLI 1.45 (Beta) - August 2018
 ---
