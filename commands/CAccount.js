@@ -279,8 +279,13 @@ class CAccount {
                         break;
                 }
 
-                let proxyUrl =
-                    this._prefs.proxy.protocol + "://" + this._prefs.proxy.host + ":" + this._prefs.proxy.port;
+                let proxyUrl = "";
+                if (this._prefs.proxy && this._prefs.proxy.protocol && this._prefs.proxy.host) {
+                    proxyUrl = this._prefs.proxy.protocol + "://" + this._prefs.proxy.host;
+                    if (this._prefs.proxy.port) {
+                        proxyUrl += ":" + this._prefs.proxy.port;
+                    }
+                }
                 return Message.ask("Proxy ", proxyUrl || "None");
             })
             .then(proxy => {
