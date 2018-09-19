@@ -287,7 +287,7 @@ class CInternal {
             return new Promise(resolve => {
                 NodeSDK.get(`/api/rainbow/admin/v1.0/companies/${id}?format=full`, token)
                     .then(json => {
-                        resolve(json);
+                        resolve(json.data);
                     })
                     .catch(err => {
                         resolve(null);
@@ -299,16 +299,27 @@ class CInternal {
             NodeSDK.get("/api/rainbow/admin/v1.0/users?" + filterToApply, token)
                 .then(json => {
                     let promises = [];
+                    let companies = [];
 
                     let users = json;
 
                     users.data.forEach(user => {
-                        promises.push(getCompanyInfo(user.companyId));
+                        if (!companies.includes(user.companyId)) {
+                            companies.push(user.companyId);
+                        }
                     });
 
-                    Promise.all(promises).then(companies => {
+                    companies.forEach(id => {
+                        promises.push(getCompanyInfo(id));
+                    });
+
+                    Promise.all(promises).then(listOfCompanies => {
                         for (let i = 0; i < users.data.length; i++) {
-                            users.data[i].company = companies[i].data;
+                            let company = listOfCompanies.find(c => {
+                                return c.id === users.data[i].companyId;
+                            });
+
+                            users.data[i].company = company;
                         }
                         resolve(users);
                     });
