@@ -68,7 +68,7 @@ The following table sums-up how you can obtain the account depending on the plat
 | **C. Manage several companies** | If you need more that one companies, please contact the Rainbow [support](mailto:support@openrainbow.com) team in order to obtain the **Organization rights**. | You can use the **organization** commands to create companies and manage users in all ot them. |
 
 
-#### Rainbow account on Developers Sandbox platform
+#### Rainbow account on Sandbox platform for developers
 ---
 
 | Steps | Tasks to do | Rainbow CLI benefits |
@@ -80,9 +80,9 @@ The following table sums-up how you can obtain the account depending on the plat
 #### Rainbow Application ID and Secret Key
 ---
 
-The Rainbow CLI is free of charge when using on the Rainbow Sandbox developers platform. No application ID and secret key is needed to connect to that platform. So, you can manage for free your application and tests accounts when developing your application on the Sandbox platform.
+The Rainbow CLI is free of charge when using on the Rainbow Sandbox platform for developers. No application ID and secret key is needed to connect the Rainbow CLI to that platform. So, you can manage for free your application and tests accounts when developing your application on the Sandbox platform. Don't forget that it is not the case for your own applications: you need an application ID for each application you're developing on the Sandbox platform for developers if you want to connect them on that platform).
 
-To connect to the Rainbow production platform for doing the same or much more like provisionning users, managing your company, the Rainbow CLI needs an **application ID** and a **secret key**.
+To connect to the Rainbow production Platform for doing the same things or much more like provisionning users, managing your company, the Rainbow CLI needs an **application ID** and a **secret key**.
 
 To get your application ID and secret key:
 
@@ -93,8 +93,6 @@ To get your application ID and secret key:
 - Get the associated application ID and secret key
 
 - Inject it to your Rainbow CLI application either using command `rbw configure` or command `rbw set keys`.
-
-**Note: Application ID and secret key will be mandatory to connect to Rainbow production platform on September'18. You will be able to create your application ID and secret key starting July'18**.
 
 
 #### Rainbow Pre-requisites summary
