@@ -93,24 +93,47 @@ class CInternal {
 
         let apps = json.data;
         csvJSON.data.push([
-            "appid",
-            "application name",
-            "ownerid",
-            "ownername",
+            "Name",
+            "Id",
+            "Offer",
+            "Type",
+            "Activity",
+            "Owner name",
+            "Owner country",
+            "Owner email",
+            "Company name",
+            "Creation date",
+            "Deployed date",
+            "Deployed reason",
+            "Current state",
             "API resources",
-            "API adminstrations",
-            "WEBRTC minutes",
+            "API administration",
+            "WebRTC minutes",
             "File storage",
-            "Cost"
+            "Fees"
         ]);
 
         apps.forEach(app => {
             let line = [];
-            line.push(app.id);
+            let isBusiness = true;
             line.push(app.name);
-            line.push(app.ownerId);
+            line.push(app.id);
+            if (app.subscriptions && app.subscriptions.length > 0) {
+                line.push("Pay as you go");
+                isBusiness = false;
+            } else {
+                line.push("Business KPI");
+            }
+            line.push(app.type);
+            line.push(app.activity);
             line.push(app.user.firstName + " " + app.user.lastName);
-
+            line.push(app.user.country);
+            line.push(app.user.loginEmail);
+            line.push(app.user.companyName);
+            line.push(app.dateOfCreation);
+            line.push(app.dateOfDeployment);
+            line.push(app.deployReason || "");
+            line.push(app.state);
             let data = app.metrics;
             let res = 0;
             let admin = 0;
@@ -153,7 +176,11 @@ class CInternal {
             line.push(admin);
             line.push(webrtc);
             line.push(file);
-            line.push(cost);
+            if (isBusiness) {
+                line.push("");
+            } else {
+                line.push(cost);
+            }
 
             csvJSON["data"].push(line);
         });
