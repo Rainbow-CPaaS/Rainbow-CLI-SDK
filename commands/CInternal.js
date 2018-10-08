@@ -27,7 +27,8 @@ class CInternal {
             "is BP",
             "Registration date",
             "Sandbox registration date",
-            "Payment method"
+            "Offers",
+            "Pay as you go since"
         ]);
 
         let fromDate = null,
@@ -44,23 +45,41 @@ class CInternal {
         for (var i = 0; i < users.length; i++) {
             let user = users[i];
 
-            let payAsYouGo = user.developer.bsAccountId ? "YES" : "NO";
+            let payAsYouGo = user.developer.bsAccountId ? "PayAsYouGo" : "Business";
 
             let developerSince = "in error";
+            let payAsYouGoSince = "";
             let sandboxSince = "not created";
             let hasBeenRegisteredInMonth = false;
+
+            let statsToProvide = options.pay
+                ? "registrationPayAsYouGo"
+                : options.sandbox
+                    ? "registrationSandbox"
+                    : "registrationDevelopers";
+
             if (user.developer && user.developer.account && user.developer.account.status === "confirmed") {
-                let date = moment(user.developer.account.lastUpdateDate);
-                if (!options.sandbox) {
+                if (statsToProvide === "registrationDevelopers") {
+                    let date = moment(user.developer.account.lastUpdateDate);
                     if (date.isBetween(fromDate, toDate)) {
                         hasBeenRegisteredInMonth = true;
                     }
+                } else if (statsToProvide === "registrationPayAsYouGo") {
+                    if (user.developer.bsAccountId) {
+                        let date = moment(user.developer.accountCreationDate);
+                        if (date.isBetween(fromDate, toDate)) {
+                            hasBeenRegisteredInMonth = true;
+                        }
+                    }
                 }
-                developerSince = date.format("LL");
+                developerSince = moment(user.developer.account.lastUpdateDate).format("LL");
+                if (user.developer.accountCreationDate) {
+                    payAsYouGoSince = moment(user.developer.accountCreationDate).format("LL");
+                }
             }
             if (user.developer && user.developer.sandbox && user.developer.sandbox.status === "succeeded") {
                 let date = moment(user.developer.sandbox.lastUpdateDate);
-                if (options.sandbox) {
+                if (statsToProvide === "registrationSandbox") {
                     if (date.isBetween(fromDate, toDate)) {
                         hasBeenRegisteredInMonth = true;
                     }
@@ -79,6 +98,7 @@ class CInternal {
                 line.push(developerSince);
                 line.push(sandboxSince);
                 line.push(payAsYouGo);
+                line.push(payAsYouGoSince);
                 csvJSON["data"].push(line);
             }
         }

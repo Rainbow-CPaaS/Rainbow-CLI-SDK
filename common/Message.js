@@ -688,7 +688,8 @@ class Message {
             "BP".gray,
             "Developer since".gray,
             "Sandbox since".gray,
-            "Pay as you go".gray,
+            "Offers".gray,
+            "Pay as you go since".gray,
             "ID".gray
         ]);
         array.push([
@@ -699,7 +700,8 @@ class Message {
             "--".gray,
             "---------------".gray,
             "-------------".gray,
-            "-------------".gray,
+            "------".gray,
+            "-------------------".gray,
             "--".gray
         ]);
 
@@ -731,7 +733,7 @@ class Message {
 
             var companyName = user.companyName || "";
 
-            let payAsYouGo = user.developer.bsAccountId ? "YES".magenta : "NO".white;
+            let payAsYouGo = user.developer.bsAccountId ? "PayAsYouGo".magenta : "Business".white;
 
             let country = "".white;
             let isBP = "-".white;
@@ -745,20 +747,38 @@ class Message {
             }
 
             let developerSince = "in error".magenta;
+            let payAsYouGoSince = "".white;
             let sandboxSince = "not created".yellow;
             let hasBeenRegisteredInMonth = false;
+
+            let statsToProvide = options.pay
+                ? "registrationPayAsYouGo"
+                : options.sandbox
+                    ? "registrationSandbox"
+                    : "registrationDevelopers";
+
             if (user.developer && user.developer.account && user.developer.account.status === "confirmed") {
-                let date = moment(user.developer.account.lastUpdateDate);
-                if (!options.sandbox) {
+                if (statsToProvide === "registrationDevelopers") {
+                    let date = moment(user.developer.account.lastUpdateDate);
                     if (date.isBetween(fromDate, toDate)) {
                         hasBeenRegisteredInMonth = true;
                     }
+                } else if (statsToProvide === "registrationPayAsYouGo") {
+                    if (user.developer.bsAccountId) {
+                        let date = moment(user.developer.accountCreationDate);
+                        if (date.isBetween(fromDate, toDate)) {
+                            hasBeenRegisteredInMonth = true;
+                        }
+                    }
                 }
-                developerSince = date.format("LL").white;
+                developerSince = moment(user.developer.account.lastUpdateDate).format("LL").white;
+                if (user.developer.accountCreationDate) {
+                    payAsYouGoSince = moment(user.developer.accountCreationDate).format("LL").white;
+                }
             }
             if (user.developer && user.developer.sandbox && user.developer.sandbox.status === "succeeded") {
                 let date = moment(user.developer.sandbox.lastUpdateDate);
-                if (options.sandbox) {
+                if (statsToProvide === "registrationSandbox") {
                     if (date.isBetween(fromDate, toDate)) {
                         hasBeenRegisteredInMonth = true;
                     }
@@ -776,6 +796,7 @@ class Message {
                     developerSince,
                     sandboxSince,
                     payAsYouGo,
+                    payAsYouGoSince,
                     user.id.white
                 ]);
                 increment += 1;
