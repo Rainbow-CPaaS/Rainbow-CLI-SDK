@@ -1,454 +1,472 @@
 ## Rainbow CLI: What's new
+
 ---
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
-### Rainbow CLI 1.46 (Beta) - September 2018
+### Rainbow CLI 1.47 (Beta) - October 2018
+
 ---
 
 **3-Release Breaking Changes**
 
-- None.
+-   None.
 
 **Breaking Changes**
 
-- To homogenize the naming, the existing commands `rbw create company`, `rbw delete company`, `rbw link company`, `rbw unlink company`, `rbw status company`, `rbw setpublic company`, `rbw setprivate company` and `rbw company free` have been renamed to `rbw company create`, `rbw company delete`, `rbw company link`, `rbw company unlink`, `rbw company status`, `rbw company setpublic`, `rbw company setprivate` and `rbw company free`.
+-   None.
 
 **Changes**
 
-- New command `rbw change password` has been added to allow user to change quickly the password associated to his Rainbow account. Command `rbw set password` or command `rbw configure` has to be used to update the Rainbow CLI preference with the new password and finally command `rbw login` has to be used to log-in again to Rainbow.
-
-- Command `rbw configure` now propose previous existing values when changing from one Rainbow platform to a new one (eg: Sandbox to Production).
+-   Maintenance version
 
 **Others changes**
 
-- Command `rbw application metrics` now displays the number of minutes consumed by the application (WebRTC audio and video). At this time of writing, only conference minutes are taken into account.
+-   None.
 
-- Fix crash when using command `rbw sites`.
+### Rainbow CLI 1.46 (Beta) - September 2018
 
+---
+
+**3-Release Breaking Changes**
+
+-   None.
+
+**Breaking Changes**
+
+-   To homogenize the naming, the existing commands `rbw create company`, `rbw delete company`, `rbw link company`, `rbw unlink company`, `rbw status company`, `rbw setpublic company`, `rbw setprivate company` and `rbw company free` have been renamed to `rbw company create`, `rbw company delete`, `rbw company link`, `rbw company unlink`, `rbw company status`, `rbw company setpublic`, `rbw company setprivate` and `rbw company free`.
+
+**Changes**
+
+-   New command `rbw change password` has been added to allow user to change quickly the password associated to his Rainbow account. Command `rbw set password` or command `rbw configure` has to be used to update the Rainbow CLI preference with the new password and finally command `rbw login` has to be used to log-in again to Rainbow.
+
+-   Command `rbw configure` now propose previous existing values when changing from one Rainbow platform to a new one (eg: Sandbox to Production).
+
+**Others changes**
+
+-   Command `rbw application metrics` now displays the number of minutes consumed by the application (WebRTC audio and video). At this time of writing, only conference minutes are taken into account.
+
+-   Fix crash when using command `rbw sites`.
 
 ### Rainbow CLI 1.45 (Beta) - August 2018
+
 ---
 
 **3-Release Breaking Changes**
 
-- [Update v1.45.2] Rainbow CLI 1.45.2 will be the minimal version to connect to the Rainbow Sandbox developers platform when Rainbow platform will be updated to version 1.47.
+-   [Update v1.45.2] Rainbow CLI 1.45.2 will be the minimal version to connect to the Rainbow Sandbox developers platform when Rainbow platform will be updated to version 1.47.
 
 **Breaking Changes**
 
-- None.
+-   None.
 
 **Changes**
 
-- New options `--active`, `--notactive` have been added to command `rbw applications` to filter applications received depending on their state.
+-   New options `--active`, `--notactive` have been added to command `rbw applications` to filter applications received depending on their state.
 
-- New option `--subscription` have been added to command `rbw applications` to filter applications with a payment method only.
+-   New option `--subscription` have been added to command `rbw applications` to filter applications with a payment method only.
 
 **Others changes**
 
-- Linked with `Rainbow Node.JS SDK 1.45.0`
-
+-   Linked with `Rainbow Node.JS SDK 1.45.0`
 
 ### Rainbow CLI 1.44 (Beta) - July 2018
+
 ---
 
 **3-Release Breaking Changes**
 
-- None.
+-   None.
 
 **Breaking Changes**
 
-- None.
+-   None.
 
 **Changes**
 
-- New command `rbw application renew` has been added to renew the application secret.
+-   New command `rbw application renew` has been added to renew the application secret.
 
-- New command `rbw application link` has been added to allow ALE to change the ownership of an application to someone else.
+-   New command `rbw application link` has been added to allow ALE to change the ownership of an application to someone else.
 
-- New option `--owner` has been added to command `rbw application create` to allow ALE to create application on behalf a developer.
+-   New option `--owner` has been added to command `rbw application create` to allow ALE to create application on behalf a developer.
 
 **Others changes**
 
-- Linked with `Rainbow Node.JS SDK 1.43.2`
-
+-   Linked with `Rainbow Node.JS SDK 1.43.2`
 
 ### Rainbow CLI 1.43 (Beta) - July 2018
+
 ---
 
 **3-Release Breaking Changes**
 
-- None.
+-   None.
 
 **Breaking Changes**
 
-- To keep an consistent naming, commands `rbw create application`, `rbw delete application` and `rbw metrics application` have been renamed to `rbw application create`, `rbw application delete` and `rbw application metrics`.
-- To keep an consistent naming, command `rbw metrics groups` has been renamed to `rbw application metrics groups`
+-   To keep an consistent naming, commands `rbw create application`, `rbw delete application` and `rbw metrics application` have been renamed to `rbw application create`, `rbw application delete` and `rbw application metrics`.
+-   To keep an consistent naming, command `rbw metrics groups` has been renamed to `rbw application metrics groups`
 
 **Changes**
 
-- New command `rbw application deploy` has been added to request the deployment of an application.
+-   New command `rbw application deploy` has been added to request the deployment of an application.
 
-- New command `rbw application stop` and `rbw application restart` have been added to temporarily stop access to Rainbow and allow access again.
+-   New command `rbw application stop` and `rbw application restart` have been added to temporarily stop access to Rainbow and allow access again.
 
-- New options `--deployed`, `--indeployment`, `--notdeployed` and `--blocked` have been added to command `rbw applications` to filter applications received.
+-   New options `--deployed`, `--indeployment`, `--notdeployed` and `--blocked` have been added to command `rbw applications` to filter applications received.
 
-- New option `--bydate` has been added to command `rbw applications` to order results by creation date (when no filter or when using filters `--notdeployed` and `--indeployment`) or by deployment date (when using filters `--deployed` and `--blocked`).
+-   New option `--bydate` has been added to command `rbw applications` to order results by creation date (when no filter or when using filters `--notdeployed` and `--indeployment`) or by deployment date (when using filters `--deployed` and `--blocked`).
 
 **Others changes**
 
-- Improve check of commands to avoid crash when `-` or `--` is missing in parameters.
+-   Improve check of commands to avoid crash when `-` or `--` is missing in parameters.
 
-- Linked with `Rainbow Node.JS SDK 1.43.2`
-
+-   Linked with `Rainbow Node.JS SDK 1.43.2`
 
 ### Rainbow CLI 1.42 (Beta) - June 2018
+
 ---
 
 **3-Release Breaking Changes**
 
-- None.
+-   None.
 
 **Breaking Changes**
 
-- None.
+-   None.
 
 **Changes**
 
-- New command `rbw metrics groups` has been added to list the available metrics for any applications.
+-   New command `rbw metrics groups` has been added to list the available metrics for any applications.
 
-- New option `-g` or `--group` has been added to command `rbw metrics application` for grouping application's metrics by category (ie: 'resources', 'administration') like on Rainbow API Hub.
+-   New option `-g` or `--group` has been added to command `rbw metrics application` for grouping application's metrics by category (ie: 'resources', 'administration') like on Rainbow API Hub.
 
 **Others changes**
 
-- New guide `Legals` has been added to list the third party libraries used by the Rainbow CLI.
+-   New guide `Legals` has been added to list the third party libraries used by the Rainbow CLI.
 
-- Fix crash when using command `rbw phone`
+-   Fix crash when using command `rbw phone`
 
-- Linked with `Rainbow Node.JS SDK 1.42.3`
-
+-   Linked with `Rainbow Node.JS SDK 1.42.3`
 
 ### Rainbow CLI 1.41 (Beta) - May 2018
+
 ---
 
 **3-Release Breaking Changes**
 
-- None.
+-   None.
 
 **Breaking Changes**
 
-- None.
+-   None.
 
 **Changes**
 
-- None.
+-   None.
 
 **Others changes**
 
-- In order to help you keeping your Rainbow CLI up-to-date, a message will be displayed in the console if your Rainbow CLI version is not the latest one.
+-   In order to help you keeping your Rainbow CLI up-to-date, a message will be displayed in the console if your Rainbow CLI version is not the latest one.
 
-- Rework existing guides to add a knowledge section that explains some Rainbow `terms` and add links to related guides to continue the reading.
+-   Rework existing guides to add a knowledge section that explains some Rainbow `terms` and add links to related guides to continue the reading.
 
-- Add guide [Managing applications](/#/documentation/doc/sdk/cli/tutorials/Managing_applications)
+-   Add guide [Managing applications](/#/documentation/doc/sdk/cli/tutorials/Managing_applications)
 
-- Fix a wording issue when removing an item.
-
+-   Fix a wording issue when removing an item.
 
 ### Rainbow CLI 1.40 (Beta) - Avril 2018
+
 ---
 
 **3-Release Breaking Changes**
 
-- None.
+-   None.
 
 **Breaking Changes**
 
-- None.
+-   None.
 
 **Changes**
 
-- New commands `rbw developers payment` and `rbw developers methods` have been added to list the developer's billing account information and the list of payment methods registered.
+-   New commands `rbw developers payment` and `rbw developers methods` have been added to list the developer's billing account information and the list of payment methods registered.
 
-- New command `rbw developers method` has been added to list all information regarding an existing payment method.
+-   New command `rbw developers method` has been added to list all information regarding an existing payment method.
 
-- New command `rbw developers subscriptions` has been added to list the subscriptions associated to each application.
+-   New command `rbw developers subscriptions` has been added to list the subscriptions associated to each application.
 
-- New command `rbw developers delete payment` to remove a developer's billing account (`app_superAdmin` role only).
+-   New command `rbw developers delete payment` to remove a developer's billing account (`app_superAdmin` role only).
 
-- New command `rbw developers delete method` to remove an existing payment method.
+-   New command `rbw developers delete method` to remove an existing payment method.
 
-- New option `--file <file>` or `-f <file>` has been added to API `rbw metrics application` in order to extract and save metrics in a CSV file.
+-   New option `--file <file>` or `-f <file>` has been added to API `rbw metrics application` in order to extract and save metrics in a CSV file.
 
 **Others changes**
 
-- None.
-
+-   None.
 
 ### Rainbow CLI 1.39 (Beta) - Avril 2018
+
 ---
 
 **3-Release Breaking Changes**
 
-- None.
+-   None.
 
 **Breaking Changes**
 
-- None.
+-   None.
 
 **Changes**
 
-- New command `rbw configure` has been added to configure you Rainbow CLI application in an easy way.
+-   New command `rbw configure` has been added to configure you Rainbow CLI application in an easy way.
 
-- New command `rbw set email`, `rbw set password`, `rbw set host`, `rbw set proxy`, `rbw set keys`, `rbw remove proxy` and `rbw remove keys` have been added to change quickly any configuration parameter.
+-   New command `rbw set email`, `rbw set password`, `rbw set host`, `rbw set proxy`, `rbw set keys`, `rbw remove proxy` and `rbw remove keys` have been added to change quickly any configuration parameter.
 
-- New command  `rbw remove preferences` has been added to remove all preference stored locally.
+-   New command `rbw remove preferences` has been added to remove all preference stored locally.
 
-- Command `rbw login` can now be used without specifiying a login email account, a password, a proxy and a host. All these information are taken into account from the preferences.
+-   Command `rbw login` can now be used without specifiying a login email account, a password, a proxy and a host. All these information are taken into account from the preferences.
 
-- Command `rbw logout` now only logout from Rainbow without removing your preferences.
+-   Command `rbw logout` now only logout from Rainbow without removing your preferences.
 
 **Others changes**
 
-- None.
-
+-   None.
 
 ### Rainbow CLI 1.38 (Beta) - March 2018
+
 ---
 
 **3-Release Breaking Changes**
 
-- None.
+-   None.
 
 **Breaking Changes**
 
-- None.
+-   None.
 
 **Changes**
 
-- New command `rbw set developer` has been added to update your account as a developer.
+-   New command `rbw set developer` has been added to update your account as a developer.
 
-- New options `--month` and `--year` have been added to command `rbw metrics application` to retrieve API usage over a month (day by day) and over a year (month by month).
+-   New options `--month` and `--year` have been added to command `rbw metrics application` to retrieve API usage over a month (day by day) and over a year (month by month).
 
-- New internal commands `rbw block application` and `rbw unblock application` have been added for user with `app_superadmin` role to block or unblock an existing application.
+-   New internal commands `rbw block application` and `rbw unblock application` have been added for user with `app_superadmin` role to block or unblock an existing application.
 
-- New internal commands `rbw deploy application` and `rbw dismiss application` have been added for user with `app_superadmin` role to accept or decline a request of deployment.
+-   New internal commands `rbw deploy application` and `rbw dismiss application` have been added for user with `app_superadmin` role to accept or decline a request of deployment.
 
 **Others changes**
 
-- A new guide `Mass-provisioning` has been added to explains the commands to use to import users or associate devices and users.
+-   A new guide `Mass-provisioning` has been added to explains the commands to use to import users or associate devices and users.
 
-- Fix issue that prevents deleting an application.
-
+-   Fix issue that prevents deleting an application.
 
 ### Rainbow CLI 1.37 (Beta) - March 2018
+
 ---
 
 This release introduces commands for configuring **Push notifications** on your application for the Android platform (FCM) and IOS platform (APNS).
 
 **3-Release Breaking Changes**
 
-- None.
+-   None.
 
 **Breaking Changes**
 
-- To avoid conflict with the inline documentation, shortcut parameter `-h` has been removed from command `rbw login`. In order to specify the target host to connect, you have to use the parameter `--host` instead.
+-   To avoid conflict with the inline documentation, shortcut parameter `-h` has been removed from command `rbw login`. In order to specify the target host to connect, you have to use the parameter `--host` instead.
 
-- Due to the introduction of the new command `rbw masspro template device`, the command `rbw masspro template` has been renamed to `rbw masspro template user` in order to share an homogeneous naming.
+-   Due to the introduction of the new command `rbw masspro template device`, the command `rbw masspro template` has been renamed to `rbw masspro template user` in order to share an homogeneous naming.
 
 **Changes**
 
-- New command `rbw masspro template device` has been added to download a CSV template file for provisionning devices.
+-   New command `rbw masspro template device` has been added to download a CSV template file for provisionning devices.
 
-- New command `rbw masspro delete status` has been added to remove an import status done.
+-   New command `rbw masspro delete status` has been added to remove an import status done.
 
-- New commands `rbw application pns` and `rbw application pn` have been added to list the available push notification settings of an application and have access to all information.
+-   New commands `rbw application pns` and `rbw application pn` have been added to list the available push notification settings of an application and have access to all information.
 
-- New commands `rbw application create fcm`, `rbw application create voip` and `rbw application create im` have been added to configure push notification settings for Android (FCM) and IOS (APNS).
+-   New commands `rbw application create fcm`, `rbw application create voip` and `rbw application create im` have been added to configure push notification settings for Android (FCM) and IOS (APNS).
 
-- New command `rbw application delete pn` has been added to remove an existing push notification setting.
+-   New command `rbw application delete pn` has been added to remove an existing push notification setting.
 
-- New command `rbw metrics application` has been added to list metrics (API usage) on a specific application.
+-   New command `rbw metrics application` has been added to list metrics (API usage) on a specific application.
 
-- New command `rbw setpublic company`, `rbw setprivate company` and `setorgpublic company` have been added to change the visibility of a company.
+-   New command `rbw setpublic company`, `rbw setprivate company` and `setorgpublic company` have been added to change the visibility of a company.
 
-- New option `--proxy` has been added to command `rbw login` in order to log-in through a proxy.
+-   New option `--proxy` has been added to command `rbw login` in order to log-in through a proxy.
 
 **Others changes**
 
-- Fix a crash when exporting users to a csv file
+-   Fix a crash when exporting users to a csv file
 
-- Fix alignment of data in table
+-   Fix alignment of data in table
 
-- Fix command documentation which was not correctly displayed
-
+-   Fix command documentation which was not correctly displayed
 
 ### Rainbow CLI 1.36 (Beta) - February 2018
+
 ---
 
 **3-Release Breaking Changes**
 
-- None.
+-   None.
 
 **Breaking Changes**
 
-- None.
+-   None.
 
 **Changes**
 
-- New commands `rbw block user` and `rbw unblock user` have been added to block or unblock a user connecting to Rainbow.
+-   New commands `rbw block user` and `rbw unblock user` have been added to block or unblock a user connecting to Rainbow.
 
-- New commands `rbw create application` and `rbw delete application` have been added to create and delete a third party application.
+-   New commands `rbw create application` and `rbw delete application` have been added to create and delete a third party application.
 
-- New commands `rbw status platform` has been added to have a status of the platform.
+-   New commands `rbw status platform` has been added to have a status of the platform.
 
-- New option `--org` has been added to command `rbw create user` in order to create a user with `org_admin` role.
+-   New option `--org` has been added to command `rbw create user` in order to create a user with `org_admin` role.
 
 **Others changes**
 
-- The Rainbow CLI now displays the hostname where the user is connected.
-
+-   The Rainbow CLI now displays the hostname where the user is connected.
 
 ### Rainbow CLI 1.35 (Beta) - January 2018
+
 ---
 
 This new version of the Rainbow CLI tool introduces commands for users mass provisionning. Using these new commands, you will be able to import and create lots of Rainbow users from a CSV file.
 
 **COMMANDS**
 
-- New commands `rbw masspro template` to download the CSV template
+-   New commands `rbw masspro template` to download the CSV template
 
-- New commands `rbw masspro check` and `rbw masspro import` to check a csv file and to import it to Rainbow
+-   New commands `rbw masspro check` and `rbw masspro import` to check a csv file and to import it to Rainbow
 
-- New commands `rbw masspro status` and `rbw masspro status company` to display details on imports done
-
+-   New commands `rbw masspro status` and `rbw masspro status company` to display details on imports done
 
 **FIXES**
 
-- No fix
-
+-   No fix
 
 **OTHERS**
 
-- Update guide `Getting started` with new commands added.
-
+-   Update guide `Getting started` with new commands added.
 
 ### Rainbow CLI 1.34 (Beta) - Decembre 2017
+
 ---
 
 **COMMANDS**
 
-- New commands `rbw invoices` to list the available invoices
+-   New commands `rbw invoices` to list the available invoices
 
-- New commands `rbw download invoice` to download an available invoice (CSV format)
+-   New commands `rbw download invoice` to download an available invoice (CSV format)
 
-- New commands `rbw download cdr services` and `rbw download cdr conference` to download a detailed invoice for services and conference (CSV format)
+-   New commands `rbw download cdr services` and `rbw download cdr conference` to download a detailed invoice for services and conference (CSV format)
 
-- Command `rbw status api` now checks 12 Rainbow portals (portals subscriptions, invoices, channels, mass provisionning, telephony, calendar, metrics and file storage have been added to the status).
-
+-   Command `rbw status api` now checks 12 Rainbow portals (portals subscriptions, invoices, channels, mass provisionning, telephony, calendar, metrics and file storage have been added to the status).
 
 **FIXES**
 
-- No fix
-
+-   No fix
 
 **OTHERS**
 
-- Update guide `Getting started` with new commands added.
-
+-   Update guide `Getting started` with new commands added.
 
 ### Rainbow CLI 1.33 (Beta) - November 2017
+
 ---
 
 **COMMANDS**
 
-- Commands `rainbow users` and `rainbow companies` now quickly return the maximum of result allowed (1000) by using option `-m`. This is equivalent to using the option `--limit 1000`.
+-   Commands `rainbow users` and `rainbow companies` now quickly return the maximum of result allowed (1000) by using option `-m`. This is equivalent to using the option `--limit 1000`.
 
-- Command `rainbow users` now allows to filter by an email address using option `-e`.
+-   Command `rainbow users` now allows to filter by an email address using option `-e`.
 
 **FIXES**
 
-- Fix login issue with Rainbow version 1.33
-
+-   Fix login issue with Rainbow version 1.33
 
 ### Rainbow CLI 1.32 (Beta) - November 2017
+
 ---
 
 **COMMANDS**
 
-- New commands `rbw changepwd user` and `rbw changelogin user` have been added to change the password and the login of a user.
+-   New commands `rbw changepwd user` and `rbw changelogin user` have been added to change the password and the login of a user.
 
-- New commands `rbw offers`, `rbw offer` have been added to list offers.
+-   New commands `rbw offers`, `rbw offer` have been added to list offers.
 
-- New commands `rbw catalogs`, `rbw catalog` have been added to list catalogs.
+-   New commands `rbw catalogs`, `rbw catalog` have been added to list catalogs.
 
-- New commands `rbw create catalog` and `rbw delete catalog` have been added to manage catalog.
+-   New commands `rbw create catalog` and `rbw delete catalog` have been added to manage catalog.
 
-- New command `rbw commands` has been added to list the available Rainbow CLI commands depending on the user role and admin level.
+-   New command `rbw commands` has been added to list the available Rainbow CLI commands depending on the user role and admin level.
 
-- Option `-j` has been added as an alternative to `--json` when available
+-   Option `-j` has been added as an alternative to `--json` when available
 
-- Option `-h` has been added as an alternative to `--help`
-
+-   Option `-h` has been added as an alternative to `--help`
 
 **FIXES**
-- Only documentation fixes.
 
+-   Only documentation fixes.
 
 ### Rainbow CLI 1.31 (Beta) - October 2017
+
 ---
 
 **COMMANDS**
-- No new command.
 
+-   No new command.
 
 **FIXES**
-- Only documentation fixes.
 
+-   Only documentation fixes.
 
 ### Rainbow CLI 1.30 (Beta) - September 2017
+
 ---
 
 **COMMANDS**
 
-- Verbose option `-v` or `--verbose` has been added to all commands. When active, this option allow to add more logs to the console to help debugging in case of issue.
-
+-   Verbose option `-v` or `--verbose` has been added to all commands. When active, this option allow to add more logs to the console to help debugging in case of issue.
 
 **FIXES**
-- No bug fixed
 
+-   No bug fixed
 
 ### Rainbow CLI 0.8 (Alpha) - August 2017
+
 ---
 
 Lots of change for that new version of Rainbow CLI. A big rework has been done to simplify code and to be able to export a JSON result format to the console.
 
 **COMMANDS**
 
-- New option `--name` has been added to command `companies` to filter companies by name
+-   New option `--name` has been added to command `companies` to filter companies by name
 
-- New option `--name` has been added to command `users` to filter users by name
+-   New option `--name` has been added to command `users` to filter users by name
 
-- New option `--company` has been added to command `users` to filter users by company name
+-   New option `--company` has been added to command `users` to filter users by company name
 
-- New option `--json` has been added to a lot of commands to format the output (stdout) using JSON format
+-   New option `--json` has been added to a lot of commands to format the output (stdout) using JSON format
 
-- New command `rbw find` has been added to search for an id in users, organisations, companies and sites and return a result if found
+-   New command `rbw find` has been added to search for an id in users, organisations, companies and sites and return a result if found
 
-- New command `rbw status company` has been added to have the status of a company
+-   New command `rbw status company` has been added to have the status of a company
 
-- New command `rbw newco` has been added to create a company and a user following an interactive wizard.
-
+-   New command `rbw newco` has been added to create a company and a user following an interactive wizard.
 
 **FIXES**
 
-- List of users are now ordered by display name (firstname lastname)
+-   List of users are now ordered by display name (firstname lastname)
 
-- [Compatibility Break] Filter users by company id is now done by using command: `rbw users --cid "..."` instead of `rbw users -c "..."`
+-   [Compatibility Break] Filter users by company id is now done by using command: `rbw users --cid "..."` instead of `rbw users -c "..."`
 
-- [Compatibility Break] Command `rbw create ...` has been renamed to `rbw create user ...`
+-   [Compatibility Break] Command `rbw create ...` has been renamed to `rbw create user ...`
 
-- [Compatibility Break] Command `rbw delete ...` has been renamed to `rbw delete user ...`
+-   [Compatibility Break] Command `rbw delete ...` has been renamed to `rbw delete user ...`
 
-- [Compatibility Break] Command `rbw status` now returns the list of Rainbow portals with their version
+-   [Compatibility Break] Command `rbw status` now returns the list of Rainbow portals with their version
 
-- [compatibility Break] command `rbw status` has been renamed to `rbw status api`
+-   [compatibility Break] command `rbw status` has been renamed to `rbw status api`
