@@ -157,7 +157,6 @@ class CApplication {
         return new Promise(function(resolve, reject) {
             NodeSDK.get("/api/rainbow/applications/v1.0/applications/" + options.appid, token)
                 .then(function(json) {
-                    console.log(">>", that._prefs.user);
                     let url = "/api/rainbow/enduser/v1.0/users/";
                     if (that._prefs.user.roles.includes("support") || that._prefs.user.roles.includes("superadmin")) {
                         url = "/api/rainbow/admin/v1.0/users/";
