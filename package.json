@@ -1,11 +1,10 @@
 {
     "name": "rainbow-cli",
-    "version": "1.47.0",
+    "version": "1.47.1",
     "description": "Rainbow CLI application based on the Rainbow SDK for Node.js",
     "main": "index.js",
     "scripts": {
-        "test": "standard",
-        "install": "tabtab install --auto"
+        "test": "standard"
     },
     "repository": {
         "type": "git",
