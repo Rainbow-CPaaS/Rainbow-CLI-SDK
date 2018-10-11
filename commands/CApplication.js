@@ -163,10 +163,15 @@ class CApplication {
                     }
 
                     if (json.data.ownerId) {
-                        NodeSDK.get(url + json.data.ownerId, token).then(function(userJson) {
-                            json.data.owner = userJson.data;
-                            resolve(json);
-                        });
+                        NodeSDK.get(url + json.data.ownerId, token)
+                            .then(function(userJson) {
+                                json.data.owner = userJson.data;
+                                resolve(json);
+                            })
+                            .catch(err => {
+                                json.data.owner = null;
+                                resolve(json);
+                            });
                     } else {
                         resolve(json);
                     }
