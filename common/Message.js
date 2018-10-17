@@ -474,7 +474,7 @@ class Message {
             "Created date".gray,
             "Request date".gray,
             "Deployed date".gray,
-            "Subscription".gray,
+            "Offer".gray,
             "Id".gray
         ]);
         array.push([
@@ -487,7 +487,7 @@ class Message {
             "-------".gray,
             "----------".gray,
             "--------".gray,
-            "------------".gray,
+            "-----".gray,
             "--".gray
         ]);
 
@@ -500,7 +500,13 @@ class Message {
 
             let type = app.type || "";
 
-            let subscription = app.subscriptions && app.subscriptions.length > 0 ? "YES".green : "NO".red;
+            let offer = app.kpi;
+            if (offer) {
+                offer = offer === "payasyougo" ? offer.green : offer.red;
+            }
+            if (!offer) {
+                offer = "-".white;
+            }
 
             let env = app.env;
             if (env === "sandbox") {
@@ -542,7 +548,7 @@ class Message {
                 date.white,
                 dateOfDeploymentRequest,
                 dateOfDeployment,
-                subscription,
+                offer,
                 id.white
             ]);
 
