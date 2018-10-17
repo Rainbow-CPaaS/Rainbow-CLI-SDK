@@ -10,6 +10,7 @@ All notable changes to Rainbow-CLI will be documented in this file.
 
 -   RQRAINB-1108: Switch KPI
 -   RQRAINB-1109: Approve deployment with reason
+-   RQRAINB-1110: Filter applications by type and name
 
 ### [1.47.0] - 2018-10-02
 

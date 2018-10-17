@@ -241,6 +241,14 @@ class CApplication {
                 filterToApply += "&subscriptionStatus=creating,active,alerting";
             }
 
+            if (options.name) {
+                filterToApply += "&name=" + options.name;
+            }
+
+            if (options.type) {
+                filterToApply += "&type=" + options.type;
+            }
+
             if (options.page > 0) {
                 filterToApply += "&offset=";
                 if (options.page > 1) {

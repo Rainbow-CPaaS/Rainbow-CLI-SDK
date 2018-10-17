@@ -720,6 +720,8 @@ class Application {
             .option("--notactive", "Filter applications not active only")
             .option("-s, --withsubscription", "Filter applications with subscription only")
             .option("--owner <userid>", "Filter applications by user")
+            .option("--name <name>", "Filter applications by name")
+            .option("--type <type", "Filter applications by type (ie: web, mobile, desktop, server, bot, iot or admin")
             .option("--bydate", "Sort applications by date. Recent first.")
             .on("--help", function() {
                 console.log("  Examples:");
@@ -744,7 +746,6 @@ class Application {
                         var format = "full";
                         var filter = null;
                         var state = null;
-                        var bydate = false;
 
                         if ("page" in commands) {
                             if (commands.page > 1) {
@@ -789,6 +790,8 @@ class Application {
                             byDate: commands.bydate || false,
                             owner: commands.owner || null,
                             subscription: commands.withsubscription || null,
+                            name: commands.name || null,
+                            type: commands.type || null,
                             page,
                             limit,
                             filter,

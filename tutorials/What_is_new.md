@@ -20,6 +20,8 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 -   New command `application set offer` has been added to change the application offer from `payasyougo` to `business` and inversely. This action can only be done when the application is not deployed.
 
+-   New options `--name` and `--type` have been added to command `rbw applications` to filter applications by name or by type which can be one of `web`, `mobile`, `desktop`, `server`, `bot`, `iot` or `admin`. Using other values will not return any results.
+
 **Others changes**
 
 -   None.
