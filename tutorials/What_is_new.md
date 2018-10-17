@@ -4,7 +4,27 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
-### Rainbow CLI 1.47 (Beta) - October 2018
+### Rainbow CLI 1.48 (October 2018) - Beta
+
+---
+
+**3-Release Breaking Changes**
+
+-   None.
+
+**Breaking Changes**
+
+-   Command `rbw application approve` now asks for a reason to deploy when the application offer is set to `business`. This action is limited to developers with rights `app_superadmin`.
+
+**Changes**
+
+-   New command `application set offer` has been added to change the application offer from `payasyougo` to `business` and inversely. This action can only be done when the application is not deployed.
+
+**Others changes**
+
+-   None.
+
+### Rainbow CLI 1.47 (October 2018) - Beta
 
 ---
 
@@ -24,7 +44,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 -   None.
 
-### Rainbow CLI 1.46 (Beta) - September 2018
+### Rainbow CLI 1.46 (September 2018) - Beta
 
 ---
 
@@ -48,7 +68,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 -   Fix crash when using command `rbw sites`.
 
-### Rainbow CLI 1.45 (Beta) - August 2018
+### Rainbow CLI 1.45 (August 2018) - Beta
 
 ---
 
@@ -70,7 +90,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 -   Linked with `Rainbow Node.JS SDK 1.45.0`
 
-### Rainbow CLI 1.44 (Beta) - July 2018
+### Rainbow CLI 1.44 (July 2018) - Beta
 
 ---
 
@@ -94,7 +114,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 -   Linked with `Rainbow Node.JS SDK 1.43.2`
 
-### Rainbow CLI 1.43 (Beta) - July 2018
+### Rainbow CLI 1.43 (July 2018) - Beta
 
 ---
 
@@ -123,7 +143,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 -   Linked with `Rainbow Node.JS SDK 1.43.2`
 
-### Rainbow CLI 1.42 (Beta) - June 2018
+### Rainbow CLI 1.42 (June 2018) - Beta
 
 ---
 
@@ -149,7 +169,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 -   Linked with `Rainbow Node.JS SDK 1.42.3`
 
-### Rainbow CLI 1.41 (Beta) - May 2018
+### Rainbow CLI 1.41 (May 2018) - Beta
 
 ---
 
@@ -175,7 +195,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 -   Fix a wording issue when removing an item.
 
-### Rainbow CLI 1.40 (Beta) - Avril 2018
+### Rainbow CLI 1.40 (Avril 2018) - Beta
 
 ---
 
@@ -205,7 +225,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 -   None.
 
-### Rainbow CLI 1.39 (Beta) - Avril 2018
+### Rainbow CLI 1.39 (Avril 2018) - Beta
 
 ---
 
@@ -233,7 +253,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 -   None.
 
-### Rainbow CLI 1.38 (Beta) - March 2018
+### Rainbow CLI 1.38 (March 2018) - Beta
 
 ---
 
@@ -261,7 +281,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 -   Fix issue that prevents deleting an application.
 
-### Rainbow CLI 1.37 (Beta) - March 2018
+### Rainbow CLI 1.37 (March 2018) - Beta
 
 ---
 
@@ -303,7 +323,7 @@ This release introduces commands for configuring **Push notifications** on your 
 
 -   Fix command documentation which was not correctly displayed
 
-### Rainbow CLI 1.36 (Beta) - February 2018
+### Rainbow CLI 1.36 (February 2018) - Beta
 
 ---
 
@@ -329,7 +349,7 @@ This release introduces commands for configuring **Push notifications** on your 
 
 -   The Rainbow CLI now displays the hostname where the user is connected.
 
-### Rainbow CLI 1.35 (Beta) - January 2018
+### Rainbow CLI 1.35 (January 2018) - Beta
 
 ---
 
@@ -351,7 +371,7 @@ This new version of the Rainbow CLI tool introduces commands for users mass prov
 
 -   Update guide `Getting started` with new commands added.
 
-### Rainbow CLI 1.34 (Beta) - Decembre 2017
+### Rainbow CLI 1.34 (Decembre 2017) - Beta
 
 ---
 
@@ -373,7 +393,7 @@ This new version of the Rainbow CLI tool introduces commands for users mass prov
 
 -   Update guide `Getting started` with new commands added.
 
-### Rainbow CLI 1.33 (Beta) - November 2017
+### Rainbow CLI 1.33 (November 2017) - Beta
 
 ---
 
@@ -387,7 +407,7 @@ This new version of the Rainbow CLI tool introduces commands for users mass prov
 
 -   Fix login issue with Rainbow version 1.33
 
-### Rainbow CLI 1.32 (Beta) - November 2017
+### Rainbow CLI 1.32 (November 2017) - Beta
 
 ---
 
@@ -411,7 +431,7 @@ This new version of the Rainbow CLI tool introduces commands for users mass prov
 
 -   Only documentation fixes.
 
-### Rainbow CLI 1.31 (Beta) - October 2017
+### Rainbow CLI 1.31 (October 2017) - Beta
 
 ---
 
@@ -423,7 +443,7 @@ This new version of the Rainbow CLI tool introduces commands for users mass prov
 
 -   Only documentation fixes.
 
-### Rainbow CLI 1.30 (Beta) - September 2017
+### Rainbow CLI 1.30 (September 2017) - Beta
 
 ---
 
@@ -435,7 +455,7 @@ This new version of the Rainbow CLI tool introduces commands for users mass prov
 
 -   No bug fixed
 
-### Rainbow CLI 0.8 (Alpha) - August 2017
+### Rainbow CLI 0.8 (August 2017) - Beta
 
 ---
 

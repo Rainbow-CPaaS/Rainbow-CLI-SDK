@@ -5,7 +5,7 @@ const NodeSDK = require("../common/SDK");
 const Message = require("../common/Message");
 const Exit = require("../common/Exit");
 const moment = require("moment");
-const timezone = require("moment-timezone");
+const Helper = require("../common/Helper");
 
 class CApplication {
     constructor(prefs) {
@@ -120,7 +120,6 @@ class CApplication {
             param += "&toDate=" + toDate.toISOString();
 
             let zone_name = moment.tz.guess();
-            //var timezone = moment.tz(zone_name).zoneAbbr();
 
             param += "&timezone=" + zone_name;
 
@@ -302,6 +301,22 @@ class CApplication {
         });
     }
 
+    _setOffer(token, options) {
+        return new Promise(function(resolve, reject) {
+            let data = {
+                kpi: options.offer
+            };
+
+            NodeSDK.put("/api/rainbow/applications/v1.0/applications/" + options.appid, token, data)
+                .then(function(json) {
+                    resolve(json);
+                })
+                .catch(function(err) {
+                    reject(err);
+                });
+        });
+    }
+
     _renewApplication(token, options) {
         return new Promise(function(resolve, reject) {
             let data = {
@@ -416,7 +431,11 @@ class CApplication {
 
     _approve(token, options) {
         return new Promise(function(resolve, reject) {
-            NodeSDK.put("/api/rainbow/applications/v1.0/applications/" + options.appid + "/deploy", token)
+            let data = {
+                deployReason: options.reason || ""
+            };
+
+            NodeSDK.put("/api/rainbow/applications/v1.0/applications/" + options.appid + "/deploy", token, data)
                 .then(function(json) {
                     resolve(json);
                 })
@@ -903,7 +922,8 @@ class CApplication {
             Message.loggedin(this._prefs, options);
 
             Message.action("Deploy an application", options.appid, options);
-            let spin = Message.spin(options);
+
+            let spin = null;
 
             NodeSDK.start(
                 this._prefs.email,
@@ -915,6 +935,11 @@ class CApplication {
             )
                 .then(function() {
                     Message.log("execute action...");
+                    return Message.ask("Deployment reason", "");
+                })
+                .then(function(reason) {
+                    options.reason = reason;
+                    spin = Message.spin(options);
                     return that._approve(that._prefs.token, options);
                 })
                 .then(function(json) {
@@ -1071,6 +1096,63 @@ class CApplication {
                     } else {
                         Message.lineFeed();
                         Message.printSuccess("Application restarted", json.data.id, options);
+                        Message.success(options);
+                    }
+                    Message.log("finished!");
+                })
+                .catch(function(err) {
+                    Message.unspin(spin);
+                    Message.error(err, options);
+                    Exit.error();
+                });
+        } else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    setOffer(options) {
+        var that = this;
+
+        let spin = null;
+
+        Message.welcome(options);
+
+        if (this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            Message.action("Set offer of the application", options.appid, options);
+
+            NodeSDK.start(
+                this._prefs.email,
+                this._prefs.password,
+                this._prefs.host,
+                this._prefs.proxy,
+                this._prefs.appid,
+                this._prefs.appsecret
+            )
+                .then(function() {
+                    Message.log("execute action...");
+
+                    return Message.choices("Select the offer to set", Helper.Offers);
+                })
+                .then(function(offer) {
+                    options.offer = offer;
+
+                    spin = Message.spin(options);
+
+                    return that._setOffer(that._prefs.token, options);
+                })
+                .then(function(json) {
+                    Message.unspin(spin);
+
+                    Message.log("action done...", json);
+
+                    if (options.noOutput) {
+                        Message.out(json.data);
+                    } else {
+                        Message.lineFeed();
+                        Message.printSuccess("Application deployment declined", json.data.id, options);
                         Message.success(options);
                     }
                     Message.log("finished!");
