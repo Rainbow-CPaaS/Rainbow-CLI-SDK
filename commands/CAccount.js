@@ -781,6 +781,12 @@ class CAccount {
                     {
                         level: "app_admin",
                         theme: "Applications",
+                        command: "application set offer <appid>",
+                        details: "Set the application's offer"
+                    },
+                    {
+                        level: "app_admin",
+                        theme: "Applications",
                         command: "application <appid>",
                         details: "List application's information"
                     },
@@ -790,14 +796,12 @@ class CAccount {
                         command: "applications",
                         details: "List applications"
                     },
-
                     {
                         level: "app_admin",
                         theme: " ",
                         command: " ",
                         details: " "
                     },
-
                     {
                         level: "app_admin",
                         theme: "Notifications",
