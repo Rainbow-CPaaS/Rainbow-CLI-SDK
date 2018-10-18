@@ -27,7 +27,7 @@ class CInternal {
             "is BP",
             "Registration date",
             "Sandbox registration date",
-            "Offers",
+            "Payment Method",
             "Pay as you go since"
         ]);
 
@@ -44,8 +44,6 @@ class CInternal {
 
         for (var i = 0; i < users.length; i++) {
             let user = users[i];
-
-            let payAsYouGo = user.developer.bsAccountId ? "PayAsYouGo" : "Business";
 
             let developerSince = "in error";
             let payAsYouGoSince = "";
@@ -97,7 +95,6 @@ class CInternal {
                 line.push(user.company.isBP ? "yes" : "no");
                 line.push(developerSince);
                 line.push(sandboxSince);
-                line.push(payAsYouGo);
                 line.push(payAsYouGoSince);
                 csvJSON["data"].push(line);
             }

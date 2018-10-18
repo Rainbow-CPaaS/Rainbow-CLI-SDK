@@ -694,8 +694,7 @@ class Message {
             "BP".gray,
             "Developer since".gray,
             "Sandbox since".gray,
-            "Offers".gray,
-            "Pay as you go since".gray,
+            "Payment method".gray,
             "ID".gray
         ]);
         array.push([
@@ -706,8 +705,7 @@ class Message {
             "--".gray,
             "---------------".gray,
             "-------------".gray,
-            "------".gray,
-            "-------------------".gray,
+            "--------------".gray,
             "--".gray
         ]);
 
@@ -738,8 +736,11 @@ class Message {
             var number = increment + 1;
 
             var companyName = user.companyName || "";
+            if (companyName.length > 40) {
+                companyName = companyName.substr(0, 35) + "...";
+            }
 
-            let payAsYouGo = user.developer.bsAccountId ? "PayAsYouGo".magenta : "Business".white;
+            let payAsYouGo = user.developer.bsAccountId ? "YES".magenta : "NO".white;
 
             let country = "".white;
             let isBP = "-".white;
@@ -753,7 +754,7 @@ class Message {
             }
 
             let developerSince = "in error".magenta;
-            let payAsYouGoSince = "".white;
+            let payAsYouGoSince = "-".white;
             let sandboxSince = "not created".yellow;
             let hasBeenRegisteredInMonth = false;
 
@@ -779,7 +780,7 @@ class Message {
                 }
                 developerSince = moment(user.developer.account.lastUpdateDate).format("LL").white;
                 if (user.developer.accountCreationDate) {
-                    payAsYouGoSince = moment(user.developer.accountCreationDate).format("LL").white;
+                    payAsYouGoSince = moment(user.developer.accountCreationDate).format("LL").magenta;
                 }
             }
             if (user.developer && user.developer.sandbox && user.developer.sandbox.status === "succeeded") {
@@ -801,7 +802,6 @@ class Message {
                     isBP,
                     developerSince,
                     sandboxSince,
-                    payAsYouGo,
                     payAsYouGoSince,
                     user.id.white
                 ]);
