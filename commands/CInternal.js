@@ -27,8 +27,7 @@ class CInternal {
             "is BP",
             "Registration date",
             "Sandbox registration date",
-            "Payment Method",
-            "Pay as you go since"
+            "Payment Method"
         ]);
 
         let fromDate = null,
@@ -135,12 +134,20 @@ class CInternal {
             let isBusiness = true;
             line.push(app.name);
             line.push(app.id);
-            if (app.subscriptions && app.subscriptions.length > 0) {
-                line.push("Pay as you go");
-                isBusiness = false;
+            if (app.kpi) {
+                line.push(app.kpi);
+                if (app.kpi === "payasyougo") {
+                    isBusiness = false;
+                }
             } else {
-                line.push("Business KPI");
+                if (app.subscriptions && app.subscriptions.length > 0) {
+                    line.push("payasyougo");
+                    isBusiness = false;
+                } else {
+                    line.push("business");
+                }
             }
+
             line.push(app.type);
             line.push(app.activity);
             line.push(app.user.firstName + " " + app.user.lastName);
@@ -194,9 +201,9 @@ class CInternal {
             line.push(webrtc);
             line.push(file);
             if (isBusiness) {
-                line.push("");
+                line.push(0);
             } else {
-                line.push(cost);
+                line.push(cost.toFixed(2));
             }
 
             csvJSON["data"].push(line);
