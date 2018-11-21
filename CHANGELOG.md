@@ -6,6 +6,10 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+
+## [1.4x.x] - 2018-11-xx
+-   Add more logs for the Rainbow node SDK when in verbose mode
+
 ## [1.48.0] - 2018-10-17
 
 -   RQRAINB-1108: Switch KPI
