@@ -52,11 +52,7 @@ class Message {
             return;
         }
 
-        if (param) {
-            Screen.print("Request ".grey + command.white + " `".yellow + param.yellow + "'".yellow);
-        } else {
-            Screen.print("Request ".grey + command.white);
-        }
+        Screen.action(command, param);
     }
 
     out(json) {

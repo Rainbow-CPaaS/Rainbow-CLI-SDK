@@ -1,49 +1,54 @@
 "use strict";
 
-let {table, getBorderCharacters} = require('table');
+let { table, getBorderCharacters } = require("table");
 
-const LOG_ID = 'PRINT - ';
+const LOG_ID = "PRINT - ";
 
 class Print {
-
-    constructor() {
-    }
+    constructor() {}
 
     print(text) {
         console.log(text.white);
     }
 
     success(text) {
-        this.print('✓'.green + ' ' + text.white);
+        this.print("✓".green + " " + text.white);
     }
 
     error(text) {
-        this.print('x'.red + ' ' + text.white);
+        this.print("x".red + " " + text.white);
+    }
+
+    action(text, param) {
+        if (param) {
+            this.print("Action >".magenta + " " + text.white + " '".yellow + param.yellow + "' ".yellow);
+        } else {
+            this.print("Action >".magenta + " " + text.white);
+        }
     }
 
     table2D(data) {
-        this.table(data,true)
+        this.table(data, true);
     }
 
     table(data, maximizeColumn) {
-
         let config = {
-            border: getBorderCharacters('void'),
+            border: getBorderCharacters("void"),
             columnDefault: {
                 paddingLeft: 0,
                 paddingRight: 2
             },
             drawHorizontalLine: () => {
-                return false
+                return false;
             }
         };
 
-        if(maximizeColumn) {
+        if (maximizeColumn) {
             config.columns = {
                 2: {
                     width: 80
                 }
-            }
+            };
         }
 
         this.print(table(data, config));

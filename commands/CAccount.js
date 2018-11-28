@@ -241,7 +241,19 @@ class CAccount {
     configure(options) {
         Message.welcome(options);
 
+        Message.print("");
+
+        Message.print(
+            "The Alcatel-Lucent Enterprise (ALE) Rainbow CLI is a shell application for connecting to Rainbow and doing administrative tasks."
+        );
+
+        Message.print("");
+
         Message.action("Configure your Rainbow CLI");
+
+        Message.print("");
+
+        Message.print("Answer to the following questions to configure your Rainbow CLI...");
 
         Message.log("execute action...");
 
@@ -258,7 +270,7 @@ class CAccount {
             });
         };
 
-        Message.choices("Rainbow Host", Helper.Rainbow_platform)
+        Message.choices("Rainbow platform to connect", Helper.Rainbow_platform)
             .then(platform => {
                 if (platform === "others") {
                     return Message.ask("Rainbow Private Hostname");
@@ -286,27 +298,27 @@ class CAccount {
                         proxyUrl += ":" + this._prefs.proxy.port;
                     }
                 }
-                return Message.ask("Proxy ", proxyUrl || "None");
+                return Message.ask("Proxy to use", proxyUrl || "None");
             })
             .then(proxy => {
                 proxyAddress = Helper.getProxyFromString(proxy);
 
-                return Message.ask("Rainbow Login Email", this._prefs.email || "");
+                return Message.ask("Your Rainbow Login Email", this._prefs.email || "");
             })
             .then(login => {
                 loginEmail = login;
-                return Message.askPassword("Rainbow Password");
+                return Message.askPassword("Your Rainbow Password");
             })
             .then(password => {
                 loginPassword = password;
-                return Message.ask("Rainbow Application Id (For production only)", this._prefs.appid || "None");
+                return Message.ask("Your Rainbow Application Id (For production only)", this._prefs.appid || "None");
             })
             .then(appid => {
                 if (appid !== "None") {
                     applicationid = appid;
                 }
 
-                return Message.ask("Rainbow Application Secret", this._prefs.appsecret || "None");
+                return Message.ask("Your Rainbow Application Secret", this._prefs.appsecret || "None");
             })
             .then(appsecret => {
                 if (appsecret !== "None") {
@@ -326,6 +338,11 @@ class CAccount {
 
                 Message.lineFeed();
                 Message.success(options);
+
+                Message.print("");
+
+                Message.print("Use the command `rbw login` to connect to Rainbow");
+
                 Message.log("finished!");
             });
     }
