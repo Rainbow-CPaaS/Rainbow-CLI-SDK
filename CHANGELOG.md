@@ -6,8 +6,10 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+## [1.49.0] - 2018-11-29
 
-## [1.4x.x] - 2018-11-xx
+-   RQRAINB-1154: Add command initialize
+-   RQRAINB-1153: Rename command block/unblock to deactivate/activate
 -   Add more logs for the Rainbow node SDK when in verbose mode
 
 ## [1.48.0] - 2018-10-17

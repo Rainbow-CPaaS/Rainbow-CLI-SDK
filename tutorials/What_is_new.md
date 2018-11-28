@@ -4,6 +4,26 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
+### Rainbow CLI 1.49 (November 2018) - Beta
+
+---
+
+**3-Release Breaking Changes**
+
+-   None.
+
+**Breaking Changes**
+
+-   Command `rbw block user` and `rbw unblock user` have been renamed to `rbw deactivate user` and `rbw activate user` to be better understand by user.
+
+**Changes**
+
+-   Add new commands `rbw initialize user` and `rbw uninitialize user` to change the property `isInitialized` to `true` or `false` according to the need.
+
+**Others changes**
+
+-   None.
+
 ### Rainbow CLI 1.48 (October 2018) - Beta
 
 ---

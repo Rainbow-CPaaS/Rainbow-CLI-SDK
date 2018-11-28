@@ -1026,14 +1026,26 @@ class CAccount {
                     {
                         level: "company_admin",
                         theme: "Users",
-                        command: "block user <id>",
-                        details: "Block a user from connecting to Rainbow"
+                        command: "deactivate user <id>",
+                        details: "Deactivate a user to avoid him connecting to Rainbow"
                     },
                     {
                         level: "company_admin",
                         theme: "Users",
-                        command: "unblock user <id>",
-                        details: "Unblock a user"
+                        command: "activate user <id>",
+                        details: "Activate a user to authorize him connecting to Rainbow"
+                    },
+                    {
+                        level: "company_admin",
+                        theme: "Users",
+                        command: "initialize user <id>",
+                        details: "Initialize a user"
+                    },
+                    {
+                        level: "company_admin",
+                        theme: "Users",
+                        command: "uninitialize user <id>",
+                        details: "Uninitialize a user already initialized"
                     },
                     {
                         level: "company_admin",
