@@ -35,8 +35,7 @@ class Message {
             return;
         }
         Screen.print("");
-        Screen.print("Welcome to ".white + "Rainbow CLI".rainbow);
-
+        Screen.print("Welcome to Alcatel-Lucent Enterprise ".white + "Rainbow CLI".rainbow);
         this.log("CLI/MESSAGE - (welcome) command options", options);
     }
 
@@ -45,7 +44,7 @@ class Message {
             return;
         }
 
-        Screen.print("Version " + v.yellow);
+        Screen.print("Version installed " + v.yellow);
     }
 
     action(command, param, options) {
@@ -761,8 +760,8 @@ class Message {
             let statsToProvide = options.pay
                 ? "registrationPayAsYouGo"
                 : options.sandbox
-                    ? "registrationSandbox"
-                    : "registrationDevelopers";
+                ? "registrationSandbox"
+                : "registrationDevelopers";
 
             if (user.developer && user.developer.account && user.developer.account.status === "confirmed") {
                 if (statsToProvide === "registrationDevelopers") {
@@ -1647,6 +1646,7 @@ class Message {
 
         Screen.print("");
         Screen.error("Can't execute the command".white);
+
         if (!err) {
             Screen.print("  No additional information");
         } else {
@@ -1656,22 +1656,21 @@ class Message {
 
                 if (typeof err.details === "string") {
                     Screen.print("  " + err.details.white);
+                } else if (Array.isArray(err.details)) {
+                    Screen.print("At least one parameter is incorrect:");
+                    err.details.forEach(function(detail) {
+                        Screen.print(" - ".white + detail.param.yellow + ": ".gray + detail.msg.white);
+                    });
+                    Screen.print("");
+                    Screen.print("Add option -h for displaying examples");
                 } else if (Tools.isObject(err.details)) {
                     let details = err.details.details || err.msg || "Bad request";
                     Screen.print(
                         "  " + details.white + " (".gray + msg.gray + "/".gray + code.toString().gray + ")".gray
                     );
                 } else {
-                    err.details.forEach(function(detail) {
-                        Screen.print(
-                            "  " +
-                                "Incorrect value for ".white +
-                                detail.param.yellow +
-                                " (".gray +
-                                detail.msg.gray +
-                                ")".gray
-                        );
-                    });
+                    Screen.print("At least one parameter is incorrect.");
+                    Screen.print("Add option -h for displaying examples.");
                 }
             } else {
                 if (err.msg && err.code) {
