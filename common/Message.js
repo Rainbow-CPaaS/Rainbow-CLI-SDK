@@ -923,8 +923,24 @@ class Message {
 
     tableApns(json, options) {
         var array = [];
-        array.push(["#".gray, "OS".gray, "Type".gray, "Last Update".gray, "Id".gray]);
-        array.push(["-".gray, "--".gray, "----".gray, "-----------".gray, "--".gray]);
+        array.push([
+            "#".gray,
+            "OS".gray,
+            "Type".gray,
+            "Created on".gray,
+            "Last Update".gray,
+            "Enabled".gray,
+            "Id".gray
+        ]);
+        array.push([
+            "-".gray,
+            "--".gray,
+            "----".gray,
+            "----------".gray,
+            "-----------".gray,
+            "-------".gray,
+            "--".gray
+        ]);
 
         var apnsList = json.data;
 
@@ -937,11 +953,25 @@ class Message {
 
             let id = apns.id || "";
 
-            let lastUpdate = apns.lastUpdateDate ? apns.lastUptadeDate : apns.dateOfCreation;
+            let lastUpdate = apns.lastUpdateDate ? apns.lastUpdateDate : apns.dateOfCreation;
 
             let lastUpdateStr = moment(lastUpdate).format("lll");
 
-            array.push([(number + 1).toString().white, os, type.white, lastUpdateStr.white, id.yellow]);
+            let dateOfCreation = apns.dateOfCreation;
+
+            let dateOfCreationStr = moment(dateOfCreation).format("lll");
+
+            let isEnabled = apns.isEnabled ? "YES".green : "NO".red;
+
+            array.push([
+                (number + 1).toString().white,
+                os,
+                type.white,
+                dateOfCreationStr.white,
+                lastUpdateStr.white,
+                isEnabled,
+                id.yellow
+            ]);
 
             number++;
         });

@@ -4,6 +4,26 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
+### Rainbow CLI 1.50 (December 2018) - Beta
+
+---
+
+**3-Release Breaking Changes**
+
+-   None.
+
+**Breaking Changes**
+
+-   None.
+
+**Changes**
+
+-   None.
+
+**Others changes**
+
+-   Command `rbw application pns` has been fixed to display correctly the date of update. Date of creation and state of the setting are now displayed too.
+
 ### Rainbow CLI 1.49 (November 2018) - Beta
 
 ---
