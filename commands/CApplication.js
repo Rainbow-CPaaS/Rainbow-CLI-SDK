@@ -427,10 +427,118 @@ class CApplication {
     }
 
     _deploy(token, options) {
+        let getApplication = function(id, token) {
+            return new Promise(function(resolve, reject) {
+                NodeSDK.get("/api/rainbow/applications/v1.0/applications/" + id, token)
+                    .then(function(json) {
+                        resolve(json.data);
+                    })
+                    .catch(function(err) {
+                        reject(err);
+                    });
+            });
+        };
+
+        let wait = function() {
+            return new Promise(function(resolve) {
+                setTimeout(function() {
+                    resolve();
+                }, 2000);
+            });
+        };
+
+        let waitForApplication = function(id, token) {
+            return new Promise(function(resolve, reject) {
+                NodeSDK.get("/api/rainbow/applications/v1.0/applications/" + id, token)
+                    .then(function(json) {
+                        let app = json.data;
+                        if (app.kpi === "business") {
+                            resolve(json.data);
+                            return;
+                        }
+
+                        if (app.subscriptions.length > 0 && !app.subscriptions[0].syncOngoing) {
+                            resolve(json.data);
+                            return;
+                        }
+
+                        wait().then(function() {
+                            return waitForApplication(id, token).then(function(application) {
+                                resolve(application);
+                            });
+                        });
+                    })
+                    .catch(function(err) {
+                        reject(err);
+                    });
+            });
+        };
+
+        let addSubscription = function(application, token) {
+            return new Promise(function(resolve, reject) {
+                // Si pay as you go and no subscriptions
+                if (
+                    application.kpi === "business" ||
+                    (application.kpi === "payasyougo" && application.subscriptions.length > 0)
+                ) {
+                    resolve(application);
+                    return;
+                }
+
+                NodeSDK.post(
+                    "/api/rainbow/subscription/v1.0/developers/" + application.ownerId + "/subscriptions",
+                    token,
+                    { applicationId: application.id }
+                )
+                    .then(function(json) {
+                        resolve(json);
+                    })
+                    .catch(function(err) {
+                        if (err.code === 403) {
+                            err.details =
+                                "Can't deploy application. Error with payment method. Check if payment method exists.";
+                        }
+                        reject(err);
+                    });
+            });
+        };
+
+        let requestDeploy = function(application) {
+            return new Promise(function(resolve, reject) {
+                NodeSDK.put("/api/rainbow/applications/v1.0/applications/" + application.id + "/request-deploy", token)
+                    .then(function(json) {
+                        resolve(json);
+                    })
+                    .catch(function(err) {
+                        reject(err);
+                    });
+            });
+        };
+
         return new Promise(function(resolve, reject) {
-            NodeSDK.put("/api/rainbow/applications/v1.0/applications/" + options.appid + "/request-deploy", token)
+            let application = null;
+
+            getApplication(options.appid, token)
                 .then(function(json) {
-                    resolve(json);
+                    application = json;
+
+                    if (application.env === "deployed") {
+                        reject({
+                            details: "Can't deploy application. Application is already deployed."
+                        });
+                        return;
+                    }
+
+                    return addSubscription(application, token);
+                })
+                .then(function() {
+                    return waitForApplication(options.appid, token);
+                })
+                .then(function(json) {
+                    return requestDeploy(application);
+                })
+                .then(function(application) {
+                    resolve(application);
                 })
                 .catch(function(err) {
                     reject(err);

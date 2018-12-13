@@ -9,6 +9,7 @@ All notable changes to Rainbow-CLI will be documented in this file.
 ## [1.50.0] - 2018-12-16
 
 -   CRRAINB-4599: Fix command 'application pns'
+-   CRRAINB-4601: Fix command 'rbw application deploy'
 
 ## [1.49.0] - 2018-11-29
 

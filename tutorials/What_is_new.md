@@ -24,6 +24,8 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 -   Command `rbw application pns` has been fixed to display correctly the date of update. Date of creation and state of the setting are now displayed too.
 
+-   Command `rbw application deploy` has been fixed to add the subscription when in payasyougo and to wait until the subscription becomes active.
+
 ### Rainbow CLI 1.49 (November 2018) - Beta
 
 ---
