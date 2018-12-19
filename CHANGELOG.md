@@ -10,6 +10,7 @@ All notable changes to Rainbow-CLI will be documented in this file.
 
 -   CRRAINB-4599: Fix command 'application pns'
 -   CRRAINB-4601: Fix command 'rbw application deploy'
+-   CRRAINB-4637: Subscribe + request managed on server side
 
 ## [1.49.0] - 2018-11-29
 
