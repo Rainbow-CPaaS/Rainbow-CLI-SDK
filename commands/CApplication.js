@@ -505,9 +505,14 @@ class CApplication {
 
         let requestDeploy = function(application) {
             return new Promise(function(resolve, reject) {
+                if (application !== "business") {
+                    resolve(application);
+                    return;
+                }
+
                 NodeSDK.put("/api/rainbow/applications/v1.0/applications/" + application.id + "/request-deploy", token)
                     .then(function(json) {
-                        resolve(json);
+                        resolve(json.data);
                     })
                     .catch(function(err) {
                         reject(err);
@@ -1011,10 +1016,10 @@ class CApplication {
                     Message.log("action done...", json);
 
                     if (options.noOutput) {
-                        Message.out(json.data);
+                        Message.out(json);
                     } else {
                         Message.lineFeed();
-                        Message.printSuccess("Application deployment request done", json.data.id, options);
+                        Message.printSuccess("Application deployment request done", json.id, options);
                         Message.success(options);
                     }
                     Message.log("finished!");
