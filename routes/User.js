@@ -55,6 +55,7 @@ class User {
             .option("-c, --company <id>", "In company identified by an id")
             .option("-a, --admin", "With a company_admin role")
             .option("-o, --org <orgid>", "With a org_admin role for an organisation identified by an orgid")
+            .option("--public", "Create a public user")
             .option("-j, --json", "Write the JSON result to standard stdout")
             .option("-v, --verbose", "Use verbose console mode")
             .on("--help", function() {
@@ -85,7 +86,8 @@ class User {
                             noOutput: commands.json || false,
                             companyId: commands.company || "",
                             isAdmin: commands.admin || false,
-                            orgId: commands.org || false
+                            orgId: commands.org || false,
+                            public: commands.public || null
                         };
 
                         Logger.isActive = commands.verbose || false;

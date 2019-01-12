@@ -63,7 +63,7 @@ class Message {
         console.log(csv);
     }
 
-    csv(file, json, isAlreadyCSV) {
+    csv(file, json, isAlreadyCSV, col) {
         return new Promise((resolve, reject) => {
             if (isAlreadyCSV) {
                 fs.writeFile(file, json, "utf8", err => {
@@ -75,6 +75,15 @@ class Message {
                     }
                 });
             } else {
+                let columns = col;
+                let hasData = json.length > 0;
+
+                if (!columns && hasData) {
+                    let firstEntry = json[0];
+                    columns = [];
+                    for (var key in firstEntry) columns.push(key);
+                }
+
                 let stringify = csv.stringify;
                 let writeStream = fs.createWriteStream(file, { flags: "w" });
 
@@ -85,7 +94,8 @@ class Message {
                         }
                     },
                     delimiter: ";",
-                    header: true
+                    header: hasData,
+                    columns: columns || []
                 }).pipe(writeStream);
                 writeStream.on("close", function() {
                     Screen.success(
@@ -457,21 +467,14 @@ class Message {
         Screen.print("");
     }
 
-    tableApplications(json, options) {
+    tableApplications(json, options, columns) {
         var array = [];
-        array.push([
-            "#".gray,
-            "Name".gray,
-            "Type".gray,
-            "Environment".gray,
-            "State".gray,
-            "OwnerId".gray,
-            "Created date".gray,
-            "Request date".gray,
-            "Deployed date".gray,
-            "Offer".gray,
-            "Id".gray
-        ]);
+        var firstLine = [];
+
+        columns.forEach(item => {
+            firstLine.push(item.gray);
+        });
+        array.push(firstLine);
         array.push([
             "-".gray,
             "----".gray,

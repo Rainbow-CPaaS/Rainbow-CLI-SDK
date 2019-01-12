@@ -1364,11 +1364,25 @@ class CApplication {
                     return that._getApplications(that._prefs.token, options, that._prefs);
                 })
                 .then(function(json) {
+                    var columns = [
+                        "#",
+                        "Name",
+                        "Type",
+                        "Environment",
+                        "State",
+                        "OwnerId",
+                        "Created date",
+                        "Request date",
+                        "Deployed date",
+                        "Offer",
+                        "Id"
+                    ];
+
                     Message.unspin(spin);
                     Message.log("action done...", json);
 
                     if (options.csv) {
-                        Message.csv(options.csv, json.data)
+                        Message.csv(options.csv, json.data, false)
                             .then(() => {})
                             .catch(err => {
                                 Exit.error();
@@ -1380,7 +1394,7 @@ class CApplication {
                             Message.tablePage(json, options);
                         }
                         Message.lineFeed();
-                        Message.tableApplications(json, options);
+                        Message.tableApplications(json, options, columns);
                     }
                     Message.log("finished!");
                 })
@@ -1443,7 +1457,7 @@ class CApplication {
                     if (options.csv) {
                         let jsonCSV = that._formatCSVMetrics(json, groups, categories, options);
 
-                        Message.csv(options.csv, jsonCSV.data)
+                        Message.csv(options.csv, jsonCSV.data, false)
                             .then(() => {})
                             .catch(err => {
                                 Exit.error();

@@ -149,6 +149,10 @@ class CUser {
             user.organisationId = options.orgId;
         }
 
+        if (options.public) {
+            user.visibility = "public";
+        }
+
         return this._create(token, user);
     }
 
@@ -182,7 +186,7 @@ class CUser {
                     Message.log("action done...", json);
 
                     if (options.csv) {
-                        Message.csv(options.csv, json.data)
+                        Message.csv(options.csv, json.data, false)
                             .then(() => {})
                             .catch(err => {
                                 Exit.error();

@@ -4,6 +4,28 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
+### Rainbow CLI 1.51 (January 2019) - Beta
+
+---
+
+**3-Release Breaking Changes**
+
+-   None.
+
+**Breaking Changes**
+
+-   None.
+
+**Changes**
+
+-   Options `--public` and `--organization` have been added to command `rbw company create` to set the visibility when creating a company. By default companies created are private.
+
+-   Option `--public` has been added to command `rbw create user` to create a public user in a private company.
+
+**Others changes**
+
+-   None.
+
 ### Rainbow CLI 1.50 (December 2018) - Beta
 
 ---

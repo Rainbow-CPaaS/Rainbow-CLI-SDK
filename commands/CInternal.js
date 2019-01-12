@@ -18,17 +18,6 @@ class CInternal {
         };
 
         let users = json.data;
-        csvJSON.data.push([
-            "Name",
-            "Firstname",
-            "Email",
-            "Company name",
-            "Country",
-            "is BP",
-            "Registration date",
-            "Sandbox registration date",
-            "Payment Method"
-        ]);
 
         let fromDate = null,
             toDate = null;
@@ -52,8 +41,8 @@ class CInternal {
             let statsToProvide = options.pay
                 ? "registrationPayAsYouGo"
                 : options.sandbox
-                    ? "registrationSandbox"
-                    : "registrationDevelopers";
+                ? "registrationSandbox"
+                : "registrationDevelopers";
 
             if (user.developer && user.developer.account && user.developer.account.status === "confirmed") {
                 if (statsToProvide === "registrationDevelopers") {
@@ -108,26 +97,6 @@ class CInternal {
         };
 
         let apps = json.data;
-        csvJSON.data.push([
-            "Name",
-            "Id",
-            "Offer",
-            "Type",
-            "Activity",
-            "Owner name",
-            "Owner country",
-            "Owner email",
-            "Company name",
-            "Creation date",
-            "Deployed date",
-            "Deployed reason",
-            "Current state",
-            "API resources",
-            "API administration",
-            "WebRTC minutes",
-            "File storage",
-            "Fees"
-        ]);
 
         apps.forEach(app => {
             let line = [];
@@ -411,9 +380,30 @@ class CInternal {
                     Message.log("action done...", json);
 
                     if (options.csv) {
+                        let columns = [
+                            "Name",
+                            "Id",
+                            "Offer",
+                            "Type",
+                            "Activity",
+                            "Owner name",
+                            "Owner country",
+                            "Owner email",
+                            "Company name",
+                            "Creation date",
+                            "Deployed date",
+                            "Deployed reason",
+                            "Current state",
+                            "API resources",
+                            "API administration",
+                            "WebRTC minutes",
+                            "File storage",
+                            "Fees"
+                        ];
+
                         let jsonCSV = that._formatCSVMetrics(json, options);
 
-                        Message.csv(options.csv, jsonCSV.data)
+                        Message.csv(options.csv, jsonCSV.data, false, columns)
                             .then(() => {})
                             .catch(err => {
                                 Exit.error();
@@ -467,9 +457,21 @@ class CInternal {
                     Message.log("action done...", json);
 
                     if (options.csv) {
+                        let columns = [
+                            "Name",
+                            "Firstname",
+                            "Email",
+                            "Company name",
+                            "Country",
+                            "is BP",
+                            "Registration date",
+                            "Sandbox registration date",
+                            "Payment Method"
+                        ];
+
                         let jsonCSV = that._formatCSVDevelopers(json, options);
 
-                        Message.csv(options.csv, jsonCSV.data)
+                        Message.csv(options.csv, jsonCSV.data, false, columns)
                             .then(() => {})
                             .catch(err => {
                                 Exit.error();
