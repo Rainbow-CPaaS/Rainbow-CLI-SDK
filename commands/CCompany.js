@@ -273,7 +273,27 @@ class CCompany {
                 id = that._prefs.user.companyId;
             }
 
-            NodeSDK.get(`/api/rainbow/metrics/v1.0/analyticmetrics/companies/${id}`, token)
+            NodeSDK.get(`/api/rainbow/metrics/v1.0/analyticmetrics/companies/${id}/customers/flat`, token)
+                .then(function(json) {
+                    resolve(json);
+                })
+                .catch(function(err) {
+                    reject(err);
+                });
+        });
+    }
+
+    _metricsCompanyDaily(token, options) {
+        var that = this;
+
+        return new Promise(function(resolve, reject) {
+            let id = options.id;
+
+            if (!options.id) {
+                id = that._prefs.user.companyId;
+            }
+
+            NodeSDK.get(`/api/rainbow/metrics/v1.0/analyticmetrics/companies/${id}/daily`, token)
                 .then(function(json) {
                     resolve(json);
                 })
@@ -653,7 +673,7 @@ class CCompany {
         if (this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
 
-            Message.action("Metrics of company", options);
+            Message.action("Metrics of company", options.id, options);
 
             let spin = Message.spin(options);
             NodeSDK.start(
@@ -671,10 +691,67 @@ class CCompany {
                 .then(function(json) {
                     Message.unspin(spin);
                     Message.log("action done...", json);
-                    Message.lineFeed();
-                    Message.table2D(json);
-                    Message.success(options);
-                    Message.log("finished!");
+                    if (options.noOutput) {
+                        Message.out(json);
+                    } else {
+                        Message.lineFeed();
+                        if (Array.isArray(json.data)) {
+                            Message.table2D(json.data[0]);
+                        } else {
+                            Message.table2D({
+                                hasMetrics: false
+                            });
+                        }
+
+                        Message.success(options);
+                        Message.log("finished!");
+                    }
+                })
+                .catch(function(err) {
+                    Message.unspin(spin);
+                    Message.error(err, options);
+                    Exit.error();
+                });
+        } else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    metricsCompanyDaily(options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if (this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            Message.action("Daily metrics of company", options.id, options);
+
+            let spin = Message.spin(options);
+            NodeSDK.start(
+                this._prefs.email,
+                this._prefs.password,
+                this._prefs.host,
+                this._prefs.proxy,
+                this._prefs.appid,
+                this._prefs.appsecret
+            )
+                .then(function() {
+                    Message.log("execute action...");
+                    return that._metricsCompanyDaily(that._prefs.token, options);
+                })
+                .then(function(json) {
+                    Message.unspin(spin);
+                    Message.log("action done...", json);
+                    if (options.noOutput) {
+                        Message.out(json);
+                    } else {
+                        Message.lineFeed();
+                        Message.table2D(json);
+                        Message.success(options);
+                        Message.log("finished!");
+                    }
                 })
                 .catch(function(err) {
                     Message.unspin(spin);

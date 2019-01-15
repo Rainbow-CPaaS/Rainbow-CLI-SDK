@@ -8,6 +8,7 @@ All notable changes to Rainbow-CLI will be documented in this file.
 
 ## [1.51.0] - 2018-01-21
 
+-   RQRAINB-1196: Add commands for retrieving company metrics
 -   RQRAINB-1195: Manage visibility of users and companies
 
 ## [1.50.0] - 2018-12-16

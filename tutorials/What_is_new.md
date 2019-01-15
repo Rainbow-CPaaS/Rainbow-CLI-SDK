@@ -18,6 +18,8 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 **Changes**
 
+-   New commands `rbw company metrics` and `rbw company metrics daily` have been added to get the company metrics globally or in a daily basis.
+
 -   Options `--public` and `--organization` have been added to command `rbw company create` to set the visibility when creating a company. By default companies created are private.
 
 -   Option `--public` has been added to command `rbw create user` to create a public user in a private company.

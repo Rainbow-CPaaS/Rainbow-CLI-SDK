@@ -197,6 +197,7 @@ class Company {
             .command("company metrics", "[id]")
             .description("Give metrics on a company")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("-j, --json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -210,12 +211,42 @@ class Company {
                 Middleware.parseCommand(commands)
                     .then(() => {
                         var options = {
-                            id: id || null
+                            id: id || null,
+                            noOutput: commands.json || false
                         };
 
                         Logger.isActive = commands.verbose || false;
 
                         that._company.metricsCompany(options);
+                    })
+                    .catch(() => {});
+            });
+
+        this._program
+            .command("company metrics daily", "[id]")
+            .description("Give daily metrics on a company")
+            .option("-v, --verbose", "Use verbose console mode")
+            .option("-j, --json", "Write the JSON result to standard stdout")
+            .on("--help", function() {
+                console.log("  Examples:");
+                console.log("");
+                console.log("    $ rbw company metrics daily");
+                console.log("    $ rbw company metrics daily 57ea7475d78f3ba5aae98935");
+                console.log("");
+                console.log("  Details:");
+                console.log("");
+            })
+            .action(function(id, commands) {
+                Middleware.parseCommand(commands)
+                    .then(() => {
+                        var options = {
+                            id: id || null,
+                            noOutput: commands.json || false
+                        };
+
+                        Logger.isActive = commands.verbose || false;
+
+                        that._company.metricsCompanyDaily(options);
                     })
                     .catch(() => {});
             });

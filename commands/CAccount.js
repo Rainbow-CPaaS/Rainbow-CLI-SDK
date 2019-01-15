@@ -1079,9 +1079,27 @@ class CAccount {
                     },
                     {
                         level: "company_admin",
-                        theme: "Company",
-                        command: "company status",
+                        theme: " ",
+                        command: " ",
+                        details: " "
+                    },
+                    {
+                        level: "company_admin",
+                        theme: "Metrics",
+                        command: "company status [companyId]",
                         details: "Status on a company"
+                    },
+                    {
+                        level: "company_admin",
+                        theme: "Metrics",
+                        command: "company metrics [companyId]",
+                        details: "Global metrics on a company"
+                    },
+                    {
+                        level: "company_admin",
+                        theme: "Metrics",
+                        command: "company metrics daily [companyId]",
+                        details: "Metrics aggregated per day on a company"
                     },
                     {
                         level: "company_admin",
