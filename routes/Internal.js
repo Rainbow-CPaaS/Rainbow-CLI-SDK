@@ -21,10 +21,9 @@ class Internal {
         var that = this;
 
         this._program
-            .command("dashboard applications")
+            .command("dashboard payasyougo")
             .description("Display pay-as-you-go applications metrics for current month")
             .option("-m, --month <month>", "Get metrics for a specific month. Format is YYYYMM")
-            .option("-a, --all", "Get metrics for all applications including business applications")
             .option("-f, --file <filename>", "Print result to a file in CSV")
             .option("-o, --owner <ownerid>", "Filter by owner of applications")
             .option("-v, --verbose", "Use verbose console mode")
@@ -37,11 +36,36 @@ class Internal {
                             month: commands.month,
                             group: true,
                             csv: commands.file,
-                            all: commands.all,
                             owner: commands.owner
                         };
 
                         that._internal.dashboardApplications(options);
+                    })
+                    .catch(err => {
+                        Message.error(err, {});
+                    });
+            });
+
+        this._program
+            .command("dashboard business")
+            .description("Display business applications metrics for current month")
+            .option("-m, --month <month>", "Get metrics for a specific month. Format is YYYYMM")
+            .option("-f, --file <filename>", "Print result to a file in CSV")
+            .option("-o, --owner <ownerid>", "Filter by owner of applications")
+            .option("-v, --verbose", "Use verbose console mode")
+            .action(function(commands) {
+                Middleware.parseCommand(commands)
+                    .then(() => {
+                        Logger.isActive = commands.verbose || false;
+
+                        var options = {
+                            month: commands.month,
+                            group: true,
+                            csv: commands.file,
+                            owner: commands.owner
+                        };
+
+                        that._internal.dashboardBusinessApplications(options);
                     })
                     .catch(err => {
                         Message.error(err, {});

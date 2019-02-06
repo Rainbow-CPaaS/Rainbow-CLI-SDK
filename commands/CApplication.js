@@ -505,7 +505,7 @@ class CApplication {
 
         let requestDeploy = function(application) {
             return new Promise(function(resolve, reject) {
-                if (application !== "business") {
+                if (application.kpi !== "business") {
                     resolve(application);
                     return;
                 }
@@ -539,7 +539,7 @@ class CApplication {
                 .then(function() {
                     return waitForApplication(options.appid, token);
                 })
-                .then(function(json) {
+                .then(function() {
                     return requestDeploy(application);
                 })
                 .then(function(application) {

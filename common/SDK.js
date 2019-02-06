@@ -27,12 +27,12 @@ const config = {
         enableConsoleLogs: true,
         enableFileLogs: false,
         color: true,
-      level: 'debug',
-      customLabel: "Rainbow-CLI-SDK",
-      "system-dev": {
-        "internals": true,
-        "http": true,
-      },
+        level: "debug",
+        customLabel: "Rainbow-CLI-SDK",
+        "system-dev": {
+            internals: true,
+            http: true
+        },
         file: {
             path: "/var/tmp/rainbowsdk/",
             level: "debug"

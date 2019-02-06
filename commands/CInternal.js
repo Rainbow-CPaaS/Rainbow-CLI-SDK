@@ -77,6 +77,7 @@ class CInternal {
                 let line = [];
                 line.push(user.lastName);
                 line.push(user.firstName);
+                line.push(user.country);
                 line.push(user.loginEmail);
                 line.push(user.companyName);
                 line.push(user.company.country);
@@ -91,7 +92,7 @@ class CInternal {
         return csvJSON;
     }
 
-    _formatCSVMetrics(json, options) {
+    _formatCSVMetrics(json, options, offer) {
         let csvJSON = {
             data: []
         };
@@ -125,7 +126,9 @@ class CInternal {
             line.push(app.user.companyName);
             line.push(app.dateOfCreation);
             line.push(app.dateOfDeployment);
-            line.push(app.deployReason || "");
+            if (offer === "business") {
+                line.push(app.deployReason || "");
+            }
             line.push(app.state);
             let data = app.metrics;
             let res = 0;
@@ -183,9 +186,25 @@ class CInternal {
 
     _getUser(token, id) {
         return new Promise(function(resolve, reject) {
-            NodeSDK.get("/api/rainbow/admin/v1.0/users/" + id, token).then(function(json) {
-                resolve(json);
-            });
+            NodeSDK.get("/api/rainbow/admin/v1.0/users/" + id, token)
+                .then(function(json) {
+                    resolve(json);
+                })
+                .catch(err => {
+                    NodeSDK.get("/api/rainbow/enduser/v1.0/users/" + id, token)
+                        .then(function(json) {
+                            resolve(json);
+                        })
+                        .catch(err => {
+                            resolve({
+                                data: {
+                                    loginEmail: "unknown",
+                                    firstName: "-",
+                                    lastName: "-"
+                                }
+                            });
+                        });
+                });
         });
     }
 
@@ -197,11 +216,9 @@ class CInternal {
 
         let apps = [];
 
-        let filterToApply = "format=full&env=deployed&limit=1000";
+        let filterToApply = "format=full&env=deployed&kpi=payasyougo&limit=1000";
 
-        if (!options.all) {
-            filterToApply += "&subscriptionStatus=creating,active,alerting,hold,terminating";
-        }
+        filterToApply += "&subscriptionStatus=creating,active,alerting,hold,terminating";
 
         if (options.owner) {
             filterToApply += "&ownerId=" + options.owner;
@@ -226,6 +243,115 @@ class CInternal {
                 })
                 .then(jsonApps => {
                     apps = jsonApps.data;
+
+                    let promisesUser = [];
+
+                    apps.forEach(application => {
+                        promisesUser.push(this._getUser(token, application.ownerId));
+                    });
+
+                    return Promise.all(promisesUser);
+                })
+                .then(jsonUsers => {
+                    jsonUsers.forEach((user, index) => {
+                        apps[index].user = user.data;
+                    });
+
+                    let promises = [];
+
+                    apps.forEach(application => {
+                        let appOptions = Object.assign({}, options);
+                        appOptions.appid = application.id;
+                        appOptions.forcePeriod = "month";
+                        promises.push(this._applications._getMetrics(token, appOptions));
+                    });
+
+                    return Promise.all(promises);
+                })
+                .then(jsonMetrics => {
+                    let seconds = ["audio", "video", "webrtc_minutes"];
+
+                    jsonMetrics.forEach((metrics, index) => {
+                        var aggregatedApp = [];
+
+                        metrics.data.forEach(metric => {
+                            let groups = metric.groupCounters;
+
+                            // Put webrtc trafic in minutes (received in s)
+                            groups.forEach(group => {
+                                if (seconds.includes(group.group)) {
+                                    group.count = Math.round(group.count / 60);
+                                }
+                            });
+
+                            for (var category in categories) {
+                                aggregatedApp.push({
+                                    group: category,
+                                    count: 0
+                                });
+                            }
+
+                            groups.forEach(group => {
+                                for (var category in categories) {
+                                    if (categories[category].includes(group.group)) {
+                                        aggregatedApp.forEach((aggregated, index) => {
+                                            if (aggregated.group === category) {
+                                                aggregatedApp[index].count += group.count;
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+
+                            apps[index].metrics = aggregatedApp;
+                        });
+                    });
+
+                    resolve({ data: apps });
+                })
+                .catch(function(err) {
+                    reject(err);
+                });
+        });
+    }
+
+    _dashboardBusinessApplications(token, options) {
+        var groups = [];
+        var categories = [];
+
+        var that = this;
+
+        let apps = [];
+
+        let filterToApply = "format=full&env=deployed&kpi=business&limit=1000";
+
+        if (options.owner) {
+            filterToApply += "&ownerId=" + options.owner;
+        }
+
+        filterToApply += "&sortField=ownerId";
+
+        return new Promise((resolve, reject) => {
+            this._applications
+                ._getGroupMetrics(token)
+                .then(jsonGroups => {
+                    if (jsonGroups.data) {
+                        for (var group in jsonGroups.data) {
+                            jsonGroups.data[group].forEach(function(metric) {
+                                groups.push(metric);
+                            });
+                        }
+                        categories = jsonGroups.data;
+                    }
+
+                    return NodeSDK.get("/api/rainbow/applications/v1.0/applications?" + filterToApply, token);
+                })
+                .then(jsonApps => {
+                    apps = jsonApps.data;
+
+                    apps = apps.filter(app => {
+                        return Array.isArray(app.subscriptions) && app.subscriptions.length === 0;
+                    });
 
                     let promisesUser = [];
 
@@ -350,6 +476,83 @@ class CInternal {
         });
     }
 
+    dashboardBusinessApplications(options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if (this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            if (!options.csv) {
+                Message.action("Dashboard BUSINESS applications metrics", null, options);
+            }
+
+            let spin = Message.spin(options);
+            NodeSDK.start(
+                this._prefs.email,
+                this._prefs.password,
+                this._prefs.host,
+                this._prefs.proxy,
+                this._prefs.appid,
+                this._prefs.appsecret
+            )
+                .then(function() {
+                    Message.log("execute action...");
+                    return that._dashboardBusinessApplications(that._prefs.token, options);
+                })
+                .then(function(json) {
+                    Message.unspin(spin);
+                    Message.log("action done...", json);
+
+                    if (options.csv) {
+                        let columns = [
+                            "Name",
+                            "Id",
+                            "Offer",
+                            "Type",
+                            "Activity",
+                            "Owner name",
+                            "Owner country",
+                            "Owner email",
+                            "Company name",
+                            "Creation date",
+                            "Deployed date",
+                            "Deployed reason",
+                            "Current state",
+                            "API resources",
+                            "API administration",
+                            "WebRTC minutes",
+                            "File storage",
+                            "Fees"
+                        ];
+
+                        let jsonCSV = that._formatCSVMetrics(json, options, "business");
+
+                        Message.csv(options.csv, jsonCSV.data, false, columns)
+                            .then(() => {})
+                            .catch(err => {
+                                Exit.error();
+                            });
+                    } else if (options.noOutput) {
+                        Message.out(json.data);
+                    } else {
+                        Message.tableDashboardMetrics(json.data, options, "business");
+                    }
+
+                    Message.log("finished!");
+                })
+                .catch(function(err) {
+                    Message.unspin(spin);
+                    Message.error(err, options);
+                    Exit.error();
+                });
+        } else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
     dashboardApplications(options) {
         var that = this;
 
@@ -359,7 +562,7 @@ class CInternal {
             Message.loggedin(this._prefs, options);
 
             if (!options.csv) {
-                Message.action("Dashboard applications metrics", null, options);
+                Message.action("Dashboard PAYASYOUGO applications metrics", null, options);
             }
 
             let spin = Message.spin(options);
@@ -392,7 +595,6 @@ class CInternal {
                             "Company name",
                             "Creation date",
                             "Deployed date",
-                            "Deployed reason",
                             "Current state",
                             "API resources",
                             "API administration",
@@ -401,7 +603,7 @@ class CInternal {
                             "Fees"
                         ];
 
-                        let jsonCSV = that._formatCSVMetrics(json, options);
+                        let jsonCSV = that._formatCSVMetrics(json, options, "payasyougo");
 
                         Message.csv(options.csv, jsonCSV.data, false, columns)
                             .then(() => {})
@@ -411,7 +613,7 @@ class CInternal {
                     } else if (options.noOutput) {
                         Message.out(json.data);
                     } else {
-                        Message.tableDashboardMetrics(json.data, options);
+                        Message.tableDashboardMetrics(json.data, options, "payasyougo");
                     }
 
                     Message.log("finished!");
@@ -460,9 +662,10 @@ class CInternal {
                         let columns = [
                             "Name",
                             "Firstname",
+                            "Country",
                             "Email",
                             "Company name",
-                            "Country",
+                            "Company country",
                             "is BP",
                             "Registration date",
                             "Sandbox registration date",

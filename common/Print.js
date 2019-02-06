@@ -38,6 +38,7 @@ class Print {
                 paddingLeft: 0,
                 paddingRight: 2
             },
+
             drawHorizontalLine: () => {
                 return false;
             }

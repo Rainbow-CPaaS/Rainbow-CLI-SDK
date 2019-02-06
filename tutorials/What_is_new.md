@@ -4,6 +4,26 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
+### Rainbow CLI 1.52 (February 2019) - Beta
+
+---
+
+**3-Release Breaking Changes**
+
+-   None.
+
+**Breaking Changes**
+
+-   Commands `rbw dashboard applications` have been replaced by commmands `rbw dashboard payasyougo` and `rbw dashboard business` in order to separate dashboard per applications type. These commands are now available to any developers for having a global overview of all their applications metrics in term of API consumed.
+
+**Changes**
+
+-   None.
+
+**Others changes**
+
+-   None.
+
 ### Rainbow CLI 1.51 (January 2019) - Beta
 
 ---

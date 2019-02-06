@@ -88,7 +88,7 @@ class Message {
                 let writeStream = fs.createWriteStream(file, { flags: "w" });
 
                 stringify(json, {
-                    formatters: {
+                    cast: {
                         date: function(value) {
                             return moment(value).format("YYYY-MM-DD");
                         }
@@ -738,8 +738,6 @@ class Message {
                 companyName = companyName.substr(0, 35) + "...";
             }
 
-            let payAsYouGo = user.developer.bsAccountId ? "YES".magenta : "NO".white;
-
             let country = "".white;
             let isBP = "-".white;
             if (user.company) {
@@ -814,42 +812,89 @@ class Message {
         Screen.print("");
     }
 
-    tableDashboardMetrics(json, options, categories) {
+    tableDashboardMetrics(json, options, offer) {
+        let getTruncatedData = (data, length) => {
+            if (!data) {
+                return "";
+            }
+
+            if (data.length < length) {
+                return data;
+            }
+
+            return data.substr(0, length) + "...";
+        };
+
         let array = [];
-        array.push([
-            "#".gray,
-            "Name".gray,
-            "Owner".gray,
-            "External".gray,
-            "Deployed".gray,
-            "ID".gray,
-            "API Resources".gray,
-            "API Admin".gray,
-            "WebRTC Minutes".gray,
-            "File Storage".gray,
-            "Estimated cost".gray
-        ]);
-        array.push([
-            "-".gray,
-            "----".gray,
-            "-----".gray,
-            "--------".gray,
-            "--------".gray,
-            "--".gray,
-            "-------------".gray,
-            "---------".gray,
-            "--------------".gray,
-            "------------".gray,
-            "--------------".gray
-        ]);
+
+        if (offer === "business") {
+            array.push([
+                "#".gray,
+                "Name".gray,
+                "Owner".gray,
+                "External".gray,
+                "Deployed".gray,
+                "Reason".gray,
+                "ID".gray,
+                "API Resources".gray,
+                "API Admin".gray,
+                "WebRTC Minutes".gray,
+                "File Storage".gray,
+                "Estimated cost".gray
+            ]);
+            array.push([
+                "-".gray,
+                "----".gray,
+                "-----".gray,
+                "--------".gray,
+                "--------".gray,
+                "------".gray,
+                "--".gray,
+                "-------------".gray,
+                "---------".gray,
+                "--------------".gray,
+                "------------".gray,
+                "--------------".gray
+            ]);
+        } else {
+            array.push([
+                "#".gray,
+                "Name".gray,
+                "Owner".gray,
+                "External".gray,
+                "Deployed".gray,
+                "ID".gray,
+                "API Resources".gray,
+                "API Admin".gray,
+                "WebRTC Minutes".gray,
+                "File Storage".gray,
+                "Estimated cost".gray
+            ]);
+            array.push([
+                "-".gray,
+                "----".gray,
+                "-----".gray,
+                "--------".gray,
+                "--------".gray,
+                "--".gray,
+                "-------------".gray,
+                "---------".gray,
+                "--------------".gray,
+                "------------".gray,
+                "--------------".gray
+            ]);
+        }
 
         let number = 0;
 
         json.forEach(app => {
             let appid = app.id;
-            let name = app.name;
+            let name = getTruncatedData(app.name, 20);
+            let reason = getTruncatedData(app.deployReason, 30);
+
             let data = app.metrics;
             let user = app.user;
+            let username = getTruncatedData(user.firstName + " " + user.lastName, 25);
             let res = 0;
             let admin = 0;
             let webrtc = 0;
@@ -898,27 +943,62 @@ class Message {
                 return user.loginEmail.includes(pattern);
             });
 
-            array.push([
-                (number + 1).toString().white,
-                name.white,
-                user.firstName.white + " " + user.lastName.white,
-                isInternal ? "NO".white : "YES".yellow,
-                dateOfDeployment.white,
-                appid.white,
-                res > 0 ? res.toString().cyan : res.toString().white,
-                admin > 0 ? admin.toString().cyan : admin.toString().white,
-                webrtc > 0 ? webrtc.toString().cyan : webrtc.toString().white,
-                file > 0 ? file.toString().cyan : file.toString().white,
-                cost > 0 ? cost.toFixed(3).toString().yellow : cost.toFixed(3).toString().white
-            ]);
+            if (offer === "business") {
+                array.push([
+                    (number + 1).toString().white,
+                    name.white,
+                    username.white,
+                    isInternal ? "NO".white : "YES".yellow,
+                    dateOfDeployment.white,
+                    reason.white,
+                    appid.white,
+                    res > 0 ? res.toString().cyan : res.toString().white,
+                    admin > 0 ? admin.toString().cyan : admin.toString().white,
+                    webrtc > 0 ? webrtc.toString().cyan : webrtc.toString().white,
+                    file > 0 ? file.toString().cyan : file.toString().white,
+                    cost > 0 ? cost.toFixed(3).toString().yellow : cost.toFixed(3).toString().white
+                ]);
+            } else {
+                array.push([
+                    (number + 1).toString().white,
+                    name.white,
+                    username.white,
+                    isInternal ? "NO".white : "YES".yellow,
+                    dateOfDeployment.white,
+                    appid.white,
+                    res > 0 ? res.toString().cyan : res.toString().white,
+                    admin > 0 ? admin.toString().cyan : admin.toString().white,
+                    webrtc > 0 ? webrtc.toString().cyan : webrtc.toString().white,
+                    file > 0 ? file.toString().cyan : file.toString().white,
+                    cost > 0 ? cost.toFixed(3).toString().yellow : cost.toFixed(3).toString().white
+                ]);
+            }
 
             number += 1;
         });
 
         Screen.print("");
+
+        let configBusiness = {
+            1: {
+                alignment: "left",
+                width: 30,
+                truncate: 25
+            },
+            2: {
+                alignment: "left",
+                width: 30,
+                truncate: 25
+            },
+            5: {
+                alignment: "left",
+                width: 30,
+                truncate: 25
+            }
+        };
+
         Screen.table(array);
         Screen.print("");
-        //Screen.print('Interval used'.gray +  ' ' + period.yellow + ' per '.gray + period.yellow);
         Screen.print("");
         Screen.success(number + " metrics found");
         Screen.print("");
