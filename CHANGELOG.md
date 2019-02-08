@@ -9,6 +9,7 @@ All notable changes to Rainbow-CLI will be documented in this file.
 ## [1.52.0] - 2018-02-10
 
 -   RQRAINB-1226: CPAAS / Rainbow CLI / Separate dashboards
+-   CRRAINB-5186: Can't connect to CN Sandbox and production platform
 
 ## [1.51.0] - 2018-01-21
 

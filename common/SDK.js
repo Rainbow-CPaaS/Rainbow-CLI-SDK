@@ -58,13 +58,21 @@ class SDK {
             config.credentials.password = password;
             config.rainbow.host = platform;
 
-            if (config.rainbow.host === "openrainbow.com" || config.rainbow.host === "official") {
+            if (
+                config.rainbow.host === "openrainbow.com" ||
+                config.rainbow.host === "official" ||
+                config.rainbow.host === "openrainbow.cn.com"
+            ) {
                 config.application.appID = appid;
                 config.application.appSecret = appsecret;
             } else {
                 config.application.appID = "b34c674000f011e886d9b5bbd3260792";
 
-                if (config.rainbow.host === "sandbox.openrainbow.com" || config.rainbow.host === "sandbox") {
+                if (
+                    config.rainbow.host === "sandbox.openrainbow.com" ||
+                    config.rainbow.host === "sandbox" ||
+                    config.rainbow.host === "sandbox.openrainbow.cn.com"
+                ) {
                     config.application.appSecret = "MAjWllXH84YVhn0yp3ZuGmuPleXlYQhIeNghRgdo8NAVKEcIDc7M61Wes6Dp0cLy";
                 } else if (
                     config.rainbow.host === "openrainbow.net" ||
