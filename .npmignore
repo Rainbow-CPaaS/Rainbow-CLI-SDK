@@ -1,0 +1,18 @@
+#config files
+.eslintrc
+.jshintrc
+.jsintrc
+.gitignore
+
+#other files
+generate_foss_list.js
+index.yml
+package-lock.json
+sitemap_generation.js
+npm-debug.log
+
+#directories
+.vscode/
+node_modules/
+mailing/
+tutorials/
