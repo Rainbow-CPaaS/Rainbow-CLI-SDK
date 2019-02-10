@@ -47,6 +47,10 @@
         "winston": "^3.2.1"
     },
     "devDependencies": {
-        "got": "^8.3.2"
+        "commander": "^2.19.0",
+        "got": "^8.3.2",
+        "markdown": "^0.5.0",
+        "node-mailjet": "^3.3.1",
+        "yamljs": "^0.3.0"
     }
 }
