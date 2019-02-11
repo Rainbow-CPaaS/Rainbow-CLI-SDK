@@ -22,7 +22,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 **Others changes**
 
--   None.
+-   Allow to connect to `sandbox.openrainbow.cn.com` and `openrainbow.cn.com`.
 
 ### Rainbow CLI 1.51 (January 2019) - Beta
 
