@@ -177,8 +177,8 @@ program
         "preproduction"
     )
     .action((env, options) => {
-        let apiKey = process.env.MJ_APIKEY_PUBLIC || "6f119214480245deed79c5a45c59bae6";
-        let apiSecret = process.env.MJ_APIKEY_PRIVATE || "0ae56ba5e8f85b9ed54a6985d451a1b3";
+        let apiKey = process.env.MJ_APIKEY_PUBLIC;
+        let apiSecret = process.env.MJ_APIKEY_PRIVATE;
 
         let mailjet = Mailjet.connect(apiKey, apiSecret);
 
