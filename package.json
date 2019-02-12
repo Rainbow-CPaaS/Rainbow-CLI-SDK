@@ -1,12 +1,12 @@
 {
-    "name": "@ale-rainbow/rainbow-cli",
+    "name": "rainbow-cli",
     "version": "1.52.1",
     "description": "Rainbow CLI application based on the Rainbow SDK for Node.js",
     "main": "index.js",
     "scripts": {
         "test": "standard",
-        "publish:preprod": "npm login && npm publish --access=public && cd mailing && node mailChangelog.js notify",
-        "publish:prod": "npm login && npm access public @ale-rainbow/rainbow-cli && cd mailing && node mailChangelog.js notify -e production"
+        "publish:preprod": "npm pack && cd mailing/ && node mailChangelog.js notify",
+        "publish:prod": "npm login && npm publish && cd mailing/ && node mailChangelog.js notify -e production"
     },
     "repository": {
         "type": "git",
