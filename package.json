@@ -5,8 +5,8 @@
     "main": "index.js",
     "scripts": {
         "test": "standard",
-        "preprod": "npm login && npm publish && cd mailing && node mailChangelog.js notify",
-        "prod": "npm login && npm access public @ale-rainbow/rainbow-cli && cd mailing && node mailChangelog.js notify -e production"
+        "publish:preprod": "npm login && npm publish --access=public && cd mailing && node mailChangelog.js notify",
+        "publish:prod": "npm login && npm access public @ale-rainbow/rainbow-cli && cd mailing && node mailChangelog.js notify -e production"
     },
     "repository": {
         "type": "git",
