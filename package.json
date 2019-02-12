@@ -1,14 +1,16 @@
 {
-    "name": "rainbow-cli",
-    "version": "1.52.0",
+    "name": "@ale-rainbow/rainbow-cli",
+    "version": "1.52.1",
     "description": "Rainbow CLI application based on the Rainbow SDK for Node.js",
     "main": "index.js",
     "scripts": {
-        "test": "standard"
+        "test": "standard",
+        "preprod": "npm login && npm publish && cd mailing && node mailChangelog.js notify",
+        "prod": "npm login && npm access public @ale-rainbow/rainbow-cli && cd mailing && node mailChangelog.js notify -e production"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/Rainbow-CPaaS/Rainbow-CLI-SDK.git"
+        "url": "git+https://github.com/Rainbow-CPaaS/Rainbow-CLI-SDK.git"
     },
     "keywords": [
         "ALE",
@@ -52,5 +54,8 @@
         "markdown": "^0.5.0",
         "node-mailjet": "^3.3.1",
         "yamljs": "^0.3.0"
+    },
+    "bugs": {
+        "url": "https://github.com/Rainbow-CPaaS/Rainbow-CLI-SDK/issues"
     }
 }

@@ -4,7 +4,6 @@ Welcome to the Alcatel-Lucent Enterprise **Rainbow CLI application**!
 
 The Alcatel-Lucent Enterprise (ALE) Rainbow CLI application is a shell tool for connecting to Rainbow and doing administrative tasks.
 
-
 ## Preamble
 
 This Rainbow CLI application is based on the [Rainbow SDK for Node.js](https://www.npmjs.com/package/rainbow-node-sdk). It's a desktop application.
@@ -13,29 +12,25 @@ Its powerfull CLI commands enable you to connect to Alcatel-Lucent Enterprise [R
 
 This documentation will help you to use it.
 
-
 ## Prerequisites
 
 This section lists the prerequisites for using the Rainbow CLI application.
-
 
 ### Node.JS Support
 
 [Node.JS](https://nodejs.org) must be installed on your computer.
 
-The Rainbow CLI application is supported only when using a Node.JS LTS version. 
-
+The Rainbow CLI application is supported only when using a Node.JS LTS version.
 
 ### Operating systems support
 
-| OS | Details |
-|----|:--------|
+| OS          | Details                           |
+| ----------- | :-------------------------------- |
 | **Windows** | Starting Windows 7 - all versions |
-| **MacOS** | Starting MacOS 10.11 |
-| **Linux** | Debian, Ubuntu |
+| **MacOS**   | Starting MacOS 10.11              |
+| **Linux**   | Debian, Ubuntu                    |
 
 Note: Others Linux distributions can be used but without support.
-
 
 ## Rainbow Application ID and Secret Key
 
@@ -45,16 +40,15 @@ To connect to the Rainbow production platform for doing the same or much more li
 
 To get your application ID and secret key:
 
-- Connect to the Rainbow HUB with your Rainbow developer account, 
+-   Connect to the Rainbow HUB with your Rainbow developer account,
 
-- Create a new application and deploy it,
+-   Create a new application and deploy it,
 
-- Get the associated application ID and secret key
+-   Get the associated application ID and secret key
 
-- Inject it to your Rainbow CLI application either using command `rbw configure` or command `rbw set keys`.
+-   Inject it to your Rainbow CLI application either using command `rbw configure` or command `rbw set keys`.
 
 **Note: Application ID and secret key will be mandatory to connect to Rainbow production platform on September'18. You will be able to create your application ID and secret key starting July'18**.
-
 
 ## Rainbow account
 
@@ -62,27 +56,23 @@ Your need a **Rainbow** account to use the Rainbow CLI application. Most of the 
 
 You can test it on the **Sandbox Developer Platform** or on Rainbow official if you have an admin role for your company or your organization. Please contact the Rainbow [support](mailto:support@openrainbow.com) team if you need an account on the Sandbox Developer Platform.
 
-
 ## Install
 
 You must install the Rainbow CLI application globally on your computer to be able to launch it from any directories.
 
 Open a shell console and execute the following command:
 
-
 ```bash
 
-$ npm install -g rainbow-cli
+$ npm install -g @ale-rainbow/rainbow-cli
 
 ```
 
 Notice: Node.JS must be installed first.
 
-
 ## Usage
 
 Once the Rainbow CLI application is installed, you can launch commands using the following syntax:
-
 
 ```bash
 
@@ -92,22 +82,19 @@ $ rbw <command> [<option>...]
 
 Each command returns an exit status code:
 
- - 0 if the command finished successfully
+-   0 if the command finished successfully
 
- - 1 if the command failed
+-   1 if the command failed
 
- Read the next paragraph for the complete list of available commands
-
+Read the next paragraph for the complete list of available commands
 
 ## Role and profile
 
 Depending the role and profile associated to your Rainbow account, you can have access to more or less commands.
 
-
 ## Commands
 
 To know the list of commands available, use the following command:
-
 
 ```bash
 
@@ -115,11 +102,9 @@ $ rbw commands
 
 ```
 
-
 ## Help on commands
 
 To get help on a command and display the list of available options, use the following syntax:
-
 
 ```bash
 
@@ -131,16 +116,15 @@ $ rbw <command> --help
 
 For general use, the Rainbow CLI `configure` command is the fastest way to set up your connection information.
 
-
 ```bash
 
 $ rbw configure
 
 ```
 
-The Rainbow CLI will prompt you for information such as the host to connect,  the login information, the proxy parameter and your application ID and secret for connecting to the Rainbow production platform.
+The Rainbow CLI will prompt you for information such as the host to connect, the login information, the proxy parameter and your application ID and secret for connecting to the Rainbow production platform.
 
-Note: At this time of writing, application ID and secret are not mandatory to connect to the Rainbow production platform. 
+Note: At this time of writing, application ID and secret are not mandatory to connect to the Rainbow production platform.
 
 Once configured, use the command `login` to connect to Rainbow.
 
@@ -160,7 +144,6 @@ The following sample shows how to get a user information from Rainbow CLI, pass 
 
 Here is the code of the second Node.JS application that will handle the `loginEmail`
 
-
 ```js
 
 // file displayLogin.js
@@ -178,7 +161,7 @@ process.stdin.on('data', function(chunk) {
 });
 
 process.stdin.on('end', function() {
-    
+
     // Do something with the data received
     let json = JSON.parse(data);
     let loginEmail = json.loginEmail;
@@ -191,20 +174,17 @@ process.stdin.on('end', function() {
 
 ```
 
-
 This command will retrieve the user from Rainbow CLI and pass the information to the second application
-
 
 ```bash
 
-rbw user 58e36805d45e61221b571363 --json | node displayLogin.js 
+rbw user 58e36805d45e61221b571363 --json | node displayLogin.js
 
 ```
 
 ## Debugging
 
 In case of issue, you can have more information on what happens by adding the option `-v` or `--verbose` to any command
-
 
 ```shell
 
@@ -218,7 +198,7 @@ Please note that this is a Beta version of the Rainbow CLI application which is 
 
 Alcatel-Lucent Enterprise will not be liable for any loss, whether such loss is direct, indirect, special or consequential, suffered by any party as a result of their use of the Rainbow CLI application, the application sample software or the documentation content.
 
-If you encounter any bugs, lack of functionality or other problems regarding the Rainbow CLI application, the application samples or the documentation, please let us know immediately so we can rectify these accordingly. Your help in this regard is greatly appreciated. 
+If you encounter any bugs, lack of functionality or other problems regarding the Rainbow CLI application, the application samples or the documentation, please let us know immediately so we can rectify these accordingly. Your help in this regard is greatly appreciated.
 
 ---
 

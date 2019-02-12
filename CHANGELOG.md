@@ -6,6 +6,10 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+## [1.52.1] - 2018-02-12
+
+-   RQRAINB-1233: Deliver internal private version
+
 ## [1.52.0] - 2018-02-10
 
 -   RQRAINB-1226: CPAAS / Rainbow CLI / Separate dashboards

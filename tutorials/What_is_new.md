@@ -10,7 +10,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 **3-Release Breaking Changes**
 
--   None.
+-   Starting Rainbow 1.52, current `rainbow-cli` NPM package has been replaced with a new package `@ale-rainbow/rainbow-cli` which becomes the new official package for using the **Rainbow CLI** tool. We encourage you to uninstall your current Rainbow CLI application and install the new one by launching the command `npm uninstall rainbow-cli` and `npm install -g @ale-rainbow/rainbow-cli`. Current `rainbow-cli` package enters the deprecation period and will no more be supported starting Rainbow 1.56.
 
 **Breaking Changes**
 

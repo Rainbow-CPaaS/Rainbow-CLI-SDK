@@ -186,25 +186,29 @@ class CInternal {
 
     _getUser(token, id) {
         return new Promise(function(resolve, reject) {
-            NodeSDK.get("/api/rainbow/admin/v1.0/users/" + id, token)
-                .then(function(json) {
-                    resolve(json);
-                })
-                .catch(err => {
-                    NodeSDK.get("/api/rainbow/enduser/v1.0/users/" + id, token)
-                        .then(function(json) {
-                            resolve(json);
-                        })
-                        .catch(err => {
-                            resolve({
-                                data: {
-                                    loginEmail: "unknown",
-                                    firstName: "-",
-                                    lastName: "-"
-                                }
+            let random = Math.floor(Math.random() * 500) + 1;
+
+            setTimeout(() => {
+                NodeSDK.get("/api/rainbow/admin/v1.0/users/" + id, token)
+                    .then(function(json) {
+                        resolve(json);
+                    })
+                    .catch(err => {
+                        NodeSDK.get("/api/rainbow/enduser/v1.0/users/" + id, token)
+                            .then(function(json) {
+                                resolve(json);
+                            })
+                            .catch(err => {
+                                resolve({
+                                    data: {
+                                        loginEmail: "unknown",
+                                        firstName: "-",
+                                        lastName: "-"
+                                    }
+                                });
                             });
-                        });
-                });
+                    });
+            }, random);
         });
     }
 
@@ -319,8 +323,6 @@ class CInternal {
         var groups = [];
         var categories = [];
 
-        var that = this;
-
         let apps = [];
 
         let filterToApply = "format=full&env=deployed&kpi=business&limit=1000";
@@ -429,15 +431,19 @@ class CInternal {
 
         filterToApply += "&limit=1000";
 
+        let random = Math.floor(Math.random() * 500) + 1;
+
         let getCompanyInfo = function(id) {
             return new Promise(resolve => {
-                NodeSDK.get(`/api/rainbow/admin/v1.0/companies/${id}?format=full`, token)
-                    .then(json => {
-                        resolve(json.data);
-                    })
-                    .catch(err => {
-                        resolve(null);
-                    });
+                setTimeout(() => {
+                    NodeSDK.get(`/api/rainbow/admin/v1.0/companies/${id}?format=full`, token)
+                        .then(json => {
+                            resolve(json.data);
+                        })
+                        .catch(err => {
+                            resolve(null);
+                        });
+                }, random);
             });
         };
 
