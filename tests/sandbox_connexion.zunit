@@ -1,0 +1,51 @@
+#!/usr/bin/env zunit
+
+@setup {
+  # Load a script to set up the test environment
+  load setup.zunit
+}
+
+@test 'Command set email (::org_admin)' {
+  run rbw set email $AFTERBUILD_SANDBOX_LOGIN
+  assert $state equals 0
+}
+
+@test 'Command set password (::Password_123)' {
+  run rbw set password $AFTERBUILD_SANDBOX_PASSWORD
+  assert $state equals 0
+}
+
+@test 'Command set host (::sandbox.openrainbow.com)' {
+  run rbw set host $AFTERBUILD_SANDBOX_HOST
+  assert $state equals 0
+}
+
+@test 'Command login' {
+  run rbw login
+  assert $state equals 0
+}
+
+@test 'Command whoami (#check user id is correct)' {
+  run rbw whoami --json
+  assert $state equals 0
+  ID=`echo $output | jq '.id' -r`
+  assert $ID is_not_empty
+  assert $ID same_as '5c63da6fc28fed18f5d2e68e'
+}
+
+@test 'Command preferences (#check email+host)' {
+  run rbw preferences --json
+  assert $state equals 0
+  EMAIL=`echo $output | jq '.email' -r`
+  HOST=`echo $output | jq '.host' -r`
+  assert $EMAIL is_not_empty
+  assert $HOST same_as 'sandbox.openrainbow.com'
+}
+
+@test 'Command logout' {
+  run rbw logout
+  assert $state equals 0
+}
+
+
+

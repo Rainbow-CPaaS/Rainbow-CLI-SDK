@@ -1,0 +1,5 @@
+#!/usr/bin/env zunit
+
+export AFTERBUILD_SANDBOX_LOGIN="org_admin@rainbowcli-tests.com"
+export AFTERBUILD_SANDBOX_PASSWORD="Password_123"
+export AFTERBUILD_SANDBOX_HOST="sandbox.openrainbow.com"

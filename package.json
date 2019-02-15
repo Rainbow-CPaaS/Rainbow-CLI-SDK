@@ -39,7 +39,7 @@
         "moment": "^2.24.0",
         "moment-timezone": "^0.5.23",
         "preferences": "^1.0.2",
-        "rainbow-node-sdk": "^1.52.0",
+        "rainbow-node-sdk": "^1.53.0-beta.0",
         "sitemap": "^2.1.0",
         "standard": "^12.0.1",
         "strip-ansi": "^5.0.0",

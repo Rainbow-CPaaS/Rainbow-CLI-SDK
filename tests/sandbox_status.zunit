@@ -1,0 +1,15 @@
+#!/usr/bin/env zunit
+
+@setup {
+  load setup.zunit
+}
+
+@test 'Command login to sandbox with param' {
+  run rbw login $AFTERBUILD_SANDBOX_LOGIN $AFTERBUILD_SANDBOX_PASSWORD --host $AFTERBUILD_SANDBOX_HOST
+  assert $state equals 0
+}
+
+@teardown {
+  rbw logout
+}
+
