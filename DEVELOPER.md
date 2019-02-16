@@ -2,11 +2,22 @@
 
 ## Pre-requisites
 
---> brew install jq
+### Testing tools
 
-You don't need to have specific NPM package to work with the Rainbow-CLI
+---
 
-But you need to add the following environment variables for accessing to Mailjet
+For launching integration tests, you need to have a **zsh** shell and to install `jq` and `zunit`. Both tools can be installed using **brew**
+
+```shell
+$ brew install jq
+$ brew install zunit
+```
+
+### Environment variables
+
+---
+
+You need to add the following environment variables for accessing to Mailjet and send emails
 
 $ export MJ_APIKEY_PUBLIC=<Mailjet_PUBLIC_KEY>
 $ export MJ_APIKEY_PRIVATE=<Mailjet_PRIVATE_KEY>
@@ -17,49 +28,31 @@ $ export MJ_APIKEY_PRIVATE=<Mailjet_PRIVATE_KEY>
 
 Development could be done in any IDE like Studio Code.
 
-### Continuous development
+## Tests
 
 ---
 
-Execute the following command to launch the server for continuous integration:
+Execute the following command to launch the integration tests
 
-```bash
+```zsh
 
-$ npm start
+$ npm test
 
 ```
 
-This will ask Brunch to start a local web server and to restart the page on each modification
+This will start zunit and launch all tests located in directoy `tests/`.
 
-In addition, ESLint report is build on each modification.
+Rainbow users configuration is located in file `setup.zunit`.
 
-### Continous integration
+## Pre-Production
 
 ---
 
-Execute the following command to launch no regression testing during development
+Several tasks have to be launched in order to a internal version of the Rainbow-CLI (beta). This version will be available for early testing.
 
-```bash
+-   Update `version` in **package.json** file
 
-$ npm run test:watch
-
-```
-
-If you want to check the current coverage, launch the following command:
-
-```bash
-
-$ npm run test:coverage
-
-```
-
-## Production
-
----
-
-Several tasks have to be launched in order to publish a new version of the Rainbow Hub
-
--   Update version and changelog
+-   Update **CHANGELOG.md** with the list of all JIRA tickets delivered
 
 -   Publish for pre-integration test (.net) + email
 

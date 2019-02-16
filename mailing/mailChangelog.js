@@ -94,9 +94,13 @@ function generateNunjucksVariables(config) {
     let releaseNoteDefinition = YAML.load(path.join(__dirname, "./changelog.yaml"));
 
     return new Promise((resolve, reject) => {
+        if (config.test) {
+        }
+
         extractReleaseNotes(releaseNoteDefinition, config)
             .then(products => {
                 let vars = {
+                    devmode: false,
                     date: config.date,
                     component: releaseNoteDefinition.component,
                     from: {
@@ -115,6 +119,14 @@ function generateNunjucksVariables(config) {
                     subject: releaseNoteDefinition.subject,
                     products: products
                 };
+
+                if (config.test) {
+                    vars.devmode = true;
+                    vars.dev = {
+                        email: config.test,
+                        name: "Developer"
+                    };
+                }
                 resolve(vars);
             })
             .catch(err => {
@@ -124,6 +136,25 @@ function generateNunjucksVariables(config) {
 }
 
 function sendMail(vars, mailjet) {
+    let to = [];
+    let devSubject = "";
+    if (vars.devmode) {
+        to.push({
+            Email: vars.dev.email,
+            Name: vars.dev.name
+        });
+        devSubject = "[DEV] ";
+    } else {
+        to.push({
+            Email: vars.to.email,
+            Name: vars.to.name
+        });
+        to.push({
+            Email: vars.cc.email,
+            Name: vars.cc.name
+        });
+    }
+
     const request = mailjet.post("send", { version: "v3.1" }).request({
         Messages: [
             {
@@ -131,17 +162,8 @@ function sendMail(vars, mailjet) {
                     Email: vars.from.email,
                     Name: vars.from.name
                 },
-                To: [
-                    {
-                        Email: vars.to.email,
-                        Name: vars.to.name
-                    },
-                    {
-                        Email: vars.cc.email,
-                        Name: vars.cc.name
-                    }
-                ],
-                Subject: vars.subject + fullVersion + " delivered to " + vars.environment,
+                To: to,
+                Subject: devSubject + vars.subject + fullVersion + " delivered to " + vars.environment,
                 TextPart: "Hi all, component " + vars.component + " has been delivered to " + vars.environment,
                 HTMLPart: [
                     "<p>Hi all,</p>",
@@ -176,6 +198,7 @@ program
         "Environment published: 'production' or 'preproduction' (default)",
         "preproduction"
     )
+    .option("-t, --test [email]", "Test the email by sending him to a test email")
     .action((env, options) => {
         let apiKey = process.env.MJ_APIKEY_PUBLIC;
         let apiSecret = process.env.MJ_APIKEY_PRIVATE;

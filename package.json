@@ -4,7 +4,7 @@
     "description": "Rainbow CLI application based on the Rainbow SDK for Node.js",
     "main": "index.js",
     "scripts": {
-        "test": "standard",
+        "test": "zunit",
         "publish:preprod": "npm pack && cd mailing/ && node mailChangelog.js notify",
         "publish:prod": "npm login && npm publish && cd mailing/ && node mailChangelog.js notify -e production"
     },
