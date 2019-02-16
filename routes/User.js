@@ -102,6 +102,7 @@ class User {
             .description("Delete an existing user")
             .option("--nc", "Do not ask confirmation")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("-j, --json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -119,7 +120,8 @@ class User {
                 Middleware.parseCommand(commands)
                     .then(() => {
                         var options = {
-                            noconfirmation: commands.nc || false
+                            noconfirmation: commands.nc || false,
+                            noOutput: commands.json || false
                         };
 
                         Logger.isActive = commands.verbose || false;
@@ -177,6 +179,7 @@ class User {
             .command("initialize user", "<id>")
             .description("Initialize a user if not set")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("-j, --json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -188,7 +191,8 @@ class User {
                     .then(() => {
                         var options = {
                             id: id,
-                            toInitialize: true
+                            toInitialize: true,
+                            noOutput: commands.json || false
                         };
 
                         Logger.isActive = commands.verbose || false;
@@ -202,6 +206,7 @@ class User {
             .command("uninitialize user", "<id>")
             .description("Uninitialize a user that was already initialized")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("-j, --json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -213,7 +218,8 @@ class User {
                     .then(() => {
                         var options = {
                             id: id,
-                            toInitialize: false
+                            toInitialize: false,
+                            noOutput: commands.json || false
                         };
 
                         Logger.isActive = commands.verbose || false;
@@ -227,6 +233,7 @@ class User {
             .command("deactivate user", "<id>")
             .description("Deactivate a user to avoid him connecting to Rainbow")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("-j, --json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -238,7 +245,8 @@ class User {
                     .then(() => {
                         var options = {
                             id: id,
-                            toBlock: true
+                            toBlock: true,
+                            noOutput: commands.json || false
                         };
 
                         Logger.isActive = commands.verbose || false;
@@ -252,6 +260,7 @@ class User {
             .command("activate user", "<id>")
             .description("Activate a user and authorize him to connect to Rainbow")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("-j, --json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -263,7 +272,8 @@ class User {
                     .then(() => {
                         var options = {
                             id: id,
-                            toBlock: false
+                            toBlock: false,
+                            noOutput: commands.json || false
                         };
 
                         Logger.isActive = commands.verbose || false;

@@ -381,8 +381,14 @@ class CUser {
                 .then(function(json) {
                     Message.unspin(spin);
                     Message.log("action done...", json);
-                    Message.lineFeed();
-                    Message.success(options);
+
+                    if (options.noOutput) {
+                        Message.out(json);
+                    } else {
+                        Message.lineFeed();
+                        Message.printSuccess("User deleted", json.data.id, options);
+                        Message.success(options);
+                    }
                     Message.log("finished!");
                 })
                 .catch(function(err) {
