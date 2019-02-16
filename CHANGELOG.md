@@ -6,6 +6,10 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+## [1.52.2] - 2018-02-16
+
+-   CRRAINB-5268: Regression on package name
+
 ## [1.52.1] - 2018-02-12
 
 -   RQRAINB-1233: Deliver internal private version

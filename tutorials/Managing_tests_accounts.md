@@ -31,7 +31,7 @@ As explaining in the [Getting Started](/#/documentation/doc/sdk/cli/tutorials/Ge
 
 ```bash
 
-$ npm install -g @ale-rainbow/rainbow-cli
+$ npm install -g rainbow-cli
 
 ```
 

@@ -115,7 +115,7 @@ Open a shell console and execute the following command:
 
 ```bash
 
-$ npm install -g @ale-rainbow/rainbow-cli
+$ npm install -g rainbow-cli
 
 ```
 
