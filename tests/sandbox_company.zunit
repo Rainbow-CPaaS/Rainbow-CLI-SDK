@@ -1,0 +1,53 @@
+#!/usr/bin/env zunit
+
+@setup {
+  load setup.zunit
+  run rbw login $AFTERBUILD_SANDBOX_LOGIN $AFTERBUILD_SANDBOX_PASSWORD --host $AFTERBUILD_SANDBOX_HOST
+}
+
+@test 'Command company (#check name&id)' {
+  run rbw company --json
+  assert $state equals 0
+  NAME=`echo $output | jq '.name' -r`
+  ID=`echo $output | jq '.id' -r`
+  assert $NAME is_not_empty
+  assert $NAME same_as 'RainbowCLI-tests'
+  assert $ID is_not_empty
+  assert $ID same_as '5c63da0ec28fed18f5d2e688'
+}
+
+@test 'Command company setpublic (#check visibility)' {
+  run rbw company setpublic --json
+  assert $state equals 0
+  VISIBILITY=`echo $output | jq '.visibility' -r`
+  assert $VISIBILITY is_not_empty
+  assert $VISIBILITY same_as 'public'
+}
+
+@test 'Command company setprivate (#check visibility)' {
+  run rbw company setprivate --json
+  assert $state equals 0
+  VISIBILITY=`echo $output | jq '.visibility' -r`
+  assert $VISIBILITY is_not_empty
+  assert $VISIBILITY same_as 'private'
+}
+
+@test 'Command company setorgpublic (#check visibility)' {
+  run rbw company setorgpublic --json
+  assert $state equals 0
+  VISIBILITY=`echo $output | jq '.visibility' -r`
+  assert $VISIBILITY is_not_empty
+  assert $VISIBILITY same_as 'organization'
+}
+
+@test 'Command companies (#check total)' {
+  run rbw companies --json
+  assert $state equals 0
+  TOTAL=`echo $output | jq '.total' -r`
+  assert $TOTAL is_not_empty
+  assert $TOTAL same_as '1'
+}
+
+@teardown {
+  rbw logout
+}

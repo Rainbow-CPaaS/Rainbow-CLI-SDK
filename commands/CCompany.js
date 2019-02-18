@@ -383,7 +383,7 @@ class CCompany {
                                 Exit.error();
                             });
                     } else if (options.noOutput) {
-                        Message.out(json.companies.data);
+                        Message.out(json.companies);
                     } else {
                         if (json.companies.total > json.companies.limit) {
                             Message.tablePage(json.companies, options);

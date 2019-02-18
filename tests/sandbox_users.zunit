@@ -17,21 +17,18 @@
   assert $LASTNAME same_as 'lastname'
 }
 
-@test 'Command users (#check that 2 users are listed)' {
+@test 'Command users (#check total)' {
   run rbw users --json
   assert $state equals 0
-  EMAIL_1=`echo $output | jq '.[0].loginEmail' -r`
-  EMAIL_2=`echo $output | jq '.[1].loginEmail' -r`
-  assert $EMAIL_1 is_not_empty
-  assert $EMAIL_1 same_as 'test@rainbowcli-tests.com'
-  assert $EMAIL_2 is_not_empty
-  assert $EMAIL_2 same_as 'org_admin@rainbowcli-tests.com'
+  TOTAL=`echo $output | jq '.total' -r`
+  assert $TOTAL is_not_empty
+  assert $TOTAL same_as '2'
 }
 
 @test 'Command initialize user (#check that isInitialized is true)' {
   run rbw users -e "test@rainbowcli-tests.com" --json
   assert $state equals 0
-  ID=`echo $output | jq '.[0].id' -r`
+  ID=`echo $output | jq '.data[0].id' -r`
   run rbw initialize user $ID --json
   INITIALIZED=`echo $output | jq '.isInitialized' -r`
   assert $state equals 0
@@ -41,7 +38,7 @@
 @test 'Command uninitialize user (#check that isInitialized is false)' {
   run rbw users -e "test@rainbowcli-tests.com" --json
   assert $state equals 0
-  ID=`echo $output | jq '.[0].id' -r`
+  ID=`echo $output | jq '.data[0].id' -r`
   run rbw uninitialize user $ID --json
   INITIALIZED=`echo $output | jq '.isInitialized' -r`
   assert $state equals 0
@@ -51,7 +48,7 @@
 @test 'Command deactivate user (#check that isActive is false)' {
   run rbw users -e "test@rainbowcli-tests.com" --json
   assert $state equals 0
-  ID=`echo $output | jq '.[0].id' -r`
+  ID=`echo $output | jq '.data[0].id' -r`
   run rbw deactivate user $ID --json
   ACTIVE=`echo $output | jq '.isActive' -r`
   assert $state equals 0
@@ -61,7 +58,7 @@
 @test 'Command activate user (#check that isActive is true)' {
   run rbw users -e "test@rainbowcli-tests.com" --json
   assert $state equals 0
-  ID=`echo $output | jq '.[0].id' -r`
+  ID=`echo $output | jq '.data[0].id' -r`
   run rbw activate user $ID --json
   ACTIVE=`echo $output | jq '.isActive' -r`
   assert $state equals 0
@@ -71,7 +68,7 @@
 @test 'Command delete user (#check that operation is ok)' {
   run rbw users -e "test@rainbowcli-tests.com" --json
   assert $state equals 0
-  ID=`echo $output | jq '.[0].id' -r`
+  ID=`echo $output | jq '.data[0].id' -r`
   run rbw delete user $ID --nc
   assert $state equals 0
 }

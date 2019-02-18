@@ -279,6 +279,7 @@ class Company {
             .command("company setpublic", "[id]")
             .description("Set the visibility of the company to public")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("-j, --json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -291,7 +292,8 @@ class Company {
                     .then(() => {
                         var options = {
                             id: id || null,
-                            visibility: "public"
+                            visibility: "public",
+                            noOutput: commands.json || false
                         };
 
                         Logger.isActive = commands.verbose || false;
@@ -304,6 +306,7 @@ class Company {
             .command("company setprivate", "[id]")
             .description("Set the visibility of the company to private")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("-j, --json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -316,7 +319,8 @@ class Company {
                     .then(() => {
                         var options = {
                             id: id || null,
-                            visibility: "private"
+                            visibility: "private",
+                            noOutput: commands.json || false
                         };
 
                         Logger.isActive = commands.verbose || false;
@@ -329,6 +333,7 @@ class Company {
             .command("company setorgpublic", "[id]")
             .description("Set the visibility of the company to public inside organization only")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("-j, --json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -341,7 +346,8 @@ class Company {
                     .then(() => {
                         var options = {
                             id: id || null,
-                            visibility: "organization"
+                            visibility: "organization",
+                            noOutput: commands.json || false
                         };
 
                         Logger.isActive = commands.verbose || false;

@@ -192,7 +192,7 @@ class CUser {
                                 Exit.error();
                             });
                     } else if (options.noOutput) {
-                        Message.out(json.data);
+                        Message.out(json);
                     } else {
                         if (json.total > json.limit) {
                             Message.tablePage(json, options);
