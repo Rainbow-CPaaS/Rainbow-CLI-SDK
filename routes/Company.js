@@ -172,6 +172,7 @@ class Company {
             .command("company status", "[id]")
             .description("Give a status on a company")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("-j, --json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -184,7 +185,9 @@ class Company {
             .action(function(id, commands) {
                 Middleware.parseCommand(commands)
                     .then(() => {
-                        var options = {};
+                        var options = {
+                            noOutput: commands.json || false
+                        };
 
                         Logger.isActive = commands.verbose || false;
 

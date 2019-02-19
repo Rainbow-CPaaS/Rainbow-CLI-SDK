@@ -48,6 +48,30 @@
   assert $TOTAL same_as '1'
 }
 
+@test 'Command company status (#check Status)' {
+  run rbw company status --json
+  assert $state equals 0
+  STATUS=`echo $output | jq '.Status' -r`
+  assert $STATUS is_not_empty
+  assert $STATUS same_as 'active'
+}
+
+@test 'Command company metrics (#check _id)' {
+  run rbw company metrics --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0]._id' -r`
+  assert $ID is_not_empty
+  assert $ID same_as '5c63da0ec28fed18f5d2e688'
+}
+
+@test 'Command company metrics daily (#check companyId)' {
+  run rbw company metrics daily --json
+  assert $state equals 0
+  COMPANYID=`echo $output | jq '.companyId' -r`
+  assert $COMPANYID is_not_empty
+  assert $COMPANYID same_as '5c63da0ec28fed18f5d2e688'
+}
+
 @teardown {
   rbw logout
 }

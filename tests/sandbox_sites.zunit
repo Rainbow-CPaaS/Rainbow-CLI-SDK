@@ -1,0 +1,115 @@
+#!/usr/bin/env zunit
+
+@setup {
+  load setup.zunit
+  run rbw login $AFTERBUILD_SANDBOX_LOGIN $AFTERBUILD_SANDBOX_PASSWORD --host $AFTERBUILD_SANDBOX_HOST
+}
+
+@test 'Command create site (#check companyId)' {
+  run rbw create site 'a site' --json
+  assert $state equals 0
+  COMPANYID=`echo $output | jq '.companyId' -r`
+  assert $COMPANYID is_not_empty
+  assert $COMPANYID same_as '5c63da0ec28fed18f5d2e688'
+}
+
+@test 'Command sites (#check total)' {
+  run rbw sites --name 'a site' --json
+  assert $state equals 0
+  TOTAL=`echo $output | jq '.total' -r`
+  assert $TOTAL is_not_empty
+  assert $TOTAL same_as '1'
+}
+
+@test 'Command site (#check name)' {
+  run rbw sites --name 'a site' --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  run rbw site $ID --json
+  assert $state equals 0
+  NAME=`echo $output | jq '.name' -r`
+  assert $NAME is_not_empty
+  assert $NAME same_as 'a site'
+}
+
+@test 'Command create system (#check name)' {
+  run rbw sites --name 'a site' --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  run rbw create system "a system" $ID --json
+  assert $state equals 0
+  NAME=`echo $output | jq '.name' -r`
+  assert $NAME is_not_empty
+  assert $NAME same_as 'a system'
+}
+
+@test 'Command systems (#check total)' {
+  run rbw sites --name 'a site' --json
+  assert $state equals 0
+  run rbw systems --json
+  assert $state equals 0
+  TOTAL=`echo $output | jq '.total' -r`
+  assert $TOTAL is_not_empty
+  assert $TOTAL same_as '1'
+}
+
+@test 'Command system (#check name)' {
+  run rbw systems --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  run rbw system $ID --json
+  assert $state equals 0
+  NAME=`echo $output | jq '.name' -r`
+  assert $NAME is_not_empty
+  assert $NAME same_as 'a system'
+}
+
+@test 'Command system set version (#check version)' {
+  run rbw systems --name 'a system' --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  run rbw system set version $ID "9.2" --json
+  assert $state equals 0
+  VERSION=`echo $output | jq '.version' -r`
+  assert $VERSION is_not_empty
+  assert $VERSION same_as '9.2'
+}
+
+@test 'Command system set shared (#check isShared)' {
+  run rbw systems --name 'a system' --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  run rbw system set shared $ID --json
+  assert $state equals 0
+  ISSHARED=`echo $output | jq '.isShared' -r`
+  assert $ISSHARED is_not_empty
+  assert $ISSHARED same_as 'true'
+}
+
+@test 'Command system unset shared (#check isShared)' {
+  run rbw systems --name 'a system' --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  run rbw system unset shared $ID --json
+  assert $state equals 0
+  ISSHARED=`echo $output | jq '.isShared' -r`
+  assert $ISSHARED is_not_empty
+  assert $ISSHARED same_as 'false'
+}
+
+@test 'Command delete system (#check command status)' {
+  run rbw systems --name 'a system' --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  run rbw delete system $ID --nc --json
+  assert $state equals 0
+}
+
+@test 'Command delete site (#check command status)' {
+  run rbw sites --name 'a site' --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  run rbw delete site $ID --nc --json
+  assert $state equals 0
+}
+

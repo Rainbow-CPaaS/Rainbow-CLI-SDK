@@ -649,10 +649,14 @@ class CCompany {
                 .then(function(json) {
                     Message.unspin(spin);
                     Message.log("action done...", json);
-                    Message.lineFeed();
-                    Message.table2D(json);
-                    Message.success(options);
-                    Message.log("finished!");
+                    if (options.noOutput) {
+                        Message.out(json);
+                    } else {
+                        Message.lineFeed();
+                        Message.table2D(json);
+                        Message.success(options);
+                        Message.log("finished!");
+                    }
                 })
                 .catch(function(err) {
                     Message.unspin(spin);

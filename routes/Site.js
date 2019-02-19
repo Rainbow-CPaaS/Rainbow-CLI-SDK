@@ -49,9 +49,10 @@ class Site {
             });
 
         this._program
-            .command("create site", "<name>, [companyId]")
+            .command("create site", "<name> [companyId]")
             .description("Create a new site")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("-j, --json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -84,6 +85,7 @@ class Site {
             .description("Delete an existing site")
             .option("--nc", "Do not ask confirmation")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("-j, --json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -100,7 +102,8 @@ class Site {
                 Middleware.parseCommand(commands)
                     .then(() => {
                         var options = {
-                            noconfirmation: commands.nc || false
+                            noconfirmation: commands.nc || false,
+                            noOutput: commands.json || false
                         };
 
                         Logger.isActive = commands.verbose || false;
@@ -116,7 +119,8 @@ class Site {
             .option("-p, --page <number>", "Display a specific page")
             .option("-l, --limit <number>", "Limit to a number of instances per page (max=1000")
             .option("-m, --max", "Same as --limit 1000")
-            .option("-c, --company <companyid>", "Limit to a company")
+            .option("-c, --company <companyid>", "Filter by company")
+            .option("-n, --name <name>", "Filter by name")
             .option("-j, --json", "Write the JSON result to standard stdout")
             .option("-f, --file <filename>", "Print result to a file in CSV")
             .option("-v, --verbose", "Use verbose console mode")
@@ -162,6 +166,7 @@ class Site {
 
                         options = {
                             company: commands.company || "",
+                            name: commands.name || "",
                             noOutput: commands.json || false,
                             csv: commands.file || "",
                             page: page,

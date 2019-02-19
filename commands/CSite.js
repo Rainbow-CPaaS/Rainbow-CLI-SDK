@@ -52,7 +52,6 @@ class CSite {
                 .catch(function(err) {
                     reject(err);
                 });
-            resolve();
         });
     }
 
@@ -70,26 +69,23 @@ class CSite {
 
             var limit = "&limit=" + Math.min(options.limit, 1000);
 
+            var filter = "?format=full";
+
             if (options.company) {
-                NodeSDK.get(
-                    "/api/rainbow/admin/v1.0/companies/" + options.company + "/sites?format=full" + offset + limit,
-                    token
-                )
-                    .then(function(json) {
-                        resolve(json);
-                    })
-                    .catch(function(err) {
-                        reject(err);
-                    });
-            } else {
-                NodeSDK.get("/api/rainbow/admin/v1.0/sites?format=full" + offset + limit, token)
-                    .then(function(json) {
-                        resolve(json);
-                    })
-                    .catch(function(err) {
-                        reject(err);
-                    });
+                filter += "&companyId=" + options.company;
             }
+
+            if (options.name) {
+                filter += "&name=" + options.name;
+            }
+
+            NodeSDK.get("/api/rainbow/admin/v1.0/sites" + filter + offset + limit, token)
+                .then(function(json) {
+                    resolve(json);
+                })
+                .catch(function(err) {
+                    reject(err);
+                });
         });
     }
 
@@ -108,9 +104,13 @@ class CSite {
                 .then(function(json) {
                     Message.unspin(spin);
                     Message.log("action done...", json);
-                    Message.lineFeed();
-                    Message.success(options);
-                    Message.log("finished!");
+                    if (options.noOutput) {
+                        Message.out(json);
+                    } else {
+                        Message.lineFeed();
+                        Message.success(options);
+                        Message.log("finished!");
+                    }
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -151,7 +151,7 @@ class CSite {
             Message.loggedin(this._prefs, options);
 
             if (!options.csv) {
-                Message.action("List sites");
+                Message.action("List sites", null, options);
             }
 
             let spin = Message.spin(options);
@@ -178,7 +178,7 @@ class CSite {
                                 Exit.error();
                             });
                     } else if (options.noOutput) {
-                        Message.out(json.data);
+                        Message.out(json);
                     } else {
                         if (json.total > json.limit) {
                             Message.tablePage(json, options);
@@ -255,7 +255,7 @@ class CSite {
         if (this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
 
-            Message.action("Create new site", name);
+            Message.action("Create new site", name, options);
 
             let spin = Message.spin(options);
             NodeSDK.start(
