@@ -1,0 +1,58 @@
+#!/usr/bin/env zunit
+
+@setup {
+  run rbw login $AFTERBUILD_LOGIN $AFTERBUILD_PASSWORD --host $AFTERBUILD_HOST
+}
+
+@test 'Command application create (#check name)' {
+  run rbw application create "an application" --json
+  assert $state equals 0
+  NAME=`echo $output | jq '.name' -r`
+  assert $NAME is_not_empty
+  assert $NAME same_as 'an application'
+}
+
+@test 'Command applications (#check total)' {
+  run rbw applications --json
+  assert $state equals 0
+  TOTAL=`echo $output | jq '.total' -r`
+  assert $TOTAL is_not_empty
+  assert $TOTAL same_as '1'
+}
+
+@test 'Command application (#check name)' {
+  run rbw applications --name "an application" --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  run rbw application $ID --json
+  assert $state equals 0
+  NAME=`echo $output | jq '.name' -r`
+  assert $NAME is_not_empty
+  assert $NAME same_as 'an application'
+}
+
+@test 'Command application set offer (::business #check kpi)' {
+  if [[ $AFTERBUILD_HOST = 'sandbox.openrainbow.com' ]]; then
+    skip 'Test does not run on sandbox - application is automatically deployed'
+  fi
+  run rbw applications --name "an application" --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  run rbw application set offer $ID "business" --json
+  assert $state equals 0
+  KPI=`echo $output | jq '.kpi' -r`
+  assert $KPI is_not_empty
+  assert $KPI same_as 'business'
+}
+
+@test 'Command application delete (#check operation status)' {
+  run rbw applications --name "an application" --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  run rbw application delete $ID --nc --json
+  assert $state equals 0
+}
+
+@teardown {
+  rbw logout
+}

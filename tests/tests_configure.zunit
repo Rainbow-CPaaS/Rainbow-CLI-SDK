@@ -2,7 +2,6 @@
 
 @setup {
   # Load a script to set up the test environment
-  load setup.zunit
 }
 
 @test 'Command set email (::org_admin)' {

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#Sandbox user account
+#.Net user account
 # login: org_admin@rainbowcli-tests.com"
 # password: Password_123
 # company: RainbowCLI-tests
@@ -9,8 +9,8 @@
 #Variables for testing on sandbox
 export AFTERBUILD_LOGIN="org_admin@rainbowcli-tests.com"
 export AFTERBUILD_PASSWORD="Password_123"
-export AFTERBUILD_HOST="sandbox.openrainbow.com"
+export AFTERBUILD_HOST="openrainbow.net"
 
-#Launch tests on Sandbox
+#Launch tests on .net
 zunit
 

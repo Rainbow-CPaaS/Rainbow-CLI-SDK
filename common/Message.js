@@ -1800,8 +1800,13 @@ class Message {
         Screen.print("");
     }
 
-    choices(message, choices) {
+    choices(message, choices, selectedValue) {
         return new Promise(function(resolve) {
+            if (selectedValue) {
+                resolve(selectedValue);
+                return;
+            }
+
             var question = {
                 type: "list",
                 message: message,

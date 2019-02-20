@@ -507,7 +507,7 @@ class Application {
             });
 
         this._program
-            .command("application set offer", "<appid>")
+            .command("application set offer", "<appid> [kpi]")
             .description("Change the offer of an application (business, payasyougo, etc...")
             .option("-j, --json", "Write the JSON result to standard stdout")
             .option("-v, --verbose", "Use verbose console mode")
@@ -521,12 +521,13 @@ class Application {
                 console.log("    The option `--json` exports the JSON object representing the user to the console");
                 console.log("");
             })
-            .action(function(appid, commands) {
+            .action(function(appid, kpi, commands) {
                 Middleware.parseCommand(commands)
                     .then(() => {
                         var options = {
                             noOutput: commands.json || false,
-                            appid: appid
+                            appid: appid,
+                            kpi: kpi || null
                         };
 
                         Logger.isActive = commands.verbose || false;

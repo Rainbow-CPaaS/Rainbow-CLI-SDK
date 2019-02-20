@@ -856,9 +856,13 @@ class CApplication {
                 .then(function(json) {
                     Message.unspin(spin);
                     Message.log("action done...", json);
-                    Message.lineFeed();
-                    Message.success(options);
-                    Message.log("finished!");
+                    if (options.noOutput) {
+                        Message.out(json);
+                    } else {
+                        Message.lineFeed();
+                        Message.success(options);
+                        Message.log("finished!");
+                    }
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -1256,7 +1260,7 @@ class CApplication {
                 .then(function() {
                     Message.log("execute action...");
 
-                    return Message.choices("Select the offer to set", Helper.Offers);
+                    return Message.choices("Select the offer to set", Helper.Offers, options.kpi);
                 })
                 .then(function(offer) {
                     options.offer = offer;
@@ -1388,7 +1392,7 @@ class CApplication {
                                 Exit.error();
                             });
                     } else if (options.noOutput) {
-                        Message.out(json.data);
+                        Message.out(json);
                     } else {
                         if (json.total > json.limit) {
                             Message.tablePage(json, options);
