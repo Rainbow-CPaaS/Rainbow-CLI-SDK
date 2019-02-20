@@ -28,9 +28,9 @@ class Account {
                 "--host <hostname>",
                 "Log-in to a specific host. 'hostname' can be 'official' or any hostname. If no --host, 'sandbox' is used"
             )
-            .option("--json", "Write the JSON result to standard stdout")
             .option("-p, --proxy <address>", "Proxy to use")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("--json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -87,6 +87,7 @@ class Account {
             .command("logout")
             .description("Log-out to Rainbow")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("--json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -98,7 +99,11 @@ class Account {
                     .then(() => {
                         Logger.isActive = commands.verbose || false;
 
-                        that._account.logout();
+                        var options = {
+                            noOutput: commands.json || false
+                        };
+
+                        that._account.logout(options);
                     })
                     .catch(() => {});
             });
@@ -106,7 +111,9 @@ class Account {
         this._program
             .command("set developer")
             .description("Add developer account")
+            .option("-i, --interactive", "Use interactive mode")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("--json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -118,9 +125,12 @@ class Account {
                     .then(() => {
                         Logger.isActive = commands.verbose || false;
 
-                        let options = {};
+                        let options = {
+                            noOutput: commands.json || false,
+                            interactive: commands.interactive || false
+                        };
 
-                        that._account.setDeveloper();
+                        that._account.setDeveloper(options);
                     })
                     .catch(() => {});
             });
@@ -159,6 +169,7 @@ class Account {
             .command("remove preferences")
             .description("Remove all preferences saved on this computer")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("--json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -170,7 +181,9 @@ class Account {
                     .then(() => {
                         Logger.isActive = commands.verbose || false;
 
-                        let options = {};
+                        let options = {
+                            noOutput: commands.json || false
+                        };
 
                         that._account.removePreferences(options);
                     })
@@ -216,6 +229,7 @@ class Account {
             .command("set keys", "<appid> <appsecret>")
             .description("Set the application id and application secret to your preferences")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("--json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -231,7 +245,8 @@ class Account {
 
                         let options = {
                             appid: appid,
-                            appsecret: appsecret
+                            appsecret: appsecret,
+                            noOutput: commands.json || false
                         };
 
                         that._account.setKeys(options);
@@ -243,6 +258,7 @@ class Account {
             .command("set password", "<password>")
             .description("Set your password to your preferences")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("--json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -255,7 +271,8 @@ class Account {
                         Logger.isActive = commands.verbose || false;
 
                         let options = {
-                            password: password
+                            password: password,
+                            noOutput: commands.json || false
                         };
 
                         that._account.setPassword(options);
@@ -267,6 +284,7 @@ class Account {
             .command("change password")
             .description("Change the password associated to your account")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("--json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -278,7 +296,9 @@ class Account {
                     .then(() => {
                         Logger.isActive = commands.verbose || false;
 
-                        let options = {};
+                        let options = {
+                            noOutput: commands.json || false
+                        };
 
                         that._account.changePassword(options);
                     })
@@ -289,6 +309,7 @@ class Account {
             .command("set email", "<email>")
             .description("Set your login email to your preferences")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("--json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -301,7 +322,8 @@ class Account {
                         Logger.isActive = commands.verbose || false;
 
                         let options = {
-                            email: email
+                            email: email,
+                            noOutput: commands.json || false
                         };
 
                         that._account.setEmail(options);
@@ -313,6 +335,7 @@ class Account {
             .command("set host", "<host>")
             .description("Set your host to your preferences")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("--json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -325,7 +348,8 @@ class Account {
                         Logger.isActive = commands.verbose || false;
 
                         let options = {
-                            host: host
+                            host: host,
+                            noOutput: commands.json || false
                         };
 
                         that._account.setHost(options);
@@ -337,6 +361,7 @@ class Account {
             .command("set proxy", "<proxy>")
             .description("Set your proxy to your preferences")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("--json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -349,7 +374,8 @@ class Account {
                         Logger.isActive = commands.verbose || false;
 
                         let options = {
-                            proxy: Helper.getProxyFromString(proxy)
+                            proxy: Helper.getProxyFromString(proxy),
+                            noOutput: commands.json || false
                         };
 
                         that._account.setProxy(options);
@@ -361,6 +387,7 @@ class Account {
             .command("remove proxy")
             .description("Remove the proxy from your preferences")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("--json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -372,7 +399,9 @@ class Account {
                     .then(() => {
                         Logger.isActive = commands.verbose || false;
 
-                        let options = {};
+                        let options = {
+                            noOutput: commands.json || false
+                        };
 
                         that._account.removeProxy(options);
                     })
@@ -383,6 +412,7 @@ class Account {
             .command("remove keys")
             .description("Remove the application id and application secret from your preferences")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("--json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
@@ -394,7 +424,9 @@ class Account {
                     .then(() => {
                         Logger.isActive = commands.verbose || false;
 
-                        let options = {};
+                        let options = {
+                            noOutput: commands.json || false
+                        };
 
                         that._account.removeKeys(options);
                     })

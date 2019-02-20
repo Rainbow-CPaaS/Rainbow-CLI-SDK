@@ -192,11 +192,15 @@ class CAccount {
         }
 
         if (email) {
-            Message.success();
-            Message.printSuccess("You have signed out from", email);
-            Message.log("finished!");
+            if (options.noOutput) {
+                Message.out(json);
+            } else {
+                Message.success();
+                Message.printSuccess("You have signed out from", email);
+                Message.log("finished!");
+            }
         } else {
-            Message.error({ details: "You are not signed-in" });
+            Message.error({ details: "You are not signed-in" }, options);
             Exit.error();
         }
     }
@@ -230,8 +234,12 @@ class CAccount {
             .then(json => {
                 Message.log("action done...", json);
                 Message.lineFeed();
-                Message.success(options);
-                Message.log("finished!");
+                if (options.noOutput) {
+                    Message.out(json);
+                } else {
+                    Message.success(options);
+                    Message.log("finished!");
+                }
             })
             .catch(err => {
                 Message.error(err);
@@ -389,7 +397,7 @@ class CAccount {
 
         Message.loggedin(this._prefs, options);
 
-        Message.action("Remove all preferences", "", options);
+        Message.action("Remove all preferences", null, options);
 
         this._prefs.resetAll();
 
@@ -398,15 +406,19 @@ class CAccount {
         Message.log("action done...");
 
         Message.lineFeed();
-        Message.success(options);
-        Message.log("finished!");
+        if (options.noOutput) {
+            Message.out(json);
+        } else {
+            Message.success(options);
+            Message.log("finished!");
+        }
     }
 
     setDeveloper(options) {
         var that = this;
 
         var doAddDeveloperRole = function(options) {
-            Message.action("Add developer role", options);
+            Message.action("Add developer role", null, options);
 
             let spin = Message.spin(options);
             NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host)
@@ -430,9 +442,13 @@ class CAccount {
                         that._prefs.proxy
                     );
                     Message.log("action done...", json);
-                    Message.lineFeed();
-                    Message.success(options);
-                    Message.log("finished!");
+                    if (options.noOutput) {
+                        Message.out(json.data);
+                    } else {
+                        Message.lineFeed();
+                        Message.success(options);
+                        Message.log("finished!");
+                    }
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -446,9 +462,10 @@ class CAccount {
         if (this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
 
-            if (this._prefs.user.roles.includes("app_admin")) {
-                Message.warn("You already have the role", "app_admin", options);
-            } else {
+            //if (this._prefs.user.roles.includes("app_admin")) {
+            //    Message.warn("You already have the role", "app_admin", options);
+            //} else {
+            if (options.interactive) {
                 Message.print("You need to accept the developer agreement to continue.", options);
 
                 Message.confirm("I accept the developer aggreement?").then(function(confirm) {
@@ -459,7 +476,10 @@ class CAccount {
                         Exit.error();
                     }
                 });
+                return;
             }
+            doAddDeveloperRole(options);
+            // }
         } else {
             Message.notLoggedIn(options);
             Exit.error();
@@ -480,10 +500,13 @@ class CAccount {
         Message.unspin(spin);
 
         Message.log("action done...");
-
-        Message.lineFeed();
-        Message.success(options);
-        Message.log("finished!");
+        if (options.noOutput) {
+            Message.out({});
+        } else {
+            Message.lineFeed();
+            Message.success(options);
+            Message.log("finished!");
+        }
     }
 
     setEmail(options) {
@@ -500,10 +523,13 @@ class CAccount {
         Message.unspin(spin);
 
         Message.log("action done...");
-
-        Message.lineFeed();
-        Message.success(options);
-        Message.log("finished!");
+        if (options.noOutput) {
+            Message.out({});
+        } else {
+            Message.lineFeed();
+            Message.success(options);
+            Message.log("finished!");
+        }
     }
 
     setPassword(options) {
@@ -520,10 +546,13 @@ class CAccount {
         Message.unspin(spin);
 
         Message.log("action done...");
-
-        Message.lineFeed();
-        Message.success(options);
-        Message.log("finished!");
+        if (options.noOutput) {
+            Message.out({});
+        } else {
+            Message.lineFeed();
+            Message.success(options);
+            Message.log("finished!");
+        }
     }
 
     setHost(options) {
@@ -540,10 +569,13 @@ class CAccount {
         Message.unspin(spin);
 
         Message.log("action done...");
-
-        Message.lineFeed();
-        Message.success(options);
-        Message.log("finished!");
+        if (options.noOutput) {
+            Message.out({});
+        } else {
+            Message.lineFeed();
+            Message.success(options);
+            Message.log("finished!");
+        }
     }
 
     setProxy(options) {
@@ -560,10 +592,13 @@ class CAccount {
         Message.unspin(spin);
 
         Message.log("action done...");
-
-        Message.lineFeed();
-        Message.success(options);
-        Message.log("finished!");
+        if (options.noOutput) {
+            Message.out({});
+        } else {
+            Message.lineFeed();
+            Message.success(options);
+            Message.log("finished!");
+        }
     }
 
     removeKeys(options) {
@@ -580,10 +615,13 @@ class CAccount {
         Message.unspin(spin);
 
         Message.log("action done...");
-
-        Message.lineFeed();
-        Message.success(options);
-        Message.log("finished!");
+        if (options.noOutput) {
+            Message.out({});
+        } else {
+            Message.lineFeed();
+            Message.success(options);
+            Message.log("finished!");
+        }
     }
 
     removeProxy(options) {
@@ -600,10 +638,13 @@ class CAccount {
         Message.unspin(spin);
 
         Message.log("action done...");
-
-        Message.lineFeed();
-        Message.success(options);
-        Message.log("finished!");
+        if (options.noOutput) {
+            Message.out({});
+        } else {
+            Message.lineFeed();
+            Message.success(options);
+            Message.log("finished!");
+        }
     }
 
     getCommands(options) {

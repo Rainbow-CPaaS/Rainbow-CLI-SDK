@@ -4,32 +4,45 @@
   # Load a script to set up the test environment
 }
 
-@test 'Command set email (::org_admin)' {
+@test 'Command set email (#check operation status)' {
   run rbw set email $AFTERBUILD_LOGIN
   assert $state equals 0
 }
 
-@test 'Command set password (::Password_123)' {
+@test 'Command set password (#check operation status)' {
   run rbw set password $AFTERBUILD_PASSWORD
   assert $state equals 0
 }
 
-@test 'Command set host (::sandbox.openrainbow.com)' {
+@test 'Command set host (#check operation status)' {
   run rbw set host $AFTERBUILD_HOST
   assert $state equals 0
 }
 
-@test 'Command login' {
+@test 'Command set proxy (#check operation status)' {
+  run rbw set proxy "http://localhost"
+  assert $state equals 0
+}
+
+@test 'Command remove proxy (#check operation status)' {
+  run rbw remove proxy
+  assert $state equals 0
+}
+
+@test 'Command login (#check operation status)' {
   run rbw login
   assert $state equals 0
 }
 
-@test 'Command whoami (#check user id is correct)' {
+@test 'Command whoami (#check user name+firstname)' {
   run rbw whoami --json
   assert $state equals 0
-  ID=`echo $output | jq '.id' -r`
-  assert $ID is_not_empty
-  assert $ID same_as '5c63da6fc28fed18f5d2e68e'
+  NAME=`echo $output | jq '.lastName' -r`
+  FIRSTNAME=`echo $output | jq '.firstName' -r`
+  assert $NAME is_not_empty
+  assert $NAME same_as 'Admin'
+  assert $FIRSTNAME is_not_empty
+  assert $FIRSTNAME same_as 'Org'
 }
 
 @test 'Command preferences (#check email+host)' {
@@ -41,9 +54,23 @@
   assert $EMAIL same_as 'org_admin@rainbowcli-tests.com'
 }
 
-@test 'Command logout' {
+@test 'Command set developer (#check operation code)' {
+  run rbw set developer --json
+  assert $state equals 0
+  STATUS=`echo $output | jq '.developer.account.status' -r`
+  assert $STATUS same_as 'confirmed'
+}
+
+@test 'Command logout (#check operation status)' {
   run rbw logout
   assert $state equals 0
+}
+
+@test 'Command login with error (#check operation code+error code returned)' {
+  run rbw login 'fake' 'fake' --json
+  assert $state equals 1
+  CODE=`echo $output | jq '.details.code' -r`
+  assert $CODE same_as '401'
 }
 
 

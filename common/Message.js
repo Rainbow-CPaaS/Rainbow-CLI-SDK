@@ -1662,6 +1662,17 @@ class Message {
 
     notLoggedIn(options) {
         if (!this._shouldDisplayOutput(options)) {
+            let error = {
+                code: -2,
+                label: "UNAUTHORIZED",
+                msg: "Not logged",
+                details: {
+                    code: 401,
+                    msg: "Unauthorized",
+                    details: "Invalid session, expected to be logged-in."
+                }
+            };
+            console.log(JSON.stringify(error));
             return;
         }
 

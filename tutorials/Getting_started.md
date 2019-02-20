@@ -195,7 +195,7 @@ $ rbw login
 
 ```
 
-### Outputs
+### Outputs and scripts
 
 ---
 
@@ -203,7 +203,23 @@ By default, Rainbow CLI displays commands output in a pretty well format to the 
 
 You can get a **JSON stringified** result by adding the option `--json` to your command. In that case, only the result of the command is prompted in JSON.
 
-The following sample shows how to get a user information from Rainbow CLI, pass the data as an argument to an other Node.JS application that will retrieve the field `loginEmail` from that user.
+#### Piping output to a JSON processor
+
+---
+
+The following sample shows how to get a user information from the Rainbow CLI and pass the data as an argument to `jq` a JSON command line processor that will extract the field `loginEmail` from that user.
+
+```bash
+
+$ rbw user 58e36805d45e61221b571363 --json | jq '.loginEmail' -r
+
+```
+
+#### Piping output to a NodeJS application
+
+---
+
+The following sample shows how to get a user information from the Rainbow CLI, pass the data as an argument to an other Node.JS application that will retrieve the field `loginEmail` from that user.
 
 Here is the code of the second Node.JS application that will handle the `loginEmail`
 
@@ -241,7 +257,7 @@ This command will retrieve the user from Rainbow CLI and pass the information to
 
 ```bash
 
-rbw user 58e36805d45e61221b571363 --json | node displayLogin.js
+$ rbw user 58e36805d45e61221b571363 --json | node displayLogin.js
 
 ```
 

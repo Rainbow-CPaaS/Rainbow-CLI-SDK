@@ -31,6 +31,18 @@
   assert $NAME same_as 'an application'
 }
 
+@test 'Command renew (#check appSecret)' {
+  run rbw applications --name "an application" --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  SECRET=`echo $output | jq '.data[0].appSecret' -r`
+  run rbw application renew $ID --json
+  assert $state equals 0
+  SECRET2=`echo $output | jq '.appSecret' -r`
+  assert $SECRET2 is_not_empty
+  assert $SECRET2 different_to $SECRET
+}
+
 @test 'Command application set offer (::business #check kpi)' {
   if [[ $AFTERBUILD_HOST = 'sandbox.openrainbow.com' ]]; then
     skip 'Test does not run on sandbox - application is automatically deployed'
@@ -43,6 +55,48 @@
   KPI=`echo $output | jq '.kpi' -r`
   assert $KPI is_not_empty
   assert $KPI same_as 'business'
+}
+
+@test 'Command application deploy (#check env)' {
+  if [[ $AFTERBUILD_HOST = 'sandbox.openrainbow.com' ]]; then
+    skip 'Test does not run on sandbox - application is automatically deployed'
+  fi
+  run rbw applications --name "an application" --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  run rbw application deploy $ID --json
+  assert $state equals 0
+  ENV=`echo $output | jq '.env' -r`
+  assert $ENV is_not_empty
+  assert $ENV same_as 'in_deployment'
+}
+
+@test 'Command application stop (#check state)' {
+  if [[ $AFTERBUILD_HOST != 'sandbox.openrainbow.com' ]]; then
+    skip 'Test run only on sandbox - application is not deployed'
+  fi
+  run rbw applications --name "an application" --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  run rbw application stop $ID --json
+  assert $state equals 0
+  STATE=`echo $output | jq '.state' -r`
+  assert $STATE is_not_empty
+  assert $STATE same_as 'stopped'
+}
+
+@test 'Command application restart (#check state)' {
+  if [[ $AFTERBUILD_HOST != 'sandbox.openrainbow.com' ]]; then
+    skip 'Test run only on sandbox - application is not deployed'
+  fi
+  run rbw applications --name "an application" --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  run rbw application restart $ID --json
+  assert $state equals 0
+  STATE=`echo $output | jq '.state' -r`
+  assert $STATE is_not_empty
+  assert $STATE same_as 'active'
 }
 
 @test 'Command application delete (#check operation status)' {
