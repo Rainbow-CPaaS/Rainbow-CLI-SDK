@@ -1,8 +1,7 @@
 #!/usr/bin/env zunit
 
 @setup {
-  load setup.zunit
-  run rbw login $AFTERBUILD_SANDBOX_LOGIN $AFTERBUILD_SANDBOX_PASSWORD --host $AFTERBUILD_SANDBOX_HOST
+  run rbw login $AFTERBUILD_LOGIN $AFTERBUILD_PASSWORD --host $AFTERBUILD_HOST
 }
 
 @test 'Command create user (#check firstname/lastname)' {

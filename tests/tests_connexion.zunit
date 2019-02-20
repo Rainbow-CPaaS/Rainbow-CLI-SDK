@@ -6,17 +6,17 @@
 }
 
 @test 'Command set email (::org_admin)' {
-  run rbw set email $AFTERBUILD_SANDBOX_LOGIN
+  run rbw set email $AFTERBUILD_LOGIN
   assert $state equals 0
 }
 
 @test 'Command set password (::Password_123)' {
-  run rbw set password $AFTERBUILD_SANDBOX_PASSWORD
+  run rbw set password $AFTERBUILD_PASSWORD
   assert $state equals 0
 }
 
 @test 'Command set host (::sandbox.openrainbow.com)' {
-  run rbw set host $AFTERBUILD_SANDBOX_HOST
+  run rbw set host $AFTERBUILD_HOST
   assert $state equals 0
 }
 
@@ -39,7 +39,7 @@
   EMAIL=`echo $output | jq '.email' -r`
   HOST=`echo $output | jq '.host' -r`
   assert $EMAIL is_not_empty
-  assert $HOST same_as 'sandbox.openrainbow.com'
+  assert $EMAIL same_as 'org_admin@rainbowcli-tests.com'
 }
 
 @test 'Command logout' {

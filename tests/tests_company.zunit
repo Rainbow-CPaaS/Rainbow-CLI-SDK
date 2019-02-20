@@ -1,19 +1,15 @@
 #!/usr/bin/env zunit
 
 @setup {
-  load setup.zunit
-  run rbw login $AFTERBUILD_SANDBOX_LOGIN $AFTERBUILD_SANDBOX_PASSWORD --host $AFTERBUILD_SANDBOX_HOST
+  run rbw login $AFTERBUILD_LOGIN $AFTERBUILD_PASSWORD --host $AFTERBUILD_HOST
 }
 
-@test 'Command company (#check name&id)' {
+@test 'Command company (#check name)' {
   run rbw company --json
   assert $state equals 0
   NAME=`echo $output | jq '.name' -r`
-  ID=`echo $output | jq '.id' -r`
   assert $NAME is_not_empty
   assert $NAME same_as 'RainbowCLI-tests'
-  assert $ID is_not_empty
-  assert $ID same_as '5c63da0ec28fed18f5d2e688'
 }
 
 @test 'Command company setpublic (#check visibility)' {
@@ -59,17 +55,17 @@
 @test 'Command company metrics (#check _id)' {
   run rbw company metrics --json
   assert $state equals 0
-  ID=`echo $output | jq '.data[0]._id' -r`
-  assert $ID is_not_empty
-  assert $ID same_as '5c63da0ec28fed18f5d2e688'
+  NAME=`echo $output | jq '.data[0].stats[0].companyName' -r`
+  assert $NAME is_not_empty
+  assert $NAME same_as 'RainbowCLI-tests'
 }
 
 @test 'Command company metrics daily (#check companyId)' {
   run rbw company metrics daily --json
   assert $state equals 0
-  COMPANYID=`echo $output | jq '.companyId' -r`
-  assert $COMPANYID is_not_empty
-  assert $COMPANYID same_as '5c63da0ec28fed18f5d2e688'
+  NAME=`echo $output | jq '.companyName' -r`
+  assert $NAME is_not_empty
+  assert $NAME same_as 'RainbowCLI-tests'
 }
 
 @teardown {
