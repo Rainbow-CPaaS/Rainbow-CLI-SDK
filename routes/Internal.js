@@ -36,7 +36,8 @@ class Internal {
                             month: commands.month,
                             group: true,
                             csv: commands.file,
-                            owner: commands.owner
+                            owner: commands.owner,
+                            kpi: "payasyougo"
                         };
 
                         that._internal.dashboardApplications(options);
@@ -62,10 +63,11 @@ class Internal {
                             month: commands.month,
                             group: true,
                             csv: commands.file,
-                            owner: commands.owner
+                            owner: commands.owner,
+                            kpi: "business"
                         };
 
-                        that._internal.dashboardBusinessApplications(options);
+                        that._internal.dashboardApplications(options);
                     })
                     .catch(err => {
                         Message.error(err, {});

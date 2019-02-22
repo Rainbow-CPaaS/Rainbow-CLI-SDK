@@ -812,7 +812,7 @@ class Message {
         Screen.print("");
     }
 
-    tableDashboardMetrics(json, options, offer) {
+    tableDashboardMetrics(json, options) {
         let getTruncatedData = (data, length) => {
             if (!data) {
                 return "";
@@ -827,7 +827,7 @@ class Message {
 
         let array = [];
 
-        if (offer === "business") {
+        if (options.kpi === "business") {
             array.push([
                 "#".gray,
                 "Name".gray,
@@ -943,7 +943,7 @@ class Message {
                 return user.loginEmail.includes(pattern);
             });
 
-            if (offer === "business") {
+            if (options.kpi === "business") {
                 array.push([
                     (number + 1).toString().white,
                     name.white,
