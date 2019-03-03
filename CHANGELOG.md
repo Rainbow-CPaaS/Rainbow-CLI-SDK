@@ -6,6 +6,10 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+## [1.53.0] - 2018-03-10
+
+-   RQRAINB-1255: CPAAS / Rainbow CLI / Add Dashboard In deployment
+
 ## [1.52.3] - 2018-02-16
 
 -   CRRAINB-5268: Regression on package name

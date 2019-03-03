@@ -812,6 +812,102 @@ class Message {
         Screen.print("");
     }
 
+    tableDashboardInDeployment(json, options) {
+        var array = [];
+        array.push([
+            "#".gray,
+            "Name".gray,
+            "Id".gray,
+            "Environment".gray,
+            "Creation date".gray,
+            "Request date".gray,
+            "Owner name".gray,
+            "Owner country".gray,
+            "Owner id".gray,
+            "Company name".gray,
+            "Company country".gray,
+            "Is BP/Affiliate".gray
+        ]);
+        array.push([
+            "-".gray,
+            "----".gray,
+            "--".gray,
+            "-----------".gray,
+            "-------------".gray,
+            "------------".gray,
+            "----------".gray,
+            "-------------".gray,
+            "---------".gray,
+            "------------".gray,
+            "----------------".gray,
+            "---------------".gray
+        ]);
+
+        var apps = json.data;
+
+        let increment = 0;
+
+        for (var i = 0; i < apps.length; i++) {
+            let app = apps[i];
+            let user = app.user;
+            let company = app.user.company;
+            let number = increment + 1;
+
+            /* Application */
+            let appName = app.name || "";
+            let appId = app.id || "";
+            let appEnv = app.env || "";
+            let dateOfCreation = moment(app.dateOfCreation).format("ll");
+            let dateOfDeployment = moment(app.dateOfDeploymentRequest).format("ll");
+
+            /* User */
+            let userName = "";
+            let userCountry = user.country || "";
+            let userId = user.id || "";
+            userName = user.displayName;
+            if (!userName) {
+                userName = user.firstName + " " + user.lastName;
+            }
+
+            /* Company */
+            let isBP = "-".white;
+            let companyName = user.companyName || "";
+            let companyCountry = company.country || "";
+            if (companyName.length > 40) {
+                companyName = companyName.substr(0, 35) + "...";
+            }
+            if (company.isBP) {
+                isBP = "YES".yellow;
+            } else if (company.bpId && company.bpId.length > 0) {
+                isBP = "AFFILIATE".yellow;
+            } else {
+                isBP = "NO".white;
+            }
+
+            array.push([
+                number.toString().white,
+                appName.cyan,
+                appId.white,
+                appEnv.white,
+                dateOfCreation.white,
+                dateOfDeployment.yellow,
+                userName.green,
+                userCountry.white,
+                userId.white,
+                companyName.magenta,
+                companyCountry.white,
+                isBP
+            ]);
+            increment += 1;
+        }
+
+        Screen.table(array);
+        Screen.print("");
+
+        Screen.success(increment + " applications found / " + apps.length);
+        Screen.print("");
+    }
+
     tableDashboardMetrics(json, options) {
         let getTruncatedData = (data, length) => {
             if (!data) {

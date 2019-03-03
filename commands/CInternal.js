@@ -81,12 +81,47 @@ class CInternal {
                 line.push(user.loginEmail);
                 line.push(user.companyName);
                 line.push(user.company.country);
-                line.push(user.company.isBP ? "yes" : "no");
+                line.push(
+                    user.company.isBP ? "yes" : user.company.bpId && user.company.bpId.length > 0 ? "affiliate" : "no"
+                );
                 line.push(developerSince);
                 line.push(sandboxSince);
                 line.push(payAsYouGoSince);
                 csvJSON["data"].push(line);
             }
+        }
+
+        return csvJSON;
+    }
+
+    _formatCSVInDeployment(json, options) {
+        let csvJSON = {
+            data: []
+        };
+
+        let apps = json.data;
+
+        for (var i = 0; i < apps.length; i++) {
+            let app = apps[i];
+            let user = app.user;
+
+            let line = [];
+            line.push(app.name);
+            line.push(app.id);
+            line.push(app.type);
+            line.push(app.env);
+            line.push(app.dateOfCreation);
+            line.push(app.dateOfDeploymentRequest);
+            line.push(app.activity);
+            line.push(app.user.displayName);
+            line.push(app.user.country);
+            line.push(app.user.loginEmail);
+            line.push(app.user.companyName);
+            line.push(user.company.country);
+            line.push(
+                user.company.isBP ? "yes" : user.company.bpId && user.company.bpId.length > 0 ? "affiliate" : "no"
+            );
+            csvJSON["data"].push(line);
         }
 
         return csvJSON;
@@ -169,6 +204,21 @@ class CInternal {
         });
 
         return csvJSON;
+    }
+
+    _getCompanyInfo(token, id) {
+        let random = Math.floor(Math.random() * 500) + 1;
+        return new Promise(resolve => {
+            setTimeout(() => {
+                NodeSDK.get(`/api/rainbow/admin/v1.0/companies/${id}?format=full`, token)
+                    .then(json => {
+                        resolve(json.data);
+                    })
+                    .catch(err => {
+                        resolve(null);
+                    });
+            }, random);
+        });
     }
 
     _getUser(token, id) {
@@ -304,26 +354,63 @@ class CInternal {
         });
     }
 
+    _dashboardInDeployment(token, options) {
+        let apps = [];
+
+        let filterToApply = "format=full&env=in_deployment&limit=1000";
+
+        return new Promise((resolve, reject) => {
+            NodeSDK.get("/api/rainbow/applications/v1.0/applications?" + filterToApply, token)
+                .then(jsonApps => {
+                    apps = jsonApps.data;
+
+                    let promisesUser = [];
+
+                    apps.forEach(application => {
+                        promisesUser.push(this._getUser(token, application.ownerId));
+                    });
+
+                    return Promise.all(promisesUser);
+                })
+                .then(jsonUsers => {
+                    let companies = [],
+                        promisesCompanies = [];
+
+                    jsonUsers.forEach((userData, index) => {
+                        let user = userData.data;
+
+                        apps[index].user = user;
+
+                        if (!companies.includes(user.companyId)) {
+                            companies.push(user.companyId);
+                        }
+                    });
+
+                    companies.forEach(id => {
+                        promisesCompanies.push(this._getCompanyInfo(token, id));
+                    });
+
+                    Promise.all(promisesCompanies).then(listOfCompanies => {
+                        for (let i = 0; i < apps.length; i++) {
+                            let company = listOfCompanies.find(c => {
+                                return c.id === apps[i].user.companyId;
+                            });
+
+                            apps[i].user.company = company;
+                        }
+                        resolve({ data: apps });
+                    });
+                })
+                .catch(function(err) {
+                    reject(err);
+                });
+        });
+    }
+
     _dashboardDevelopers(token, options) {
         var filterToApply = "format=full&roles=app_admin&sortField=companyId";
 
         filterToApply += "&limit=1000";
-
-        let random = Math.floor(Math.random() * 500) + 1;
-
-        let getCompanyInfo = function(id) {
-            return new Promise(resolve => {
-                setTimeout(() => {
-                    NodeSDK.get(`/api/rainbow/admin/v1.0/companies/${id}?format=full`, token)
-                        .then(json => {
-                            resolve(json.data);
-                        })
-                        .catch(err => {
-                            resolve(null);
-                        });
-                }, random);
-            });
-        };
 
         return new Promise((resolve, reject) => {
             NodeSDK.get("/api/rainbow/admin/v1.0/users?" + filterToApply, token)
@@ -340,7 +427,7 @@ class CInternal {
                     });
 
                     companies.forEach(id => {
-                        promises.push(getCompanyInfo(id));
+                        promises.push(this._getCompanyInfo(token, id));
                     });
 
                     Promise.all(promises).then(listOfCompanies => {
@@ -426,6 +513,78 @@ class CInternal {
                         Message.out(json.data);
                     } else {
                         Message.tableDashboardMetrics(json.data, options);
+                    }
+
+                    Message.log("finished!");
+                })
+                .catch(function(err) {
+                    Message.unspin(spin);
+                    Message.error(err, options);
+                    Exit.error();
+                });
+        } else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    dashboardInDeployment(options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if (this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            if (!options.csv) {
+                Message.action("Dashboard applications in deployment", null, options);
+            }
+
+            let spin = Message.spin(options);
+            NodeSDK.start(
+                this._prefs.email,
+                this._prefs.password,
+                this._prefs.host,
+                this._prefs.proxy,
+                this._prefs.appid,
+                this._prefs.appsecret
+            )
+                .then(function() {
+                    Message.log("execute action...");
+                    return that._dashboardInDeployment(that._prefs.token, options);
+                })
+                .then(function(json) {
+                    Message.unspin(spin);
+                    Message.log("action done...", json);
+
+                    if (options.csv) {
+                        let columns = [
+                            "Name",
+                            "Id",
+                            "Type",
+                            "Environment",
+                            "Creation date",
+                            "Request date",
+                            "Activity",
+                            "Owner name",
+                            "Owner country",
+                            "Owner email",
+                            "Company name",
+                            "Company country",
+                            "Is BP/Affiliate"
+                        ];
+
+                        let jsonCSV = that._formatCSVInDeployment(json, options);
+
+                        Message.csv(options.csv, jsonCSV.data, false, columns)
+                            .then(() => {})
+                            .catch(err => {
+                                Exit.error();
+                            });
+                    } else if (options.noOutput) {
+                        Message.out(json.data);
+                    } else {
+                        Message.tableDashboardInDeployment(json, options);
                     }
 
                     Message.log("finished!");
