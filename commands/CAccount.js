@@ -839,8 +839,26 @@ class CAccount {
                     {
                         level: "app_admin",
                         theme: "Applications",
-                        command: "application set offer <appid>",
+                        command: "application set-offer <appid> [offer]",
                         details: "Set the application's offer"
+                    },
+                    {
+                        level: "app_admin",
+                        theme: "Applications",
+                        command: "application set-redirecturi <appid> <uri>",
+                        details: "Set the application's OAuth redirect URI"
+                    },
+                    {
+                        level: "app_admin",
+                        theme: "Applications",
+                        command: "application set-termsurl <appid> <url>",
+                        details: "Set the application's OAuth terms of service URL"
+                    },
+                    {
+                        level: "app_admin",
+                        theme: "Applications",
+                        command: "application set-privacyurl <appid> <url>",
+                        details: "Set the application's OAuth privacy policies URL"
                     },
                     {
                         level: "app_admin",

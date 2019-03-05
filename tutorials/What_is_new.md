@@ -4,6 +4,26 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
+### Rainbow CLI 1.53 (Mars 2019) - Beta
+
+---
+
+**3-Release Breaking Changes**
+
+-   None.
+
+**Breaking Changes**
+
+-   Command `rbw application set offer` has been renammed to `rbw application set-offer`.
+
+**Changes**
+
+-   New commands `rbw application set-redirecturi`, `rbw application set-termsurl` and `rbw application set-privacyurl` have been added to set the Oauth Redirect URI and optional links to the application terms of service and privacy policies.
+
+**Others changes**
+
+-   None.
+
 ### Rainbow CLI 1.52 (February 2019) - Beta
 
 ---

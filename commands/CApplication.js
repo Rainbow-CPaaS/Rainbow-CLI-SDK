@@ -294,44 +294,8 @@ class CApplication {
         });
     }
 
-    _linkApplication(token, options) {
+    _updateApplication(token, options, data) {
         return new Promise(function(resolve, reject) {
-            let data = {
-                ownerId: options.ownerid
-            };
-
-            NodeSDK.put("/api/rainbow/applications/v1.0/applications/" + options.appid, token, data)
-                .then(function(json) {
-                    resolve(json);
-                })
-                .catch(function(err) {
-                    reject(err);
-                });
-        });
-    }
-
-    _setOffer(token, options) {
-        return new Promise(function(resolve, reject) {
-            let data = {
-                kpi: options.offer
-            };
-
-            NodeSDK.put("/api/rainbow/applications/v1.0/applications/" + options.appid, token, data)
-                .then(function(json) {
-                    resolve(json);
-                })
-                .catch(function(err) {
-                    reject(err);
-                });
-        });
-    }
-
-    _renewApplication(token, options) {
-        return new Promise(function(resolve, reject) {
-            let data = {
-                refreshAppSecret: true
-            };
-
             NodeSDK.put("/api/rainbow/applications/v1.0/applications/" + options.appid, token, data)
                 .then(function(json) {
                     resolve(json);
@@ -764,7 +728,9 @@ class CApplication {
             )
                 .then(function() {
                     Message.log("execute action...");
-                    return that._linkApplication(that._prefs.token, options);
+                    return that._updateApplication(that._prefs.token, options, {
+                        ownerId: options.ownerid
+                    });
                 })
                 .then(function(json) {
                     Message.unspin(spin);
@@ -812,7 +778,9 @@ class CApplication {
             )
                 .then(function() {
                     Message.log("execute action...");
-                    return that._renewApplication(that._prefs.token, options);
+                    return that._updateApplication(that._prefs.token, options, {
+                        refreshAppSecret: true
+                    });
                 })
                 .then(function(json) {
                     Message.unspin(spin);
@@ -1247,7 +1215,7 @@ class CApplication {
         if (this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
 
-            Message.action("Set offer of the application", options.appid, options);
+            Message.action("Set offer for application", options.appid, options);
 
             NodeSDK.start(
                 this._prefs.email,
@@ -1267,7 +1235,9 @@ class CApplication {
 
                     spin = Message.spin(options);
 
-                    return that._setOffer(that._prefs.token, options);
+                    return that._updateApplication(that._prefs.token, options, {
+                        kpi: options.offer
+                    });
                 })
                 .then(function(json) {
                     Message.unspin(spin);
@@ -1278,7 +1248,167 @@ class CApplication {
                         Message.out(json.data);
                     } else {
                         Message.lineFeed();
-                        Message.printSuccess("Application deployment declined", json.data.id, options);
+                        Message.printSuccess("Offer successfully set", json.data.id, options);
+                        Message.success(options);
+                    }
+                    Message.log("finished!");
+                })
+                .catch(function(err) {
+                    Message.unspin(spin);
+                    Message.error(err, options);
+                    Exit.error();
+                });
+        } else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    setOauthUris(options) {
+        var that = this;
+
+        let spin = null;
+
+        Message.welcome(options);
+
+        if (this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            Message.action("Set Oauth Redirect Uris for application", options.appid, options);
+
+            NodeSDK.start(
+                this._prefs.email,
+                this._prefs.password,
+                this._prefs.host,
+                this._prefs.proxy,
+                this._prefs.appid,
+                this._prefs.appsecret
+            )
+                .then(function() {
+                    Message.log("execute action...");
+
+                    spin = Message.spin(options);
+
+                    let filtered = options.uris.split(";").filter(function(el) {
+                        return el != null && el.length > 0;
+                    });
+
+                    return that._updateApplication(that._prefs.token, options, { oauthRedirectUris: filtered });
+                })
+                .then(function(json) {
+                    Message.unspin(spin);
+
+                    Message.log("action done...", json);
+
+                    if (options.noOutput) {
+                        Message.out(json.data);
+                    } else {
+                        Message.lineFeed();
+                        Message.printSuccess("OAuth Redirect URI successfully set", json.data.id, options);
+                        Message.success(options);
+                    }
+                    Message.log("finished!");
+                })
+                .catch(function(err) {
+                    Message.unspin(spin);
+                    Message.error(err, options);
+                    Exit.error();
+                });
+        } else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    setOauthTerms(options) {
+        var that = this;
+
+        let spin = null;
+
+        Message.welcome(options);
+
+        if (this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            Message.action("Set Oauth Terms of Service URL for application", options.appid, options);
+
+            NodeSDK.start(
+                this._prefs.email,
+                this._prefs.password,
+                this._prefs.host,
+                this._prefs.proxy,
+                this._prefs.appid,
+                this._prefs.appsecret
+            )
+                .then(function() {
+                    Message.log("execute action...");
+
+                    spin = Message.spin(options);
+
+                    return that._updateApplication(that._prefs.token, options, { termsOfServiceUrl: options.url });
+                })
+                .then(function(json) {
+                    Message.unspin(spin);
+
+                    Message.log("action done...", json);
+
+                    if (options.noOutput) {
+                        Message.out(json.data);
+                    } else {
+                        Message.lineFeed();
+                        Message.printSuccess("OAuth Terms of service URL successfully set", json.data.id, options);
+                        Message.success(options);
+                    }
+                    Message.log("finished!");
+                })
+                .catch(function(err) {
+                    Message.unspin(spin);
+                    Message.error(err, options);
+                    Exit.error();
+                });
+        } else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    setOauthPrivacy(options) {
+        var that = this;
+
+        let spin = null;
+
+        Message.welcome(options);
+
+        if (this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            Message.action("Set Oauth Privacy Policies URL for application", options.appid, options);
+
+            NodeSDK.start(
+                this._prefs.email,
+                this._prefs.password,
+                this._prefs.host,
+                this._prefs.proxy,
+                this._prefs.appid,
+                this._prefs.appsecret
+            )
+                .then(function() {
+                    Message.log("execute action...");
+
+                    spin = Message.spin(options);
+
+                    return that._updateApplication(that._prefs.token, options, { privacyPoliciesUrl: options.url });
+                })
+                .then(function(json) {
+                    Message.unspin(spin);
+
+                    Message.log("action done...", json);
+
+                    if (options.noOutput) {
+                        Message.out(json.data);
+                    } else {
+                        Message.lineFeed();
+                        Message.printSuccess("OAuth Privacy policies URL successfully set", json.data.id, options);
                         Message.success(options);
                     }
                     Message.log("finished!");

@@ -43,18 +43,51 @@
   assert $SECRET2 different_to $SECRET
 }
 
-@test 'Command application set offer (::business #check kpi)' {
+@test 'Command application set-offer (::business #check kpi)' {
   if [[ $AFTERBUILD_HOST = 'sandbox.openrainbow.com' ]]; then
     skip 'Test does not run on sandbox - application is automatically deployed'
   fi
   run rbw applications --name "an application" --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw application set offer $ID "business" --json
+  run rbw application set-offer $ID "business" --json
   assert $state equals 0
   KPI=`echo $output | jq '.kpi' -r`
   assert $KPI is_not_empty
   assert $KPI same_as 'business'
+}
+
+@test 'Command application set-redirecturi (::business #check oauthRedirectUris)' {
+  run rbw applications --name "an application" --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  run rbw application set-redirecturi $ID "https://myapp.domain.com/callback" --json
+  assert $state equals 0
+  URI=`echo $output | jq '.oauthRedirectUris[0]' -r`
+  assert $URI is_not_empty
+  assert $URI same_as 'https://myapp.domain.com/callback'
+}
+
+@test 'Command application set-termsurl (::business #check termsOfServiceUrl)' {
+  run rbw applications --name "an application" --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  run rbw application set-termsurl $ID "https://myapp.domain.com/terms.pdf" --json
+  assert $state equals 0
+  URL=`echo $output | jq '.termsOfServiceUrl' -r`
+  assert $URL is_not_empty
+  assert $URL same_as 'https://myapp.domain.com/terms.pdf'
+}
+
+@test 'Command application set-privacyurl (::business #check privacyPoliciesUrl)' {
+  run rbw applications --name "an application" --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  run rbw application set-privacyurl $ID "https://myapp.domain.com/privacy.pdf" --json
+  assert $state equals 0
+  URL=`echo $output | jq '.privacyPoliciesUrl' -r`
+  assert $URL is_not_empty
+  assert $URL same_as 'https://myapp.domain.com/privacy.pdf'
 }
 
 @test 'Command application deploy (#check env)' {

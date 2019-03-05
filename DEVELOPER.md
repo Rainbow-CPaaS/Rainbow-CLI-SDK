@@ -6,7 +6,7 @@
 
 ---
 
-For launching integration tests, you need to have a **zsh** shell and to install `jq` and `zunit`. Both tools can be installed using **brew**
+For launching integration tests, you need to have a **zsh** shell and to install `jq` and `zunit`. Both tools can be installed using **brew** on MacOS.
 
 ```shell
 $ brew install jq
@@ -40,15 +40,22 @@ $ npm test
 
 ```
 
-This will start zunit and launch all tests located in directoy `tests/`.
+This will start zunit and launch all tests located in directoy `tests/` on the pre-prod infrastructure.
 
-Rainbow users configuration is located in file `setup.zunit`.
+To launch tests for Sandbox, use the command:
+
+```zsh
+$ npm test:sandbox
+
+```
 
 ## Early version
 
 ---
 
 Early version can be provided to early adopters or for testing internally.
+
+### Deliver early version
 
 Several tasks have to be launched in order to a internal version of the Rainbow-CLI (beta). This version will be available for early testing.
 
@@ -58,7 +65,23 @@ Several tasks have to be launched in order to a internal version of the Rainbow-
 
 -   Publish this beta version by launching the command `npm publish --tag 1.xx.y-beta.z`
 
-### Preparation
+### Inform Rainbow deliveries team
+
+Before sending an email to Rainbow deliveries, you can check the notification by sending the email to a test account
+
+```zsh
+
+$ node mailing/mailChangelog.js notify --test "<your_email_address>"
+
+```
+
+If it is correct, you can send the email to Rainbow deliveries
+
+```zsh
+
+$ node mailing/mailChangelog.js notify
+
+```
 
 ---
 

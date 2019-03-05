@@ -507,14 +507,14 @@ class Application {
             });
 
         this._program
-            .command("application set offer", "<appid> [kpi]")
+            .command("application set-offer", "<appid> [kpi]")
             .description("Change the offer of an application (business, payasyougo, etc...")
             .option("-j, --json", "Write the JSON result to standard stdout")
             .option("-v, --verbose", "Use verbose console mode")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
-                console.log("    $ rbw application set offer 593065822799299343b8501d");
+                console.log("    $ rbw application set-offer 593065822799299343b8501d");
                 console.log("");
                 console.log("  Details:");
                 console.log("");
@@ -533,6 +533,104 @@ class Application {
                         Logger.isActive = commands.verbose || false;
 
                         that._application.setOffer(options);
+                    })
+                    .catch(() => {});
+            });
+
+        this._program
+            .command("application set-redirecturi", "<appid> <uris>")
+            .description("Set the list of OAuth redirect URIs")
+            .option("-j, --json", "Write the JSON result to standard stdout")
+            .option("-v, --verbose", "Use verbose console mode")
+            .on("--help", function() {
+                console.log("  Examples:");
+                console.log("");
+                console.log("    $ rbw application set-redirecturi 'https://example.com/oauth2-redirect'");
+                console.log("");
+                console.log("  Details:");
+                console.log("");
+                console.log("    Use the comma separator to add multiple OAuth URIs");
+                console.log("    The option `--json` exports the JSON object representing the user to the console");
+                console.log("");
+            })
+            .action(function(appid, uris, commands) {
+                Middleware.parseCommand(commands)
+                    .then(() => {
+                        var options = {
+                            noOutput: commands.json || false,
+                            appid: appid,
+                            uris: uris
+                        };
+
+                        Logger.isActive = commands.verbose || false;
+
+                        that._application.setOauthUris(options);
+                    })
+                    .catch(() => {});
+            });
+
+        this._program
+            .command("application set-termsurl", "<appid> <url>")
+            .description(
+                "Set an optional url to the application terms of service. This URL will be displayed in the OAuth form"
+            )
+            .option("-j, --json", "Write the JSON result to standard stdout")
+            .option("-v, --verbose", "Use verbose console mode")
+            .on("--help", function() {
+                console.log("  Examples:");
+                console.log("");
+                console.log("    $ rbw application set-termsurl 'https://myapp.domain.com/terms.pdf'");
+                console.log("");
+                console.log("  Details:");
+                console.log("");
+                console.log("    The option `--json` exports the JSON object representing the user to the console");
+                console.log("");
+            })
+            .action(function(appid, url, commands) {
+                Middleware.parseCommand(commands)
+                    .then(() => {
+                        var options = {
+                            noOutput: commands.json || false,
+                            appid: appid,
+                            url: url
+                        };
+
+                        Logger.isActive = commands.verbose || false;
+
+                        that._application.setOauthTerms(options);
+                    })
+                    .catch(() => {});
+            });
+
+        this._program
+            .command("application set-privacyurl", "<appid> <url>")
+            .description(
+                "Set an optional url to the application privacy policies. This URL will be displayed in the OAuth form"
+            )
+            .option("-j, --json", "Write the JSON result to standard stdout")
+            .option("-v, --verbose", "Use verbose console mode")
+            .on("--help", function() {
+                console.log("  Examples:");
+                console.log("");
+                console.log("    $ rbw application set-privacyurl 'https://myapp.domain.com/privacy.pdf'");
+                console.log("");
+                console.log("  Details:");
+                console.log("");
+                console.log("    The option `--json` exports the JSON object representing the user to the console");
+                console.log("");
+            })
+            .action(function(appid, url, commands) {
+                Middleware.parseCommand(commands)
+                    .then(() => {
+                        var options = {
+                            noOutput: commands.json || false,
+                            appid: appid,
+                            url: url
+                        };
+
+                        Logger.isActive = commands.verbose || false;
+
+                        that._application.setOauthPrivacy(options);
                     })
                     .catch(() => {});
             });
