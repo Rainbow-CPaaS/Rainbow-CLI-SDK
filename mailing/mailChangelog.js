@@ -22,8 +22,15 @@ global.window = {};
 // Extract version
 let content = fs.readFileSync(path.join(__dirname, "../package.json"));
 let packageJSON = JSON.parse(content);
-let currentVersion = packageJSON.version.substr(0, packageJSON.version.lastIndexOf("."));
+let minVersion =
+    packageJSON.version.indexOf("-beta") > -1
+        ? packageJSON.version.substr(0, packageJSON.version.lastIndexOf("-beta") - 2)
+        : packageJSON.version.substr(0, packageJSON.version.lastIndexOf("."));
 let fullVersion = packageJSON.version;
+let currentVersion =
+    packageJSON.version.indexOf("-beta") > -1
+        ? packageJSON.version.substr(0, packageJSON.version.lastIndexOf("-beta"))
+        : packageJSON.version;
 
 function loadSingleReleaseNotes(item, config) {
     return new Promise((resolve, reject) => {
@@ -50,7 +57,7 @@ function loadSingleReleaseNotes(item, config) {
                 if (markdownElt[0] === "header" && markdownElt[1].level === 2) {
                     // A version
                     version = markdownElt[2][2];
-                    if (version.startsWith(currentVersion)) {
+                    if (version.startsWith(minVersion)) {
                         return true;
                     } else {
                         version = null;
@@ -94,9 +101,6 @@ function generateNunjucksVariables(config) {
     let releaseNoteDefinition = YAML.load(path.join(__dirname, "./changelog.yaml"));
 
     return new Promise((resolve, reject) => {
-        if (config.test) {
-        }
-
         extractReleaseNotes(releaseNoteDefinition, config)
             .then(products => {
                 let vars = {
@@ -155,6 +159,17 @@ function sendMail(vars, mailjet) {
         });
     }
 
+    let message =
+        "Note: An early version <b>" +
+        fullVersion +
+        "</b> has been published to NPM (https://www.npmjs.com/package/rainbow-cli?activeTab=versions) and has not replaced the <i>latest</i> tag.";
+    if (vars.environment !== "PRE-PRODUCTION") {
+        message =
+            "Note: A new version <b>" +
+            fullVersion +
+            "</b> has been published to NPM (https://www.npmjs.com/package/rainbow-cli?activeTab=versions) and is now the <i>latest</i> tag.";
+    }
+
     const request = mailjet.post("send", { version: "v3.1" }).request({
         Messages: [
             {
@@ -163,7 +178,7 @@ function sendMail(vars, mailjet) {
                     Name: vars.from.name
                 },
                 To: to,
-                Subject: devSubject + vars.subject + fullVersion + " delivered to " + vars.environment,
+                Subject: devSubject + vars.subject + currentVersion + " delivered to " + vars.environment,
                 TextPart: "Hi all, component " + vars.component + " has been delivered to " + vars.environment,
                 HTMLPart: [
                     "<p>Hi all,</p>",
@@ -172,10 +187,13 @@ function sendMail(vars, mailjet) {
                         "</b> as been delivered to <b>" +
                         vars.environment +
                         "</b></p>",
-                    "<p>Here is the complete changelog for version <b>" + currentVersion + "</b>",
+                    "<p>Here is the complete changelog for version <b>" + minVersion + "</b>",
                     vars.products.map(product => {
                         return "<h2><u>" + product.title + "</u></h2>" + product.notes + "<br>";
-                    })
+                    }),
+                    "<p>" + message + "</p>",
+                    "<p>---<br>",
+                    "The Rainbow team</p>"
                 ].join("")
             }
         ]
