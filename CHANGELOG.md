@@ -6,7 +6,11 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
-## [1.53.0] - 2018-03-05
+## [1.53.0-beta.2] - 2018-03-06
+
+-   RQRAINB-1258: CPAAS / Rainbow CLI / Add command for creating a company
+
+## [1.53.0-beta.1] - 2018-03-05
 
 -   RQRAINB-1255: CPAAS / Rainbow CLI / Add Dashboard In deployment
 -   RQRAINB-1257: CPAAS / Rainbow CLI / Manage Oauth commands

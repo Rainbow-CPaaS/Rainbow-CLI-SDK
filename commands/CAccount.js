@@ -35,6 +35,30 @@ class CAccount {
         });
     }
 
+    _setCompany(token, options) {
+        var that = this;
+
+        return new Promise(function(resolve, reject) {
+            let data = {
+                name: options.companyName,
+                visibility: "private",
+                country: that._prefs.user.country
+            };
+
+            if (that._prefs.user.country === "CAN" || that._prefs.user.country === "USA") {
+                data.state = that._prefs.user.country === "USA" ? "AK" : "AB";
+            }
+
+            NodeSDK.post("/api/rainbow/enduser/v1.0/companies", token, data)
+                .then(function(json) {
+                    resolve(json);
+                })
+                .catch(function(err) {
+                    reject(err);
+                });
+        });
+    }
+
     _changePassword(token, id, options) {
         return new Promise(function(resolve, reject) {
             NodeSDK.put(`/api/rainbow/enduser/v1.0/users/${id}/change-password`, token, {
@@ -486,6 +510,67 @@ class CAccount {
         }
     }
 
+    setCompany(options) {
+        var company = null;
+        var that = this;
+
+        var doCreateCompany = function(options) {
+            Message.action("Create company", options.companyName, options);
+
+            let spin = Message.spin(options);
+            NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host)
+                .then(function() {
+                    Message.log("execute action...");
+                    return that._setCompany(that._prefs.token, options);
+                })
+                .then(function(json) {
+                    Message.log("company created...");
+                    company = json.data;
+                    return that._getUserInfo(that._prefs.user.id, that._prefs.token);
+                })
+                .then(function(user) {
+                    Message.unspin(spin);
+
+                    Message.log("save credentials...");
+
+                    that._prefs.save(
+                        {
+                            email: that._prefs.email,
+                            password: that._prefs.password
+                        },
+                        that._prefs.token,
+                        user.data,
+                        that._prefs.host,
+                        that._prefs.proxy
+                    );
+                    Message.log("action done...", company);
+                    if (options.noOutput) {
+                        Message.out(company);
+                    } else {
+                        Message.lineFeed();
+                        Message.printSuccess("Company created with Id", company.id, options);
+                        Message.success(options);
+                        Message.log("finished!");
+                    }
+                })
+                .catch(function(err) {
+                    Message.unspin(spin);
+                    Message.error(err, options);
+                    Exit.error();
+                });
+        };
+
+        Message.welcome(options);
+
+        if (this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+            doCreateCompany(options);
+        } else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
     setKeys(options) {
         Message.welcome(options);
 
@@ -685,7 +770,7 @@ class CAccount {
             {
                 level: "user",
                 theme: "General",
-                command: "change password",
+                command: "change password <password>",
                 details: "Change the logged-in user's password"
             },
             {
@@ -703,31 +788,31 @@ class CAccount {
             {
                 level: "user",
                 theme: "Preferences",
-                command: "set email",
+                command: "set email <email>",
                 details: "Update the login email to use"
             },
             {
                 level: "user",
                 theme: "Preferences",
-                command: "set password",
+                command: "set password <password>",
                 details: "Update the password to use"
             },
             {
                 level: "user",
                 theme: "Preferences",
-                command: "set host",
+                command: "set host <host>",
                 details: "Update the host to use"
             },
             {
                 level: "user",
                 theme: "Preferences",
-                command: "set proxy",
+                command: "set proxy <proxy>",
                 details: "Update the proxy to use"
             },
             {
                 level: "user",
                 theme: "Preferences",
-                command: "set keys",
+                command: "set keys <id> <secret>",
                 details: "Update the application id and secret key to use"
             },
             {
@@ -783,6 +868,18 @@ class CAccount {
                 theme: "Developer",
                 command: "set developer",
                 details: "Add role developer to account"
+            },
+            {
+                level: "user",
+                theme: " ",
+                command: " ",
+                details: " "
+            },
+            {
+                level: "user",
+                theme: "Company",
+                command: "set admin <name>",
+                details: "Create a company and add role admin to account"
             }
         ];
 

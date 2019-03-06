@@ -136,6 +136,32 @@ class Account {
             });
 
         this._program
+            .command("set admin", "<name>")
+            .description("Create a company and give admin right")
+            .option("-v, --verbose", "Use verbose console mode")
+            .option("--json", "Write the JSON result to standard stdout")
+            .on("--help", function() {
+                console.log("  Examples:");
+                console.log("");
+                console.log("    $ rbw set company");
+                console.log("");
+            })
+            .action(function(name, commands) {
+                Middleware.parseCommand(commands)
+                    .then(() => {
+                        Logger.isActive = commands.verbose || false;
+
+                        let options = {
+                            noOutput: commands.json || false,
+                            companyName: name || ""
+                        };
+
+                        that._account.setCompany(options);
+                    })
+                    .catch(() => {});
+            });
+
+        this._program
             .command("preferences")
             .description("List the preferences saved on this computer")
             .option("-v, --verbose", "Use verbose console mode")
