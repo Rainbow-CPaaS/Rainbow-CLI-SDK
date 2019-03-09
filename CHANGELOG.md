@@ -6,6 +6,10 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+## [1.53.0] - 2018-03-10
+
+-   CRRAINB-5526: CPAAS / Rainbow CLI / Dashboard is limited to 1000 developers
+
 ## [1.53.0-beta.2] - 2018-03-06
 
 -   RQRAINB-1258: CPAAS / Rainbow CLI / Add command for creating a company

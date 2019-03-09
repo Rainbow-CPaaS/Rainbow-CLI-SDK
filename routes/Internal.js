@@ -105,6 +105,7 @@ class Internal {
             .option("-s, --sandbox", "Get developers sandbox metrics instead")
             .option("-p, --pay", "Get developers pay as you go metrics instead")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("--json", "Write the JSON result to standard stdout")
             .action(function(commands) {
                 Middleware.parseCommand(commands)
                     .then(() => {

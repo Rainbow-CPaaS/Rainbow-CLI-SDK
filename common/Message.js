@@ -709,29 +709,16 @@ class Message {
 
         var users = json.data;
 
-        let fromDate = null,
-            toDate = null;
+        var number = 0;
 
-        if (options.month) {
-            fromDate = moment(options.month, "YYYYMM").startOf("month");
-            toDate = moment(options.month, "YYYYMM").endOf("month");
-        } else {
-            fromDate = moment().startOf("month");
-            toDate = moment().endOf("month");
-        }
-
-        let increment = 0;
-
-        for (var i = 0; i < users.length; i++) {
-            let user = users[i];
-
+        users.forEach(user => {
             var name = "";
             name = user.displayName;
             if (!name) {
                 name = user.firstName + " " + user.lastName;
             }
 
-            var number = increment + 1;
+            number += 1;
 
             var companyName = user.companyName || "";
             if (companyName.length > 40) {
@@ -742,73 +729,58 @@ class Message {
             let isBP = "-".white;
             if (user.company) {
                 country = user.company.country.white;
-                if (user.company.isBP) {
-                    isBP = "YES".magenta;
-                } else {
-                    isBP = "NO".white;
-                }
+                isBP = user.company.isBP
+                    ? "YES".magenta
+                    : user.company.bpId && user.company.bpId.length > 0
+                    ? "AFFILIATE".magenta
+                    : "NO".white;
             }
 
-            let developerSince = "in error".magenta;
+            let developerSince = "in error".red;
             let payAsYouGoSince = "-".white;
-            let sandboxSince = "not created".yellow;
-            let hasBeenRegisteredInMonth = false;
+            let sandboxSince = "-".white;
 
-            let statsToProvide = options.pay
-                ? "registrationPayAsYouGo"
-                : options.sandbox
-                ? "registrationSandbox"
-                : "registrationDevelopers";
+            let hasASandboxAccount = user => {
+                return user.developer && user.developer.sandbox;
+            };
 
-            if (user.developer && user.developer.account && user.developer.account.status === "confirmed") {
-                if (statsToProvide === "registrationDevelopers") {
-                    let date = moment(user.developer.account.lastUpdateDate);
-                    if (date.isBetween(fromDate, toDate)) {
-                        hasBeenRegisteredInMonth = true;
-                    }
-                } else if (statsToProvide === "registrationPayAsYouGo") {
-                    if (user.developer.bsAccountId) {
-                        let date = moment(user.developer.accountCreationDate);
-                        if (date.isBetween(fromDate, toDate)) {
-                            hasBeenRegisteredInMonth = true;
-                        }
-                    }
-                }
-                developerSince = moment(user.developer.account.lastUpdateDate).format("LL").white;
-                if (user.developer.accountCreationDate) {
-                    payAsYouGoSince = moment(user.developer.accountCreationDate).format("LL").magenta;
+            let hasADeveloperSandboxAccountSucceed = user => {
+                return user.developer && user.developer.sandbox && user.developer.sandbox.status === "succeeded";
+            };
+
+            let hasAPaymentMethod = user => {
+                return Boolean(user.developer.bsAccountId);
+            };
+
+            developerSince = moment(user.developer.account.lastUpdateDate).format("LL").white;
+
+            if (hasASandboxAccount(user)) {
+                if (hasADeveloperSandboxAccountSucceed(user)) {
+                    sandboxSince = moment(user.developer.sandbox.lastUpdateDate).format("LL").white;
                 }
             }
-            if (user.developer && user.developer.sandbox && user.developer.sandbox.status === "succeeded") {
-                let date = moment(user.developer.sandbox.lastUpdateDate);
-                if (statsToProvide === "registrationSandbox") {
-                    if (date.isBetween(fromDate, toDate)) {
-                        hasBeenRegisteredInMonth = true;
-                    }
-                }
-                sandboxSince = date.format("LL").white;
+
+            if (hasAPaymentMethod(user)) {
+                payAsYouGoSince = moment(user.developer.accountCreationDate).format("LL").yellow;
             }
 
-            if (hasBeenRegisteredInMonth) {
-                array.push([
-                    number.toString().white,
-                    name.cyan,
-                    companyName.white,
-                    country,
-                    isBP,
-                    developerSince,
-                    sandboxSince,
-                    payAsYouGoSince,
-                    user.id.white
-                ]);
-                increment += 1;
-            }
-        }
+            array.push([
+                number.toString().white,
+                name.cyan,
+                companyName.white,
+                country,
+                isBP,
+                developerSince,
+                sandboxSince,
+                payAsYouGoSince,
+                user.id.white
+            ]);
+        });
 
         Screen.table(array);
         Screen.print("");
 
-        Screen.success(increment + " developers found / " + users.length);
+        Screen.success(users.length + " developers found / " + json.total);
         Screen.print("");
     }
 

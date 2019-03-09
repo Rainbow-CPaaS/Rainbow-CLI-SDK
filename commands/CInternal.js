@@ -6,6 +6,8 @@ const CApplication = require("../commands/CApplication");
 const Exit = require("../common/Exit");
 const moment = require("moment");
 
+const limiter = require("../common/Limiter");
+
 class CInternal {
     constructor(prefs) {
         this._prefs = prefs;
@@ -17,79 +19,52 @@ class CInternal {
             data: []
         };
 
-        let users = json.data;
+        let users = json;
 
-        let fromDate = null,
-            toDate = null;
-
-        if (options.month) {
-            fromDate = moment(options.month, "YYYYMM").startOf("month");
-            toDate = moment(options.month, "YYYYMM").endOf("month");
-        } else {
-            fromDate = moment().startOf("month");
-            toDate = moment().endOf("month");
-        }
-
-        for (var i = 0; i < users.length; i++) {
-            let user = users[i];
-
+        users.forEach(user => {
             let developerSince = "in error";
             let payAsYouGoSince = "";
             let sandboxSince = "not created";
-            let hasBeenRegisteredInMonth = false;
 
-            let statsToProvide = options.pay
-                ? "registrationPayAsYouGo"
-                : options.sandbox
-                ? "registrationSandbox"
-                : "registrationDevelopers";
+            let hasASandboxAccount = user => {
+                return user.developer && user.developer.sandbox;
+            };
 
-            if (user.developer && user.developer.account && user.developer.account.status === "confirmed") {
-                if (statsToProvide === "registrationDevelopers") {
-                    let date = moment(user.developer.account.lastUpdateDate);
-                    if (date.isBetween(fromDate, toDate)) {
-                        hasBeenRegisteredInMonth = true;
-                    }
-                } else if (statsToProvide === "registrationPayAsYouGo") {
-                    if (user.developer.bsAccountId) {
-                        let date = moment(user.developer.accountCreationDate);
-                        if (date.isBetween(fromDate, toDate)) {
-                            hasBeenRegisteredInMonth = true;
-                        }
-                    }
-                }
-                developerSince = moment(user.developer.account.lastUpdateDate).format("LL");
-                if (user.developer.accountCreationDate) {
-                    payAsYouGoSince = moment(user.developer.accountCreationDate).format("LL");
+            let hasADeveloperSandboxAccountSucceed = user => {
+                return user.developer && user.developer.sandbox && user.developer.sandbox.status === "succeeded";
+            };
+
+            let hasAPaymentMethod = user => {
+                return Boolean(user.developer.bsAccountId);
+            };
+
+            developerSince = moment(user.developer.account.lastUpdateDate).format("LL");
+
+            if (hasASandboxAccount(user)) {
+                if (hasADeveloperSandboxAccountSucceed(user)) {
+                    sandboxSince = moment(user.developer.sandbox.lastUpdateDate).format("LL");
                 }
             }
-            if (user.developer && user.developer.sandbox && user.developer.sandbox.status === "succeeded") {
-                let date = moment(user.developer.sandbox.lastUpdateDate);
-                if (statsToProvide === "registrationSandbox") {
-                    if (date.isBetween(fromDate, toDate)) {
-                        hasBeenRegisteredInMonth = true;
-                    }
-                }
-                sandboxSince = date.format("LL");
+
+            if (hasAPaymentMethod(user)) {
+                payAsYouGoSince = moment(user.developer.accountCreationDate).format("LL");
             }
 
-            if (hasBeenRegisteredInMonth) {
-                let line = [];
-                line.push(user.lastName);
-                line.push(user.firstName);
-                line.push(user.country);
-                line.push(user.loginEmail);
-                line.push(user.companyName);
-                line.push(user.company.country);
-                line.push(
-                    user.company.isBP ? "yes" : user.company.bpId && user.company.bpId.length > 0 ? "affiliate" : "no"
-                );
-                line.push(developerSince);
-                line.push(sandboxSince);
-                line.push(payAsYouGoSince);
-                csvJSON["data"].push(line);
-            }
-        }
+            let line = [];
+            line.push(user.lastName);
+            line.push(user.firstName);
+            line.push(user.country);
+            line.push(user.loginEmail);
+            line.push(user.companyName);
+            line.push(user.company.country);
+            line.push(
+                user.company.isBP ? "yes" : user.company.bpId && user.company.bpId.length > 0 ? "affiliate" : "no"
+            );
+            line.push(developerSince);
+            line.push(sandboxSince);
+            line.push(payAsYouGoSince);
+            csvJSON["data"].push(line);
+        });
 
         return csvJSON;
     }
@@ -408,37 +383,104 @@ class CInternal {
     }
 
     _dashboardDevelopers(token, options) {
-        var filterToApply = "format=full&roles=app_admin&sortField=companyId";
+        let getDevelopers = (offset, limit, existing) => {
+            return new Promise(function(resolve, reject) {
+                let filterToApply =
+                    "format=full&roles=app_admin&sortField=companyId&limit=" + limit + "&offset=" + offset * limit;
 
-        filterToApply += "&limit=1000";
+                NodeSDK.get("/api/rainbow/admin/v1.0/users?" + filterToApply, token).then(json => {
+                    existing.push(...json.data);
+                    offset += 1;
+                    if (json.total > limit * offset) {
+                        return getDevelopers(offset, limit, existing).then(json => {
+                            resolve(json);
+                        });
+                    }
+                    resolve({ data: existing, total: existing.length });
+                });
+            });
+        };
+
+        let fromDate = null,
+            toDate = null;
+
+        if (options.month) {
+            fromDate = moment(options.month, "YYYYMM").startOf("month");
+            toDate = moment(options.month, "YYYYMM").endOf("month");
+        } else {
+            fromDate = moment().startOf("month");
+            toDate = moment().endOf("month");
+        }
 
         return new Promise((resolve, reject) => {
-            NodeSDK.get("/api/rainbow/admin/v1.0/users?" + filterToApply, token)
-                .then(json => {
-                    let promises = [];
+            getDevelopers(0, 1000, [])
+                .then(users => {
                     let companies = [];
+                    let listOfCompanies = [];
 
-                    let users = json;
+                    let isADeveloper = user => {
+                        return (
+                            user.developer && user.developer.account && user.developer.account.status === "confirmed"
+                        );
+                    };
 
-                    users.data.forEach(user => {
+                    let hasASandboxAccount = user => {
+                        return user.developer && user.developer.sandbox;
+                    };
+
+                    let hasAPaymentMethod = user => {
+                        return Boolean(user.developer.bsAccountId);
+                    };
+
+                    let shouldDisplayRegisteredSandbox = options => {
+                        return options.sandbox;
+                    };
+
+                    let shouldDisplayRegisteredPaymentMethod = options => {
+                        return options.pay;
+                    };
+
+                    let filteredUsers = users.data.filter(user => {
+                        if (!isADeveloper(user)) {
+                            return false;
+                        }
+
+                        if (shouldDisplayRegisteredPaymentMethod(options)) {
+                            if (!hasAPaymentMethod(user)) {
+                                return false;
+                            }
+                            return moment(user.developer.accountCreationDate).isBetween(fromDate, toDate);
+                        } else if (shouldDisplayRegisteredSandbox(options)) {
+                            if (!hasASandboxAccount(user)) {
+                                return false;
+                            }
+                            return moment(user.developer.sandbox.lastUpdateDate).isBetween(fromDate, toDate);
+                        } else {
+                            return moment(user.developer.account.lastUpdateDate).isBetween(fromDate, toDate);
+                        }
+                    });
+
+                    filteredUsers.forEach(user => {
                         if (!companies.includes(user.companyId)) {
                             companies.push(user.companyId);
                         }
                     });
 
                     companies.forEach(id => {
-                        promises.push(this._getCompanyInfo(token, id));
+                        limiter.limiter1param(this._getCompanyInfo, token, id, company => {
+                            listOfCompanies.push(company);
+                        });
                     });
 
-                    Promise.all(promises).then(listOfCompanies => {
-                        for (let i = 0; i < users.data.length; i++) {
+                    limiter.stop().then(() => {
+                        for (let i = 0; i < filteredUsers.length; i++) {
                             let company = listOfCompanies.find(c => {
-                                return c.id === users.data[i].companyId;
+                                return c.id === filteredUsers[i].companyId;
                             });
 
-                            users.data[i].company = company;
+                            filteredUsers[i].company = company;
                         }
-                        resolve(users);
+                        resolve({ data: filteredUsers, total: users.total });
                     });
                 })
                 .catch(err => {
@@ -643,7 +685,7 @@ class CInternal {
                             "Payment Method"
                         ];
 
-                        let jsonCSV = that._formatCSVDevelopers(json, options);
+                        let jsonCSV = that._formatCSVDevelopers(json.data, options);
 
                         Message.csv(options.csv, jsonCSV.data, false, columns)
                             .then(() => {})
