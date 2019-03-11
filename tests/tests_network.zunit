@@ -1,0 +1,13 @@
+#!/usr/bin/env zunit
+
+@setup {
+  run rbw login $AFTERBUILD_LOGIN $AFTERBUILD_PASSWORD --host $AFTERBUILD_HOST
+}
+
+@test 'Command network (#check total)' {
+  run rbw network --json
+  assert $state equals 0
+  TOTAL=`echo $output | jq '.total' -r`
+  assert $TOTAL is_not_empty
+  assert $TOTAL same_as '0'
+}
