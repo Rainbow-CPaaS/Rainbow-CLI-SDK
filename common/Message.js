@@ -757,6 +757,8 @@ class Message {
             if (hasASandboxAccount(user)) {
                 if (hasADeveloperSandboxAccountSucceed(user)) {
                     sandboxSince = moment(user.developer.sandbox.lastUpdateDate).format("LL").white;
+                } else {
+                    sandboxSince = "in error".red;
                 }
             }
 
@@ -1215,6 +1217,72 @@ class Message {
         } else {
             Screen.success(json.total + " users found");
         }
+        Screen.print("");
+    }
+
+    tableNetwork(json, options) {
+        var array = [];
+        array.push([
+            "#".gray,
+            "Name".gray,
+            "LoginEmail".gray,
+            "Company".gray,
+            "Presence".gray,
+            "Active".gray,
+            "ID".gray
+        ]);
+        array.push([
+            "-".gray,
+            "----".gray,
+            "----------".gray,
+            "-------".gray,
+            "-------_".gray,
+            "-----".gray,
+            "--".gray
+        ]);
+
+        var users = json.data;
+        var number = 0;
+
+        users.forEach(user => {
+            var active = "YES".white;
+            if (user.isTerminated) {
+                active = "NO".yellow;
+            }
+
+            var presence = "NO".white;
+            if (user.showPresence) {
+                presence = "YES".yellow;
+            }
+
+            var name = "";
+            name = user.displayName;
+            if (!name) {
+                name = user.firstName + " " + user.lastName;
+            }
+
+            number += 1;
+            if (options.page > 0) {
+                number = (options.page - 1) * 1000 + number;
+            }
+
+            var companyName = user.companyName || "";
+
+            array.push([
+                number.toString(),
+                name.cyan,
+                user.loginEmail.white,
+                companyName.white,
+                presence,
+                active,
+                user.id.white
+            ]);
+        });
+
+        Screen.table(array);
+        Screen.print("");
+
+        Screen.success(json.total + " users found");
         Screen.print("");
     }
 

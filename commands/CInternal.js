@@ -24,7 +24,7 @@ class CInternal {
         users.forEach(user => {
             let developerSince = "in error";
             let payAsYouGoSince = "";
-            let sandboxSince = "not created";
+            let sandboxSince = "-";
 
             let hasASandboxAccount = user => {
                 return user.developer && user.developer.sandbox;
@@ -43,6 +43,8 @@ class CInternal {
             if (hasASandboxAccount(user)) {
                 if (hasADeveloperSandboxAccountSucceed(user)) {
                     sandboxSince = moment(user.developer.sandbox.lastUpdateDate).format("LL");
+                } else {
+                    sandboxSince = "in error";
                 }
             }
 
@@ -419,9 +421,7 @@ class CInternal {
                     let listOfCompanies = [];
 
                     let isADeveloper = user => {
-                        return (
-                            user.developer && user.developer.account && user.developer.account.status === "confirmed"
-                        );
+                        return user.developer && user.developer.account;
                     };
 
                     let hasASandboxAccount = user => {

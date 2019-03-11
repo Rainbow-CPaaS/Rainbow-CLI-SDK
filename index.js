@@ -30,6 +30,7 @@ const Invoices = require("./routes/Invoice");
 const Application = require("./routes/Application");
 const Developer = require("./routes/Developer");
 const Internal = require("./routes/Internal");
+const Network = require("./routes/Network");
 
 start = function() {
     // auto-complete
@@ -61,6 +62,7 @@ start = function() {
     let applications = new Application(program, prefs);
     let developers = new Developer(program, prefs);
     let internal = new Internal(program, prefs);
+    let network = new Network(program, prefs);
 
     // Start the routes
     account.start();
@@ -79,6 +81,7 @@ start = function() {
     applications.start();
     developers.start();
     internal.start();
+    network.start();
 
     program.command("*").action(function() {
         Message.welcome();

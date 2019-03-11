@@ -752,12 +752,6 @@ class CAccount {
             {
                 level: "user",
                 theme: "General",
-                command: "whoami",
-                details: "Display information about the connected user"
-            },
-            {
-                level: "user",
-                theme: "General",
                 command: "login [email] [pwd]",
                 details: "Log-in to Rainbow"
             },
@@ -772,6 +766,18 @@ class CAccount {
                 theme: "General",
                 command: "change password <password>",
                 details: "Change the logged-in user's password"
+            },
+            {
+                level: "user",
+                theme: "General",
+                command: "whoami",
+                details: "Display information about the connected user"
+            },
+            {
+                level: "user",
+                theme: "General",
+                command: "network",
+                details: "List the contacts of the network"
             },
             {
                 level: "user",

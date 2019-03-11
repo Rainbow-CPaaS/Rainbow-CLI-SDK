@@ -9,6 +9,7 @@ All notable changes to Rainbow-CLI will be documented in this file.
 ## [1.53.0] - 2018-03-10
 
 -   CRRAINB-5526: CPAAS / Rainbow CLI / Dashboard is limited to 1000 developers
+-   RQRAINB-1292: CPAAS / Rainbow CLI / Get user network
 
 ## [1.53.0-beta.2] - 2018-03-06
 

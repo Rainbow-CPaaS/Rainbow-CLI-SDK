@@ -22,6 +22,8 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 -   New command `rbw set admin` has been added to give to the user the right to manage his own company by creating it. Once created, the user acquires the `company_admin` right and so his able to create new users in his company and executes commands to manage them. This command works only if the user is not already part of an existing company.
 
+-   New command `rbw network` has been added to list the contacts of the network.
+
 **Others changes**
 
 -   None.

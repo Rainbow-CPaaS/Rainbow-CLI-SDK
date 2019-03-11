@@ -27,6 +27,7 @@ class Internal {
             .option("-f, --file <filename>", "Print result to a file in CSV")
             .option("-o, --owner <ownerid>", "Filter by owner of applications")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("--json", "Write the JSON result to standard stdout")
             .action(function(commands) {
                 Middleware.parseCommand(commands)
                     .then(() => {
@@ -54,6 +55,7 @@ class Internal {
             .option("-f, --file <filename>", "Print result to a file in CSV")
             .option("-o, --owner <ownerid>", "Filter by owner of applications")
             .option("-v, --verbose", "Use verbose console mode")
+            .option("--json", "Write the JSON result to standard stdout")
             .action(function(commands) {
                 Middleware.parseCommand(commands)
                     .then(() => {
