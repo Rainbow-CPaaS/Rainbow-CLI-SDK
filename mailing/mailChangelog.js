@@ -163,7 +163,7 @@ function sendMail(vars, mailjet) {
         "Note: An early version <b>" +
         fullVersion +
         "</b> has been published to NPM (https://www.npmjs.com/package/rainbow-cli?activeTab=versions) and has not replaced the <i>latest</i> tag.";
-    if (vars.environment !== "PRE-PRODUCTION") {
+    if (vars.environment !== "PRE-PRODUCTION" || !fullVersion.includes("beta")) {
         message =
             "Note: A new version <b>" +
             fullVersion +
