@@ -279,22 +279,23 @@ class Company {
             });
 
         this._program
-            .command("company setpublic", "[id]")
+            .command("company set-public")
             .description("Set the visibility of the company to public")
+            .option("-c, --company <companyId>", "Target a specific company")
             .option("-v, --verbose", "Use verbose console mode")
             .option("-j, --json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
-                console.log("    $ rbw company setpublic 57ea7475d78f3ba5aae98935");
-                console.log("    $ rbw company setpublic");
+                console.log("    $ rbw company set-public");
+                console.log("    $ rbw company set-public -c 57ea7475d78f3ba5aae98935");
                 console.log("");
             })
-            .action(function(id, commands) {
+            .action(function(commands) {
                 Middleware.parseCommand(commands)
                     .then(() => {
                         var options = {
-                            id: id || null,
+                            id: commands.company || null,
                             visibility: "public",
                             noOutput: commands.json || false
                         };
@@ -306,22 +307,23 @@ class Company {
             });
 
         this._program
-            .command("company setprivate", "[id]")
+            .command("company set-private")
             .description("Set the visibility of the company to private")
+            .option("-c, --company <companyId>", "Target a specific company")
             .option("-v, --verbose", "Use verbose console mode")
             .option("-j, --json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
-                console.log("    $ rbw company setprivate 57ea7475d78f3ba5aae98935");
+                console.log("    $ rbw company set-private -c 57ea7475d78f3ba5aae98935");
                 console.log("    $ rbw company");
                 console.log("");
             })
-            .action(function(id, commands) {
+            .action(function(commands) {
                 Middleware.parseCommand(commands)
                     .then(() => {
                         var options = {
-                            id: id || null,
+                            id: commands.company || null,
                             visibility: "private",
                             noOutput: commands.json || false
                         };
@@ -333,28 +335,113 @@ class Company {
             });
 
         this._program
-            .command("company setorgpublic", "[id]")
+            .command("company set-orgpublic")
             .description("Set the visibility of the company to public inside organization only")
+            .option("-c, --company <companyId>", "Target a specific company")
             .option("-v, --verbose", "Use verbose console mode")
             .option("-j, --json", "Write the JSON result to standard stdout")
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
-                console.log("    $ rbw company setorgpublic 57ea7475d78f3ba5aae98935");
-                console.log("    $ rbw company setorgpublic");
+                console.log("    $ rbw company set-orgpublic");
+                console.log("    $ rbw company set-orgpublic -c 57ea7475d78f3ba5aae98935");
                 console.log("");
             })
-            .action(function(id, commands) {
+            .action(function(commands) {
                 Middleware.parseCommand(commands)
                     .then(() => {
                         var options = {
-                            id: id || null,
+                            id: commands.company || null,
                             visibility: "organization",
                             noOutput: commands.json || false
                         };
 
                         Logger.isActive = commands.verbose || false;
                         that._company.setVisibility(options);
+                    })
+                    .catch(() => {});
+            });
+
+        this._program
+            .command("company set-active")
+            .description("Set the status of company to active")
+            .option("-c, --company <companyId>", "Target a specific company")
+            .option("-v, --verbose", "Use verbose console mode")
+            .option("-j, --json", "Write the JSON result to standard stdout")
+            .on("--help", function() {
+                console.log("  Examples:");
+                console.log("");
+                console.log("    $ rbw company set-active");
+                console.log("    $ rbw company set-active -c 57ea7475d78f3ba5aae98935");
+                console.log("");
+            })
+            .action(function(commands) {
+                Middleware.parseCommand(commands)
+                    .then(() => {
+                        var options = {
+                            id: commmands.company || null,
+                            status: "active",
+                            noOutput: commands.json || false
+                        };
+
+                        Logger.isActive = commands.verbose || false;
+                        that._company.setStatus(options);
+                    })
+                    .catch(() => {});
+            });
+
+        this._program
+            .command("company set-inactive")
+            .description("Set the status of company to inactive")
+            .option("-c, --company <companyId>", "Target a specific company")
+            .option("-v, --verbose", "Use verbose console mode")
+            .option("-j, --json", "Write the JSON result to standard stdout")
+            .on("--help", function() {
+                console.log("  Examples:");
+                console.log("");
+                console.log("    $ rbw company set-inactive");
+                console.log("    $ rbw company set-inactive -c 57ea7475d78f3ba5aae98935");
+                console.log("");
+            })
+            .action(function(commands) {
+                Middleware.parseCommand(commands)
+                    .then(() => {
+                        var options = {
+                            id: commands.company || null,
+                            status: "hold",
+                            noOutput: commands.json || false
+                        };
+
+                        Logger.isActive = commands.verbose || false;
+                        that._company.setStatus(options);
+                    })
+                    .catch(() => {});
+            });
+
+        this._program
+            .command("company set-name", "<name>")
+            .description("Set the name of the company")
+            .option("-c, --company <companyId>", "Target a specific company")
+            .option("-v, --verbose", "Use verbose console mode")
+            .option("-j, --json", "Write the JSON result to standard stdout")
+            .on("--help", function() {
+                console.log("  Examples:");
+                console.log("");
+                console.log("    $ rbw company set-name 'myCompanyName'");
+                console.log("    $ rbw company set-name 'myCompanyName' -c 57ea7475d78f3ba5aae98935");
+                console.log("");
+            })
+            .action(function(name, commands) {
+                Middleware.parseCommand(commands)
+                    .then(() => {
+                        var options = {
+                            id: commands.company || null,
+                            name: name,
+                            noOutput: commands.json || false
+                        };
+
+                        Logger.isActive = commands.verbose || false;
+                        that._company.setName(options);
                     })
                     .catch(() => {});
             });

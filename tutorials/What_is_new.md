@@ -4,6 +4,30 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
+### Rainbow CLI 1.54 (Mars 2019) - Beta
+
+---
+
+**3-Release Breaking Changes**
+
+-   None.
+
+**Breaking Changes**
+
+-   Command `rbw company setpublic`, `rbw company setprivate` and `rbw company setorgpublic` have been renammed to `rbw company set-public`, `rbw company set-private` and `rbw company set-orgpublic` to be more homogeneous with other commands.
+
+**Changes**
+
+-   New command `rbw company set-active` and `rbw company set-inactive` have been added to change the status of a company.
+
+-   New command `rbw company set-name` has been added to change the name of a company.
+
+-   New command `rbw user add-network` has been added to add a user to the network of other user. This is limited to users of the same company managed by your `company_admin` account.
+
+**Others changes**
+
+-   None.
+
 ### Rainbow CLI 1.53 (Mars 2019) - Beta
 
 ---

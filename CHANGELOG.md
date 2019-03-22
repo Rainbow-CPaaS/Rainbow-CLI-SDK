@@ -6,6 +6,11 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+## [1.54.0] - 2018-03-22
+
+-   RQRAINB-1367: CPAAS / Rainbow CLI / Add user in network of other user
+-   RQRAINB-1368: CPAAS / Rainbow CLI / Change name and status of a company
+
 ## [1.53.0] - 2018-03-10
 
 -   CRRAINB-5526: CPAAS / Rainbow CLI / Dashboard is limited to 1000 developers

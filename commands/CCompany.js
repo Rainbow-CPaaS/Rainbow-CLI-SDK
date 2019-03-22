@@ -106,7 +106,7 @@ class CCompany {
         });
     }
 
-    _setVisibility(token, options) {
+    _updateCompany(token, options, data) {
         var that = this;
 
         return new Promise(function(resolve, reject) {
@@ -116,7 +116,7 @@ class CCompany {
                 id = that._prefs.user.companyId;
             }
 
-            NodeSDK.put("/api/rainbow/admin/v1.0/companies/" + id, token, { visibility: options.visibility })
+            NodeSDK.put("/api/rainbow/admin/v1.0/companies/" + id, token, data)
                 .then(function(json) {
                     resolve(json);
                 })
@@ -425,7 +425,7 @@ class CCompany {
             )
                 .then(function() {
                     Message.log("execute action...");
-                    return that._setVisibility(that._prefs.token, options);
+                    return that._updateCompany(that._prefs.token, options, { visibility: options.visibility });
                 })
                 .then(function(json) {
                     Message.unspin(spin);
@@ -437,6 +437,102 @@ class CCompany {
                     } else {
                         Message.lineFeed();
                         Message.printSuccess("Company is now " + options.visibility, json.data.id, options);
+                        Message.success(options);
+                    }
+                    Message.log("finished!");
+                })
+                .catch(function(err) {
+                    Message.unspin(spin);
+                    Message.error(err, options);
+                    Exit.error();
+                });
+        } else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    setStatus(options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if (this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            Message.action("Set company status to", options.status, options);
+            let spin = Message.spin(options);
+
+            NodeSDK.start(
+                this._prefs.email,
+                this._prefs.password,
+                this._prefs.host,
+                this._prefs.proxy,
+                this._prefs.appid,
+                this._prefs.appsecret
+            )
+                .then(function() {
+                    Message.log("execute action...");
+                    return that._updateCompany(that._prefs.token, options, { status: options.status });
+                })
+                .then(function(json) {
+                    Message.unspin(spin);
+
+                    Message.log("action done...", json);
+
+                    if (options.noOutput) {
+                        Message.out(json.data);
+                    } else {
+                        Message.lineFeed();
+                        Message.printSuccess("Company is now " + options.status, json.data.id, options);
+                        Message.success(options);
+                    }
+                    Message.log("finished!");
+                })
+                .catch(function(err) {
+                    Message.unspin(spin);
+                    Message.error(err, options);
+                    Exit.error();
+                });
+        } else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    setName(options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if (this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            Message.action("Set company name to", options.name, options);
+            let spin = Message.spin(options);
+
+            NodeSDK.start(
+                this._prefs.email,
+                this._prefs.password,
+                this._prefs.host,
+                this._prefs.proxy,
+                this._prefs.appid,
+                this._prefs.appsecret
+            )
+                .then(function() {
+                    Message.log("execute action...");
+                    return that._updateCompany(that._prefs.token, options, { name: options.name });
+                })
+                .then(function(json) {
+                    Message.unspin(spin);
+
+                    Message.log("action done...", json);
+
+                    if (options.noOutput) {
+                        Message.out(json.data);
+                    } else {
+                        Message.lineFeed();
+                        Message.printSuccess("Company name is now " + options.name, json.data.id, options);
                         Message.success(options);
                     }
                     Message.log("finished!");

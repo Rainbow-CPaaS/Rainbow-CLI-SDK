@@ -284,6 +284,42 @@ class User {
             });
 
         this._program
+            .command("user add-network", "<id> <userToAddId>")
+            .description("Add a user to the network of other user without sharing the presence by default")
+            .option("-p, --presence", "Share the presence between users")
+            .option("-j, --json", "Write the JSON result to standard stdout")
+            .option("-v, --verbose", "Use verbose console mode")
+            .on("--help", function() {
+                console.log("  Examples:");
+                console.log("");
+                console.log("    $ rbw user join 593065822799299343b8501d 57ea7475d78f3ba5aae98935");
+                console.log("    $ rbw user join 593065822799299343b8501d 57ea7475d78f3ba5aae98935 -p --json");
+                console.log("");
+                console.log("  Details:");
+                console.log("");
+                console.log(
+                    "    The option `--json` exports a JSON object representing the user created to the console"
+                );
+                console.log("");
+            })
+            .action(function(id, userToAddId, commands) {
+                Middleware.parseCommand(commands)
+                    .then(() => {
+                        var options = {
+                            noOutput: commands.json || false,
+                            id: id,
+                            userToAddId: userToAddId,
+                            presence: commands.presence
+                        };
+
+                        Logger.isActive = commands.verbose || false;
+
+                        that._user.join(options);
+                    })
+                    .catch(() => {});
+            });
+
+        this._program
             .command("users")
             .description("List the users")
             .option("-p, --page <number>", "Display a specific page")

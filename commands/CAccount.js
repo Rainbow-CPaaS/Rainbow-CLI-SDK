@@ -1224,20 +1224,38 @@ class CAccount {
                     {
                         level: "company_admin",
                         theme: "Company",
-                        command: "company setpublic [companyId]",
+                        command: "company set-name",
+                        details: "Change the name of a company"
+                    },
+                    {
+                        level: "company_admin",
+                        theme: "Company",
+                        command: "company set-public",
                         details: "Change the visibility of a company to public"
                     },
                     {
                         level: "company_admin",
                         theme: "Company",
-                        command: "company setprivate [companyId]",
+                        command: "company set-private",
                         details: "Change the visibility of a company to private"
                     },
                     {
                         level: "company_admin",
                         theme: "Company",
-                        command: "company setorgpublic [companyId]",
+                        command: "company set-orgpublic",
                         details: "Change the visibility of a company to public inside an organization"
+                    },
+                    {
+                        level: "company_admin",
+                        theme: "Company",
+                        command: "company set-active",
+                        details: "Change the status of a company to active"
+                    },
+                    {
+                        level: "company_admin",
+                        theme: "Company",
+                        command: "company set-inactive",
+                        details: "Change the status of a company to inactive"
                     },
                     {
                         level: "company_admin",

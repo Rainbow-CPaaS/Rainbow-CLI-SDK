@@ -82,6 +82,21 @@ class CUser {
         });
     }
 
+    _join(token, options) {
+        return new Promise(function(resolve, reject) {
+            NodeSDK.post(`/api/rainbow/admin/v1.0/users/${options.id}/networks`, token, {
+                users: [options.userToAddId],
+                presence: options.presence
+            })
+                .then(function(json) {
+                    resolve(json);
+                })
+                .catch(function(err) {
+                    reject(err);
+                });
+        });
+    }
+
     _changedata(token, id, data) {
         return new Promise(function(resolve, reject) {
             NodeSDK.put("/api/rainbow/admin/v1.0/users/" + id, token, data)
@@ -244,6 +259,52 @@ class CUser {
                     } else {
                         Message.lineFeed();
                         Message.printSuccess("User created with Id", json.data.id, options);
+                        Message.success(options);
+                    }
+                    Message.log("finished!");
+                })
+                .catch(function(err) {
+                    Message.unspin(spin);
+                    Message.error(err, options);
+                    Exit.error();
+                });
+        } else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    join(options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if (this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+            Message.action("Join for user", options.id, options);
+
+            let spin = Message.spin(options);
+            NodeSDK.start(
+                this._prefs.email,
+                this._prefs.password,
+                this._prefs.host,
+                this._prefs.proxy,
+                this._prefs.appid,
+                this._prefs.appsecret
+            )
+                .then(function() {
+                    Message.log("execute action...");
+                    return that._join(that._prefs.token, options);
+                })
+                .then(function(json) {
+                    Message.unspin(spin);
+                    Message.log("action done...", json);
+
+                    if (options.noOutput) {
+                        Message.out(json.data);
+                    } else {
+                        Message.lineFeed();
+                        Message.printSuccess("User added", options.userToAddId, options);
                         Message.success(options);
                     }
                     Message.log("finished!");
