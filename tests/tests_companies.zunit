@@ -78,6 +78,28 @@
   assert $NAME same_as 'RainbowCLI-tests'
 }
 
+@test 'Command company create (#check name)' {
+  run rbw company create 'aCLICompanyForTest' --json
+  assert $state equals 0
+  NAME=`echo $output | jq '.name' -r`
+  assert $NAME is_not_empty
+  assert $NAME same_as 'aCLICompanyForTest'
+}
+
+@test 'Command company delete (#check count)' {
+  run rbw companies --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  run rbw company delete $ID --nc
+  assert $state equals 0
+  run rbw companies --json
+  TOTAL=`echo $output | jq '.total' -r`
+  assert $TOTAL is_not_empty
+  assert $TOTAL same_as '1'
+}
+
+
+
 @teardown {
   rbw logout
 }
