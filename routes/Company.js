@@ -379,11 +379,10 @@ class Company {
                 Middleware.parseCommand(commands)
                     .then(() => {
                         var options = {
-                            id: commmands.company || null,
+                            id: commands.company || null,
                             status: "active",
                             noOutput: commands.json || false
                         };
-
                         Logger.isActive = commands.verbose || false;
                         that._company.setStatus(options);
                     })

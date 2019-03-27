@@ -86,6 +86,26 @@
   assert $NAME same_as 'aCLICompanyForTest'
 }
 
+@test 'Command companies set-inactive (#check status)' {
+  run rbw companies -n 'aCLICompanyForTest' --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  run rbw company set-inactive -c $ID --json
+  STATUS=`echo $output | jq '.status' -r`
+  assert $STATUS is_not_empty
+  assert $STATUS same_as 'hold'
+}
+
+@test 'Command companies set-active (#check status)' {
+  run rbw companies -n 'aCLICompanyForTest' --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  run rbw company set-active -c $ID --json
+  STATUS=`echo $output | jq '.status' -r`
+  assert $STATUS is_not_empty
+  assert $STATUS same_as 'active'
+}
+
 @test 'Command company delete (#check count)' {
   run rbw companies --json
   assert $state equals 0
