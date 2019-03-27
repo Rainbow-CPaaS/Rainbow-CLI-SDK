@@ -18,6 +18,8 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 **Changes**
 
+-   New commands `rbw application set-implicitGrant` and `rbw application unset-implicitGrant` have been added to authorize or not the implicit Grant for OAuth authentication and authorization process.
+
 -   New command `rbw company set-active` and `rbw company set-inactive` have been added to change the status of a company.
 
 -   New command `rbw company set-name` has been added to change the name of a company.
@@ -42,7 +44,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 **Changes**
 
--   New commands `rbw application set-redirecturi`, `rbw application set-termsurl` and `rbw application set-privacyurl` have been added to set the Oauth Redirect URI and optional links to the application terms of service and privacy policies.
+-   New commands `rbw application set-redirecturi`, `rbw application set-termsurl` and `rbw application set-privacyurl` have been added to set the OAuth Redirect URI and optional links to the application terms of service and privacy policies.
 
 -   New command `rbw set admin` has been added to give to the user the right to manage his own company by creating it. Once created, the user acquires the `company_admin` right and so his able to create new users in his company and executes commands to manage them. This command works only if the user is not already part of an existing company.
 

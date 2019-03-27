@@ -90,6 +90,28 @@
   assert $URL same_as 'https://myapp.domain.com/privacy.pdf'
 }
 
+@test 'Command application set-implicitGrant (::business #check enableOAuthImplicitGrant)' {
+  run rbw applications --name "an application" --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  run rbw application set-implicitGrant $ID --json
+  assert $state equals 0
+  IMPLICITGRANT=`echo $output | jq '.enableOAuthImplicitGrant' -r`
+  assert $IMPLICITGRANT is_not_empty
+  assert $IMPLICITGRANT same_as 'true'
+}
+
+@test 'Command application unset-implicitGrant (::business #check enableOAuthImplicitGrant)' {
+  run rbw applications --name "an application" --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  run rbw application unset-implicitGrant $ID --json
+  assert $state equals 0
+  IMPLICITGRANT=`echo $output | jq '.enableOAuthImplicitGrant' -r`
+  assert $IMPLICITGRANT is_not_empty
+  assert $IMPLICITGRANT same_as 'false'
+}
+
 @test 'Command application deploy (#check env)' {
   if [[ $AFTERBUILD_HOST = 'sandbox.openrainbow.com' ]]; then
     skip 'Test does not run on sandbox - application is automatically deployed'

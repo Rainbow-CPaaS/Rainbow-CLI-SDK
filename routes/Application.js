@@ -545,7 +545,9 @@ class Application {
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
-                console.log("    $ rbw application set-redirecturi 'https://example.com/oauth2-redirect'");
+                console.log(
+                    "    $ rbw application set-redirecturi 593065822799299343b8501d 'https://example.com/oauth2-redirect'"
+                );
                 console.log("");
                 console.log("  Details:");
                 console.log("");
@@ -579,7 +581,9 @@ class Application {
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
-                console.log("    $ rbw application set-termsurl 'https://myapp.domain.com/terms.pdf'");
+                console.log(
+                    "    $ rbw application set-termsurl 593065822799299343b8501d 'https://myapp.domain.com/terms.pdf'"
+                );
                 console.log("");
                 console.log("  Details:");
                 console.log("");
@@ -612,7 +616,9 @@ class Application {
             .on("--help", function() {
                 console.log("  Examples:");
                 console.log("");
-                console.log("    $ rbw application set-privacyurl 'https://myapp.domain.com/privacy.pdf'");
+                console.log(
+                    "    $ rbw application set-privacyurl 593065822799299343b8501d 'https://myapp.domain.com/privacy.pdf'"
+                );
                 console.log("");
                 console.log("  Details:");
                 console.log("");
@@ -631,6 +637,68 @@ class Application {
                         Logger.isActive = commands.verbose || false;
 
                         that._application.setOauthPrivacy(options);
+                    })
+                    .catch(() => {});
+            });
+
+        this._program
+            .command("application set-implicitGrant", "<appid>")
+            .description("Allow the application to use OAuth 2.0 implicit grant")
+            .option("-j, --json", "Write the JSON result to standard stdout")
+            .option("-v, --verbose", "Use verbose console mode")
+            .on("--help", function() {
+                console.log("  Examples:");
+                console.log("");
+                console.log("    $ rbw application set-implicitGrant 593065822799299343b8501d");
+                console.log("");
+                console.log("  Details:");
+                console.log("");
+                console.log("    The option `--json` exports the JSON object representing the user to the console");
+                console.log("");
+            })
+            .action(function(appid, commands) {
+                Middleware.parseCommand(commands)
+                    .then(() => {
+                        var options = {
+                            noOutput: commands.json || false,
+                            enableOAuthImplicitGrant: true,
+                            appid: appid
+                        };
+
+                        Logger.isActive = commands.verbose || false;
+
+                        that._application.setImplicitGrant(options);
+                    })
+                    .catch(() => {});
+            });
+
+        this._program
+            .command("application unset-implicitGrant", "<appid>")
+            .description("Disallow the application to use OAuth 2.0 implicit grant")
+            .option("-j, --json", "Write the JSON result to standard stdout")
+            .option("-v, --verbose", "Use verbose console mode")
+            .on("--help", function() {
+                console.log("  Examples:");
+                console.log("");
+                console.log("    $ rbw application unset-implicitGrant 593065822799299343b8501d");
+                console.log("");
+                console.log("  Details:");
+                console.log("");
+                console.log("    The option `--json` exports the JSON object representing the user to the console");
+                console.log("");
+            })
+            .action(function(appid, commands) {
+                Middleware.parseCommand(commands)
+                    .then(() => {
+                        var options = {
+                            noOutput: commands.json || false,
+                            enableOAuthImplicitGrant: false,
+                            appid: appid
+                        };
+
+                        Logger.isActive = commands.verbose || false;
+
+                        that._application.setImplicitGrant(options);
                     })
                     .catch(() => {});
             });

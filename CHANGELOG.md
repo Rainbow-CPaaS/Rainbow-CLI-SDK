@@ -8,6 +8,7 @@ All notable changes to Rainbow-CLI will be documented in this file.
 
 ## [1.54.0] - 2018-03-22
 
+-   RQRAINB-1375: CPAAS / Rainbow CLI / Add command for authorizing implicit grant
 -   RQRAINB-1367: CPAAS / Rainbow CLI / Add user in network of other user
 -   RQRAINB-1368: CPAAS / Rainbow CLI / Change name and status of a company
 

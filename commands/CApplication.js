@@ -1424,6 +1424,68 @@ class CApplication {
         }
     }
 
+    setImplicitGrant(options) {
+        var that = this;
+
+        let spin = null;
+
+        Message.welcome(options);
+
+        if (this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            if (options.enableOAuthImplicitGrant) {
+                Message.action("Set Oauth implicit grant for application", options.appid, options);
+            } else {
+                Message.action("Unset Oauth implicit grant for application", options.appid, options);
+            }
+
+            NodeSDK.start(
+                this._prefs.email,
+                this._prefs.password,
+                this._prefs.host,
+                this._prefs.proxy,
+                this._prefs.appid,
+                this._prefs.appsecret
+            )
+                .then(function() {
+                    Message.log("execute action...");
+
+                    spin = Message.spin(options);
+
+                    return that._updateApplication(that._prefs.token, options, {
+                        enableOAuthImplicitGrant: options.enableOAuthImplicitGrant
+                    });
+                })
+                .then(function(json) {
+                    Message.unspin(spin);
+
+                    Message.log("action done...", json);
+
+                    if (options.noOutput) {
+                        Message.out(json.data);
+                    } else {
+                        Message.lineFeed();
+                        if (options.enableOAuthImplicitGrant) {
+                            Message.printSuccess("OAuth implicit grant successfully set", json.data.id, options);
+                        } else {
+                            Message.printSuccess("OAuth implicit grant successfully unset", json.data.id, options);
+                        }
+                        Message.success(options);
+                    }
+                    Message.log("finished!");
+                })
+                .catch(function(err) {
+                    Message.unspin(spin);
+                    Message.error(err, options);
+                    Exit.error();
+                });
+        } else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
     usageApplication(options) {
         var that = this;
 

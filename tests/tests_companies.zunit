@@ -98,8 +98,6 @@
   assert $TOTAL same_as '1'
 }
 
-
-
 @teardown {
   rbw logout
 }
