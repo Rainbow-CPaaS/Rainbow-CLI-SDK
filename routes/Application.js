@@ -642,7 +642,7 @@ class Application {
             });
 
         this._program
-            .command("application set-implicitGrant", "<appid>")
+            .command("application set-implicitgrant", "<appid>")
             .description("Allow the application to use OAuth 2.0 implicit grant")
             .option("-j, --json", "Write the JSON result to standard stdout")
             .option("-v, --verbose", "Use verbose console mode")
@@ -673,7 +673,7 @@ class Application {
             });
 
         this._program
-            .command("application unset-implicitGrant", "<appid>")
+            .command("application unset-implicitgrant", "<appid>")
             .description("Disallow the application to use OAuth 2.0 implicit grant")
             .option("-j, --json", "Write the JSON result to standard stdout")
             .option("-v, --verbose", "Use verbose console mode")

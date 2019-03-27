@@ -966,6 +966,18 @@ class CAccount {
                     {
                         level: "app_admin",
                         theme: "Applications",
+                        command: "application set-implicitgrant <appid>",
+                        details: "Allow the application's OAuth inplicit grant flow"
+                    },
+                    {
+                        level: "app_admin",
+                        theme: "Applications",
+                        command: "application unset-implicitgrant <appid>",
+                        details: "Disallow the application's OAuth inplicit grant flow"
+                    },
+                    {
+                        level: "app_admin",
+                        theme: "Applications",
                         command: "application <appid>",
                         details: "List application's information"
                     },

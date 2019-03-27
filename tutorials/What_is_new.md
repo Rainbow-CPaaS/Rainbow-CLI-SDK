@@ -4,7 +4,7 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
-### Rainbow CLI 1.54 (Mars 2019) - Beta
+### Rainbow CLI 1.54 (April 2019) - Beta
 
 ---
 
@@ -18,7 +18,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 **Changes**
 
--   New commands `rbw application set-implicitGrant` and `rbw application unset-implicitGrant` have been added to authorize or not the implicit Grant for OAuth authentication and authorization process.
+-   New commands `rbw application set-implicitgrant` and `rbw application unset-implicitgrant` have been added to authorize or not the implicit grant flow when using OAuth.
 
 -   New command `rbw company set-active` and `rbw company set-inactive` have been added to change the status of a company.
 
