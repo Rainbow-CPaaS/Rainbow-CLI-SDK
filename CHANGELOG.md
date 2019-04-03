@@ -6,6 +6,10 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+## [1.54.0] - 2018-04-03
+
+-   Update to SDK Node.js 1.54.1
+
 ## [1.54.0-beta.0] - 2018-03-27
 
 -   RQRAINB-1375: CPAAS / Rainbow CLI / Add command for authorizing implicit grant

@@ -40,9 +40,9 @@ $ npm test
 
 ```
 
-This will start zunit and launch all tests located in directoy `tests/` on the pre-prod infrastructure.
+This will start zunit and launch all tests located in directoy `tests/` on the pre-prod infrastructure (.net equivalent).
 
-To launch tests for Sandbox, use the command:
+To launch tests for Sandbox (prod equivalent), use the command:
 
 ```zsh
 $ npm test:sandbox
@@ -56,6 +56,7 @@ $ npm test:sandbox
 Early version can be provided to early adopters or for testing internally.
 
 ### Deliver early version
+---
 
 Several tasks have to be launched in order to a internal version of the Rainbow-CLI (beta). This version will be available for early testing.
 
