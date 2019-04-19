@@ -1554,7 +1554,7 @@ class Message {
 
         Screen.table(array);
         Screen.print("");
-        Screen.success("Avallable commands listed successfully.");
+        Screen.success("Available commands listed successfully.");
         Screen.print("");
     }
 

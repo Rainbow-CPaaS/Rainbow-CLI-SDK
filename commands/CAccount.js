@@ -1457,7 +1457,7 @@ class CAccount {
                     {
                         level: "organization_admin",
                         theme: "Company",
-                        command: "company delete<id>",
+                        command: "company delete <id>",
                         details: "Delete an existing company"
                     },
                     {
