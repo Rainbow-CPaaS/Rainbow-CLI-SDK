@@ -1,8 +1,8 @@
 "use strict";
 
-const NodeSDK   = require('../common/SDK');
-const Message   = require('../common/Message');
-const Exit      = require('../common/Exit');
+const NodeSDK = require('../common/SDK');
+const Message = require('../common/Message');
+const Exit = require('../common/Exit');
 
 class CDeveloper {
 
@@ -14,18 +14,18 @@ class CDeveloper {
 
         let that = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
             var filterToApply = "format=full";
 
             var id = prefs.user.id;
-            if(options.id) {
+            if (options.id) {
                 id = options.id;
             }
 
-            NodeSDK.get('/api/rainbow/subscription/v1.0/developers/' + id + '/accounts?' + filterToApply, token).then(function(json) {
+            NodeSDK.get('/api/rainbow/subscription/v1.0/developers/' + id + '/accounts?' + filterToApply, token).then(function (json) {
                 resolve(json);
-            }).catch(function(err) {
+            }).catch(function (err) {
                 reject(err);
             });
         });
@@ -35,16 +35,16 @@ class CDeveloper {
 
         let that = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
             var id = prefs.user.id;
-            if(options.id) {
+            if (options.id) {
                 id = options.id;
             }
 
-            NodeSDK.get('/api/rainbow/subscription/v1.0/developers/' + id + '/payments/methods', token).then(function(json) {
+            NodeSDK.get('/api/rainbow/subscription/v1.0/developers/' + id + '/payments/methods', token).then(function (json) {
                 resolve(json);
-            }).catch(function(err) {
+            }).catch(function (err) {
                 reject(err);
             });
         });
@@ -54,21 +54,21 @@ class CDeveloper {
 
         let that = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
             var id = prefs.user.id;
-            if(options.id) {
+            if (options.id) {
                 id = options.id;
             }
 
-            NodeSDK.get('/api/rainbow/subscription/v1.0/developers/' + id + '/payments/methods', token).then(function(json) {
+            NodeSDK.get('/api/rainbow/subscription/v1.0/developers/' + id + '/payments/methods', token).then(function (json) {
 
                 let method = json.data.find((existingMethod) => {
                     return (existingMethod.Id === options.methodid);
                 });
 
                 resolve(method);
-            }).catch(function(err) {
+            }).catch(function (err) {
                 reject(err);
             });
         });
@@ -78,16 +78,16 @@ class CDeveloper {
 
         let that = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
             var id = prefs.user.id;
-            if(options.id) {
+            if (options.id) {
                 id = options.id;
             }
 
-            NodeSDK.get('/api/rainbow/subscription/v1.0/developers/' + id + '/subscriptions', token).then(function(json) {
+            NodeSDK.get('/api/rainbow/subscription/v1.0/developers/' + id + '/subscriptions', token).then(function (json) {
                 resolve(json);
-            }).catch(function(err) {
+            }).catch(function (err) {
                 reject(err);
             });
         });
@@ -97,16 +97,16 @@ class CDeveloper {
 
         let that = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
             var id = prefs.user.id;
-            if(options.id) {
+            if (options.id) {
                 id = options.id;
             }
 
-            NodeSDK.get('/api/rainbow/subscription/v1.0/developers/' + id + '/invoices', token).then(function(json) {
+            NodeSDK.get('/api/rainbow/subscription/v1.0/developers/' + id + '/invoices', token).then(function (json) {
                 resolve(json);
-            }).catch(function(err) {
+            }).catch(function (err) {
                 reject(err);
             });
         });
@@ -115,14 +115,14 @@ class CDeveloper {
     _deletePayment(token, options, prefs) {
 
         var id = prefs.user.id;
-        if(options.id) {
+        if (options.id) {
             id = options.id;
         }
 
-        return new Promise(function(resolve, reject) {
-            NodeSDK.put('/api/rainbow/subscription/v1.0/developers/' + id + '/accounts/cancel', token, null).then(function(json) {
+        return new Promise(function (resolve, reject) {
+            NodeSDK.put('/api/rainbow/subscription/v1.0/developers/' + id + '/accounts/cancel', token, null).then(function (json) {
                 resolve(json);
-            }).catch(function(err) {
+            }).catch(function (err) {
                 reject(err);
             });
         });
@@ -131,14 +131,38 @@ class CDeveloper {
     _deleteMethod(token, options, prefs) {
 
         var id = prefs.user.id;
-        if(options.id) {
+        if (options.id) {
             id = options.id;
         }
 
-        return new Promise(function(resolve, reject) {
-            NodeSDK.delete('/api/rainbow/subscription/v1.0/developers/' + id + '/payments/methods/' + options.methodid, token).then(function(json) {
+        return new Promise(function (resolve, reject) {
+            NodeSDK.delete('/api/rainbow/subscription/v1.0/developers/' + id + '/payments/methods/' + options.methodid, token).then(function (json) {
                 resolve(json);
-            }).catch(function(err) {
+            }).catch(function (err) {
+                reject(err);
+            });
+        });
+    }
+
+    _addRole(token, options) {
+        return new Promise(function (resolve, reject) {
+            NodeSDK.delete('/api/rainbow/subscription/v1.0/developers/' + options.userId + '/addRole', token, {
+                role: options.role
+            }).then(function (json) {
+                resolve(json);
+            }).catch(function (err) {
+                reject(err);
+            });
+        });
+    }
+
+    _removeRole(token, options) {
+        return new Promise(function (resolve, reject) {
+            NodeSDK.delete('/api/rainbow/subscription/v1.0/developers/' + options.userId + '/removeRole', token, {
+                role: options.role
+            }).then(function (json) {
+                resolve(json);
+            }).catch(function (err) {
                 reject(err);
             });
         });
@@ -149,23 +173,23 @@ class CDeveloper {
 
         Message.welcome(options);
 
-        if(this._prefs.token && this._prefs.user) {
+        if (this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
 
-            if(!options.csv) {
+            if (!options.csv) {
                 Message.action("List payment for user ", options.id, options);
             }
-            
+
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function () {
                 Message.log("execute action...");
                 return that._getPayments(that._prefs.token, options, that._prefs);
-            }).then(function(json) {
-                
+            }).then(function (json) {
+
                 Message.unspin(spin);
                 Message.log("action done...", json);
 
-                if(options.noOutput) {
+                if (options.noOutput) {
                     Message.out(json.data);
                 }
                 else {
@@ -176,7 +200,7 @@ class CDeveloper {
                 }
                 Message.log("finished!");
 
-            }).catch(function(err) {
+            }).catch(function (err) {
                 Message.unspin(spin);
                 Message.error(err, options);
                 Exit.error();
@@ -193,23 +217,23 @@ class CDeveloper {
 
         Message.welcome(options);
 
-        if(this._prefs.token && this._prefs.user) {
+        if (this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
 
-            if(!options.csv) {
+            if (!options.csv) {
                 Message.action("List payment methods for user ", options.id, options);
             }
-            
+
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function () {
                 Message.log("execute action...");
                 return that._getMethods(that._prefs.token, options, that._prefs);
-            }).then(function(json) {
-                
+            }).then(function (json) {
+
                 Message.unspin(spin);
                 Message.log("action done...", json);
 
-                if(options.noOutput) {
+                if (options.noOutput) {
                     Message.out(json.data);
                 }
                 else {
@@ -220,7 +244,7 @@ class CDeveloper {
                 }
                 Message.log("finished!");
 
-            }).catch(function(err) {
+            }).catch(function (err) {
                 Message.unspin(spin);
                 Message.error(err, options);
                 Exit.error();
@@ -237,23 +261,23 @@ class CDeveloper {
 
         Message.welcome(options);
 
-        if(this._prefs.token && this._prefs.user) {
+        if (this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
 
-            if(!options.csv) {
+            if (!options.csv) {
                 Message.action("List information of payment method ", options.methodid, options);
             }
-            
+
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function () {
                 Message.log("execute action...");
                 return that._getMethod(that._prefs.token, options, that._prefs);
-            }).then(function(json) {
-                
+            }).then(function (json) {
+
                 Message.unspin(spin);
                 Message.log("action done...", json);
 
-                if(options.noOutput) {
+                if (options.noOutput) {
                     Message.out(json.data);
                 }
                 else {
@@ -264,7 +288,7 @@ class CDeveloper {
                 }
                 Message.log("finished!");
 
-            }).catch(function(err) {
+            }).catch(function (err) {
                 Message.unspin(spin);
                 Message.error(err, options);
                 Exit.error();
@@ -281,23 +305,23 @@ class CDeveloper {
 
         Message.welcome(options);
 
-        if(this._prefs.token && this._prefs.user) {
+        if (this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
 
-            if(!options.csv) {
+            if (!options.csv) {
                 Message.action("List subscriptions for user ", options.id, options);
             }
-            
+
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function () {
                 Message.log("execute action...");
                 return that._getSubscriptions(that._prefs.token, options, that._prefs);
-            }).then(function(json) {
-                
+            }).then(function (json) {
+
                 Message.unspin(spin);
                 Message.log("action done...", json);
 
-                if(options.noOutput) {
+                if (options.noOutput) {
                     Message.out(json.data);
                 }
                 else {
@@ -308,7 +332,7 @@ class CDeveloper {
                 }
                 Message.log("finished!");
 
-            }).catch(function(err) {
+            }).catch(function (err) {
                 Message.unspin(spin);
                 Message.error(err, options);
                 Exit.error();
@@ -323,37 +347,37 @@ class CDeveloper {
     deletePayment(options) {
         var that = this;
 
-        var doDelete = function(options) {
+        var doDelete = function (options) {
             Message.action("Delete payment", options.id, options);
 
             let spin = Message.spin(options);
-            NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host).then(function() {
+            NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host).then(function () {
                 Message.log("execute action...");
                 return that._deletePayment(that._prefs.token, options, that._prefs);
-            }).then(function(json) {
+            }).then(function (json) {
                 Message.unspin(spin);
                 Message.log("action done...", json);
                 Message.lineFeed();
                 Message.success(options);
                 Message.log("finished!");
-            }).catch(function(err) {
+            }).catch(function (err) {
                 Message.unspin(spin);
                 Message.error(err, options);
                 Exit.error();
             });
         }
-        
+
         Message.welcome(options);
-                
-        if(this._prefs.token && this._prefs.user) {
+
+        if (this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
 
-            if(options.noconfirmation) {
+            if (options.noconfirmation) {
                 doDelete(options);
             }
             else {
-                Message.confirm('Are-you sure ? It will remove it completely').then(function(confirm) {
-                    if(confirm) {
+                Message.confirm('Are-you sure ? It will remove it completely').then(function (confirm) {
+                    if (confirm) {
                         doDelete(options);
                     }
                     else {
@@ -372,37 +396,37 @@ class CDeveloper {
     deleteMethod(options) {
         var that = this;
 
-        var doDelete = function(options) {
+        var doDelete = function (options) {
             Message.action("Delete payment method", options.methodid, options);
 
             let spin = Message.spin(options);
-            NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host).then(function() {
+            NodeSDK.start(that._prefs.email, that._prefs.password, that._prefs.host).then(function () {
                 Message.log("execute action...");
                 return that._deleteMethod(that._prefs.token, options, that._prefs);
-            }).then(function(json) {
+            }).then(function (json) {
                 Message.unspin(spin);
                 Message.log("action done...", json);
                 Message.lineFeed();
                 Message.success(options);
                 Message.log("finished!");
-            }).catch(function(err) {
+            }).catch(function (err) {
                 Message.unspin(spin);
                 Message.error(err, options);
                 Exit.error();
             });
         }
-        
+
         Message.welcome(options);
-                
-        if(this._prefs.token && this._prefs.user) {
+
+        if (this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
 
-            if(options.noconfirmation) {
+            if (options.noconfirmation) {
                 doDelete(options);
             }
             else {
-                Message.confirm('Are-you sure ? It will remove it completely').then(function(confirm) {
-                    if(confirm) {
+                Message.confirm('Are-you sure ? It will remove it completely').then(function (confirm) {
+                    if (confirm) {
                         doDelete(options);
                     }
                     else {
@@ -423,23 +447,23 @@ class CDeveloper {
 
         Message.welcome(options);
 
-        if(this._prefs.token && this._prefs.user) {
+        if (this._prefs.token && this._prefs.user) {
             Message.loggedin(this._prefs, options);
 
-            if(!options.csv) {
+            if (!options.csv) {
                 Message.action("List invoices for user ", options.id, options);
             }
-            
+
             let spin = Message.spin(options);
-            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function() {
+            NodeSDK.start(this._prefs.email, this._prefs.password, this._prefs.host, this._prefs.proxy, this._prefs.appid, this._prefs.appsecret).then(function () {
                 Message.log("execute action...");
                 return that._getInvoices(that._prefs.token, options, that._prefs);
-            }).then(function(json) {
-                
+            }).then(function (json) {
+
                 Message.unspin(spin);
                 Message.log("action done...", json);
 
-                if(options.noOutput) {
+                if (options.noOutput) {
                     Message.out(json.data);
                 }
                 else {
@@ -450,7 +474,7 @@ class CDeveloper {
                 }
                 Message.log("finished!");
 
-            }).catch(function(err) {
+            }).catch(function (err) {
                 Message.unspin(spin);
                 Message.error(err, options);
                 Exit.error();
@@ -460,6 +484,64 @@ class CDeveloper {
             Message.notLoggedIn(options);
             Exit.error();
         }
+    }
+
+    addRole(options) {
+        var that = this;
+
+        Message.action("Add a developer's role to developer with id", options.userId, options);
+
+        let spin = Message.spin(options);
+        NodeSDK.start(
+            that._prefs.email, 
+            that._prefs.password, 
+            that._prefs.host,
+            that._prefs.proxy,
+            that._prefs.appid,
+            that._prefs.appsecret
+        ).then(function () {
+            Message.log("execute action...");
+            return that._addRole(that._prefs.token, options);
+        }).then(function (json) {
+            Message.unspin(spin);
+            Message.log("action done...", json);
+            Message.lineFeed();
+            Message.success(options);
+            Message.log("finished!");
+        }).catch(function (err) {
+            Message.unspin(spin);
+            Message.error(err, options);
+            Exit.error();
+        });
+    }
+
+    removeRole(options) {
+        var that = this;
+
+        Message.action("Remove a developer's role to developer with id", options.userId, options);
+
+        let spin = Message.spin(options);
+        NodeSDK.start(
+            that._prefs.email, 
+            that._prefs.password, 
+            that._prefs.host,
+            that._prefs.proxy,
+            that._prefs.appid,
+            that._prefs.appsecret
+        ).then(function () {
+            Message.log("execute action...");
+            return that._removeRole(that._prefs.token, options);
+        }).then(function (json) {
+            Message.unspin(spin);
+            Message.log("action done...", json);
+            Message.lineFeed();
+            Message.success(options);
+            Message.log("finished!");
+        }).catch(function (err) {
+            Message.unspin(spin);
+            Message.error(err, options);
+            Exit.error();
+        });
     }
 }
 
