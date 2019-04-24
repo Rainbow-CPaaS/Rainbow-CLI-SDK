@@ -10,7 +10,7 @@ For launching integration tests, you need to have a **zsh** shell and to install
 
 ```shell
 $ brew install jq
-$ brew install zunit
+$ brew install zunit-zsh/zunit/zunit
 ```
 
 ### Environment variables
