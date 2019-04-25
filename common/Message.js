@@ -1751,6 +1751,14 @@ class Message {
                 }
             }
 
+            if (user.roles.includes("app_admin_internal")) {
+                if (adminType.length > 0) {
+                    adminType = "app_admin_internal > " + adminType;
+                } else {
+                    adminType = "app_admin_internal > user";
+                }
+            }
+
             if (user.roles.includes("app_superadmin")) {
                 if (adminType.length > 0) {
                     adminType = "app_superadmin > " + adminType;
