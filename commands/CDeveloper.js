@@ -146,9 +146,8 @@ class CDeveloper {
 
     _addRole(token, options) {
         return new Promise(function (resolve, reject) {
-            NodeSDK.put('/api/rainbow/applications/v1.0/developers/' + options.userId + '/addRole', token, {
-                role: options.role
-            }).then(function (json) {
+            NodeSDK.put('/api/rainbow/applications/v1.0/developers/' + options.userId + '/addRole?role=' + options.role, token, {})
+            .then(function (json) {
                 resolve(json);
             }).catch(function (err) {
                 reject(err);
@@ -158,9 +157,8 @@ class CDeveloper {
 
     _removeRole(token, options) {
         return new Promise(function (resolve, reject) {
-            NodeSDK.put('/api/rainbow/applications/v1.0/developers/' + options.userId + '/removeRole', token, {
-                role: options.role
-            }).then(function (json) {
+            NodeSDK.put('/api/rainbow/applications/v1.0/developers/' + options.userId + '/removeRole?role=' + options.role, token, {})
+            .then(function (json) {
                 resolve(json);
             }).catch(function (err) {
                 reject(err);
