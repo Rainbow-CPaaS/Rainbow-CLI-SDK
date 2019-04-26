@@ -4,6 +4,28 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
+### Rainbow CLI 1.55 (April 2019) - Beta
+
+---
+
+**3-Release Breaking Changes**
+
+-   None.
+
+**Breaking Changes**
+
+-   None.
+
+**Changes**
+
+-   New commands `rbw developers add role` and `rbw developers remove role` have been added to add or remove a role to a developer.
+
+-   New `--offer` filter for command `rbw applications` to filter on application offer.
+
+**Others changes**
+
+-   None.
+
 ### Rainbow CLI 1.54 (April 2019) - Beta
 
 ---

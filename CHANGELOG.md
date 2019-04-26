@@ -6,44 +6,48 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
-## [1.54.0] - 2018-04-03
+## [1.55.0-beta.0] - 2019-04-26
+
+- RQRAINB-1463: Add support for app_admin_internal role and internal app offer in CLI
+
+## [1.54.0] - 2019-04-03
 
 -   Update to SDK Node.js 1.54.1
 
-## [1.54.0-beta.0] - 2018-03-27
+## [1.54.0-beta.0] - 2019-03-27
 
 -   RQRAINB-1375: CPAAS / Rainbow CLI / Add command for authorizing implicit grant
 -   RQRAINB-1367: CPAAS / Rainbow CLI / Add user in network of other user
 -   RQRAINB-1368: CPAAS / Rainbow CLI / Change name and status of a company
 
-## [1.53.0] - 2018-03-10
+## [1.53.0] - 2019-03-10
 
 -   CRRAINB-5526: CPAAS / Rainbow CLI / Dashboard is limited to 1000 developers
 -   RQRAINB-1292: CPAAS / Rainbow CLI / Get user network
 
-## [1.53.0-beta.2] - 2018-03-06
+## [1.53.0-beta.2] - 2019-03-06
 
 -   RQRAINB-1258: CPAAS / Rainbow CLI / Add command for creating a company
 
-## [1.53.0-beta.1] - 2018-03-05
+## [1.53.0-beta.1] - 2019-03-05
 
 -   RQRAINB-1255: CPAAS / Rainbow CLI / Add Dashboard In deployment
 -   RQRAINB-1257: CPAAS / Rainbow CLI / Manage Oauth commands
 
-## [1.52.3] - 2018-02-16
+## [1.52.3] - 2019-02-16
 
 -   CRRAINB-5268: Regression on package name
 
-## [1.52.1] - 2018-02-12
+## [1.52.1] - 2019-02-12
 
 -   RQRAINB-1233: Deliver internal private version
 
-## [1.52.0] - 2018-02-10
+## [1.52.0] - 2019-02-10
 
 -   RQRAINB-1226: CPAAS / Rainbow CLI / Separate dashboards
 -   CRRAINB-5186: Can't connect to CN Sandbox and production platform
 
-## [1.51.0] - 2018-01-21
+## [1.51.0] - 2019-01-21
 
 -   RQRAINB-1196: Add commands for retrieving company metrics
 -   RQRAINB-1195: Manage visibility of users and companies
