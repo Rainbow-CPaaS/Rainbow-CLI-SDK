@@ -250,6 +250,10 @@ class CApplication {
                 filterToApply += "&type=" + options.type;
             }
 
+            if (options.kpi) {
+                filterToApply += "&kpi=" + options.kpi;
+            }
+
             if (options.page > 0) {
                 filterToApply += "&offset=";
                 if (options.page > 1) {
