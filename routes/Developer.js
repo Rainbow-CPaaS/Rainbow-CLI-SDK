@@ -241,6 +241,68 @@ class Developer {
 
             });
         });
+
+        this._program.command('developers add role', '<userId> <role>')
+        .description("Add a developer's role to a developer")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw developers add role 57ea7475d78f3ba5aae98935 app_admin_internal');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the user to the console');
+            console.log('');
+        })
+        .action(function (userId, role, commands) {
+
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    userId: userId || null,
+                    role: role,
+                    noOutput: commands.json || false,
+                };
+
+                Logger.isActive = commands.verbose || false;
+
+                that._developer.addRole(options);
+            }).catch( () => {
+                console.log("exception");
+            });
+        });
+
+        this._program.command('developers remove role', '<userId> <role>')
+        .description("Remove a developer's role to a developer")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw developers remove role 57ea7475d78f3ba5aae98935 app_admin_internal');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the user to the console');
+            console.log('');
+        })
+        .action(function (userId, role, commands) {
+
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    userId: userId || null,
+                    role: role,
+                    noOutput: commands.json || false,
+                };
+
+                Logger.isActive = commands.verbose || false;
+
+                that._developer.removeRole(options);
+            }).catch( () => {
+
+            });
+        });
     }
 }
 

@@ -893,7 +893,7 @@ class CAccount {
 
         if (that._prefs && that._prefs.user) {
             if (
-                that._prefs.user.roles.includes("app_admin") ||
+                that._prefs.user.roles.includes("app_admin") || that._prefs.user.roles.includes("app_admin_internal") ||
                 that._prefs.user.roles.includes("app_superadmin" || that._prefs.user.roles.includes("superadmin"))
             ) {
                 var data_dev = [
@@ -1143,6 +1143,18 @@ class CAccount {
                         theme: "Developers",
                         command: "developers delete payment <userid>",
                         details: "Remove a existing developer payment account"
+                    },
+                    {
+                        level: "app_superadmin",
+                        theme: "Developers",
+                        command: "developers add role <userid> <role>",
+                        details: "Add a developer's role to a developer"
+                    },
+                    {
+                        level: "app_superadmin",
+                        theme: "Developers",
+                        command: "developers remove role <userid> <role>",
+                        details: "Remove a developer's role to a developer"
                     }
                 ];
 
@@ -1457,7 +1469,7 @@ class CAccount {
                     {
                         level: "organization_admin",
                         theme: "Company",
-                        command: "company delete<id>",
+                        command: "company delete <id>",
                         details: "Delete an existing company"
                     },
                     {

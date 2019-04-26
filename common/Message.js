@@ -1554,7 +1554,7 @@ class Message {
 
         Screen.table(array);
         Screen.print("");
-        Screen.success("Avallable commands listed successfully.");
+        Screen.success("Available commands listed successfully.");
         Screen.print("");
     }
 
@@ -1748,6 +1748,14 @@ class Message {
                     adminType = "app_admin > " + adminType;
                 } else {
                     adminType = "app_admin > user";
+                }
+            }
+
+            if (user.roles.includes("app_admin_internal")) {
+                if (adminType.length > 0) {
+                    adminType = "app_admin_internal > " + adminType;
+                } else {
+                    adminType = "app_admin_internal > user";
                 }
             }
 

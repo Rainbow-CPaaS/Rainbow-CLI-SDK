@@ -888,7 +888,8 @@ class Application {
             .option("-s, --withsubscription", "Filter applications with subscription only")
             .option("--owner <userid>", "Filter applications by user")
             .option("--name <name>", "Filter applications by name")
-            .option("--type <type", "Filter applications by type (ie: web, mobile, desktop, server, bot, iot or admin")
+            .option("--type <type>", "Filter applications by type (ie: web, mobile, desktop, server, bot, iot or admin)")
+            .option("--offer <offer>", "Filter applications by offer (ie: business, payasyougo,...)")
             .option("--bydate", "Sort applications by date. Recent first.")
             .on("--help", function() {
                 console.log("  Examples:");
@@ -959,6 +960,7 @@ class Application {
                             subscription: commands.withsubscription || null,
                             name: commands.name || null,
                             type: commands.type || null,
+                            kpi: commands.offer || null,
                             page,
                             limit,
                             filter,
