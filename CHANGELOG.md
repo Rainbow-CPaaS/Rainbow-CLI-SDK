@@ -6,7 +6,7 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
-## [1.55.0-beta.0] - 2019-04-26
+## [1.55.0] - 2019-05-02
 
 - RQRAINB-1463: Add support for app_admin_internal role and internal app offer in CLI
 
