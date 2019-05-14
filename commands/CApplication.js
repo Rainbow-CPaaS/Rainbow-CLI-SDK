@@ -429,7 +429,7 @@ class CApplication {
                             return;
                         }
 
-                        if (app.subscriptions.length > 0 && !app.subscriptions[0].syncOngoing) {
+                        if (app.subscriptions && app.subscriptions.length > 0 && !app.subscriptions[0].syncOngoing) {
                             resolve(json.data);
                             return;
                         }
@@ -451,7 +451,7 @@ class CApplication {
                 // Si pay as you go and no subscriptions
                 if (
                     application.kpi === "business" || application.kpi === "internal" || 
-                    (application.kpi === "payasyougo" && application.subscriptions.length > 0)
+                    (application.kpi === "payasyougo" && application.subscription && application.subscriptions.length > 0)
                 ) {
                     resolve(application);
                     return;
