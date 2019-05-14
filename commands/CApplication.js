@@ -424,7 +424,7 @@ class CApplication {
                 NodeSDK.get("/api/rainbow/applications/v1.0/applications/" + id, token)
                     .then(function(json) {
                         let app = json.data;
-                        if (app.kpi === "business") {
+                        if (app.kpi === "business" || app.kpi === "internal") {
                             resolve(json.data);
                             return;
                         }
@@ -450,7 +450,7 @@ class CApplication {
             return new Promise(function(resolve, reject) {
                 // Si pay as you go and no subscriptions
                 if (
-                    application.kpi === "business" ||
+                    application.kpi === "business" || application.kpi === "internal" || 
                     (application.kpi === "payasyougo" && application.subscriptions.length > 0)
                 ) {
                     resolve(application);
@@ -477,7 +477,7 @@ class CApplication {
 
         let requestDeploy = function(application) {
             return new Promise(function(resolve, reject) {
-                if (application.kpi !== "business") {
+                if (application.kpi !== "business" && application.kpi !== "internal") {
                     resolve(application);
                     return;
                 }

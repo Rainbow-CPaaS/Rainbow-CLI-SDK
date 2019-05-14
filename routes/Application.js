@@ -408,7 +408,7 @@ class Application {
             .option("-m, --month <month>", "Get metrics for a specific month, day by day. Format is YYYYMM")
             .option("-y, --year <year", "Get metrics for a specific year, month by month. Format is YYYY")
             .option("-g, --group", "Group metrics by categories")
-            //.option("-z, --dczones <dczones>", "Get metrics for the specified data center zones. Zones must be separated by comma.")
+            .option("-z, --dczones <dczones>", "Get metrics for the specified data center zones. Zones must be separated by comma.")
             .option("-f, --file <filename>", "Print result to a file in CSV")
             .option("-v, --verbose", "Use verbose console mode")
             .on("--help", function() {
