@@ -76,7 +76,7 @@ class CSite {
             }
 
             if (options.name) {
-                filter += "&name=" + options.name;
+                filter += "&name=" + encodeURIComponent(options.name);
             }
 
             NodeSDK.get("/api/rainbow/admin/v1.0/sites" + filter + offset + limit, token)

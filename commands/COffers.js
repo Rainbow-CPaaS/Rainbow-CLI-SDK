@@ -60,7 +60,7 @@ class COffers {
             var filterToApply = "";
 
             if (options.name) {
-                filterToApply += "&name=" + options.name;
+                filterToApply += "&name=" + encodeURIComponent(options.name);
             }
 
             var offset = "";
@@ -106,7 +106,7 @@ class COffers {
             var filterToApply = "";
 
             if (options.name) {
-                filterToApply += "&name=" + options.name;
+                filterToApply += "&name=" + encodeURIComponent(options.name);
             }
 
             var offset = "";

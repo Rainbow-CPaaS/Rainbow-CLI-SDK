@@ -25,7 +25,7 @@ class CCompany {
             }
 
             if (options.name) {
-                filterToApply += "&name=" + options.name;
+                filterToApply += "&name=" + encodeURIComponent(options.name);
             }
 
             var offset = "";

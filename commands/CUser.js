@@ -43,15 +43,15 @@ class CUser {
             }
 
             if (options.name) {
-                filterToApply += "&displayName=" + options.name;
+                filterToApply += "&displayName=" + encodeURIComponent(options.name);
             }
 
             if (options.company) {
-                filterToApply += "&companyName=" + options.company;
+                filterToApply += "&companyName=" + encodeURIComponent(options.company);
             }
 
             if (options.email) {
-                filterToApply += "&loginEmail=" + options.email;
+                filterToApply += "&loginEmail=" + encodeURIComponent(options.email);
             }
 
             if (options.onlyTerminated) {
