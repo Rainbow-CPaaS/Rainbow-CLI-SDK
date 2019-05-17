@@ -12,7 +12,7 @@ const Screen = require("./Print");
 const Tools = require("./Tools");
 
 class Message {
-    constructor() {}
+    constructor() { }
 
     _shouldDisplayOutput(options) {
         if (options && "noOutput" in options) {
@@ -89,7 +89,7 @@ class Message {
 
                 stringify(json, {
                     cast: {
-                        date: function(value) {
+                        date: function (value) {
                             return moment(value).format("YYYY-MM-DD");
                         }
                     },
@@ -97,19 +97,19 @@ class Message {
                     header: hasData,
                     columns: columns || []
                 }).pipe(writeStream);
-                writeStream.on("close", function() {
+                writeStream.on("close", function () {
                     Screen.success(
                         "Successfully saved".white +
-                            " " +
-                            json.length.toString().magenta +
-                            " information to".white +
-                            " '".white +
-                            file.yellow +
-                            "'".white
+                        " " +
+                        json.length.toString().magenta +
+                        " information to".white +
+                        " '".white +
+                        file.yellow +
+                        "'".white
                     );
                     resolve();
                 });
-                writeStream.on("error", function(err) {
+                writeStream.on("error", function (err) {
                     reject(err);
                 });
             }
@@ -588,68 +588,70 @@ class Message {
 
             let firstLine = true;
 
-            // Put webrtc trafic in minutes (received in s)
-            groups.forEach(group => {
-                if (seconds.includes(group.group)) {
-                    group.count = Math.round(group.count / 60);
-                }
-            });
-
-            switch (period) {
-                case "hour":
-                    startDate = moment(startDate).format("lll");
-                    break;
-                case "day":
-                    startDate = moment(startDate).format("ll");
-                    break;
-                case "month":
-                    startDate = moment(startDate).format("MMM YYYY");
-                    break;
-                default:
-                    startDate = moment(startDate).format("lll");
-                    break;
-            }
-
-            var aggregatedData = [];
-
-            if (options.group) {
-                for (var category in categories) {
-                    aggregatedData.push({
-                        group: category,
-                        count: 0
-                    });
-                }
-
+            if (groups) {
+                // Put webrtc trafic in minutes (received in s)
                 groups.forEach(group => {
-                    for (var category in categories) {
-                        if (categories[category].includes(group.group)) {
-                            aggregatedData.forEach((aggregated, index) => {
-                                if (aggregated.group === category) {
-                                    aggregatedData[index].count += group.count;
-                                    grandTotalData[index].count += group.count;
-                                }
-                            });
-                        }
+                    if (seconds.includes(group.group)) {
+                        group.count = Math.round(group.count / 60);
                     }
                 });
-            } else {
-                aggregatedData = groups;
-            }
 
-            aggregatedData.forEach(group => {
-                if (firstLine) {
-                    array.push([
-                        (number + 1).toString().white,
-                        startDate.white,
-                        group.group.white,
-                        group.count.toString().cyan
-                    ]);
-                    firstLine = false;
-                } else {
-                    array.push(["", "", group.group.white, group.count.toString().cyan]);
+                switch (period) {
+                    case "hour":
+                        startDate = moment(startDate).format("lll");
+                        break;
+                    case "day":
+                        startDate = moment(startDate).format("ll");
+                        break;
+                    case "month":
+                        startDate = moment(startDate).format("MMM YYYY");
+                        break;
+                    default:
+                        startDate = moment(startDate).format("lll");
+                        break;
                 }
-            });
-            number++;
+
+                var aggregatedData = [];
+
+                if (options.group) {
+                    for (var category in categories) {
+                        aggregatedData.push({
+                            group: category,
+                            count: 0
+                        });
+                    }
+
+                    groups.forEach(group => {
+                        for (var category in categories) {
+                            if (categories[category].includes(group.group)) {
+                                aggregatedData.forEach((aggregated, index) => {
+                                    if (aggregated.group === category) {
+                                        aggregatedData[index].count += group.count;
+                                        grandTotalData[index].count += group.count;
+                                    }
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    aggregatedData = groups;
+                }
+
+                aggregatedData.forEach(group => {
+                    if (firstLine) {
+                        array.push([
+                            (number + 1).toString().white,
+                            startDate.white,
+                            group.group.white,
+                            group.count.toString().cyan
+                        ]);
+                        firstLine = false;
+                    } else {
+                        array.push(["", "", group.group.white, group.count.toString().cyan]);
+                    }
+                });
+                number++;
+            }
         });
 
         if (options.group) {
@@ -732,8 +734,8 @@ class Message {
                 isBP = user.company.isBP
                     ? "YES".magenta
                     : user.company.bpId && user.company.bpId.length > 0
-                    ? "AFFILIATE".magenta
-                    : "NO".white;
+                        ? "AFFILIATE".magenta
+                        : "NO".white;
             }
 
             let developerSince = "in error".red;
@@ -1071,6 +1073,91 @@ class Message {
         Screen.print("");
         Screen.print("");
         Screen.success(number + " metrics found");
+        Screen.print("");
+    }
+
+    tableThresholdsGroup(json, options) {
+        var array = [];
+        array.push([
+            "#".gray,
+            "Unit".gray,
+            "Threshold".gray,
+            "Notification".gray,
+            "Type".gray
+        ]);
+        array.push([
+            "-".gray,
+            "----".gray,
+            "---------".gray,
+            "------------".gray,
+            "----".gray
+        ]);
+
+        let number = 0;
+
+        var thresholdsForGroup = json.thresholds;
+
+        thresholdsForGroup.forEach(threshold => {
+            array.push([
+                (number + 1).toString().white,
+                json.unit,
+                threshold.threshold,
+                threshold.notification,
+                threshold.type
+            ]);
+            number++;
+        });
+
+        Screen.table(array);
+        Screen.print("");
+
+        Screen.success(thresholdsForGroup.length + " thresholds found for API group " + json.groupName);
+        Screen.print("");
+    }
+
+    tableThresholds(json, options) {
+        var array = [];
+        array.push([
+            "#".gray,
+            "Group Name".gray,
+            "Unit".gray,
+            "Threshold".gray,
+            "Notification".gray,
+            "Type".gray
+        ]);
+        array.push([
+            "-".gray,
+            "----------".gray,
+            "----".gray,
+            "---------".gray,
+            "------------".gray,
+            "----".gray
+        ]);
+
+        var thresholdsList = json.data;
+
+        let number = 0;
+
+        thresholdsList.forEach(thresholdsGroup => {
+            var thresholdsForGroup = thresholdsGroup.thresholds;
+
+            thresholdsForGroup.forEach(threshold => {
+                array.push([
+                    (number + 1).toString().white,
+                    thresholdsGroup.groupName,
+                    thresholdsGroup.unit,
+                    threshold.threshold,
+                    threshold.notification,
+                    threshold.type
+                ]);
+                number++;
+            });
+        });
+
+        Screen.table(array);
+        Screen.print("");
+
+        Screen.success(thresholdsList.length + " thresholds found");
         Screen.print("");
     }
 
@@ -1921,7 +2008,7 @@ class Message {
                     Screen.print("  " + err.details.white);
                 } else if (Array.isArray(err.details)) {
                     Screen.print("At least one parameter is incorrect:");
-                    err.details.forEach(function(detail) {
+                    err.details.forEach(function (detail) {
                         Screen.print(" - ".white + detail.param.yellow + ": ".gray + detail.msg.white);
                     });
                     Screen.print("");
@@ -1955,7 +2042,7 @@ class Message {
     }
 
     choices(message, choices, selectedValue) {
-        return new Promise(function(resolve) {
+        return new Promise(function (resolve) {
             if (selectedValue) {
                 resolve(selectedValue);
                 return;
@@ -1968,14 +2055,14 @@ class Message {
                 name: "confirmation"
             };
 
-            inquirer.prompt([question]).then(function(answer) {
+            inquirer.prompt([question]).then(function (answer) {
                 resolve(answer.confirmation);
             });
         });
     }
 
     confirm(message) {
-        return new Promise(function(resolve) {
+        return new Promise(function (resolve) {
             var question = {
                 type: "list",
                 message: message,
@@ -1983,14 +2070,14 @@ class Message {
                 name: "confirmation"
             };
 
-            inquirer.prompt([question]).then(function(answer) {
+            inquirer.prompt([question]).then(function (answer) {
                 resolve(answer.confirmation);
             });
         });
     }
 
     ask(message, defaultValue) {
-        return new Promise(function(resolve) {
+        return new Promise(function (resolve) {
             var question = {
                 type: "input",
                 message: message,
@@ -2001,14 +2088,14 @@ class Message {
                 question.default = defaultValue;
             }
 
-            inquirer.prompt([question]).then(function(answer) {
+            inquirer.prompt([question]).then(function (answer) {
                 resolve(answer.query);
             });
         });
     }
 
     askPassword(message, name) {
-        return new Promise(function(resolve) {
+        return new Promise(function (resolve) {
             var question = {
                 type: "password",
                 message: message,
@@ -2016,7 +2103,7 @@ class Message {
                 default: "Password_123"
             };
 
-            inquirer.prompt([question]).then(function(answer) {
+            inquirer.prompt([question]).then(function (answer) {
                 resolve(answer.query);
             });
         });

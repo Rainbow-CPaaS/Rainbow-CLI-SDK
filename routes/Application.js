@@ -478,6 +478,104 @@ class Application {
             });
 
         this._program
+            .command("application thresholds", "<appid>")
+            .description("Retrieve the thresholds for an application")
+            .option("-j, --json", "Write the JSON result to standard stdout")
+            .option("-g, --group <group>", "Get thresholds for an API group")
+            .option("-v, --verbose", "Use verbose console mode")
+            .on("--help", function() {
+                console.log("  Examples:");
+                console.log("");
+                console.log("    $ rbw application thresholds 593065822799299343b8501d");
+                console.log("    $ rbw application thresholds 593065822799299343b8501d --json");
+                console.log("");
+                console.log("  Details:");
+                console.log("");
+                console.log("    The option `--json` exports the JSON object representing the application thresholds to the console");
+                console.log("");
+            })
+            .action(function(appid, commands) {
+                Middleware.parseCommand(commands)
+                    .then(() => {
+                        var options = {
+                            noOutput: commands.json || false,
+                            group: commands.group || false,
+                            appid: appid
+                        };
+
+                        Logger.isActive = commands.verbose || false;
+
+                        that._application.getThresholds(options);
+                    })
+                    .catch(() => {});
+            });
+
+        this._program
+            .command("application threshold", "<appid> <group> <notification> <threshold>")
+            .description("Create a usage threshold for an application")
+            .option("-j, --json", "Write the JSON result to standard stdout")
+            .option("-v, --verbose", "Use verbose console mode")
+            .on("--help", function() {
+                console.log("  Examples:");
+                console.log("");
+                console.log("    $ rbw application threshold 593065822799299343b8501d administration mail 300");
+                console.log("");
+                console.log("  Details:");
+                console.log("");
+                console.log(
+                    "    The option `--json` exports a JSON object representing the user created to the console"
+                );
+                console.log("");
+            })
+            .action(function(appid, group, notification, threshold, commands) {
+                Middleware.parseCommand(commands)
+                .then(() => {
+                    var options = {
+                        noOutput: commands.json || false,
+                        appid: appid
+                    };
+
+                    Logger.isActive = commands.verbose || false;
+
+                    that._application.createThreshold(group, notification, threshold, options);
+                })
+                .catch(() => {});
+            });
+
+        this._program
+            .command("application delete threshold", "<appid> <group>")
+            .description("Delete a usage threshold for an application")
+            .option("-j, --json", "Write the JSON result to standard stdout")
+            .option("-v, --verbose", "Use verbose console mode")
+            .on("--help", function() {
+                console.log("  Examples:");
+                console.log("");
+                console.log("    $ rbw application delete threshold 593065822799299343b8501d administration");
+                console.log("");
+                console.log("  Details:");
+                console.log("");
+                console.log(
+                    "    The option `--json` exports a JSON object representing the user created to the console"
+                );
+                console.log("");
+            })
+            .action(function(appid, group, commands) {
+                Middleware.parseCommand(commands)
+                .then(() => {
+                    var options = {
+                        noOutput: commands.json || false,
+                        group: group,
+                        appid: appid
+                    };
+
+                    Logger.isActive = commands.verbose || false;
+
+                    that._application.deleteThreshold(group, options);
+                })
+                .catch(() => {});
+            });
+
+        this._program
             .command("application pns", "<appid>")
             .description("Retrieve the list of push notifications settings data for an application")
             .option("-j, --json", "Write the JSON result to standard stdout")

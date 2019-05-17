@@ -143,6 +143,53 @@ class CApplication {
         });
     }
 
+    _createThreshold(token, group, notification, threshold, options) {
+        return new Promise(function(resolve, reject) {
+            let thresholdPayload = {
+                type: "custom",
+                notification: notification,
+                threshold: threshold
+            };
+
+            NodeSDK.post("/api/rainbow/applications/v1.0/applications/" + options.appid + "/thresholds/" + group, token, thresholdPayload)
+                .then(function(json) {
+                    resolve(json);
+                })
+                .catch(function(err) {
+                    reject(err);
+                });
+        });
+    }
+
+    _deleteThreshold(token, group, options) {
+        return new Promise(function(resolve, reject) {
+            NodeSDK.delete("/api/rainbow/applications/v1.0/applications/" + options.appid + "/thresholds/" + group + "/custom", token)
+                .then(function(json) {
+                    resolve(json);
+                })
+                .catch(function(err) {
+                    reject(err);
+                });
+        });
+    }
+
+    _getThresholds(token,options) {
+        let groupName = "";
+        if (options.group) {
+            groupName = "/" + options.group;
+        }
+
+        return new Promise(function(resolve, reject) {
+            NodeSDK.get("/api/rainbow/applications/v1.0/applications/" + options.appid + "/thresholds" + groupName, token)
+                .then(function(json) {
+                    resolve(json);
+                })
+                .catch(function(err) {
+                    reject(err);
+                });
+        }); 
+    }
+
     _getApns(token, options) {
         return new Promise(function(resolve, reject) {
             NodeSDK.get("/api/rainbow/applications/v1.0/applications/" + options.appid + "/push-settings", token)
@@ -1686,6 +1733,159 @@ class CApplication {
             Message.notLoggedIn(options);
             Exit.error();
         }
+    }
+
+    createThreshold(group, notification, threshold, options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if (this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            Message.action("Create a usage threshold for application", options.appid, options);
+            let spin = Message.spin(options);
+
+            NodeSDK.start(
+                this._prefs.email,
+                this._prefs.password,
+                this._prefs.host,
+                this._prefs.proxy,
+                this._prefs.appid,
+                this._prefs.appsecret
+            )
+                .then(function() {
+                    Message.log("execute action...");
+                    return that._createThreshold(that._prefs.token, group, notification, threshold, options);
+                })
+                .then(function(json) {
+                    Message.unspin(spin);
+
+                    Message.log("action done...", json);
+
+                    if (options.noOutput) {
+                        Message.out(json.data);
+                    } else {
+                        Message.lineFeed();
+                        Message.printSuccess("Application threshold created", options);
+                        Message.success(options);
+                    }
+                    Message.log("finished!");
+                })
+                .catch(function(err) {
+                    Message.unspin(spin);
+                    Message.error(err, options);
+                    Exit.error();
+                });
+        } else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    deleteThreshold(group, options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if (this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            Message.action("Delete a usage threshold for application", options.appid, options);
+            let spin = Message.spin(options);
+
+            NodeSDK.start(
+                this._prefs.email,
+                this._prefs.password,
+                this._prefs.host,
+                this._prefs.proxy,
+                this._prefs.appid,
+                this._prefs.appsecret
+            )
+                .then(function() {
+                    Message.log("execute action...");
+                    return that._deleteThreshold(that._prefs.token, group, options);
+                })
+                .then(function(json) {
+                    Message.unspin(spin);
+
+                    Message.log("action done...", json);
+
+                    if (options.noOutput) {
+                        Message.out(json.data);
+                    } else {
+                        Message.lineFeed();
+                        Message.printSuccess("Application threshold deleted", options);
+                        Message.success(options);
+                    }
+                    Message.log("finished!");
+                })
+                .catch(function(err) {
+                    Message.unspin(spin);
+                    Message.error(err, options);
+                    Exit.error();
+                });
+        } else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    } 
+
+    updateThreshold(options) {
+
+    }
+
+    getThresholds(options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if (this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            if (!options.csv) {
+                Message.action("List thresholds for application " + options.appid + (options.group?" for API group " + options.group:""), null, options);
+            }
+
+            let spin = Message.spin(options);
+            NodeSDK.start(
+                this._prefs.email,
+                this._prefs.password,
+                this._prefs.host,
+                this._prefs.proxy,
+                this._prefs.appid,
+                this._prefs.appsecret
+            )
+                .then(function() {
+                    Message.log("execute action...");
+                    return that._getThresholds(that._prefs.token, options);
+                })
+                .then(function(json) {
+                    Message.unspin(spin);
+                    Message.log("action done...", json);
+
+                    if (options.noOutput) {
+                        Message.out(json.data);
+                    } else {
+                        Message.lineFeed();
+                        if (options.group) {
+                            Message.tableThresholdsGroup(json, options);
+                        }
+                        else {
+                            Message.tableThresholds(json, options);
+                        }
+                    }
+                    Message.log("finished!");
+                })
+                .catch(function(err) {
+                    Message.unspin(spin);
+                    Message.error(err, options);
+                    Exit.error();
+                });
+        } else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }        
     }
 
     getApns(options) {
