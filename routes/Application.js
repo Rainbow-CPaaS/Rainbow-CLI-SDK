@@ -543,6 +543,39 @@ class Application {
             });
 
         this._program
+            .command("application update threshold", "<appid> <type> <group> <notification> [threshold]")
+            .description("Update a usage threshold for an application")
+            .option("-j, --json", "Write the JSON result to standard stdout")
+            .option("-v, --verbose", "Use verbose console mode")
+            .on("--help", function() {
+                console.log("  Examples:");
+                console.log("");
+                console.log("    $ rbw application update threshold 593065822799299343b8501d custom administration mail 300");
+                console.log("    $ rbw application update threshold 593065822799299343b8501d free resources none");
+                console.log("");
+                console.log("  Details:");
+                console.log("");
+                console.log(
+                    "    The option `--json` exports a JSON object representing the user created to the console"
+                );
+                console.log("");
+            })
+            .action(function(appid, type, group, notification, threshold, commands) {
+                Middleware.parseCommand(commands)
+                .then(() => {
+                    var options = {
+                        noOutput: commands.json || false,
+                        appid: appid
+                    };
+
+                    Logger.isActive = commands.verbose || false;
+
+                    that._application.updateThreshold(type, group, notification, threshold, options);
+                })
+                .catch(() => {});
+            });
+
+        this._program
             .command("application delete threshold", "<appid> <group>")
             .description("Delete a usage threshold for an application")
             .option("-j, --json", "Write the JSON result to standard stdout")

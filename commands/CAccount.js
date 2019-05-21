@@ -1049,6 +1049,12 @@ class CAccount {
                     },
                     {
                         level: "app_admin",
+                        theme: " ",
+                        command: " ",
+                        details: " "
+                    },
+                    {
+                        level: "app_admin",
                         theme: "Thresholds",
                         command: "application thresholds <appid>",
                         details: "List application's thresholds"
@@ -1058,6 +1064,12 @@ class CAccount {
                         theme: "Thresholds",
                         command: "application threshold <appid> <group> <notification> <threshold>",
                         details: "Create a custom application threshold"
+                    },
+                    {
+                        level: "app_admin",
+                        theme: "Thresholds",
+                        command: "application update threshold <appid> <type> <group> <notification> [threshold]",
+                        details: "Update a custom application threshold"
                     },
                     {
                         level: "app_admin",

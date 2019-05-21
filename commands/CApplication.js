@@ -161,6 +161,24 @@ class CApplication {
         });
     }
 
+    _updateThreshold(token, type, group, notification, threshold, options) {
+        return new Promise(function(resolve, reject) {
+            let thresholdPayload = {
+                type: "custom",
+                notification: notification,
+                threshold: threshold
+            };
+
+            NodeSDK.put("/api/rainbow/applications/v1.0/applications/" + options.appid + "/thresholds/" + group + "/" + type, token, thresholdPayload)
+                .then(function(json) {
+                    resolve(json);
+                })
+                .catch(function(err) {
+                    reject(err);
+                });
+        });
+    }
+
     _deleteThreshold(token, group, options) {
         return new Promise(function(resolve, reject) {
             NodeSDK.delete("/api/rainbow/applications/v1.0/applications/" + options.appid + "/thresholds/" + group + "/custom", token)
@@ -1783,6 +1801,54 @@ class CApplication {
         }
     }
 
+    updateThreshold(type, group, notification, threshold, options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if (this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            Message.action("Update a usage threshold for application", options.appid, options);
+            let spin = Message.spin(options);
+
+            NodeSDK.start(
+                this._prefs.email,
+                this._prefs.password,
+                this._prefs.host,
+                this._prefs.proxy,
+                this._prefs.appid,
+                this._prefs.appsecret
+            )
+                .then(function() {
+                    Message.log("execute action...");
+                    return that._updateThreshold(that._prefs.token, type, group, notification, threshold, options);
+                })
+                .then(function(json) {
+                    Message.unspin(spin);
+
+                    Message.log("action done...", json);
+
+                    if (options.noOutput) {
+                        Message.out(json.data);
+                    } else {
+                        Message.lineFeed();
+                        Message.printSuccess("Application threshold updated", options);
+                        Message.success(options);
+                    }
+                    Message.log("finished!");
+                })
+                .catch(function(err) {
+                    Message.unspin(spin);
+                    Message.error(err, options);
+                    Exit.error();
+                });
+        } else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
     deleteThreshold(group, options) {
         var that = this;
 
@@ -1830,10 +1896,6 @@ class CApplication {
             Exit.error();
         }
     } 
-
-    updateThreshold(options) {
-
-    }
 
     getThresholds(options) {
         var that = this;
