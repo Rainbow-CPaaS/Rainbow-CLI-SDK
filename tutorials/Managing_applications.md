@@ -252,6 +252,77 @@ Application metrics are grouped into the following categories:
 Note: When using a SDK, calling a method is not synonymous to calling a Rainbow API. In order to work correctly, the SDK could do additional requests in order to retrieve information that your application or the SDK will need to work properly.
 
 
+### Application thresholds
+---
+
+Default application thresholds are defined for pay-as-you-go applications. There is one threshold for each API group.
+By default, when a threshold is exceeded, an email is sent to the application owner.
+In addition to default thresholds, the developer can create a custom threshold for each API group.
+
+#### List application thresholds
+---
+
+To list current thresholds for an application, use the command `rbw application thresholds`. For example:
+
+```bash
+
+$ rbw application thresholds e17f9fa059cf11e8ae01d9b5fe1c68ca
+
+```
+
+The `--group` option can be added to get thresholds for a single API group.
+
+#### Create a custom application threshold
+---
+
+The command `rbw application threshold` can be used to create a custom threshold for an application.
+
+The following command will create a custom threshold of 5000 for API group `administration` with an email notification:
+
+```bash
+
+$ rbw application threshold e17f9fa059cf11e8ae01d9b5fe1c68ca administration mail 5000
+
+```
+
+#### Update an application threshold
+---
+
+Notification method is the only option that can be updated for a default threshold. Threshold type for default thresholds is `free`:
+
+```bash
+
+$ rbw application threshold update free e17f9fa059cf11e8ae01d9b5fe1c68ca resources none
+
+```
+
+Threshold level and notification method can be updated for custom thresholds:
+
+```bash
+
+$ rbw application threshold e17f9fa059cf11e8ae01d9b5fe1c68ca custom administration none 2000
+
+```
+
+or:
+
+```bash
+
+$ rbw application threshold e17f9fa059cf11e8ae01d9b5fe1c68ca custom resources none
+
+```
+
+#### Delete a custom application threshold
+---
+
+A custom application threshold can de deleted with the command `rbw application threshold delete`, for example:
+
+```bash
+
+$ rbw application threshold delete e17f9fa059cf11e8ae01d9b5fe1c68ca resources
+
+```
+
 ### Interested in
 ---
 
