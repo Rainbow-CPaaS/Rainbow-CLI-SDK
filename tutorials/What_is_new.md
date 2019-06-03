@@ -4,7 +4,29 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
-### Rainbow CLI 1.55 (April 2019) - Beta
+### Rainbow CLI 1.56 (June 2019)
+
+---
+
+**3-Release Breaking Changes**
+
+-   None.
+
+**Breaking Changes**
+
+-   None.
+
+**Changes**
+
+-   New commands for application thresholds: `rbw application thresholds` to list thresholds, `rbw application threshold` to create a custom threshold, 
+    `rbw application threshold update` to update a custom threshold, `rbw application threshold delete` to delete a custom threshold.
+
+**Others changes**
+
+-   None.
+
+
+### Rainbow CLI 1.55 (April 2019)
 
 ---
 
