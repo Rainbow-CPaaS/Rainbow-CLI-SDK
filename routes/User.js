@@ -50,7 +50,7 @@ class User {
             });
 
         this._program
-            .command("create user", "<email> <username> <password> <firstname> <lastname>")
+            .command("create user", "<email> <password> <firstname> <lastname>")
             .description("Create a new user")
             .option("-c, --company <id>", "In company identified by an id")
             .option("-a, --admin", "With a company_admin role")
