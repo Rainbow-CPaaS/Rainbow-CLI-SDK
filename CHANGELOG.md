@@ -6,6 +6,10 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+## [1.56.1] - 2019-06-11
+
+- Correction GitHub issue #4: Can't create New Test account by command #4
+
 ## [1.56.0] - 2019-06-03
 
 - Applications API thresholds can be handled for pay as you go applications.
