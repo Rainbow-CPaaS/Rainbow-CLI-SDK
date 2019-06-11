@@ -294,30 +294,32 @@ class CInternal {
                             let groups = metric.groupCounters;
 
                             // Put webrtc trafic in minutes (received in s)
-                            groups.forEach(group => {
-                                if (seconds.includes(group.group)) {
-                                    group.count = Math.round(group.count / 60);
-                                }
-                            });
-
-                            for (var category in categories) {
-                                aggregatedApp.push({
-                                    group: category,
-                                    count: 0
-                                });
-                            }
-
-                            groups.forEach(group => {
-                                for (var category in categories) {
-                                    if (categories[category].includes(group.group)) {
-                                        aggregatedApp.forEach((aggregated, index) => {
-                                            if (aggregated.group === category) {
-                                                aggregatedApp[index].count += group.count;
-                                            }
-                                        });
+                            if (groups) {
+                                groups.forEach(group => {
+                                    if (seconds.includes(group.group)) {
+                                        group.count = Math.round(group.count / 60);
                                     }
+                                });
+    
+                                for (var category in categories) {
+                                    aggregatedApp.push({
+                                        group: category,
+                                        count: 0
+                                    });
                                 }
-                            });
+    
+                                groups.forEach(group => {
+                                    for (var category in categories) {
+                                        if (categories[category].includes(group.group)) {
+                                            aggregatedApp.forEach((aggregated, index) => {
+                                                if (aggregated.group === category) {
+                                                    aggregatedApp[index].count += group.count;
+                                                }
+                                            });
+                                        }
+                                    }
+                                });    
+                            }
 
                             apps[index].metrics = aggregatedApp;
                         });
