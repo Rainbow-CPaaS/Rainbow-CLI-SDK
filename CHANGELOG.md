@@ -6,6 +6,10 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+## [1.56.2] - 2019-06-13
+
+- Correction GitHub issue #3: TypeError: Cannot set property 'details' of undefined
+
 ## [1.56.1] - 2019-06-11
 
 - Correction GitHub issue #4: Can't create New Test account by command #4
