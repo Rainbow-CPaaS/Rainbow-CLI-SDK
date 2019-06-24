@@ -60,6 +60,10 @@ class CUser {
                 filterToApply += "&isTerminated=false";
             }
 
+            if (options.role) {
+                filterToApply += "&roles=" + options.role;
+            }
+
             NodeSDK.get("/api/rainbow/admin/v1.0/users?" + filterToApply, token)
                 .then(function(json) {
                     resolve(json);

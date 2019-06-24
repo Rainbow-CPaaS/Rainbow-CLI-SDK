@@ -329,6 +329,7 @@ class User {
             .option("-i, --cid <id>", "Filter users by a company id only")
             .option("-c, --company <name>", "Filter users by a company name only")
             .option("-n, --name <name>", "Filter users by a name (firstname lastname)")
+            .option("-r, --role <role>", "Filter users by role")
             .option("-e, --email <loginEmail>", "Filter users by login email")
             .option("-f, --file <filename>", "Print result to a file in CSV")
             .option("-j, --json", "Write the JSON result to standard stdout")
@@ -343,6 +344,7 @@ class User {
                 console.log("    $ rbw users --email 'john.doe@acompany.com'");
                 console.log("    $ rbw users --name 'doe' --json");
                 console.log("    $ rbw users --name 'doe' -f doe.csv");
+                console.log("    $ rbw users --role 'app_admin'");
                 console.log("");
                 console.log("");
                 console.log("  Details:");
@@ -401,6 +403,7 @@ class User {
                             format: format,
                             name: commands.name || null,
                             email: commands.email || null,
+                            role: commands.role || null,
                             page: page,
                             limit: limit
                         };
