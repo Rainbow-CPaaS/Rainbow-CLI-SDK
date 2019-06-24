@@ -79,9 +79,16 @@ class Message {
                 let hasData = json.length > 0;
 
                 if (!columns && hasData) {
-                    let firstEntry = json[0];
                     columns = [];
-                    for (var key in firstEntry) columns.push(key);
+
+                    json.map( item =>  {
+                        for (var key in item) {
+                            if (!columns.include(key)) {
+                                columns.push(key);
+                            }
+                        }
+                    });
+                    columns = columns.sort();
                 }
 
                 let stringify = csv.stringify;
