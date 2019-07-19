@@ -1,5 +1,7 @@
 #!/bin/sh
 
+./common.sh $*
+
 #Sandbox user account
 # login: org_admin@rainbowcli-tests.com"
 # password: Password_123
