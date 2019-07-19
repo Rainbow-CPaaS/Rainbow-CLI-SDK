@@ -1,4 +1,3 @@
-echo "args $#"
 if [[ "$#" -gt 0 && "a${@: -1}" = "ainstalled" ]]
 then 
     export RBW_LOCATION="installed"
