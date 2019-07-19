@@ -6,6 +6,14 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+## [1.59.0] - 2019-07-XX
+
+- Corrected server error display
+- Updated dependencies
+- Unit tests can use local (node ./index.js) or installed rbw:
+  npm test -> use local node ./index.js
+  npm test installed -> use installed rbw (/usr/local/bin/rbw)
+
 ## [1.56.2] - 2019-06-13
 
 - Correction GitHub issue #3: TypeError: Cannot set property 'details' of undefined
