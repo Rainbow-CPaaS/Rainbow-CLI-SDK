@@ -2006,45 +2006,43 @@ class Message {
 
         if (!err) {
             Screen.print("  No additional information");
-        } else {
-            if (err.error.errorDetails) {
-                if (typeof err.error.errorDetails === "string") {
-                    Screen.print(" "  + err.error.errorDetails.white);
-                }
-                else if ( Array.isArray(err.error.errorDetails)) {
-                    Screen.print("At least one parameter is incorrect:");
-                    err.error.errorDetails.forEach(function(detail) {
-                        Screen.print(" - ".white + detail.param.yellow + ": ".gray + detail.msg.white);
-                    });
-                    Screen.print("");
-                    Screen.print("Add option -h to display examples");
-                }
-                else if ( Tools.isObject(err.error.errorDetails)) {
-                    let details = err.error.errorDetails.details || err.msg || "Bad request";
-                    let msg = err.details.msg || "-";
-                    Screen.print(
-                        " " + details.white + " (".gray + msg.gray + ")".gray
-                    );
-                } else {
-                    Screen.print("At least one parameter is incorrect.");
-                    Screen.print("Add option -h to display examples.");
-                }
+        } else if (err.error && err.error.errorDetails) {
+            if (typeof err.error.errorDetails === "string") {
+                Screen.print(" " + err.error.errorDetails.white);
             }
-            else {
-                if (err.msg && err.code) {
-                    let code = err.code | "-";
-                    Screen.print("  (".gray + err.msg.gray + "/".gray + code.toString().gray + ")".gray);
-                } else {
-                    if (err.name && err.message) {
-                        Screen.print(`  Error of type ${err.name} - ${err.message}`);
-                        if (err.fileName) {
-                            Screen.print(`  In file ${err.fileName}, ${err.lineNumber}:${err.columnNumber}`);
-                        }
-                        if (err.stack) {
-                            Screen.print(err.stack);
-                        }
-                    }
-                }
+            else if (Array.isArray(err.error.errorDetails)) {
+                Screen.print("At least one parameter is incorrect:");
+                err.error.errorDetails.forEach(function (detail) {
+                    Screen.print(" - ".white + detail.param.yellow + ": ".gray + detail.msg.white);
+                });
+                Screen.print("");
+                Screen.print("Add option -h to display examples");
+            }
+            else if (Tools.isObject(err.error.errorDetails)) {
+                let details = err.error.errorDetails.details || err.msg || "Bad request";
+                let msg = err.details.msg || "-";
+                Screen.print(
+                    " " + details.white + " (".gray + msg.gray + ")".gray
+                );
+            } else {
+                Screen.print("At least one parameter is incorrect.");
+                Screen.print("Add option -h to display examples.");
+            }
+        }
+        else if (err.msg && err.details) {
+            Screen.print(err.msg.white + ": " + err.details);
+        }
+        else if (err.msg && err.code) {
+            let code = err.code | "-";
+            Screen.print("  (".gray + err.msg.gray + "/".gray + code.toString().gray + ")".gray);
+        } 
+        else if (err.name && err.message) {
+            Screen.print(`  Error of type ${err.name} - ${err.message}`);
+            if (err.fileName) {
+                Screen.print(`  In file ${err.fileName}, ${err.lineNumber}:${err.columnNumber}`);
+            }
+            if (err.stack) {
+                Screen.print(err.stack);
             }
         }
         Screen.print("");
