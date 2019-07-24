@@ -2045,6 +2045,9 @@ class Message {
                 Screen.print(err.stack);
             }
         }
+        else if (err.details) {
+            Screen.print("  " + err.details.white);
+        }
         Screen.print("");
     }
 
