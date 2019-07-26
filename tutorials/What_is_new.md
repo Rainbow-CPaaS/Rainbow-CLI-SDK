@@ -4,6 +4,27 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
+### Rainbow CLI 1.59 (July 2019)
+
+---
+
+**3-Release Breaking Changes**
+
+-   None.
+
+**Breaking Changes**
+
+-   None.
+
+**Changes**
+
+-   Modified server error display.
+
+**Others changes**
+
+-   Updated dependancies.
+
+
 ### Rainbow CLI 1.56 (June 2019)
 
 ---
