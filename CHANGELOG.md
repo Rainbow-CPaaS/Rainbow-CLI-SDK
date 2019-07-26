@@ -6,9 +6,9 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
-## [1.59.0] - 2019-07-XX
+## [1.59.0] - 2019-07-26
 
-- Corrected server error display
+- Modified server error display
 - Updated dependencies
 - Unit tests can use local (node ./index.js) or installed rbw:
   npm test -> use local node ./index.js
