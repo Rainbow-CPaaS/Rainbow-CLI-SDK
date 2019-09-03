@@ -227,9 +227,10 @@ class CInternal {
     }
 
     _dashboardApplications(token, options) {
+        const BATCH_SIZE=10;
         var groups = [];
         var categories = [];
-
+        
         let apps = [];
 
         let filterToApply = "format=full&env=deployed&limit=1000";
@@ -241,6 +242,7 @@ class CInternal {
         }
 
         filterToApply += "&sortField=ownerId";
+        
 
         return new Promise((resolve, reject) => {
             this._applications
@@ -257,32 +259,43 @@ class CInternal {
 
                     return NodeSDK.get("/api/rainbow/applications/v1.0/applications?" + filterToApply, token);
                 })
-                .then(jsonApps => {
+                .then( async jsonApps =>  {
                     apps = jsonApps.data;
-
                     let promisesUser = [];
-
-                    apps.forEach(application => {
-                        promisesUser.push(this._getUser(token, application.ownerId));
-                    });
-
-                    return Promise.all(promisesUser);
+                    let promisesResolved = []
+                    
+                    for( let i = 0; i < apps.length; i++ ) {
+                        promisesUser.push( this._getUser(token, apps[i].ownerId))
+                        if( i%BATCH_SIZE === BATCH_SIZE-1 || i == apps.length -1 ) {
+                            let result = await Promise.all(promisesUser);
+                            promisesResolved = promisesResolved.concat( result )
+                            promisesUser = [];
+                        }
+                    }                     
+                    return Promise.resolve( promisesResolved );
                 })
-                .then(jsonUsers => {
+                .then( async jsonUsers => {
                     jsonUsers.forEach((user, index) => {
                         apps[index].user = user.data;
                     });
 
                     let promises = [];
-
-                    apps.forEach(application => {
+                    let promisesResolved= [];
+ 
+                    for( let i = 0; i < apps.length; i++ ){
                         let appOptions = Object.assign({}, options);
-                        appOptions.appid = application.id;
+                        appOptions.appid = apps[i].id;
                         appOptions.forcePeriod = "month";
                         promises.push(this._applications._getMetrics(token, appOptions));
-                    });
+                        if( i % BATCH_SIZE === BATCH_SIZE-1 || i === apps.length ){
+                            let result = await Promise.all(promises);
+                            promisesResolved = promisesResolved.concat( result )
+                            promises = [];
+                        }
+                    }
+                   
 
-                    return Promise.all(promises);
+                    return Promise.resolve( promisesResolved );
                 })
                 .then(jsonMetrics => {
                     let seconds = ["audio", "video", "webrtc_minutes"];
