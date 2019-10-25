@@ -6,6 +6,10 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+## [1.XX.0] - 2019-XX-XX
+
+- Added TURN bytes counter in application dashboards
+
 ## [1.59.0] - 2019-07-26
 
 - Modified server error display
