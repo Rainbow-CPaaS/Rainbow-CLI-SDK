@@ -918,6 +918,7 @@ class Message {
                 "API Resources".gray,
                 "API Admin".gray,
                 "WebRTC Minutes".gray,
+                "TURN bytes".gray,
                 "File Storage".gray,
                 "Estimated cost".gray
             ]);
@@ -932,6 +933,7 @@ class Message {
                 "-------------".gray,
                 "---------".gray,
                 "--------------".gray,
+                "----------".gray,
                 "------------".gray,
                 "--------------".gray
             ]);
@@ -946,6 +948,7 @@ class Message {
                 "API Resources".gray,
                 "API Admin".gray,
                 "WebRTC Minutes".gray,
+                "TURN bytes".gray,
                 "File Storage".gray,
                 "Estimated cost".gray
             ]);
@@ -959,6 +962,7 @@ class Message {
                 "-------------".gray,
                 "---------".gray,
                 "--------------".gray,
+                "----------".gray,
                 "------------".gray,
                 "--------------".gray
             ]);
@@ -977,6 +981,7 @@ class Message {
             let res = 0;
             let admin = 0;
             let webrtc = 0;
+            let turn = 0;
             let file = 0;
             let cost = 0;
 
@@ -1000,6 +1005,9 @@ class Message {
                             if (webrtc > 500) {
                                 cost += (webrtc - 500) * 0.005;
                             }
+                            break;
+                        case "turn":
+                            turn = metric.count;
                             break;
                         case "storage":
                             file = metric.count;
@@ -1034,6 +1042,7 @@ class Message {
                     res > 0 ? res.toString().cyan : res.toString().white,
                     admin > 0 ? admin.toString().cyan : admin.toString().white,
                     webrtc > 0 ? webrtc.toString().cyan : webrtc.toString().white,
+                    turn > 0 ? turn.toString().cyan : turn.toString().white,
                     file > 0 ? file.toString().cyan : file.toString().white,
                     cost > 0 ? cost.toFixed(3).toString().yellow : cost.toFixed(3).toString().white
                 ]);
@@ -1048,6 +1057,7 @@ class Message {
                     res > 0 ? res.toString().cyan : res.toString().white,
                     admin > 0 ? admin.toString().cyan : admin.toString().white,
                     webrtc > 0 ? webrtc.toString().cyan : webrtc.toString().white,
+                    turn > 0 ? turn.toString().cyan : turn.toString().white,
                     file > 0 ? file.toString().cyan : file.toString().white,
                     cost > 0 ? cost.toFixed(3).toString().yellow : cost.toFixed(3).toString().white
                 ]);

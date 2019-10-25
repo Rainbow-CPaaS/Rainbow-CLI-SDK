@@ -133,6 +133,7 @@ class CInternal {
             let res = 0;
             let admin = 0;
             let webrtc = 0;
+            let turn = 0;
             let file = 0;
             let cost = 0;
 
@@ -157,6 +158,9 @@ class CInternal {
                                 cost += (webrtc - 500) * 0.005;
                             }
                             break;
+                        case "turn":
+                            turn = metric.count;
+                            break;
                         case "storage":
                             file = metric.count;
                             if (file > 5) {
@@ -170,6 +174,7 @@ class CInternal {
             line.push(res);
             line.push(admin);
             line.push(webrtc);
+            line.push(turn);
             line.push(file);
             if (isBusiness) {
                 line.push(0);
@@ -555,6 +560,7 @@ class CInternal {
                             "API resources",
                             "API administration",
                             "WebRTC minutes",
+                            "TURN bytes",
                             "File storage",
                             "Fees"
                         );
