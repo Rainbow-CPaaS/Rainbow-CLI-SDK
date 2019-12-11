@@ -22,7 +22,7 @@ class CApplication {
         let period = json.aggregationPeriod || "hour";
 
         metrics.forEach(metric => {
-            let metricsGroups = metric.groupCounters;
+            let metricsGroups = metric.groupCounters || [];
             let startDate = metric.aggregationStartDate;
 
             switch (period) {
@@ -68,7 +68,6 @@ class CApplication {
             });
             csvJSON["data"].push(line);
         });
-
         return csvJSON;
     }
 
@@ -88,7 +87,9 @@ class CApplication {
         return new Promise(function(resolve, reject) {
             let day = options.day,
                 month = options.month,
-                year = options.year;
+                year = options.year,
+                since = options.since,
+                until = options.until;
 
             let param = "?";
 
@@ -107,10 +108,24 @@ class CApplication {
                 fromDate = moment(year, "YYYY").startOf("year");
                 toDate = moment(year, "YYYY").endOf("year");
                 period = "month";
+            } else if (since) {
+                fromDate = moment(since, "YYYYMM").startOf("month");
+                toDate = moment().endOf("month");
+                period = "month";
+                Message.log('since: fromDate: ' + fromDate + ' , toDate: ' + toDate);
             } else {
                 fromDate = moment().startOf("month");
                 toDate = moment().endOf("month");
                 period = "day";
+            }
+
+            if (until) {
+                if (!since) {
+
+                }
+                toDate = moment(until, "YYYYMM").endOf("month");
+                period = "month";
+                Message.log('until: fromDate: ' + fromDate + ' , toDate: ' + toDate);
             }
 
             if (options.forcePeriod) {
@@ -129,7 +144,7 @@ class CApplication {
             if (options.dczones) {
                 param += "&dcZones=" + options.dczones;
             }
-
+            Message.log('param: ' + param);
             NodeSDK.get("/api/rainbow/metrics/v1.0/cpaasmetrics/" + options.appid + param, token)
                 .then(function(json) {
                     json.start = fromDate.toDate();
@@ -1729,6 +1744,7 @@ class CApplication {
                         Message.csv(options.csv, jsonCSV.data, false)
                             .then(() => {})
                             .catch(err => {
+                                console.log(err);
                                 Exit.error();
                             });
                     } else if (options.noOutput) {

@@ -299,7 +299,6 @@ class CInternal {
                         }
                     }
                    
-
                     return Promise.resolve( promisesResolved );
                 })
                 .then(jsonMetrics => {
@@ -320,10 +319,12 @@ class CInternal {
                                 });
     
                                 for (var category in categories) {
-                                    aggregatedApp.push({
-                                        group: category,
-                                        count: 0
-                                    });
+                                    if (!aggregatedApp.find(function(element) { return element.group === category; })) {
+                                        aggregatedApp.push({
+                                            group: category,
+                                            count: 0
+                                        });    
+                                    }
                                 }
     
                                 groups.forEach(group => {
@@ -338,7 +339,6 @@ class CInternal {
                                     }
                                 });    
                             }
-
                             apps[index].metrics = aggregatedApp;
                         });
                     });

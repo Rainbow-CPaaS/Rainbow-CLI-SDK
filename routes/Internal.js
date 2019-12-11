@@ -24,6 +24,8 @@ class Internal {
             .command("dashboard payasyougo")
             .description("Display pay-as-you-go applications metrics for current month")
             .option("-m, --month <month>", "Get metrics for a specific month. Format is YYYYMM")
+            .option("-s, --since <month>", "Get metrics since a specific month. Format is YYYYMM")
+            .option("-u, --until <month>", "Get metrics until a specific month. Format is YYYYMM. Requires -s/--since parameter")
             .option("-f, --file <filename>", "Print result to a file in CSV")
             .option("-o, --owner <ownerid>", "Filter by owner of applications")
             .option("-v, --verbose", "Use verbose console mode")
@@ -31,10 +33,19 @@ class Internal {
             .action(function (commands) {
                 Middleware.parseCommand(commands)
                     .then(() => {
+                        if (commands.month && (commands.since || commands.until)) {
+                            throw { error: { errorDetails: "-m/--month and -s/--since or -u/--until are exclusive." } };
+                        }
+                        if (commands.until && !commands.since) {
+                            throw { error: { errorDetails: "-u/--until requires -s/--since." } };
+                        }
+
                         Logger.isActive = commands.verbose || false;
 
                         var options = {
                             month: commands.month,
+                            since: commands.since,
+                            until: commands.until,
                             group: true,
                             csv: commands.file,
                             owner: commands.owner,
@@ -52,6 +63,8 @@ class Internal {
             .command("dashboard business")
             .description("Display business applications metrics for current month")
             .option("-m, --month <month>", "Get metrics for a specific month. Format is YYYYMM")
+            .option("-s, --since <month>", "Get metrics since a specific month. Format is YYYYMM")
+            .option("-u, --until <month>", "Get metrics until a specific month. Format is YYYYMM. Requires -s/--since parameter")
             .option("-f, --file <filename>", "Print result to a file in CSV")
             .option("-o, --owner <ownerid>", "Filter by owner of applications")
             .option("-v, --verbose", "Use verbose console mode")
@@ -59,10 +72,19 @@ class Internal {
             .action(function (commands) {
                 Middleware.parseCommand(commands)
                     .then(() => {
+                        if (commands.month && (commands.since || commands.until)) {
+                            throw { error: { errorDetails: "-m/--month and -s/--since or -u/--until are exclusive." } };
+                        }
+                        if (commands.until && !commands.since) {
+                            throw { error: { errorDetails: "-u/--until requires -s/--since." } };
+                        }
+
                         Logger.isActive = commands.verbose || false;
 
                         var options = {
                             month: commands.month,
+                            since: commands.since,
+                            until: commands.until,
                             group: true,
                             csv: commands.file,
                             owner: commands.owner,
@@ -80,6 +102,8 @@ class Internal {
             .command("dashboard internal")
             .description("Display internal applications metrics for current month")
             .option("-m, --month <month>", "Get metrics for a specific month. Format is YYYYMM")
+            .option("-s, --since <month>", "Get metrics since a specific month. Format is YYYYMM")
+            .option("-u, --until <month>", "Get metrics until a specific month. Format is YYYYMM. Requires -s/--since parameter")
             .option("-f, --file <filename>", "Print result to a file in CSV")
             .option("-o, --owner <ownerid>", "Filter by owner of applications")
             .option("-v, --verbose", "Use verbose console mode")
@@ -87,10 +111,19 @@ class Internal {
             .action(function (commands) {
                 Middleware.parseCommand(commands)
                     .then(() => {
+                        if (commands.month && (commands.since || commands.until)) {
+                            throw { error: { errorDetails: "-m/--month and -s/--since or -u/--until are exclusive." } };
+                        }
+                        if (commands.until && !commands.since) {
+                            throw { error: { errorDetails: "-u/--until requires -s/--since." } };
+                        }
+
                         Logger.isActive = commands.verbose || false;
 
                         var options = {
                             month: commands.month,
+                            since: commands.since,
+                            until: commands.until,
                             group: true,
                             csv: commands.file,
                             owner: commands.owner,

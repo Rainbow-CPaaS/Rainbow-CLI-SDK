@@ -83,7 +83,7 @@ class Message {
 
                     json.map( item =>  {
                         for (var key in item) {
-                            if (!columns.include(key)) {
+                            if (!columns.includes(key)) {
                                 columns.push(key);
                             }
                         }
