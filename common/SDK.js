@@ -61,7 +61,8 @@ class SDK {
             if (
                 config.rainbow.host === "openrainbow.com" ||
                 config.rainbow.host === "official" ||
-                config.rainbow.host === "openrainbow.cn.com"
+                config.rainbow.host === "openrainbow.cn.com" ||
+                config.rainbow.host === "myopenrainbow.com.cn"
             ) {
                 config.application.appID = appid;
                 config.application.appSecret = appsecret;
@@ -71,7 +72,8 @@ class SDK {
                 if (
                     config.rainbow.host === "sandbox.openrainbow.com" ||
                     config.rainbow.host === "sandbox" ||
-                    config.rainbow.host === "sandbox.openrainbow.cn.com"
+                    config.rainbow.host === "sandbox.openrainbow.cn.com" ||
+                    config.rainbow.host === "sandbox.myopenrainbow.com.cn"
                 ) {
                     config.application.appSecret = "MAjWllXH84YVhn0yp3ZuGmuPleXlYQhIeNghRgdo8NAVKEcIDc7M61Wes6Dp0cLy";
                 } else if (
