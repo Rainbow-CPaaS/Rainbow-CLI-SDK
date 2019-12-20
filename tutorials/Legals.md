@@ -55,21 +55,22 @@ The Rainbow CLI includes the following third parties libraries:
 
 **FOSS Component**  | **Website** | **License** | **Modified by ALE** | **Version**
 :------------- | :-------------: | :-------------: | :-------------: | :-------------:
-chalk | [www](https://github.com/chalk/chalk#readme) | [MIT](http://www.opensource.org/licenses/MIT) | NO | 2.4.1
+bottleneck | [www](https://github.com/SGrondin/bottleneck) |  [MIT](http://www.opensource.org/licenses/MIT) | NO | 2.9.15
+chalk | [www](https://github.com/chalk/chalk#readme) | [MIT](http://www.opensource.org/licenses/MIT) | NO | 2.4.2
 clui | [www](https://github.com/nathanpeck/clui#readme) | [MIT](http://www.opensource.org/licenses/MIT) | NO | 0.3.6
-colors | [www](https://github.com/Marak/colors.js) | [MIT](http://www.opensource.org/licenses/MIT) | NO | 1.3.0
+colors | [www](https://github.com/Marak/colors.js) | [MIT](http://www.opensource.org/licenses/MIT) | NO | 1.4.0
 commander-plus | [www](https://github.com/onmodulus/commander.js) | [MIT](http://www.opensource.org/licenses/MIT) | NO | 0.0.6
-csv | [www](http://csv.adaltas.com) | [BSD-3-Clause](https://opensource.org/licenses) | NO | 3.1.0
-inquirer | [www](https://github.com/SBoudrias/Inquirer.js#readme) | [MIT](http://www.opensource.org/licenses/MIT) | NO | 5.2.0
-js-yaml | [www](https://github.com/nodeca/js-yaml) | [MIT](http://www.opensource.org/licenses/MIT) | NO | 3.11.0
-moment | [www](http://momentjs.com) | [MIT](http://www.opensource.org/licenses/MIT) | NO | 2.22.1
+csv | [www](http://csv.adaltas.com) | [BSD-3-Clause](https://opensource.org/licenses) | NO | 5.3.1
+inquirer | [www](https://github.com/SBoudrias/Inquirer.js#readme) | [MIT](http://www.opensource.org/licenses/MIT) | NO | 6.5.2
+moment | [www](http://momentjs.com) | [MIT](http://www.opensource.org/licenses/MIT) | NO | 2.24.0
+moment-timezone | [www](https://github.com/moment/moment-timezone) | [MIT](http://www.opensource.org/licenses/MIT) | NO | 0.5.27
 preferences | [www](https://github.com/CaffeinaLab/preferences#readme) | [MIT](http://www.opensource.org/licenses/MIT) | NO | 1.0.2
-rainbow-node-sdk | [www](https://github.com/Rainbow-CPaaS/Rainbow-Node-SDK.git) | [MIT](http://www.opensource.org/licenses/MIT) | NO | 1.40.0
-sitemap | [www](https://github.com/ekalinin/sitemap.js#readme) | [MIT](http://www.opensource.org/licenses/MIT) | NO | 1.13.0
-standard | [www](https://standardjs.com) | [MIT](http://www.opensource.org/licenses/MIT) | NO | 10.0.3
-table | [www](https://github.com/gajus/table#readme) | [BSD-3-Clause](https://opensource.org/licenses) | NO | 4.0.3
+rainbow-node-sdk | [www](https://github.com/Rainbow-CPaaS/Rainbow-Node-SDK.git) | [MIT](http://www.opensource.org/licenses/MIT) | NO | 1.64.2
+sitemap | [www](https://github.com/ekalinin/sitemap.js#readme) | [MIT](http://www.opensource.org/licenses/MIT) | NO | 2.2.0
+standard | [www](https://standardjs.com) | [MIT](http://www.opensource.org/licenses/MIT) | NO | 12.0.1
+table | [www](https://github.com/gajus/table#readme) | [BSD-3-Clause](https://opensource.org/licenses) | NO | 5.4.6
 update-notifier | [www](https://github.com/yeoman/update-notifier#readme) | [BSD-2-Clause](https://opensource.org/licenses) | NO | 2.5.0
-winston | [www](https://github.com/winstonjs/winston#readme) | [MIT](http://www.opensource.org/licenses/MIT) | NO | 2.4.3
+winston | [www](https://github.com/winstonjs/winston#readme) | [MIT](http://www.opensource.org/licenses/MIT) | NO | 3.2.1
 
 ---
 
