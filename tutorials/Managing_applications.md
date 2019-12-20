@@ -248,6 +248,9 @@ Application metrics are grouped into the following categories:
 | **Administration APIs** | This is the number of Rainbow API called by your application when doing administrative tasks like creating users, managing your companies, etc...<br/>This is the overall total for all your users. <br/> The unit represents one Rainbow API called. |
 | **Resources APIs** | This is the number of Rainbow API called by your application when doing applicative tasks like sending a chat message, creating a bubble, etc... <br/>This is the overall total for all your users.<br/>The unit represents one Rainbow API called. |
 | **WebRTC minutes** | This is the number of minutes consumed by your application when in communication using WebRTC (audio, video and screen sharing). <br/>This is the overall total for all your users.<br/>The unit represents one minute spent. |
+| **Storage** | This is the number of bytes stored in the Rainbow file storage by your application. |
+| **Upload** | This is the number of bytes uploaded in the Rainbow file storage by your application. |
+| **TURN** | This is the TURN traffic in bytes used by your application. |
 
 Note: When using a SDK, calling a method is not synonymous to calling a Rainbow API. In order to work correctly, the SDK could do additional requests in order to retrieve information that your application or the SDK will need to work properly.
 
@@ -333,4 +336,4 @@ $ rbw application threshold delete e17f9fa059cf11e8ae01d9b5fe1c68ca resources
 
 ---
 
-_Last updated July, 12th 2018_
+_Last updated December, 20th 2019_
