@@ -6,6 +6,10 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+## [1.65.0] - 2019-12-20
+
+- Official 1.65.0 release
+
 ## [1.65.0-beta.0] - 2019-12-11
 
 - Handle China sandbox
