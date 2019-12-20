@@ -156,7 +156,7 @@ To create a new account, use the command `rwb create user`
 
 ```bash
 
-$ rbw create user 'atestuser@acompany.com' 'aPassword_123' 'aFirstname' 'aLastname'
+$ rbw create user atestuser@acompany.com aPassword_123 aFirstname aLastname
 
 ```
 
@@ -171,10 +171,10 @@ At any time, you can update the password or the login email of a user of your co
 ```bash
 
 # Updating the password
-$ rbw changepwd user 59f0d5ca7adcbf344239dcd0 'myNewPassword_123'
+$ rbw changepwd user 59f0d5ca7adcbf344239dcd0 myNewPassword_123
 
 # Updating the login email
-$ rbw changelogin user 59f0d5ca7adcbf344239dcd0 'newLogin@acompany.com'
+$ rbw changelogin user 59f0d5ca7adcbf344239dcd0 newLogin@acompany.com
 
 ```
 
@@ -204,4 +204,4 @@ The Rainbow CLI offers many other commands you can play with...
 
 ---
 
-_Last updated May, 17th 2018_
+_Last updated December, 20th 2019_
