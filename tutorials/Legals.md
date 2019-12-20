@@ -1,4 +1,3 @@
-
 ## Legals
 
 ---
@@ -74,6 +73,6 @@ winston | [www](https://github.com/winstonjs/winston#readme) | [MIT](http://www.
 
 ---
 
-_Last updated June, 14th 2018_
+_Last updated December, 20th 2019_
 
 
