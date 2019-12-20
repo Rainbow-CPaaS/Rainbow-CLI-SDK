@@ -230,6 +230,19 @@ program
 
 program.parse(process.argv);
 
+let processargs = process.argv;
+
+if (!(processargs.length > 2)) {
+    program.help();
+}
+
+/*
+let processargs = program.parse(process.argv).args;
+
+if (!processargs.length) {
+    program.help();
+}
 if (!program.args.length) {
     program.help();
 }
+// */
