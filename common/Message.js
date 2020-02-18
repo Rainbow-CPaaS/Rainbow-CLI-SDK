@@ -22,6 +22,18 @@ class Message {
         return true;
     }
 
+    getTruncatedData(data, length) {
+        if (!data) {
+            return "";
+        }
+
+        if (data.length < length) {
+            return data;
+        }
+
+        return data.substr(0, length) + "...";
+    }
+
     log(message, value) {
         Logger.logs(message, value);
     }
@@ -892,18 +904,6 @@ class Message {
     }
 
     tableDashboardMetrics(json, options) {
-        let getTruncatedData = (data, length) => {
-            if (!data) {
-                return "";
-            }
-
-            if (data.length < length) {
-                return data;
-            }
-
-            return data.substr(0, length) + "...";
-        };
-
         let array = [];
 
         if (options.kpi === "business") {
@@ -972,12 +972,12 @@ class Message {
 
         json.forEach(app => {
             let appid = app.id;
-            let name = getTruncatedData(app.name, 20);
-            let reason = getTruncatedData(app.deployReason, 30);
+            let name = this.getTruncatedData(app.name, 20);
+            let reason = this.getTruncatedData(app.deployReason, 30);
 
             let data = app.metrics;
             let user = app.user;
-            let username = getTruncatedData(user.firstName + " " + user.lastName, 25);
+            let username = this.getTruncatedData(user.firstName + " " + user.lastName, 25);
             let res = 0;
             let admin = 0;
             let webrtc = 0;
@@ -1821,6 +1821,65 @@ class Message {
         Screen.print("");
     }
 
+    tableChannels(json, options) {
+        var array = [];
+
+        array.push(["#".gray, "Name".gray, "Topic".gray, "Category".gray, "Subs. count".gray, "Id".gray]);
+        array.push(["-", "----", "-----", "--------", "-----------", "--"]);
+
+        let channels = json.data;
+        for(var i = 0; i < channels.length; i++) {
+            let channel = channels[i];
+
+            var number = i + 1;
+            if (options.page > 0) {
+                number = (options.page - 1) * json.limit + (i + 1);
+            }
+
+            array.push([number.toString().white, 
+                this.getTruncatedData(channel.name, 30).cyan, 
+                this.getTruncatedData(channel.topic, 70), 
+                channel.category, 
+                channel.subscribers_count, 
+                channel.id]);
+        }
+
+        Screen.table(array);
+        Screen.print("");
+        Screen.success(json.total + " channel(s) found.");
+        Screen.print("");
+    }
+
+    tableChannelUsers(json, options) {
+        var array = [];
+
+        array.push(["#".gray, "Display Name".gray, "Login Email".gray, "Type".gray, "Company Id".gray, "Id".gray]);
+        array.push(["-", "------------", "-----------", "----", "------------", "--"]);
+
+        let users = json.data;
+        for(var i = 0; i < users.length; i++) {
+            let user = users[i];
+
+            var number = i + 1;
+            if (options.page > 0) {
+                number = (options.page - 1) * json.limit + (i + 1);
+            }
+
+            array.push([number.toString().white,
+                this.getTruncatedData(user.displayName, 30).cyan,
+                user.loginEmail,
+                user.type,
+                user.companyId,
+                user.id.magenta
+            ]);
+        } 
+
+        Screen.table(array);
+        Screen.print("");
+        Screen.success(json.total + " user(s) found.");
+        Screen.print("");
+    }
+
     loggedin(prefs, options) {
         let user = prefs.user;
         let host = prefs.host;
@@ -2128,6 +2187,7 @@ class Message {
             });
         });
     }
+
 }
 
 module.exports = new Message();

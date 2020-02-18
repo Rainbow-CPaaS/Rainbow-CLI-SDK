@@ -31,6 +31,7 @@ const Application = require("./routes/Application");
 const Developer = require("./routes/Developer");
 const Internal = require("./routes/Internal");
 const Network = require("./routes/Network");
+const Channels = require("./routes/Channels");
 
 start = function() {
     // auto-complete
@@ -63,6 +64,7 @@ start = function() {
     let developers = new Developer(program, prefs);
     let internal = new Internal(program, prefs);
     let network = new Network(program, prefs);
+    let channels = new Channels(program, prefs);
 
     // Start the routes
     account.start();
@@ -82,6 +84,7 @@ start = function() {
     developers.start();
     internal.start();
     network.start();
+    channels.start();
 
     program.command("*").action(function() {
         Message.welcome();
