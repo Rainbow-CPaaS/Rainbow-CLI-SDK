@@ -55,7 +55,6 @@ class CChannels {
 
             filterToApply += "&limit=" + Math.min(options.limit, 1000);
 
-            console.log(filterToApply);
             NodeSDK.get("/api/rainbow/channels/v1.0/channels/browse?" + filterToApply, token)
             .then(function(json) {
                 resolve(json);
