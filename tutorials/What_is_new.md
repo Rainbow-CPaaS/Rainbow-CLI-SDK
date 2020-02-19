@@ -4,6 +4,10 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
+### Rainbow CLI 1.67 (February 2020)
+
+- Updated dependencies
+
 ### Rainbow CLI 1.65 (December 2019)
 
 ---
