@@ -5,6 +5,13 @@ var Logger = require("../common/Logger");
 var Middleware = require("../common/Middleware");
 var Message = require("../common/Message");
 
+// Channels
+// rbw channels browse
+// rbw channel <id>
+// rbw channel search
+// rbw channel users <id>
+
+
 class Channels {
     constructor(program, prefs) {
         this._program = program;
@@ -109,7 +116,7 @@ class Channels {
             });
 
         this._program
-            .command("channel search")
+            .command("channels search")
             .description("Search a channel")
             .option("-j, --json", "Write the JSON result to standard stdout.")
             .option("-v, --verbose", "Use verbose console mode.")
@@ -129,7 +136,7 @@ class Channels {
             .on("--help", function() {
                 console.log("   Examples:");
                 console.log("");
-                console.log("   $ rbw channel search -n MyChannel");
+                console.log("   $ rbw channels search -n MyChannel");
                 console.log("");
             })
             .action(function(commands) {
@@ -200,6 +207,97 @@ class Channels {
                     });
             });
 
+        this._program
+            .command("channel items", "<id>")
+            .description("Retrieve items for a channel")
+            .option("-j, --json", "Write the JSON result to standard stdout.")
+            .option("-l, --limit <number>", "Limit to a number of instances.")
+            .option("-b, --before <date>", "Show items before a timestamp (format is YYYYMMDD).")
+            .option("-a, --after <date>", "Show items after a timestamp (format YYYYMMDD).")
+            .option("-v, --verbose", "Use verbose console mode.")
+            .on("--help", function() {
+                console.log("   Examples:");
+                console.log("");
+                console.log("   $ rbw channel items 5bbb16512412ea451767dd3b");
+                console.log("   $ rbw channel items 5bbb16512412ea451767dd3b --json");
+                console.log("");
+            })
+            .action(function(id, commands) {
+                Middleware.parseCommand(commands)
+                .then(() => {
+                    if (commands.after && commands.before) {
+                        throw { error: { errorDetails: "-a/--after and -b/--before are exclusive."} };
+                    }
+
+                    var options = {
+                        noOutput: commands.json || false,
+                        limit: commands.limit || 0,
+                        before: commands.before,
+                        after: commands.after
+                    };
+
+                    Logger.isActive = commands.verbose || false;
+
+                    that._channels.getChannelItems(id, options);
+                })
+                .catch(err => {
+                    Message.error(err, {});
+                });
+            });
+
+        this._program
+            .command("channel item", "<cid> <id>")
+            .description("Retrieve an item from a channel")
+            .option("-j, --json", "Write the JSON result to standard stdout.")
+            .option("-v, --verbose", "Use verbose console mode.")
+            .on("--help", function() {
+                console.log("   Examples:");
+                console.log("");
+                console.log("   $ rbw channel item 5bbb16512412ea451767dd3b 61126CB3D2EC");
+                console.log("");
+            })
+            .action(function(cid, id, commands) {
+                Middleware.parseCommand(commands)
+                    .then(() => {
+                        var options = {
+                            noOutput: commands.json || false,
+                        };
+
+                        Logger.isActive = commands.verbose || false;
+
+                        that._channels.getChannelItem(cid, id, options);
+                    })
+                    .catch(err => {
+                        Message.error(err, {});
+                    });
+            });
+
+        this._program
+            .command("channel info", "<id>")
+            .description("Get info about a channel")
+            .option("-j, --json", "Write the JSON result to standard stdout.")
+            .option("-v, --verbose", "Use verbose console mode.")
+            .on("--help", function() {
+                console.log("   Examples:")
+                console.log("");
+                console.log("   $ rbw channel info 5bbb16512412ea451767dd3b");
+                console.log("");
+            })
+            .action(function(id, commands) {
+                Middleware.parseCommand(commands)
+                    .then(() => {
+                        var options = {
+                            noOutput: commands.json || false
+                        };
+
+                        Logger.isActive = commands.verbose || false;
+
+                        that._channels.getChannelInfo(id, options);
+                    })
+                    .catch(err => {
+                        Message.error(err, {});
+                    });
+            });
     }
 }
 

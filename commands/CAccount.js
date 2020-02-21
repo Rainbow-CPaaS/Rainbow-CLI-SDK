@@ -886,6 +886,42 @@ class CAccount {
                 theme: "Company",
                 command: "set admin <name>",
                 details: "Create a company and add role admin to account"
+            },
+            {
+                level: "user",
+                theme: " ",
+                command: " ",
+                details: " "
+            },
+            {
+                level: "user",
+                theme: "Channels",
+                command: "channels browse",
+                details: "Browse channels"
+            },
+            {
+                level: "user",
+                theme: "Channels",
+                command: "channels search",
+                details: "Find channels"
+            },
+            {
+                level: "user",
+                theme: "Channels",
+                command: "channel <id>",
+                details: "Get information about a channel"
+            },
+            {
+                level: "user",
+                theme: "Channels",
+                command: "channel users <id>",
+                details: "Get users from a channel"
+            },
+            {
+                level: "user",
+                theme: "Channels",
+                command: "channel items <id>",
+                details: "Get items from a channel"
             }
         ];
 

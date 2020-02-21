@@ -1824,8 +1824,8 @@ class Message {
     tableChannels(json, options) {
         var array = [];
 
-        array.push(["#".gray, "Name".gray, "Topic".gray, "Category".gray, "Subs. count".gray, "Id".gray]);
-        array.push(["-", "----", "-----", "--------", "-----------", "--"]);
+        array.push(["#".gray, "Name".gray, "Topic".gray, "Category".gray, "Visibility".gray, "Subs. count".gray, "Id".gray]);
+        array.push(["-".gray, "----".gray, "-----".gray, "--------".gray, "----------".gray, "-----------".gray, "--".gray]);
 
         let channels = json.data;
         for(var i = 0; i < channels.length; i++) {
@@ -1838,8 +1838,9 @@ class Message {
 
             array.push([number.toString().white, 
                 this.getTruncatedData(channel.name, 30).cyan, 
-                this.getTruncatedData(channel.topic, 70), 
+                this.getTruncatedData(channel.topic, 60), 
                 channel.category, 
+                channel.visibility,
                 channel.subscribers_count, 
                 channel.id]);
         }
@@ -1854,7 +1855,7 @@ class Message {
         var array = [];
 
         array.push(["#".gray, "Display Name".gray, "Login Email".gray, "Type".gray, "Company Id".gray, "Id".gray]);
-        array.push(["-", "------------", "-----------", "----", "------------", "--"]);
+        array.push(["-".gray, "------------".gray, "-----------".gray, "----".gray, "----------".gray, "--".gray]);
 
         let users = json.data;
         for(var i = 0; i < users.length; i++) {
@@ -1878,6 +1879,39 @@ class Message {
         Screen.print("");
         Screen.success(json.total + " user(s) found.");
         Screen.print("");
+    }
+
+    tableChannelItems(json, options) {
+        var array = [];
+
+        array.push(["#".gray, "Title".gray, "Message".gray, "From".gray, "Timestamp".gray, "Id".gray]);
+        array.push(["-".gray, "-----".gray, "-------".gray, "----".gray, "---------".gray, "--".gray]);
+
+        let items = json.data.items;
+        for(var i = 0; i < items.length; i++) {
+            let item = items[i];
+
+            var number = i + 1;
+            array.push([number.toString().white,
+                this.getTruncatedData(item.entry.title, 30).cyan,
+                this.getTruncatedData(item.entry.message, 50),
+                item.from,
+                item.timestamp,
+                item.id
+            ]);
+        } 
+
+        Screen.table(array);
+        Screen.print("");
+        Screen.success(json.data.status.count + " item(s).");
+        Screen.print("");
+    }
+
+    tableChannelItem(json, options) {
+        Screen.print("Not yet implemented !");
+        if (json) {
+            Screen.print(json);
+        }
     }
 
     loggedin(prefs, options) {

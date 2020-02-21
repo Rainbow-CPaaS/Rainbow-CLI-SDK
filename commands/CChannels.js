@@ -3,6 +3,7 @@
 const NodeSDK = require("../common/SDK");
 const Message = require("../common/Message");
 const Exit = require("../common/Exit");
+const moment = require("moment");
 
 class CChannels {
     constructor(prefs) {
@@ -87,6 +88,49 @@ class CChannels {
                     reject(err);
                 });
         });
+    }
+
+    _getChannelItems(token, id, options) {
+        var filterToApply = "";
+
+        if (options.limit) {
+            filterToApply = "max=" + options.limit;
+        }
+        if (options.before) {
+            filterToApply += "&before=" + moment(options.before, "YYYYMMDD").toISOString();
+        }
+        if (options.after) {
+            filterToApply += "&after=" + moment(options.after, "YYYYMMDD").toISOString();
+        }
+        return new Promise(function(resolve, reject) {
+            NodeSDK.get("/api/rainbow/channels/v1.0/channels/" + id + "/items?" + filterToApply, token)
+                .then(function(json) {
+                    resolve(json);
+                })
+                .catch(function(err) {
+                    reject(err);
+                });
+        });
+    }
+
+    _getChannelItem(token, cid, id, options) {
+        NodeSDK.get("/api/rainbow/channels/v1.0/channels/" + cid + "/items/" + id, token)
+            .then(function(json) {
+                resolve(json);
+            })
+            .catch(function(err) {
+                reject(err);
+            });
+    }
+
+    _getChannelInfo(token, id, options) {
+        NodeSDK.get("/api/rainbow/channels/v1.0/channels/" + id, token)
+            .then(function(json) {
+                resolve(json);
+            })
+            .catch(function(err) {
+                reject(err);
+            });
     }
 
     _searchChannel(token, options) {
@@ -281,6 +325,151 @@ class CChannels {
 
                     Message.lineFeed();
                     Message.tableChannelUsers(json, options);
+                    Message.lineFeed();
+                    Message.success(options);
+                }
+                Message.log("finished!");
+            })
+            .catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        } else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    getChannelItems(id, options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if (this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+            Message.action("Get items for a channel ", id, options);
+
+            let spin = Message.spin(options);
+            NodeSDK.start(
+                this._prefs.email,
+                this._prefs.password,
+                this._prefs.host,
+                this._prefs.proxy,
+                this._prefs.appid,
+                this._prefs.appsecret
+            )
+            .then(function() {
+                Message.log("execute action...");
+                return that._getChannelItems(that._prefs.token, id, options);
+            })
+            .then(function(json) {
+                Message.unspin(spin);
+                Message.log("action done...", json);
+
+                if (options.noOutput) {
+                    Message.out(json.data);
+                } else {
+                    if (json.total > json.limit) {
+                        Message.tablePage(json, options);
+                    }
+
+                    Message.lineFeed();
+                    Message.tableChannelItems(json, options);
+                    Message.lineFeed();
+                    Message.success(options);
+                }
+                Message.log("finished!");
+            })
+            .catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        } else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    getChannelItem(cid, id, options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if (this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+            Message.action("Get an item from a channel ", id, options);
+
+            let spin = Message.spin(options);
+            NodeSDK.start(
+                this._prefs.email,
+                this._prefs.password,
+                this._prefs.host,
+                this._prefs.proxy,
+                this._prefs.appid,
+                this._prefs.appsecret
+            )
+            .then(function() {
+                Message.log("execute action...");
+                return that._getChannelItem(that._prefs.token, cid, id, options);
+            })
+            .then(function(json) {
+                Message.unspin(spin);
+                Message.log("action done...", json);
+
+                if (options.noOutput) {
+                    Message.out(json.data);
+                } else {
+                    Message.lineFeed();
+                    Message.tableChannelItem(json, options);
+                    Message.lineFeed();
+                    Message.success(options);
+                }
+                Message.log("finished!");
+            })
+            .catch(function(err) {
+                Message.unspin(spin);
+                Message.error(err, options);
+                Exit.error();
+            });
+        } else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    getChannelInfo(id, options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if (this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+            Message.action("Get info about a channel ", id, options);
+
+            let spin = Message.spin(options);
+            NodeSDK.start(
+                this._prefs.email,
+                this._prefs.password,
+                this._prefs.host,
+                this._prefs.proxy,
+                this._prefs.appid,
+                this._prefs.appsecret
+            )
+            .then(function() {
+                Message.log("execute action...");
+                return that._getChannelInfo(that._prefs.token, id, options);
+            })
+            .then(function(json) {
+                Message.unspin(spin);
+                Message.log("action done...", json);
+
+                if (options.noOutput) {
+                    Message.out(json.data);
+                } else {
+                    Message.lineFeed();
+                    Message.table2D(json.data, options);
                     Message.lineFeed();
                     Message.success(options);
                 }
