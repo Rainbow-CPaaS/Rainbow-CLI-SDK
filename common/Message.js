@@ -1907,6 +1907,33 @@ class Message {
         Screen.print("");
     }
 
+    tableChannelsLatestItems(json, options) {
+        var array = [];
+
+        array.push(["#".gray, "ChannelId".gray, "Title".gray, "Message".gray, "From".gray, "Timestamp".gray, "Id".gray]);
+        array.push(["-".gray, "---------".gray, "-----".gray, "-------".gray, "----".gray, "---------".gray, "--".gray]);
+
+        let items = json.data.items;
+        for(var i = 0; i < items.length; i++) {
+            let item = items[i];
+
+            var number = i + 1;
+            array.push([number.toString().white,
+                item.channelId,
+                this.getTruncatedData(item.entry.title, 30).cyan,
+                this.getTruncatedData(item.entry.message, 50),
+                item.from,
+                item.timestamp,
+                item.id
+            ]);
+        } 
+
+        Screen.table(array);
+        Screen.print("");
+        Screen.success(json.data.status.count + " item(s).");
+        Screen.print("");
+    }
+
     tableChannelItem(json, options) {
         Screen.print("Not yet implemented !");
         if (json) {

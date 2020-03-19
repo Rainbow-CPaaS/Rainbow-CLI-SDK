@@ -7,10 +7,12 @@ var Message = require("../common/Message");
 
 // Channels
 // rbw channels browse
+// rbw channels latest-items
 // rbw channel <id>
 // rbw channel search
 // rbw channel users <id>
-
+// rbw channel items <id>
+// rbw channel info <id>
 
 class Channels {
     constructor(program, prefs) {
@@ -88,6 +90,41 @@ class Channels {
             });
 
         this._program
+            .command("channels latest-items")
+            .description("Retrieve latest items for all subscribed channels")
+            .option("-j, --json", "Write the JSON result to standard stdout.")
+            .option("-l, --limit <number>", "Limit to a number of instances.")
+            .option("-b, --before <date>", "Show items before a timestamp (format is YYYYMMDD).")
+            .option("-a, --after <date>", "Show items after a timestamp (format YYYYMMDD).")
+            .option("-v, --verbose", "Use verbose console mode.")
+            .on("--help", function() {
+                console.log("   Examples:");
+                console.log("");
+                console.log("   $ rbw channels latest-items");
+                console.log("   $ rbw channels latest-items --json");
+                console.log("");
+            })
+            .action(function(commands) {
+                Middleware.parseCommand(commands)
+                .then(() => {
+                    if (commands.after && commands.before) {
+                        throw { error: { errorDetails: "-a/--after and -b/--before are exclusive."} };
+                    }
+
+                    var options = {
+                        noOutput: commands.json || false
+                    };
+
+                    Logger.isActive = commands.verbose || false;
+
+                    that._channels.getChannelsLatestItems(options);
+                })
+                .catch(err => {
+                    Message.error(err, {});
+                });
+            });
+
+        this._program
             .command("channel", "<id>")
             .description("Retrieve information about a channel")
             .option("-j, --json", "Write the JSON result to standard stdout.")
@@ -102,6 +139,10 @@ class Channels {
             .action(function(id, commands) {
                 Middleware.parseCommand(commands)
                     .then(() => {
+                        if (id === "browse") {
+                            throw { error: { errorDetails: "Use `rbw channels browse` to browse channels."} };
+                        }
+
                         var options = {
                             noOutput: commands.json || false
                         };
@@ -245,32 +286,32 @@ class Channels {
                 });
             });
 
-        this._program
-            .command("channel item", "<cid> <id>")
-            .description("Retrieve an item from a channel")
-            .option("-j, --json", "Write the JSON result to standard stdout.")
-            .option("-v, --verbose", "Use verbose console mode.")
-            .on("--help", function() {
-                console.log("   Examples:");
-                console.log("");
-                console.log("   $ rbw channel item 5bbb16512412ea451767dd3b 61126CB3D2EC");
-                console.log("");
-            })
-            .action(function(cid, id, commands) {
-                Middleware.parseCommand(commands)
-                    .then(() => {
-                        var options = {
-                            noOutput: commands.json || false,
-                        };
+        // this._program
+        //     .command("channel item", "<cid> <id>")
+        //     .description("Retrieve an item from a channel")
+        //     .option("-j, --json", "Write the JSON result to standard stdout.")
+        //     .option("-v, --verbose", "Use verbose console mode.")
+        //     .on("--help", function() {
+        //         console.log("   Examples:");
+        //         console.log("");
+        //         console.log("   $ rbw channel item 5bbb16512412ea451767dd3b 61126CB3D2EC");
+        //         console.log("");
+        //     })
+        //     .action(function(cid, id, commands) {
+        //         Middleware.parseCommand(commands)
+        //             .then(() => {
+        //                 var options = {
+        //                     noOutput: commands.json || false,
+        //                 };
 
-                        Logger.isActive = commands.verbose || false;
+        //                 Logger.isActive = commands.verbose || false;
 
-                        that._channels.getChannelItem(cid, id, options);
-                    })
-                    .catch(err => {
-                        Message.error(err, {});
-                    });
-            });
+        //                 that._channels.getChannelItem(cid, id, options);
+        //             })
+        //             .catch(err => {
+        //                 Message.error(err, {});
+        //             });
+        //     });
 
         this._program
             .command("channel info", "<id>")
