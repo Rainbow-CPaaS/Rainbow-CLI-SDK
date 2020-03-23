@@ -450,7 +450,7 @@ class Application {
 
         this._program
             .command("application metrics groups")
-            .description("Retrieve the list metrics available for any applications")
+            .description("Retrieve the list of metrics available for any applications")
             .option("-j, --json", "Write the JSON result to standard stdout")
             .option("-v, --verbose", "Use verbose console mode")
             .on("--help", function() {
