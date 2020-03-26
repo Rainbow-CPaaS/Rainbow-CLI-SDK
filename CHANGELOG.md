@@ -6,6 +6,10 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+## [1.69.0] - 2020-03-26
+- Updated dependencies
+- New commands for channels
+
 ## [1.67.0] - 2020-02-19
 - Updated dependencies
 
