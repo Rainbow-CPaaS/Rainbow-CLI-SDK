@@ -4,6 +4,23 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
+### Rainbow CLI 1.69 (March 2020)
+
+---
+
+**3-Release Breaking Changes**
+
+-   None.
+
+**Breaking Changes**
+
+-   None.
+
+**Changes**
+
+-   Updated dependencies.
+-   New commands for channels: `rbw channels browse`, `rbw channels search`, `rbw channel <id>`, `rbw channel users <id>`, `rbw channel items <id>`
+
 ### Rainbow CLI 1.67 (February 2020)
 
 - Updated dependencies
