@@ -1219,6 +1219,12 @@ class CAccount {
                     {
                         level: "app_superadmin",
                         theme: "Developers",
+                        command: "developers unregister <loginEmail>",
+                        details: "Unregister user as developer"
+                    },
+                    {
+                        level: "app_superadmin",
+                        theme: "Developers",
                         command: "developers remove role <userid> <role>",
                         details: "Remove a developer's role to a developer"
                     }

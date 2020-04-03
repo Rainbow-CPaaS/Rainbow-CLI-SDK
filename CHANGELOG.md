@@ -6,6 +6,9 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+## [1.70.0] - 2020-04-03
+- New command to unregister a developer 'rbw developers unregister <loginEmail>'
+
 ## [1.69.0] - 2020-03-26
 - Updated dependencies
 - New commands for channels

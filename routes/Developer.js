@@ -303,6 +303,37 @@ class Developer {
 
             });
         });
+
+        this._program.command('developers unregister', '<loginEmail>')
+        .description("Unregister user as a developer")
+        .option('-j, --json', 'Write the JSON result to standard stdout')
+        .option('-v, --verbose', 'Use verbose console mode')
+        .on('--help', function(){
+            console.log('  Examples:');
+            console.log('');
+            console.log('    $ rbw developers unregister john.doe@company.com');
+            console.log('');
+            console.log('  Details:');
+            console.log('');
+            console.log('    The option `--json` exports the JSON object representing the user to the console');
+            console.log('');
+        })
+        .action(function (loginEmail, commands) {
+
+            Middleware.parseCommand(commands).then( () => {
+                var options= {
+                    loginEmail: loginEmail || null,
+                    noOutput: commands.json || false,
+                };
+
+                Logger.isActive = commands.verbose || false;
+
+                that._developer.unregister(options);
+            }).catch( () => {
+
+            });
+        });
+        
     }
 }
 

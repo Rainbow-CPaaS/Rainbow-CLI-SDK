@@ -166,6 +166,17 @@ class CDeveloper {
         });
     }
 
+    _unregister(token, options) {
+        return new Promise(function (resolve, reject) {
+            NodeSDK.post('/api/rainbow/applications/v1.0/developers/unregister?loginEmail=' + options.loginEmail, token, {})
+            .then(function (json) {
+                resolve(json);
+            }).catch(function (err) {
+                reject(err);
+            });
+        });
+    }
+
     getPayments(options) {
         var that = this;
 
@@ -541,6 +552,36 @@ class CDeveloper {
             Exit.error();
         });
     }
+
+    unregister(options) {
+        var that = this;
+
+        Message.action("Unregister user as a developer", options.loginEmail, options);
+
+        let spin = Message.spin(options);
+        NodeSDK.start(
+            that._prefs.email, 
+            that._prefs.password, 
+            that._prefs.host,
+            that._prefs.proxy,
+            that._prefs.appid,
+            that._prefs.appsecret
+        ).then(function () {
+            Message.log("execute action...");
+            return that._unregister(that._prefs.token, options);
+        }).then(function (json) {
+            Message.unspin(spin);
+            Message.log("action done...", json);
+            Message.lineFeed();
+            Message.success(options);
+            Message.log("finished!");
+        }).catch(function (err) {
+            Message.unspin(spin);
+            Message.error(err, options);
+            Exit.error();
+        });
+    }
+
 }
 
 module.exports = CDeveloper;
