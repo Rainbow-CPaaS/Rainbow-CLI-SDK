@@ -6,6 +6,10 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+## [1.71.0] - 2020-04-14
+- New option to create a guest user 'rbw create user --guest'
+- New command to change the company of a user 'rbw changecompany <id> <companyId>'
+
 ## [1.70.0] - 2020-04-03
 - New command to unregister a developer 'rbw developers unregister <loginEmail>'
 
