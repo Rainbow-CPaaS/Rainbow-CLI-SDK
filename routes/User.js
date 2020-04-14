@@ -55,6 +55,7 @@ class User {
             .option("-c, --company <id>", "In company identified by an id")
             .option("-a, --admin", "With a company_admin role")
             .option("-o, --org <orgid>", "With a org_admin role for an organisation identified by an orgid")
+            .option("-g, --guest", "With a guest role")
             .option("--public", "Create a public user")
             .option("-j, --json", "Write the JSON result to standard stdout")
             .option("-v, --verbose", "Use verbose console mode")
@@ -82,12 +83,17 @@ class User {
             .action(function(email, password, firstname, lastname, commands) {
                 Middleware.parseCommand(commands)
                     .then(() => {
+                        if ((commands.isAdmin && commands.guest) || (commands.isAdmin && commands.orgId) || (commands.guest && commands.orgId)) {
+                            throw { error: { errorDetails: "-a/--admin, -o/--org and -g/--guest are exclusive." } };
+                        }
+
                         var options = {
                             noOutput: commands.json || false,
                             companyId: commands.company || "",
                             isAdmin: commands.admin || false,
                             orgId: commands.org || false,
-                            public: commands.public || null
+                            public: commands.public || null,
+                            guest: commands.guest || null
                         };
 
                         Logger.isActive = commands.verbose || false;

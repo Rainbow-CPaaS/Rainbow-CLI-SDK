@@ -147,7 +147,7 @@ class CUser {
             isInitialized: false,
             language: "en",
             adminType: "undefined",
-            roles: ["user"],
+            roles: (options.guest?["guest"]:["user"]),
             accountType: "free"
         };
 
