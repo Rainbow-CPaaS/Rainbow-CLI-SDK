@@ -180,6 +180,28 @@ class User {
                     })
                     .catch(() => {});
             });
+        
+        this._program
+            .command("changecompany user", "<id> <companyId>")
+            .description("Change company of a user")
+            .option("-v, --verbose", "Use verbose console mode")
+            .on("--help", function() {
+                console.log("  Examples:");
+                console.log("");
+                console.log("    $ rbw changecompany user 593065822799299343b8501d 5baa481c15468eec6af49f8d");
+                console.log("");
+            })
+            .action(function(id, companyId, commands) {
+                Middleware.parseCommand(commands)
+                    .then(() => {
+                        var options = {};
+
+                        Logger.isActive = commands.verbose || false;
+
+                        that._user.changecompany(id, companyId, options);
+                    })
+                    .catch(() => {});
+            });
 
         this._program
             .command("initialize user", "<id>")
