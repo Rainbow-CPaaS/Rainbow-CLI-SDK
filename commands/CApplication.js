@@ -235,6 +235,75 @@ class CApplication {
         });
     }
 
+    _getApplicationAnalytics(token, options) {
+        return new Promise(function(resolve, reject) {
+            let since = options.since,
+                until = options.until,
+                appid = options.appid;
+
+            let param = "?";
+
+            param += "fromMonth=" + moment(since, 'YYYYMM').format('YYYY-MM');
+            param += "&toMonth=" + moment(until, 'YYYYMM').format('YYYY-MM');
+
+            if (options.companyid) {
+                param += "&companyId=" + options.companyid;
+            }
+            if (options.details) {
+                param += "&format=" + options.details;
+            }
+            if (options.page > 0) {
+                param += "&offset=";
+                if (options.page > 1) {
+                    param += options.limit * (options.page - 1);
+                } else {
+                    param += 0;
+                }
+            }
+
+            param += "&limit=" + Math.min(options.limit, 1000);
+
+            NodeSDK.get("/api/rainbow/analytics/v1.0/applications/" + appid + "/users" + param, token)
+                .then(function(json) {
+                    resolve(json);
+                })
+                .catch(function(err) {
+                    reject(err);
+                });
+        });
+    }
+
+    _getApplicationCounters(token, options) {
+        return new Promise(function(resolve, reject) {
+            let appid = options.appid;
+
+            NodeSDK.get("/api/rainbow/applications/v1.0/applications/counters/" + appid, token)
+                .then(function(json) {
+                    resolve(json);
+                })
+                .catch(function(err) {
+                    reject(err);
+                });
+        });
+    }
+
+    _setApplicationCounter(token, options) {
+        return new Promise(function(resolve, reject) {
+            let counter = {
+                appId: options.appid,
+                [ options.countername ] : options.countervalue 
+            };
+
+            NodeSDK.post("/api/rainbow/applications/v1.0/applications/counters", token, counter)
+                .then(function(json) {
+                    resolve(json);
+                })
+                .catch(function(err) {
+                    reject(err);
+                });
+        });
+    }
+
     _getApplication(token, options) {
         let that = this;
 
@@ -1755,6 +1824,176 @@ class CApplication {
                         }
                         Message.lineFeed();
                         Message.tableMetrics(json, options, categories);
+                    }
+                    Message.log("finished!");
+                })
+                .catch(function(err) {
+                    Message.unspin(spin);
+                    Message.error(err, options);
+                    Exit.error();
+                });
+        } else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    getApplicationAnalytics(options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if (this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            if (!options.csv) {
+                Message.action("Get analytics for application " + options.appid, null, options);
+            }
+
+            let spin = Message.spin(options);
+            NodeSDK.start(
+                this._prefs.email,
+                this._prefs.password,
+                this._prefs.host,
+                this._prefs.proxy,
+                this._prefs.appid,
+                this._prefs.appsecret
+            )
+                .then(function() {
+                    Message.log("execute action...");
+                    return that._getApplicationAnalytics(that._prefs.token, options);
+                })
+                .then(function(json) {
+                    Message.unspin(spin);
+                    Message.log("action done...", json);
+
+                    if (options.csv) {
+                        let jsonCSV = that._formatCSVMetrics(json, groups, categories, options); // TODO ---------
+
+                        Message.csv(options.csv, jsonCSV.data, false)
+                            .then(() => {})
+                            .catch(err => {
+                                console.log(err);
+                                Exit.error();
+                            });
+                    } else if (options.noOutput) {
+                        Message.out(json.data);
+                    } else {
+                        if (json.total > json.limit) {
+                            Message.tablePage(json, options);
+                        }
+                        Message.lineFeed();
+                        Message.tableApplicationAnalytics(json, options);
+                    }
+                    Message.log("finished!");
+                })
+                .catch(function(err) {
+                    Message.unspin(spin);
+                    Message.error(err, options);
+                    Exit.error();
+                });
+        } else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    getApplicationCounters(options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if (this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            if (!options.csv) {
+                Message.action("Get custom counters for application " + options.appid, null, options);
+            }
+
+            let spin = Message.spin(options);
+            NodeSDK.start(
+                this._prefs.email,
+                this._prefs.password,
+                this._prefs.host,
+                this._prefs.proxy,
+                this._prefs.appid,
+                this._prefs.appsecret
+            )
+                .then(function() {
+                    Message.log("execute action...");
+                    return that._getApplicationCounters(that._prefs.token, options);
+                })
+                .then(function(json) {
+                    Message.unspin(spin);
+                    Message.log("action done...", json);
+
+                    if (json.data) {
+                        if (options.csv) {
+                            let jsonCSV = that._formatCSVMetrics(json, groups, categories, options); // TODO ----------
+    
+                            Message.csv(options.csv, jsonCSV.data, false)
+                                .then(() => {})
+                                .catch(err => {
+                                    console.log(err);
+                                    Exit.error();
+                                });
+                        } else if (options.noOutput) {
+                            Message.out(json.data);
+                        } else {
+                            Message.lineFeed();
+                            Message.table2D(json, options);
+                        }    
+                    }
+                    else {
+                        Message.print("no counters !");
+                    }
+                    Message.log("finished!");
+                })
+                .catch(function(err) {
+                    Message.unspin(spin);
+                    Message.error(err, options);
+                    Exit.error();
+                });
+        } else {
+            Message.notLoggedIn(options);
+            Exit.error();
+        }
+    }
+
+    setApplicationCounter(options) {
+        var that = this;
+
+        Message.welcome(options);
+
+        if (this._prefs.token && this._prefs.user) {
+            Message.loggedin(this._prefs, options);
+
+            Message.action("Set custom counter for application", options.appid, options);
+            let spin = Message.spin(options);
+
+            NodeSDK.start(
+                this._prefs.email,
+                this._prefs.password,
+                this._prefs.host,
+                this._prefs.proxy,
+                this._prefs.appid,
+                this._prefs.appsecret
+            )
+                .then(function() {
+                    Message.log("execute action...");
+                    return that._setApplicationCounter(that._prefs.token, options);
+                })
+                .then(function(json) {
+                    Message.unspin(spin);
+
+                    Message.log("action done...", json);
+
+                    if (options.noOutput) {
+                        Message.out(json.data);
+                    } else {
+                        Message.lineFeed();
+                        Message.printSuccess("Application custom counter set", options);
+                        Message.success(options);
                     }
                     Message.log("finished!");
                 })

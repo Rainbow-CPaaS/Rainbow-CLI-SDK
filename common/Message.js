@@ -703,6 +703,62 @@ class Message {
         Screen.print("");
     }
 
+    tableApplicationAnalytics(json, options) {
+        var array = [];
+        array.push([
+            "#".gray,
+            "Month".gray,
+            "Total unique Users".gray,
+            "Companies".gray,
+            "Company unique users".gray
+        ]);
+        array.push([
+            "-".gray,
+            "-------".gray,
+            "------------------".gray,
+            "---------".gray,
+            "--------------------".gray
+        ]);
+
+        var analytics = json.data;
+
+        for (var i = 0; i < analytics.length; i++) {
+            var month = analytics[i].month || "";
+            var uniqueUsers = analytics[i].uniqueUsers || "";
+            var companies = analytics[i].companies || [];
+            var number = i + 1;
+
+            array.push([
+                number.toString().white,
+                month.cyan,
+                uniqueUsers.toString().white,
+                '',
+                ''
+            ]);
+
+            for(let companyId in companies) {
+                var uniqueUsers = companies[companyId].uniqueUsers;
+                array.push(['',
+                    '',
+                    '',
+                    companyId,
+                    uniqueUsers.toString()
+                ]);
+            }
+        }
+
+        Screen.table(array);
+        Screen.print("");
+
+        if (options.companyId) {
+            Screen.success(analytics.length + " analytics found for company " + options.companyId);
+        } else {
+            Screen.success(analytics.length + " analytics found");
+        }
+        Screen.print("");
+    }
+
+
     tableDashboardDevelopers(json, options) {
         var array = [];
         array.push([

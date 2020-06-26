@@ -3,6 +3,7 @@
 var CApplication = require("../commands/CApplication");
 var Logger = require("../common/Logger");
 var Middleware = require("../common/Middleware");
+const { format } = require("winston");
 
 class Application {
     constructor(program, prefs) {
@@ -1003,6 +1004,108 @@ class Application {
                     .catch(() => {});
             });
 
+        this._program
+            .command("application analytics", "<appid> <since> <until>")
+            .description("Get analytics for an application from <since> to <until> interval (YYYYMM format)")
+            .option("-c, --company <companyid>", "Filter on company <companyid>")
+//            .option("-d, --details <details>", "Return less or more details 'small', 'medium', 'full'. Default value is small")
+            .option("-p, --page <number>", "Display a specific page")
+            .option("-l, --limit <number>", "Limit to a number of instances per page (max=1000)")
+            .option("-j, --json", "Write the JSON result to standard stdout")
+            .option("-v, --verbose", "Use verbose console mode")
+            .on("--help", function() {
+                console.log("  Examples:");
+                console.log("");
+                console.log("    $ rbw application analytics 593065822799299343b8501d 202001 202004");
+                console.log("");
+                console.log("  Details:");
+                console.log("");
+                console.log("    The option `--json` exports the JSON object representing the user to the console");
+                console.log("");
+            })
+            .action(function(appid, since, until, commands) {
+                Middleware.parseCommand(commands)
+                    .then(() => {
+                        var options = {
+                            noOutput: commands.json || false,
+                            appid: appid,
+                            since: since,
+                            until: until,
+                            companyid: commands.company || null,
+                            details: commands.details || 'small',
+                            page: commands.page || 1,
+                            limit: commands.limit || 100
+                        };
+
+                        Logger.isActive = commands.verbose || false;
+
+                        that._application.getApplicationAnalytics(options);
+                    })
+                    .catch(() => {});
+            });
+
+        // this._program
+        //     .command("application counters", "<appid>")
+        //     .description("Get application custom counters")
+        //     .option("-j, --json", "Write the JSON result to standard stdout")
+        //     .option("-v, --verbose", "Use verbose console mode")
+        //     .on("--help", function() {
+        //         console.log("  Examples:");
+        //         console.log("");
+        //         console.log("    $ rbw application counters 593065822799299343b8501d");
+        //         console.log("");
+        //         console.log("  Details:");
+        //         console.log("");
+        //         console.log("    The option `--json` exports the JSON object representing the user to the console");
+        //         console.log("");
+        //     })
+        //     .action(function(appid, commands) {
+        //         Middleware.parseCommand(commands)
+        //             .then(() => {
+        //                 var options = {
+        //                     noOutput: commands.json || false,
+        //                     appid: appid,
+        //                 };
+
+        //                 Logger.isActive = commands.verbose || false;
+
+        //                 that._application.getApplicationCounters(options);
+        //             })
+        //             .catch(() => {});
+        //     });
+
+        // this._program
+        //     .command("application set-counter", "<appid> <countername> <countervalue>")
+        //     .description("Set application custom counter with name <countername> and value <countervalue>")
+        //     .option("-j, --json", "Write the JSON result to standard stdout")
+        //     .option("-v, --verbose", "Use verbose console mode")
+        //     .on("--help", function() {
+        //         console.log("  Examples:");
+        //         console.log("");
+        //         console.log("    $ rbw application set-counter 593065822799299343b8501d myCounter 10");
+        //         console.log("");
+        //         console.log("  Details:");
+        //         console.log("");
+        //         console.log("    The option `--json` exports the JSON object representing the user to the console");
+        //         console.log("");
+        //     })
+        //     .action(function(appid, countername, countervalue, commands) {
+        //         Middleware.parseCommand(commands)
+        //             .then(() => {
+        //                 var options = {
+        //                     noOutput: commands.json || false,
+        //                     appid: appid,
+        //                     countername: countername,
+        //                     countervalue: countervalue
+        //                 };
+
+        //                 Logger.isActive = commands.verbose || false;
+
+        //                 that._application.setApplicationCounter(options);
+        //             })
+        //             .catch(() => {});
+        //     });
+            
         this._program
             .command("applications")
             .description("List the applications created")

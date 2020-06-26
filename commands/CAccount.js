@@ -1091,6 +1091,18 @@ class CAccount {
                     },
                     {
                         level: "app_admin",
+                        theme: "Analytics",
+                        command: "application analytics <appid> <since> <until>",
+                        details: "List application's analytics"
+                    },
+                    {
+                        level: "app_admin",
+                        theme: " ",
+                        command: " ",
+                        details: " "
+                    },
+                    {
+                        level: "app_admin",
                         theme: "Thresholds",
                         command: "application thresholds <appid>",
                         details: "List application's thresholds"
