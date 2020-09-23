@@ -1008,7 +1008,7 @@ class Application {
             .command("application analytics", "<appid> <since> <until>")
             .description("Get analytics for an application from <since> to <until> interval (YYYYMM format)")
             .option("-c, --company <companyid>", "Filter on company <companyid>")
-//            .option("-d, --details <details>", "Return less or more details 'small', 'medium', 'full'. Default value is small")
+            .option("-d, --details <details>", "Return less or more details 'small', 'medium', 'full'. Default value is small")
             .option("-p, --page <number>", "Display a specific page")
             .option("-l, --limit <number>", "Limit to a number of instances per page (max=1000)")
             .option("-j, --json", "Write the JSON result to standard stdout")
