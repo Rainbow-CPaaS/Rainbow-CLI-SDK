@@ -1526,6 +1526,24 @@ class CAccount {
                         theme: "Mass-Provisioning",
                         command: "masspro delete status <reqId>",
                         details: "Delete an import details"
+                    },
+                    {
+                        level: "company_admin",
+                        theme: " ",
+                        command: " ",
+                        details: " "
+                    },
+                    {
+                        level: "company_admin",
+                        theme: "Bot service",
+                        command: "bot services [companyId]",
+                        details: "Get all bot services"
+                    },
+                    {
+                        level: "company_admin",
+                        theme: "Bot service",
+                        command: "bot service <serviceid> [companyId]",
+                        details: "Get a bot service data"
                     }
                 ];
 

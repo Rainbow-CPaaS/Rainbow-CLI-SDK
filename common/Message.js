@@ -1997,6 +1997,30 @@ class Message {
         }
     }
 
+    tableBotServices(json, options) {
+        var array = [];
+
+        array.push(["#".gray, "Name".gray, "JID".gray, "Id".gray]);
+        array.push(["-".gray, "----".gray, "---".gray, "--".gray]);
+
+        let items = json.data;
+        for(var i = 0; i < items.length; i++) {
+            let item = items[i];
+
+            var number = i + 1;
+            array.push([number.toString().white,
+                item.name,
+                item.jid,
+                item.id
+            ]);
+        } 
+
+        Screen.table(array);
+        Screen.print("");
+        Screen.success(json.total + " item(s).");
+        Screen.print("");
+    }
+
     loggedin(prefs, options) {
         let user = prefs.user;
         let host = prefs.host;

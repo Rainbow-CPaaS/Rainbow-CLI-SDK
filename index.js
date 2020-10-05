@@ -32,6 +32,7 @@ const Developer = require("./routes/Developer");
 const Internal = require("./routes/Internal");
 const Network = require("./routes/Network");
 const Channels = require("./routes/Channels");
+const BotsService = require("./routes/BotsService");
 
 start = function() {
     // auto-complete
@@ -65,6 +66,7 @@ start = function() {
     let internal = new Internal(program, prefs);
     let network = new Network(program, prefs);
     let channels = new Channels(program, prefs);
+    let botsservice = new BotsService(program, prefs);
 
     // Start the routes
     account.start();
@@ -85,6 +87,7 @@ start = function() {
     internal.start();
     network.start();
     channels.start();
+    botsservice.start();
 
     program.command("*").action(function() {
         Message.welcome();
