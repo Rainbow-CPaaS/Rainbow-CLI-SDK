@@ -292,13 +292,12 @@ class CInternal {
                         appOptions.appid = apps[i].id;
                         appOptions.forcePeriod = "month";
                         promises.push(this._applications._getMetrics(token, appOptions));
-                        if( i % BATCH_SIZE === BATCH_SIZE-1 || i === apps.length ){
+                        if( i % BATCH_SIZE === BATCH_SIZE-1 || i === apps.length - 1 ){
                             let result = await Promise.all(promises);
                             promisesResolved = promisesResolved.concat( result )
                             promises = [];
                         }
                     }
-                   
                     return Promise.resolve( promisesResolved );
                 })
                 .then(jsonMetrics => {

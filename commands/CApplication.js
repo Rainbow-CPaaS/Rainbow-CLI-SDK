@@ -144,7 +144,7 @@ class CApplication {
             if (options.dczones) {
                 param += "&dcZones=" + options.dczones;
             }
-            Message.log('param: ' + param);
+//            Message.log('param: ' + param);
             NodeSDK.get("/api/rainbow/metrics/v1.0/cpaasmetrics/" + options.appid + param, token)
                 .then(function(json) {
                     json.start = fromDate.toDate();

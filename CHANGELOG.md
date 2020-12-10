@@ -6,6 +6,10 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+## [1.81.0] - 2020-XX-XX
+- New command to get application analytics 'rbw application analytics'
+- New commands to get bot services 'rbw bot services [companyId]', 'rbw bot service <serviceId> [companyId]'
+
 ## [1.71.0] - 2020-04-14
 - New option to create a guest user 'rbw create user --guest'
 - New command to change the company of a user 'rbw changecompany <id> <companyId>'
