@@ -28,7 +28,7 @@ This section lists the prerequisites for using the Rainbow CLI application.
 
 ---
 
-[Node.JS](https://nodejs.org) must be installed on your computer.
+[Node.JS](https://nodejs.org) must be installed on your computer. We suggest using an up-to-date LTS version of NodeJS (currently 14.15.2LTS).
 
 The Rainbow CLI application is supported only when using a Node.JS LTS version.
 
@@ -39,7 +39,7 @@ The Rainbow CLI application is supported only when using a Node.JS LTS version.
 | OS          | Details                           |
 | ----------- | :-------------------------------- |
 | **Windows** | Starting Windows 7 - all versions |
-| **MacOS**   | Starting MacOS 10.11              |
+| **MacOS**   | Starting macOS 10.11              |
 | **Linux**   | Debian, Ubuntu                    |
 
 Note: Others Linux distributions can be used but without support.
@@ -273,16 +273,6 @@ rbw user 58e36805d45e61221b571363 --verbose
 
 ```
 
-### Beta disclaimer
-
 ---
 
-Please note that this is a Beta version of the Rainbow CLI application which is still undergoing final testing before its official release. The Rainbow CLI application and the documentation are provided on a "as is" and "as available" basis. Before releasing the official release, all these content can change depending on the feedback we receive in one hand and the developpement of the Rainbow official product in the other hand.
-
-Alcatel-Lucent Enterprise will not be liable for any loss, whether such loss is direct, indirect, special or consequential, suffered by any party as a result of their use of the Rainbow CLI application, the application sample software or the documentation content.
-
-If you encounter any bugs, lack of functionality or other problems regarding the Rainbow CLI application, the application samples or the documentation, please let us know immediately so we can rectify these accordingly. Your help in this regard is greatly appreciated.
-
----
-
-_Last updated May, 21th 2018_
+_Last updated Dec, 16th 2020_

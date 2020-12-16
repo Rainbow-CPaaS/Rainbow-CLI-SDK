@@ -4,6 +4,56 @@
 
 Welcome to the new release of the **Rainbow CLI**. There are a number of significant updates in this version that we hope you will like, some of the key highlights include:
 
+### Rainbow CLI 1.81 (December 2020)
+
+---
+
+**3-Release Breaking Changes**
+
+-   None.
+
+**Breaking Changes**
+
+-   None.
+
+**Changes**
+
+-   New command to get application analytics 'rbw application analytics'
+-   Bug fix in rbw dashboard command
+
+### Rainbow CLI 1.71 (April 2020)
+
+---
+
+**3-Release Breaking Changes**
+
+-   None.
+
+**Breaking Changes**
+
+-   None.
+
+**Changes**
+
+-   New option to create a guest user 'rbw create user --guest'
+-   New command to change the company of a user 'rbw changecompany'
+
+### Rainbow CLI 1.70 (April 2020)
+
+---
+
+**3-Release Breaking Changes**
+
+-   None.
+
+**Breaking Changes**
+
+-   None.
+
+**Changes**
+
+-   New command to unregister a developer 'rbw developers unregister'
+
 ### Rainbow CLI 1.69 (March 2020)
 
 ---
