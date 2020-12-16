@@ -263,7 +263,6 @@ class CApplication {
 
             param += "&limit=" + Math.min(options.limit, 1000);
 
-            console.log('param: ' + param);
             NodeSDK.get("/api/rainbow/analytics/v1.0/applications/" + appid + "/users" + param, token)
                 .then(function(json) {
                     resolve(json);

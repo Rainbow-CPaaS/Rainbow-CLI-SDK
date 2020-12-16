@@ -1,11 +1,11 @@
 #!/usr/bin/env zunit
 
 @setup {
-  run rbw login $AFTERBUILD_LOGIN $AFTERBUILD_PASSWORD --host $AFTERBUILD_HOST
+  run node ./index.js login $AFTERBUILD_LOGIN $AFTERBUILD_PASSWORD --host $AFTERBUILD_HOST
 }
 
 @test 'Command network (#check total)' {
-  run rbw network --json
+  run node ./index.js network --json
   assert $state equals 0
   TOTAL=`echo $output | jq '.total' -r`
   assert $TOTAL is_not_empty

@@ -6,3 +6,5 @@ else
     alias rbw="node $PWD/index.js"  
 fi
 echo "Using $RBW_LOCATION rbw command"
+
+rbw --version

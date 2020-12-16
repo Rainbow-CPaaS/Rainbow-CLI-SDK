@@ -1,11 +1,11 @@
 #!/usr/bin/env zunit
 
 @setup {
-  run rbw login $AFTERBUILD_LOGIN $AFTERBUILD_PASSWORD --host $AFTERBUILD_HOST
+  run node ./index.js login $AFTERBUILD_LOGIN $AFTERBUILD_PASSWORD --host $AFTERBUILD_HOST
 }
 
 @test 'Command create user (#check firstname/lastname)' {
-  run rbw create user "test@rainbowcli-tests.com" "Password_123" "firstname" "lastname" --json
+  run node ./index.js create user "test@rainbowcli-tests.com" "Password_123" "firstname" "lastname" --json
   assert $state equals 0
   ID=`echo $output | jq '.id' -r`
   FIRSTNAME=`echo $output | jq '.firstName' -r`
@@ -17,7 +17,7 @@
 }
 
 @test 'Command users (#check total)' {
-  run rbw users --json
+  run node ./index.js users --json
   assert $state equals 0
   TOTAL=`echo $output | jq '.total' -r`
   assert $TOTAL is_not_empty
@@ -25,54 +25,54 @@
 }
 
 @test 'Command initialize user (#check that isInitialized is true)' {
-  run rbw users -e "test@rainbowcli-tests.com" --json
+  run node ./index.js users -e "test@rainbowcli-tests.com" --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw initialize user $ID --json
+  run node ./index.js initialize user $ID --json
   INITIALIZED=`echo $output | jq '.isInitialized' -r`
   assert $state equals 0
   assert $INITIALIZED same_as 'true'
 }
 
 @test 'Command uninitialize user (#check that isInitialized is false)' {
-  run rbw users -e "test@rainbowcli-tests.com" --json
+  run node ./index.js users -e "test@rainbowcli-tests.com" --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw uninitialize user $ID --json
+  run node ./index.js uninitialize user $ID --json
   INITIALIZED=`echo $output | jq '.isInitialized' -r`
   assert $state equals 0
   assert $INITIALIZED same_as 'false'
 }
 
 @test 'Command deactivate user (#check that isActive is false)' {
-  run rbw users -e "test@rainbowcli-tests.com" --json
+  run node ./index.js users -e "test@rainbowcli-tests.com" --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw deactivate user $ID --json
+  run node ./index.js deactivate user $ID --json
   ACTIVE=`echo $output | jq '.isActive' -r`
   assert $state equals 0
   assert $ACTIVE same_as 'false'
 }
 
 @test 'Command activate user (#check that isActive is true)' {
-  run rbw users -e "test@rainbowcli-tests.com" --json
+  run node ./index.js users -e "test@rainbowcli-tests.com" --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw activate user $ID --json
+  run node ./index.js activate user $ID --json
   ACTIVE=`echo $output | jq '.isActive' -r`
   assert $state equals 0
   assert $ACTIVE same_as 'true'
 }
 
 @test 'Command delete user (#check that operation is ok)' {
-  run rbw users -e "test@rainbowcli-tests.com" --json
+  run node ./index.js users -e "test@rainbowcli-tests.com" --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw delete user $ID --nc
+  run node ./index.js delete user $ID --nc
   assert $state equals 0
 }
 
 @teardown {
-  rbw logout
+  node ./index.js logout
 }
 

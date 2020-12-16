@@ -1,11 +1,11 @@
 #!/usr/bin/env zunit
 
 @setup {
-  run rbw login $AFTERBUILD_LOGIN $AFTERBUILD_PASSWORD --host $AFTERBUILD_HOST
+  run node ./index.js login $AFTERBUILD_LOGIN $AFTERBUILD_PASSWORD --host $AFTERBUILD_HOST
 }
 
 @test 'Command company (#check name)' {
-  run rbw company --json
+  run node ./index.js company --json
   assert $state equals 0
   NAME=`echo $output | jq '.name' -r`
   assert $NAME is_not_empty
@@ -13,7 +13,7 @@
 }
 
 @test 'Command company set-public (#check visibility)' {
-  run rbw company set-public --json
+  run node ./index.js company set-public --json
   assert $state equals 0
   VISIBILITY=`echo $output | jq '.visibility' -r`
   assert $VISIBILITY is_not_empty
@@ -21,7 +21,7 @@
 }
 
 @test 'Command company set-private (#check visibility)' {
-  run rbw company set-private --json
+  run node ./index.js company set-private --json
   assert $state equals 0
   VISIBILITY=`echo $output | jq '.visibility' -r`
   assert $VISIBILITY is_not_empty
@@ -29,7 +29,7 @@
 }
 
 @test 'Command company set-orgpublic (#check visibility)' {
-  run rbw company set-orgpublic --json
+  run node ./index.js company set-orgpublic --json
   assert $state equals 0
   VISIBILITY=`echo $output | jq '.visibility' -r`
   assert $VISIBILITY is_not_empty
@@ -37,17 +37,17 @@
 }
 
 @test 'Command company set-name (#check name)' {
-  run rbw company set-name 'RainbowCLI-tests-2' --json
+  run node ./index.js company set-name 'RainbowCLI-tests-2' --json
   assert $state equals 0
   NAME=`echo $output | jq '.name' -r`
   assert $NAME is_not_empty
   assert $NAME same_as 'RainbowCLI-tests-2'
-  run rbw company set-name 'RainbowCLI-tests' --json
+  run node ./index.js company set-name 'RainbowCLI-tests' --json
   assert $state equals 0
 }
 
 @test 'Command companies (#check total)' {
-  run rbw companies --json
+  run node ./index.js companies --json
   assert $state equals 0
   TOTAL=`echo $output | jq '.total' -r`
   assert $TOTAL is_not_empty
@@ -55,7 +55,7 @@
 }
 
 @test 'Command company status (#check Status)' {
-  run rbw company status --json
+  run node ./index.js company status --json
   assert $state equals 0
   STATUS=`echo $output | jq '.Status' -r`
   assert $STATUS is_not_empty
@@ -63,7 +63,7 @@
 }
 
 @test 'Command company metrics (#check _id)' {
-  run rbw company metrics --json
+  run node ./index.js company metrics --json
   assert $state equals 0
   NAME=`echo $output | jq '.data[0].stats[0].companyName' -r`
   assert $NAME is_not_empty
@@ -71,7 +71,7 @@
 }
 
 @test 'Command company metrics daily (#check companyId)' {
-  run rbw company metrics daily --json
+  run node ./index.js company metrics daily --json
   assert $state equals 0
   NAME=`echo $output | jq '.companyName' -r`
   assert $NAME is_not_empty
@@ -79,7 +79,7 @@
 }
 
 @test 'Command company create (#check name)' {
-  run rbw company create 'aCLICompanyForTest' --json
+  run node ./index.js company create 'aCLICompanyForTest' --json
   assert $state equals 0
   NAME=`echo $output | jq '.name' -r`
   assert $NAME is_not_empty
@@ -87,37 +87,37 @@
 }
 
 @test 'Command companies set-inactive (#check status)' {
-  run rbw companies -n 'aCLICompanyForTest' --json
+  run node ./index.js companies -n 'aCLICompanyForTest' --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw company set-inactive -c $ID --json
+  run node ./index.js company set-inactive -c $ID --json
   STATUS=`echo $output | jq '.status' -r`
   assert $STATUS is_not_empty
   assert $STATUS same_as 'hold'
 }
 
 @test 'Command companies set-active (#check status)' {
-  run rbw companies -n 'aCLICompanyForTest' --json
+  run node ./index.js companies -n 'aCLICompanyForTest' --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw company set-active -c $ID --json
+  run node ./index.js company set-active -c $ID --json
   STATUS=`echo $output | jq '.status' -r`
   assert $STATUS is_not_empty
   assert $STATUS same_as 'active'
 }
 
 @test 'Command company delete (#check count)' {
-  run rbw companies --json
+  run node ./index.js companies --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw company delete $ID --nc
+  run node ./index.js company delete $ID --nc
   assert $state equals 0
-  run rbw companies --json
+  run node ./index.js companies --json
   TOTAL=`echo $output | jq '.total' -r`
   assert $TOTAL is_not_empty
   assert $TOTAL same_as '1'
 }
 
 @teardown {
-  rbw logout
+  node ./index.js logout
 }

@@ -1,11 +1,11 @@
 #!/usr/bin/env zunit
 
 @setup {
-  run rbw login $AFTERBUILD_LOGIN $AFTERBUILD_PASSWORD --host $AFTERBUILD_HOST
+  run node ./index.js login $AFTERBUILD_LOGIN $AFTERBUILD_PASSWORD --host $AFTERBUILD_HOST
 }
 
 @test 'Command status api (#check portail Admin API)' {
-  run rbw status api --json
+  run node ./index.js status api --json
   assert $state equals 0
   NAME=`echo $output | jq '.[0].name' -r`
   VERSION=`echo $output | jq '.[0].version' -r`
@@ -15,7 +15,7 @@
 }
 
 @test 'Command status platform (#check status)' {
-  run rbw status platform --json
+  run node ./index.js status platform --json
   assert $state equals 0
   NAME=`echo $output | jq '.[0].name' -r`
   STATUS=`echo $output | jq '.[0].status' -r`
@@ -27,6 +27,6 @@
 
 
 @teardown {
-  rbw logout
+  node ./index.js logout
 }
 

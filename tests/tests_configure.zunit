@@ -5,37 +5,37 @@
 }
 
 @test 'Command set email (#check operation status)' {
-  run rbw set email $AFTERBUILD_LOGIN
+  run node ./index.js set email $AFTERBUILD_LOGIN
   assert $state equals 0
 }
 
 @test 'Command set password (#check operation status)' {
-  run rbw set password $AFTERBUILD_PASSWORD
+  run node ./index.js set password $AFTERBUILD_PASSWORD
   assert $state equals 0
 }
 
 @test 'Command set host (#check operation status)' {
-  run rbw set host $AFTERBUILD_HOST
+  run node ./index.js set host $AFTERBUILD_HOST
   assert $state equals 0
 }
 
 @test 'Command set proxy (#check operation status)' {
-  run rbw set proxy "http://localhost"
+  run node ./index.js set proxy "http://localhost"
   assert $state equals 0
 }
 
 @test 'Command remove proxy (#check operation status)' {
-  run rbw remove proxy
+  run node ./index.js remove proxy
   assert $state equals 0
 }
 
 @test 'Command login (#check operation status)' {
-  run rbw login
+  run node ./index.js login
   assert $state equals 0
 }
 
 @test 'Command whoami (#check user name+firstname)' {
-  run rbw whoami --json
+  run node ./index.js whoami --json
   assert $state equals 0
   NAME=`echo $output | jq '.lastName' -r`
   FIRSTNAME=`echo $output | jq '.firstName' -r`
@@ -46,7 +46,7 @@
 }
 
 @test 'Command preferences (#check email+host)' {
-  run rbw preferences --json
+  run node ./index.js preferences --json
   assert $state equals 0
   EMAIL=`echo $output | jq '.email' -r`
   HOST=`echo $output | jq '.host' -r`
@@ -55,19 +55,19 @@
 }
 
 @test 'Command set developer (#check operation code)' {
-  run rbw set developer --json
+  run node ./index.js set developer --json
   assert $state equals 0
   STATUS=`echo $output | jq '.developer.account.status' -r`
   assert $STATUS same_as 'confirmed'
 }
 
 @test 'Command logout (#check operation status)' {
-  run rbw logout
+  run node ./index.js logout
   assert $state equals 0
 }
 
 @test 'Command login with error (#check operation code+error code returned)' {
-  run rbw login 'fake' 'fake' --json
+  run node ./index.js login 'fake' 'fake' --json
   assert $state equals 1
   CODE=`echo $output | jq '.details.code' -r`
   assert $CODE same_as '401'

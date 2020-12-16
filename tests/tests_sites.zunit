@@ -1,11 +1,11 @@
 #!/usr/bin/env zunit
 
 @setup {
-  run rbw login $AFTERBUILD_LOGIN $AFTERBUILD_PASSWORD --host $AFTERBUILD_HOST
+  run node ./index.js login $AFTERBUILD_LOGIN $AFTERBUILD_PASSWORD --host $AFTERBUILD_HOST
 }
 
 @test 'Command create site (#check name)' {
-  run rbw create site 'a site' --json
+  run node ./index.js create site 'a site' --json
   assert $state equals 0
   NAME=`echo $output | jq '.name' -r`
   assert $NAME is_not_empty
@@ -13,7 +13,7 @@
 }
 
 @test 'Command sites (#check total)' {
-  run rbw sites --name 'a site' --json
+  run node ./index.js sites --name 'a site' --json
   assert $state equals 0
   TOTAL=`echo $output | jq '.total' -r`
   assert $TOTAL is_not_empty
@@ -21,10 +21,10 @@
 }
 
 @test 'Command site (#check name)' {
-  run rbw sites --name 'a site' --json
+  run node ./index.js sites --name 'a site' --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw site $ID --json
+  run node ./index.js site $ID --json
   assert $state equals 0
   NAME=`echo $output | jq '.name' -r`
   assert $NAME is_not_empty
@@ -32,10 +32,10 @@
 }
 
 @test 'Command create system (#check name)' {
-  run rbw sites --name 'a site' --json
+  run node ./index.js sites --name 'a site' --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw create system "a system" $ID --json
+  run node ./index.js create system "a system" $ID --json
   assert $state equals 0
   NAME=`echo $output | jq '.name' -r`
   assert $NAME is_not_empty
@@ -43,9 +43,9 @@
 }
 
 @test 'Command systems (#check total)' {
-  run rbw sites --name 'a site' --json
+  run node ./index.js sites --name 'a site' --json
   assert $state equals 0
-  run rbw systems --json
+  run node ./index.js systems --json
   assert $state equals 0
   TOTAL=`echo $output | jq '.total' -r`
   assert $TOTAL is_not_empty
@@ -53,10 +53,10 @@
 }
 
 @test 'Command system (#check name)' {
-  run rbw systems --json
+  run node ./index.js systems --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw system $ID --json
+  run node ./index.js system $ID --json
   assert $state equals 0
   NAME=`echo $output | jq '.name' -r`
   assert $NAME is_not_empty
@@ -64,10 +64,10 @@
 }
 
 @test 'Command system set version (#check version)' {
-  run rbw systems --name 'a system' --json
+  run node ./index.js systems --name 'a system' --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw system set version $ID "9.2" --json
+  run node ./index.js system set version $ID "9.2" --json
   assert $state equals 0
   VERSION=`echo $output | jq '.version' -r`
   assert $VERSION is_not_empty
@@ -75,10 +75,10 @@
 }
 
 @test 'Command system set shared (#check isShared)' {
-  run rbw systems --name 'a system' --json
+  run node ./index.js systems --name 'a system' --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw system set shared $ID --json
+  run node ./index.js system set shared $ID --json
   assert $state equals 0
   ISSHARED=`echo $output | jq '.isShared' -r`
   assert $ISSHARED is_not_empty
@@ -86,10 +86,10 @@
 }
 
 @test 'Command system unset shared (#check isShared)' {
-  run rbw systems --name 'a system' --json
+  run node ./index.js systems --name 'a system' --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw system unset shared $ID --json
+  run node ./index.js system unset shared $ID --json
   assert $state equals 0
   ISSHARED=`echo $output | jq '.isShared' -r`
   assert $ISSHARED is_not_empty
@@ -97,18 +97,18 @@
 }
 
 @test 'Command delete system (#check command status)' {
-  run rbw systems --name 'a system' --json
+  run node ./index.js systems --name 'a system' --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw delete system $ID --nc --json
+  run node ./index.js delete system $ID --nc --json
   assert $state equals 0
 }
 
 @test 'Command delete site (#check command status)' {
-  run rbw sites --name 'a site' --json
+  run node ./index.js sites --name 'a site' --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw delete site $ID --nc --json
+  run node ./index.js delete site $ID --nc --json
   assert $state equals 0
 }
 

@@ -1,11 +1,11 @@
 #!/usr/bin/env zunit
 
 @setup {
-  run rbw login $AFTERBUILD_LOGIN $AFTERBUILD_PASSWORD --host $AFTERBUILD_HOST
+  run node ./index.js login $AFTERBUILD_LOGIN $AFTERBUILD_PASSWORD --host $AFTERBUILD_HOST
 }
 
 @test 'Command application create (#check name)' {
-  run rbw application create "an application" --json
+  run node ./index.js application create "an application" --json
   assert $state equals 0
   NAME=`echo $output | jq '.name' -r`
   assert $NAME is_not_empty
@@ -13,7 +13,7 @@
 }
 
 @test 'Command applications (#check total)' {
-  run rbw applications --json
+  run node ./index.js applications --json
   assert $state equals 0
   TOTAL=`echo $output | jq '.total' -r`
   assert $TOTAL is_not_empty
@@ -21,10 +21,10 @@
 }
 
 @test 'Command application (#check name)' {
-  run rbw applications --name "an application" --json
+  run node ./index.js applications --name "an application" --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw application $ID --json
+  run node ./index.js application $ID --json
   assert $state equals 0
   NAME=`echo $output | jq '.name' -r`
   assert $NAME is_not_empty
@@ -32,11 +32,11 @@
 }
 
 @test 'Command renew (#check appSecret)' {
-  run rbw applications --name "an application" --json
+  run node ./index.js applications --name "an application" --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
   SECRET=`echo $output | jq '.data[0].appSecret' -r`
-  run rbw application renew $ID --json
+  run node ./index.js application renew $ID --json
   assert $state equals 0
   SECRET2=`echo $output | jq '.appSecret' -r`
   assert $SECRET2 is_not_empty
@@ -47,10 +47,10 @@
   if [[ $AFTERBUILD_HOST = 'sandbox.openrainbow.com' ]]; then
     skip 'Test does not run on sandbox - application is automatically deployed'
   fi
-  run rbw applications --name "an application" --json
+  run node ./index.js applications --name "an application" --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw application set-offer $ID "business" --json
+  run node ./index.js application set-offer $ID "business" --json
   assert $state equals 0
   KPI=`echo $output | jq '.kpi' -r`
   assert $KPI is_not_empty
@@ -58,10 +58,10 @@
 }
 
 @test 'Command application set-redirecturi (::business #check oauthRedirectUris)' {
-  run rbw applications --name "an application" --json
+  run node ./index.js applications --name "an application" --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw application set-redirecturi $ID "https://myapp.domain.com/callback" --json
+  run node ./index.js application set-redirecturi $ID "https://myapp.domain.com/callback" --json
   assert $state equals 0
   URI=`echo $output | jq '.oauthRedirectUris[0]' -r`
   assert $URI is_not_empty
@@ -69,10 +69,10 @@
 }
 
 @test 'Command application set-termsurl (::business #check termsOfServiceUrl)' {
-  run rbw applications --name "an application" --json
+  run node ./index.js applications --name "an application" --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw application set-termsurl $ID "https://myapp.domain.com/terms.pdf" --json
+  run node ./index.js application set-termsurl $ID "https://myapp.domain.com/terms.pdf" --json
   assert $state equals 0
   URL=`echo $output | jq '.termsOfServiceUrl' -r`
   assert $URL is_not_empty
@@ -80,10 +80,10 @@
 }
 
 @test 'Command application set-privacyurl (::business #check privacyPoliciesUrl)' {
-  run rbw applications --name "an application" --json
+  run node ./index.js applications --name "an application" --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw application set-privacyurl $ID "https://myapp.domain.com/privacy.pdf" --json
+  run node ./index.js application set-privacyurl $ID "https://myapp.domain.com/privacy.pdf" --json
   assert $state equals 0
   URL=`echo $output | jq '.privacyPoliciesUrl' -r`
   assert $URL is_not_empty
@@ -91,10 +91,10 @@
 }
 
 @test 'Command application set-implicitgrant (::business #check enableOAuthImplicitGrant)' {
-  run rbw applications --name "an application" --json
+  run node ./index.js applications --name "an application" --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw application set-implicitgrant $ID --json
+  run node ./index.js application set-implicitgrant $ID --json
   assert $state equals 0
   IMPLICITGRANT=`echo $output | jq '.enableOAuthImplicitGrant' -r`
   assert $IMPLICITGRANT is_not_empty
@@ -102,10 +102,10 @@
 }
 
 @test 'Command application unset-implicitgrant (::business #check enableOAuthImplicitGrant)' {
-  run rbw applications --name "an application" --json
+  run node ./index.js applications --name "an application" --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw application unset-implicitgrant $ID --json
+  run node ./index.js application unset-implicitgrant $ID --json
   assert $state equals 0
   IMPLICITGRANT=`echo $output | jq '.enableOAuthImplicitGrant' -r`
   assert $IMPLICITGRANT is_not_empty
@@ -116,24 +116,34 @@
   if [[ $AFTERBUILD_HOST = 'sandbox.openrainbow.com' ]]; then
     skip 'Test does not run on sandbox - application is automatically deployed'
   fi
-  run rbw applications --name "an application" --json
+  run node ./index.js applications --name "an application" --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw application deploy $ID --json
+  run node ./index.js application deploy $ID --json
   assert $state equals 0
   ENV=`echo $output | jq '.env' -r`
   assert $ENV is_not_empty
   assert $ENV same_as 'in_deployment'
 }
 
+@test 'Command application analytics (#check operation status)' {
+  run node ./index.js applications --name "an application" --json
+  assert $state equals 0
+  ID=`echo $output | jq '.data[0].id' -r`
+  SINCE=`date "+%Y01"`
+  UNTIL=`date "+%Y%m"`
+  run node ./index.js application analytics $ID $SINCE $UNTIL --json
+  assert $state equals 0
+}
+
 @test 'Command application stop (#check state)' {
   if [[ $AFTERBUILD_HOST != 'sandbox.openrainbow.com' ]]; then
     skip 'Test run only on sandbox - application is not deployed'
   fi
-  run rbw applications --name "an application" --json
+  run node ./index.js applications --name "an application" --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw application stop $ID --json
+  run node ./index.js application stop $ID --json
   assert $state equals 0
   STATE=`echo $output | jq '.state' -r`
   assert $STATE is_not_empty
@@ -144,10 +154,10 @@
   if [[ $AFTERBUILD_HOST != 'sandbox.openrainbow.com' ]]; then
     skip 'Test run only on sandbox - application is not deployed'
   fi
-  run rbw applications --name "an application" --json
+  run node ./index.js applications --name "an application" --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw application restart $ID --json
+  run node ./index.js application restart $ID --json
   assert $state equals 0
   STATE=`echo $output | jq '.state' -r`
   assert $STATE is_not_empty
@@ -155,13 +165,13 @@
 }
 
 @test 'Command application delete (#check operation status)' {
-  run rbw applications --name "an application" --json
+  run node ./index.js applications --name "an application" --json
   assert $state equals 0
   ID=`echo $output | jq '.data[0].id' -r`
-  run rbw application delete $ID --nc --json
+  run node ./index.js application delete $ID --nc --json
   assert $state equals 0
 }
 
 @teardown {
-  rbw logout
+  run node ./index.js logout
 }

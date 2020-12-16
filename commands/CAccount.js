@@ -1083,18 +1083,18 @@ class CAccount {
                         command: "application metrics <appid>",
                         details: "List application's metrics"
                     },
-                    // {
-                    //     level: "app_admin",
-                    //     theme: " ",
-                    //     command: " ",
-                    //     details: " "
-                    // },
-                    // {
-                    //     level: "app_admin",
-                    //     theme: "Analytics",
-                    //     command: "application analytics <appid> <since> <until>",
-                    //     details: "List application's analytics"
-                    // },
+                    {
+                        level: "app_admin",
+                        theme: " ",
+                        command: " ",
+                        details: " "
+                    },
+                    {
+                        level: "app_admin",
+                        theme: "Analytics",
+                        command: "application analytics <appid> <since> <until>",
+                        details: "List application's analytics"
+                    },
                     {
                         level: "app_admin",
                         theme: " ",
@@ -1533,18 +1533,18 @@ class CAccount {
                         command: " ",
                         details: " "
                     },
-                    {
-                        level: "company_admin",
-                        theme: "Bot service",
-                        command: "bot services [companyId]",
-                        details: "Get all bot services"
-                    },
-                    {
-                        level: "company_admin",
-                        theme: "Bot service",
-                        command: "bot service <serviceid> [companyId]",
-                        details: "Get a bot service data"
-                    }
+                    // {
+                    //     level: "company_admin",
+                    //     theme: "Bot service",
+                    //     command: "bot services [companyId]",
+                    //     details: "Get all bot services"
+                    // },
+                    // {
+                    //     level: "company_admin",
+                    //     theme: "Bot service",
+                    //     command: "bot service <serviceid> [companyId]",
+                    //     details: "Get a bot service data"
+                    // }
                 ];
 
                 json.data = json.data.concat(data_company);
