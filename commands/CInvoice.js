@@ -176,7 +176,9 @@ class CInvoice {
                 else {
                     Message.outCSV(json);
                 }
-                Message.log("finished!");
+                                Message.log("finished! will exit!");
+                Exit.ok();
+
 
             }).catch(function(err) {
                 Message.unspin(spin);
@@ -220,7 +222,9 @@ class CInvoice {
                 else {
                     Message.outCSV(json);
                 }
-                Message.log("finished!");
+                                Message.log("finished! will exit!");
+                Exit.ok();
+
 
             }).catch(function(err) {
                 Message.unspin(spin);
@@ -265,7 +269,9 @@ class CInvoice {
                     Message.outCSV(json);
                 }
 
-                Message.log("finished!");
+                                Message.log("finished! will exit!");
+                Exit.ok();
+
 
             }).catch(function(err) {
                 Message.unspin(spin);
@@ -306,7 +312,9 @@ class CInvoice {
                 else {
                     Message.tableInvoices(json, options);
                 }
-                Message.log("finished!");
+                                Message.log("finished! will exit!");
+                Exit.ok();
+
 
             }).catch(function(err) {
                 Message.unspin(spin);

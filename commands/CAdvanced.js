@@ -129,7 +129,9 @@ class CAdvanced {
                     Message.lineFeed();
                     Message.success(options);
                 }
-                Message.log("finished!");
+                                Message.log("finished! will exit!");
+                Exit.ok();
+
 
             }).catch(function(err) {
                 Message.unspin(spin);
@@ -195,7 +197,9 @@ class CAdvanced {
                     Message.printSuccess("Company created with Id", json.company.id, options);
                     Message.printSuccess("User created with Id", json.user.id, options)
                     Message.success(options);
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
 
                 }).catch(function(err) {
                     Message.unspin(spin);

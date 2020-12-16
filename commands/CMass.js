@@ -141,7 +141,9 @@ class CMass {
                         Exit.error();
                     });
                 }
-                Message.log("finished!");
+                                Message.log("finished! will exit!");
+                Exit.ok();
+
 
             }).catch(function(err) {
                 Message.unspin(spin);
@@ -181,7 +183,9 @@ class CMass {
                 Message.lineFeed();
                 Message.success(options);
 
-                Message.log("finished!");
+                                Message.log("finished! will exit!");
+                Exit.ok();
+
 
             }).catch(function(err) {
                 Message.unspin(spin);
@@ -221,7 +225,9 @@ class CMass {
                 Message.lineFeed();
                 Message.success(options);
 
-                Message.log("finished!");
+                                Message.log("finished! will exit!");
+                Exit.ok();
+
 
             }).catch(function(err) {
                 Message.unspin(spin);
@@ -261,7 +267,9 @@ class CMass {
                 Message.lineFeed();
                 Message.success(options);
 
-                Message.log("finished!");
+                                Message.log("finished! will exit!");
+                Exit.ok();
+
 
             }).catch(function(err) {
                 Message.unspin(spin);
@@ -301,7 +309,9 @@ class CMass {
                 Message.lineFeed();
                 Message.success(options);
 
-                Message.log("finished!");
+                                Message.log("finished! will exit!");
+                Exit.ok();
+
 
             }).catch(function(err) {
                 Message.unspin(spin);
@@ -330,7 +340,9 @@ class CMass {
                 Message.log("action done...", json);
                 Message.lineFeed();
                 Message.success(options);
-                Message.log("finished!");
+                                Message.log("finished! will exit!");
+                Exit.ok();
+
             }).catch(function(err) {
                 Message.unspin(spin);
                 Message.error(err, options);

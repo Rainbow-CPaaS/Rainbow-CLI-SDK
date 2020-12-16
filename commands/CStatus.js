@@ -118,7 +118,9 @@ class CStatus {
                         Message.lineFeed();
                         Message.tableAPI(json, options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -164,7 +166,9 @@ class CStatus {
                         Message.lineFeed();
                         Message.tablePlatform(json, options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);

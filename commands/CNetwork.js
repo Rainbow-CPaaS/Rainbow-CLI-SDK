@@ -81,7 +81,9 @@ class CNetwork {
                         Message.tableNetwork(json, options);
                     }
 
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);

@@ -30,6 +30,7 @@
         "node": ">=8.0.0"
     },
     "dependencies": {
+        "async-kit": "^2.2.4",
         "bottleneck": "^2.19.5",
         "chalk": "^2.4.2",
         "clui": "^0.3.1",

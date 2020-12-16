@@ -77,7 +77,9 @@ class CFree {
                 Message.lineFeed();
                 Message.success(options);
                 Message.printSuccess("Users deleted", json.nbDeleted.toString());
-                Message.log("finished!");
+                                Message.log("finished! will exit!");
+                Exit.ok();
+
             }).catch(function(err) {
                 Message.error(err, options);
                 Exit.error();

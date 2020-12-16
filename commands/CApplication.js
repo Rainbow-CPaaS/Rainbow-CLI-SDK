@@ -7,6 +7,90 @@ const Exit = require("../common/Exit");
 const moment = require("moment");
 const timezone = require("moment-timezone");
 const Helper = require("../common/Helper");
+// const sleep = require('system-sleep');
+
+process.on('SIGTERM', () => {
+    // console.info('SIGTERM signal received.');
+});
+
+process.on('SIGINT', () => {
+    // console.info('SIGINT signal received.');
+});
+
+var isStop = false;
+/*
+async function exitHandler(evtOrExitCodeOrError) {
+    try {
+        console.info('exit signal received exitHandler. Stop to graceful Stop the SDK. 1 ');
+
+        // await async code here
+        await NodeSDK.stop().then(() => {
+            console.info('exit signal received. Stop to graceful Stop the SDK. 1 ');
+        });
+        // Optionally: Handle evtOrExitCodeOrError here
+    } catch (e) {
+        console.error('EXIT HANDLER ERROR', e);
+    }
+
+    process.exit(isNaN(+evtOrExitCodeOrError) ? 1 : +evtOrExitCodeOrError);
+}
+
+[
+    'beforeExit', 'uncaughtException', 'unhandledRejection',
+    'SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP',
+    'SIGABRT','SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV',
+    'SIGUSR2', 'SIGTERM',
+].forEach(evt => process.on(evt, exitHandler));
+ // */
+
+/* 
+const eventLoopQueue = () => {
+    return new Promise(resolve =>
+      setImmediate(() => {
+          console.log('event loop');
+          resolve();
+      })
+    );
+}
+
+const run = async () => {
+    console.info('exit signal received in run. Start to graceful Stop the SDK.');
+    NodeSDK.stop().then(() => {
+        console.info('exit signal received. Stop to graceful Stop the SDK. 1 ');
+        //SOME_EXIT_CONDITION = true;
+        isStop = true;
+        //resolve("OK");
+    });
+
+    while (!isStop) {
+        console.log('loop');
+        await eventLoopQueue();
+    }
+}
+
+//process.on('exit', async () => {
+process.on('exit', run);
+process.on('beforeexit', async () => {
+    
+     //var prom = new Promise (async(resolve, reject)=> {
+         console.info('exit signal received. Start to graceful Stop the SDK.');
+         NodeSDK.stop().then(() => {
+             console.info('exit signal received. Stop to graceful Stop the SDK. 1 ');
+             //SOME_EXIT_CONDITION = true;
+             isStop = true;
+             //resolve("OK");
+         });
+         
+         console.info('exit signal received. Stop to graceful Stop the SDK. 2!');
+     // });
+     //isStop;
+    while (!isStop) {
+        console.log('loop');
+        await eventLoopQueue();
+    }
+    console.info('exit signal received. Stop to graceful Stop the SDK. 3');
+});
+    //  */
 
 class CApplication {
     constructor(prefs) {
@@ -799,7 +883,9 @@ class CApplication {
                             Message.lineFeed();
                             Message.success(options);
                         }
-                        Message.log("finished!");
+                                        Message.log("finished! will exit!");
+                Exit.ok();
+
                     })
                     .catch(function(err) {
                         Message.unspin(spin);
@@ -851,7 +937,9 @@ class CApplication {
                         Message.printSuccess("Application created with Id", json.data.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -901,7 +989,9 @@ class CApplication {
                         Message.printSuccess("Application successfully linked to user", options.ownerid, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -955,7 +1045,9 @@ class CApplication {
                         );
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -986,7 +1078,9 @@ class CApplication {
                     } else {
                         Message.lineFeed();
                         Message.success(options);
-                        Message.log("finished!");
+                                        Message.log("finished! will exit!");
+                Exit.ok();
+
                     }
                 })
                 .catch(function(err) {
@@ -1055,7 +1149,9 @@ class CApplication {
                         Message.printSuccess("Application blocked", json.data.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -1103,7 +1199,9 @@ class CApplication {
                         Message.printSuccess("Application unblocked", json.data.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -1151,7 +1249,9 @@ class CApplication {
                         Message.printSuccess("Application deployment request done", json.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -1205,7 +1305,9 @@ class CApplication {
                         Message.printSuccess("Application deployed", json.data.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -1253,7 +1355,9 @@ class CApplication {
                         Message.printSuccess("Application deployment declined", json.data.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -1301,7 +1405,9 @@ class CApplication {
                         Message.printSuccess("Application stopped", json.data.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -1349,7 +1455,9 @@ class CApplication {
                         Message.printSuccess("Application restarted", json.data.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -1408,7 +1516,9 @@ class CApplication {
                         Message.printSuccess("Offer successfully set", json.data.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -1464,7 +1574,9 @@ class CApplication {
                         Message.printSuccess("OAuth Redirect URI successfully set", json.data.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -1516,7 +1628,9 @@ class CApplication {
                         Message.printSuccess("OAuth Terms of service URL successfully set", json.data.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -1568,7 +1682,9 @@ class CApplication {
                         Message.printSuccess("OAuth Privacy policies URL successfully set", json.data.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -1630,7 +1746,9 @@ class CApplication {
                         }
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -1678,7 +1796,9 @@ class CApplication {
                         Message.printSuccess("Result:", json.status, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -1749,7 +1869,9 @@ class CApplication {
                         Message.lineFeed();
                         Message.tableApplications(json, options, columns);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -1825,7 +1947,9 @@ class CApplication {
                         Message.lineFeed();
                         Message.tableMetrics(json, options, categories);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -1885,7 +2009,9 @@ class CApplication {
                         Message.lineFeed();
                         Message.tableApplicationAnalytics(json, options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -1947,7 +2073,9 @@ class CApplication {
                     else {
                         Message.print("no counters !");
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -1995,7 +2123,9 @@ class CApplication {
                         Message.printSuccess("Application custom counter set", options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -2043,7 +2173,9 @@ class CApplication {
                         Message.printSuccess("Application threshold created", options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -2091,7 +2223,9 @@ class CApplication {
                         Message.printSuccess("Application threshold updated", options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -2139,7 +2273,9 @@ class CApplication {
                         Message.printSuccess("Application threshold deleted", options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -2192,7 +2328,9 @@ class CApplication {
                             Message.tableThresholds(json, options);
                         }
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -2240,7 +2378,9 @@ class CApplication {
                         Message.lineFeed();
                         Message.tableApns(json, options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -2288,7 +2428,9 @@ class CApplication {
                         Message.printSuccess("Application FCM created with Id", json.data.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -2336,7 +2478,9 @@ class CApplication {
                         Message.printSuccess("Application APNS created with Id", json.data.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -2384,7 +2528,9 @@ class CApplication {
                             Message.lineFeed();
                             Message.success(options);
                         }
-                        Message.log("finished!");
+                                        Message.log("finished! will exit!");
+                Exit.ok();
+
                     })
                     .catch(function(err) {
                         Message.unspin(spin);
@@ -2416,7 +2562,9 @@ class CApplication {
                     Message.log("action done...", json);
                     Message.lineFeed();
                     Message.success(options);
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -2484,7 +2632,9 @@ class CApplication {
                         Message.lineFeed();
                         Message.table2D(json.data, options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);

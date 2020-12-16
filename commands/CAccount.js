@@ -111,7 +111,9 @@ class CAccount {
                         Message.success(options);
                     }
 
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -190,7 +192,8 @@ class CAccount {
                     options.proxy
                 );
                 Message.log("credentials saved!");
-                Message.log("finished!");
+                Message.log("finished! will exit!");
+                Exit.ok();
             })
             .catch(function(err) {
                 Message.unspin(spin);
@@ -221,7 +224,9 @@ class CAccount {
             } else {
                 Message.success();
                 Message.printSuccess("You have signed out from", email);
-                Message.log("finished!");
+                                Message.log("finished! will exit!");
+                Exit.ok();
+
             }
         } else {
             Message.error({ details: "You are not signed-in" }, options);
@@ -262,7 +267,9 @@ class CAccount {
                     Message.out(json);
                 } else {
                     Message.success(options);
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 }
             })
             .catch(err => {
@@ -375,7 +382,9 @@ class CAccount {
 
                 Message.print("Use the command `rbw login` to connect to Rainbow");
 
-                Message.log("finished!");
+                                Message.log("finished! will exit!");
+                Exit.ok();
+
             });
     }
 
@@ -410,7 +419,9 @@ class CAccount {
             Message.table2D(json);
             Message.lineFeed();
             Message.success(options);
-            Message.log("finished!");
+                            Message.log("finished! will exit!");
+                Exit.ok();
+
         }
     }
 
@@ -434,7 +445,9 @@ class CAccount {
             Message.out(json);
         } else {
             Message.success(options);
-            Message.log("finished!");
+                            Message.log("finished! will exit!");
+                Exit.ok();
+
         }
     }
 
@@ -471,7 +484,9 @@ class CAccount {
                     } else {
                         Message.lineFeed();
                         Message.success(options);
-                        Message.log("finished!");
+                                        Message.log("finished! will exit!");
+                Exit.ok();
+
                     }
                 })
                 .catch(function(err) {
@@ -550,7 +565,9 @@ class CAccount {
                         Message.lineFeed();
                         Message.printSuccess("Company created with Id", company.id, options);
                         Message.success(options);
-                        Message.log("finished!");
+                                        Message.log("finished! will exit!");
+                Exit.ok();
+
                     }
                 })
                 .catch(function(err) {
@@ -590,7 +607,9 @@ class CAccount {
         } else {
             Message.lineFeed();
             Message.success(options);
-            Message.log("finished!");
+                            Message.log("finished! will exit!");
+                Exit.ok();
+
         }
     }
 
@@ -613,7 +632,9 @@ class CAccount {
         } else {
             Message.lineFeed();
             Message.success(options);
-            Message.log("finished!");
+                            Message.log("finished! will exit!");
+                Exit.ok();
+
         }
     }
 
@@ -636,7 +657,9 @@ class CAccount {
         } else {
             Message.lineFeed();
             Message.success(options);
-            Message.log("finished!");
+                            Message.log("finished! will exit!");
+                Exit.ok();
+
         }
     }
 
@@ -659,7 +682,9 @@ class CAccount {
         } else {
             Message.lineFeed();
             Message.success(options);
-            Message.log("finished!");
+                            Message.log("finished! will exit!");
+                Exit.ok();
+
         }
     }
 
@@ -682,7 +707,9 @@ class CAccount {
         } else {
             Message.lineFeed();
             Message.success(options);
-            Message.log("finished!");
+                            Message.log("finished! will exit!");
+                Exit.ok();
+
         }
     }
 
@@ -705,7 +732,9 @@ class CAccount {
         } else {
             Message.lineFeed();
             Message.success(options);
-            Message.log("finished!");
+                            Message.log("finished! will exit!");
+                Exit.ok();
+
         }
     }
 
@@ -728,7 +757,9 @@ class CAccount {
         } else {
             Message.lineFeed();
             Message.success(options);
-            Message.log("finished!");
+                            Message.log("finished! will exit!");
+                Exit.ok();
+
         }
     }
 
@@ -1775,7 +1806,9 @@ class CAccount {
 
         Message.tableCommands(json, options);
 
-        Message.log("finished!");
+                        Message.log("finished! will exit!");
+                Exit.ok();
+
     }
 }
 

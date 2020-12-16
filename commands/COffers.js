@@ -166,7 +166,9 @@ class COffers {
                         Message.printSuccess("Catalog created with Id", json.data.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -198,7 +200,9 @@ class COffers {
 
                     Message.lineFeed();
                     Message.success(options);
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -264,7 +268,9 @@ class COffers {
                         Message.table2D(json.data);
                         Message.lineFeed();
                         Message.success(options);
-                        Message.log("finished!");
+                                        Message.log("finished! will exit!");
+                Exit.ok();
+
                     }
                 })
                 .catch(function(err) {
@@ -329,7 +335,9 @@ class COffers {
                         Message.lineFeed();
                         Message.tableCatalogs(json, options, offers);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -376,7 +384,9 @@ class COffers {
                         Message.table2D(json.data);
                         Message.lineFeed();
                         Message.success(options);
-                        Message.log("finished!");
+                                        Message.log("finished! will exit!");
+                Exit.ok();
+
                     }
                 })
                 .catch(function(err) {
@@ -435,7 +445,9 @@ class COffers {
                         Message.lineFeed();
                         Message.tableOffers(json, options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);

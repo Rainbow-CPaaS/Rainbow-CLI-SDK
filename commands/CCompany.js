@@ -391,7 +391,9 @@ class CCompany {
                         Message.lineFeed();
                         Message.tableCompanies(json, options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -439,7 +441,9 @@ class CCompany {
                         Message.printSuccess("Company is now " + options.visibility, json.data.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -487,7 +491,9 @@ class CCompany {
                         Message.printSuccess("Company is now " + options.status, json.data.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -535,7 +541,9 @@ class CCompany {
                         Message.printSuccess("Company name is now " + options.name, json.data.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -583,7 +591,9 @@ class CCompany {
                         Message.printSuccess("Company created with Id", json.data.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -632,7 +642,9 @@ class CCompany {
                     Message.log("action done...", json);
                     Message.lineFeed();
                     Message.success(options);
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 }).catch((err) => {
                     Message.error(err, options);
                 });
@@ -687,7 +699,9 @@ class CCompany {
 
                     Message.lineFeed();
                     Message.success(options);
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -751,7 +765,9 @@ class CCompany {
                         Message.lineFeed();
                         Message.table2D(json);
                         Message.success(options);
-                        Message.log("finished!");
+                                        Message.log("finished! will exit!");
+                Exit.ok();
+
                     }
                 })
                 .catch(function(err) {
@@ -804,7 +820,9 @@ class CCompany {
                         }
 
                         Message.success(options);
-                        Message.log("finished!");
+                                        Message.log("finished! will exit!");
+                Exit.ok();
+
                     }
                 })
                 .catch(function(err) {
@@ -850,7 +868,9 @@ class CCompany {
                         Message.lineFeed();
                         Message.table2D(json);
                         Message.success(options);
-                        Message.log("finished!");
+                                        Message.log("finished! will exit!");
+                Exit.ok();
+
                     }
                 })
                 .catch(function(err) {
@@ -892,7 +912,9 @@ class CCompany {
                     Message.log("action done...", json);
                     Message.lineFeed();
                     Message.success(options);
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -933,7 +955,9 @@ class CCompany {
                     Message.log("action done...", json);
                     Message.lineFeed();
                     Message.success(options);
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -980,7 +1004,9 @@ class CCompany {
                         Message.table2D(json.data);
                         Message.lineFeed();
                         Message.success(options);
-                        Message.log("finished!");
+                                        Message.log("finished! will exit!");
+                Exit.ok();
+
                     }
                 })
                 .catch(function(err) {

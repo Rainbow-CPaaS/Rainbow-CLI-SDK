@@ -207,7 +207,9 @@ class CDeveloper {
                     Message.lineFeed();
                     Message.success(options);
                 }
-                Message.log("finished!");
+                                Message.log("finished! will exit!");
+                Exit.ok();
+
 
             }).catch(function (err) {
                 Message.unspin(spin);
@@ -251,7 +253,9 @@ class CDeveloper {
                     Message.lineFeed();
                     Message.success(options);
                 }
-                Message.log("finished!");
+                                Message.log("finished! will exit!");
+                Exit.ok();
+
 
             }).catch(function (err) {
                 Message.unspin(spin);
@@ -295,7 +299,9 @@ class CDeveloper {
                     Message.lineFeed();
                     Message.success(options);
                 }
-                Message.log("finished!");
+                                Message.log("finished! will exit!");
+                Exit.ok();
+
 
             }).catch(function (err) {
                 Message.unspin(spin);
@@ -339,7 +345,9 @@ class CDeveloper {
                     Message.lineFeed();
                     Message.success(options);
                 }
-                Message.log("finished!");
+                                Message.log("finished! will exit!");
+                Exit.ok();
+
 
             }).catch(function (err) {
                 Message.unspin(spin);
@@ -368,7 +376,9 @@ class CDeveloper {
                 Message.log("action done...", json);
                 Message.lineFeed();
                 Message.success(options);
-                Message.log("finished!");
+                                Message.log("finished! will exit!");
+                Exit.ok();
+
             }).catch(function (err) {
                 Message.unspin(spin);
                 Message.error(err, options);
@@ -417,7 +427,9 @@ class CDeveloper {
                 Message.log("action done...", json);
                 Message.lineFeed();
                 Message.success(options);
-                Message.log("finished!");
+                                Message.log("finished! will exit!");
+                Exit.ok();
+
             }).catch(function (err) {
                 Message.unspin(spin);
                 Message.error(err, options);
@@ -481,7 +493,9 @@ class CDeveloper {
                     Message.lineFeed();
                     Message.success(options);
                 }
-                Message.log("finished!");
+                                Message.log("finished! will exit!");
+                Exit.ok();
+
 
             }).catch(function (err) {
                 Message.unspin(spin);
@@ -516,7 +530,9 @@ class CDeveloper {
             Message.log("action done...", json);
             Message.lineFeed();
             Message.success(options);
-            Message.log("finished!");
+                            Message.log("finished! will exit!");
+                Exit.ok();
+
         }).catch(function (err) {
             Message.unspin(spin);
             Message.error(err, options);
@@ -545,7 +561,9 @@ class CDeveloper {
             Message.log("action done...", json);
             Message.lineFeed();
             Message.success(options);
-            Message.log("finished!");
+                            Message.log("finished! will exit!");
+                Exit.ok();
+
         }).catch(function (err) {
             Message.unspin(spin);
             Message.error(err, options);
@@ -574,7 +592,9 @@ class CDeveloper {
             Message.log("action done...", json);
             Message.lineFeed();
             Message.success(options);
-            Message.log("finished!");
+                            Message.log("finished! will exit!");
+                Exit.ok();
+
         }).catch(function (err) {
             Message.unspin(spin);
             Message.error(err, options);

@@ -92,7 +92,9 @@ class CPhone {
                         Message.lineFeed();
                         Message.tablePhones(json, options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -139,7 +141,9 @@ class CPhone {
                         Message.table2D(json.data);
                         Message.lineFeed();
                         Message.success(options);
-                        Message.log("finished!");
+                                        Message.log("finished! will exit!");
+                Exit.ok();
+
                     }
                 })
                 .catch(function(err) {

@@ -1,16 +1,22 @@
 "use strict";
 
+const NodeSDK = require("./SDK");
+
 class Exit {
 
     constructor() {
     }
 
     ok() {
-        process.exit(0);
+        console.log("Exit::ok!");
+        NodeSDK.stopAndExit();
+        // process.exit(0);
     }
 
     error() {
-        process.exit(1); 
+        console.log("Exit::error!");
+        NodeSDK.stopAndExit();
+        // process.exit(1); 
     }
 }
 

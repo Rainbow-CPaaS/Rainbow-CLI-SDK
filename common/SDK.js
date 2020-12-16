@@ -2,6 +2,7 @@
 
 const NodeSDK = require("rainbow-node-sdk");
 const Logger = require("./Logger");
+const asynckit = require("async-kit");
 
 const LOG_ID = "PRINT - ";
 
@@ -114,6 +115,22 @@ class SDK {
         });
     }
 
+    stop () {
+        var that = this;
+        Logger.logs('CLI/SDK - stop SDK.');
+        return that._nodeSDK.stop();
+    }
+    
+    async stopAndExit () {
+        var that = this;
+        Logger.logs('CLI/SDK - stop SDK and Exit.');
+        // return await that._nodeSDK.stopProcess()();
+        return that._nodeSDK.stop().then(()=>{
+            Logger.logs('CLI/SDK - asynckit Exit.');
+            asynckit.exit();
+        });
+    }
+    
     signin() {
         var that = this;
 

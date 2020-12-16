@@ -577,7 +577,9 @@ class CInternal {
                         Message.tableDashboardMetrics(json.data, options);
                     }
 
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -649,7 +651,9 @@ class CInternal {
                         Message.tableDashboardInDeployment(json, options);
                     }
 
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -718,7 +722,9 @@ class CInternal {
                         Message.tableDashboardDevelopers(json, options);
                     }
 
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);

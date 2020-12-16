@@ -125,7 +125,9 @@ class COrganization {
                     }
                 });
             }
-            Message.log("finished!");
+                            Message.log("finished! will exit!");
+                Exit.ok();
+
         } else {
             Message.notLoggedIn(options);
             Exit.error();
@@ -175,7 +177,9 @@ class COrganization {
                         Message.lineFeed();
                         Message.tableOrganizations(json, options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -222,7 +226,9 @@ class COrganization {
                         Message.table2D(json.data);
                         Message.lineFeed();
                         Message.success(options);
-                        Message.log("finished!");
+                                        Message.log("finished! will exit!");
+                Exit.ok();
+
                     }
                 })
                 .catch(function(err) {
@@ -268,7 +274,9 @@ class COrganization {
                         Message.lineFeed();
                         Message.printSuccess("Organization created with Id", json.data.id, options);
                         Message.success(options);
-                        Message.log("finished!");
+                                        Message.log("finished! will exit!");
+                Exit.ok();
+
                     }
                 })
                 .catch(function(err) {

@@ -109,7 +109,9 @@ class CSite {
                     } else {
                         Message.lineFeed();
                         Message.success(options);
-                        Message.log("finished!");
+                                        Message.log("finished! will exit!");
+                Exit.ok();
+
                     }
                 })
                 .catch(function(err) {
@@ -186,7 +188,9 @@ class CSite {
                         Message.lineFeed();
                         Message.tableSites(json, options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -233,7 +237,9 @@ class CSite {
                         Message.table2D(json.data);
                         Message.lineFeed();
                         Message.success(options);
-                        Message.log("finished!");
+                                        Message.log("finished! will exit!");
+                Exit.ok();
+
                     }
                 })
                 .catch(function(err) {
@@ -280,7 +286,9 @@ class CSite {
                         Message.lineFeed();
                         Message.printSuccess("Site created with Id", json.data.id, options);
                         Message.success(options);
-                        Message.log("finished!");
+                                        Message.log("finished! will exit!");
+                Exit.ok();
+
                     }
                 })
                 .catch(function(err) {

@@ -278,7 +278,9 @@ class CChannels {
             Message.tableChannels(json, options);
           }
 
-          Message.log("finished!");
+                          Message.log("finished! will exit!");
+                Exit.ok();
+
         })
         .catch(function(err) {
           Message.unspin(spin);
@@ -326,7 +328,9 @@ class CChannels {
             Message.tableChannelsLatestItems(json, options);
           }
 
-          Message.log("finished!");
+                          Message.log("finished! will exit!");
+                Exit.ok();
+
         })
         .catch(function(err) {
           Message.unspin(spin);
@@ -373,7 +377,9 @@ class CChannels {
             Message.lineFeed();
             Message.success(options);
           }
-          Message.log("finished!");
+                          Message.log("finished! will exit!");
+                Exit.ok();
+
         })
         .catch(function(err) {
           Message.unspin(spin);
@@ -424,7 +430,9 @@ class CChannels {
             Message.lineFeed();
             Message.success(options);
           }
-          Message.log("finished!");
+                          Message.log("finished! will exit!");
+                Exit.ok();
+
         })
         .catch(function(err) {
           Message.unspin(spin);
@@ -475,7 +483,9 @@ class CChannels {
             Message.lineFeed();
             Message.success(options);
           }
-          Message.log("finished!");
+                          Message.log("finished! will exit!");
+                Exit.ok();
+
         })
         .catch(function(err) {
           Message.unspin(spin);
@@ -522,7 +532,9 @@ class CChannels {
             Message.lineFeed();
             Message.success(options);
           }
-          Message.log("finished!");
+                          Message.log("finished! will exit!");
+                Exit.ok();
+
         })
         .catch(function(err) {
           Message.unspin(spin);
@@ -570,7 +582,9 @@ class CChannels {
               Message.success(options);
             }
           }
-          Message.log("finished!");
+                          Message.log("finished! will exit!");
+                Exit.ok();
+
         })
         .catch(function(err) {
           Message.unspin(spin);
@@ -618,7 +632,9 @@ class CChannels {
             Message.tableChannels(json, options);
           }
 
-          Message.log("finished!");
+                          Message.log("finished! will exit!");
+                Exit.ok();
+
         })
         .catch(function(err) {
           Message.unspin(spin);

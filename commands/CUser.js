@@ -219,7 +219,9 @@ class CUser {
                         Message.lineFeed();
                         Message.tableUsers(json, options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -265,7 +267,9 @@ class CUser {
                         Message.printSuccess("User created with Id", json.data.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -311,7 +315,9 @@ class CUser {
                         Message.printSuccess("User added", options.userToAddId, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -364,7 +370,9 @@ class CUser {
                         Message.printSuccess("Password changed for user", json.data.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -418,7 +426,9 @@ class CUser {
                         Message.printSuccess("Login changed for user", json.data.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -471,7 +481,9 @@ class CUser {
                         Message.printSuccess("Company changed for user", json.data.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -507,7 +519,9 @@ class CUser {
                         Message.printSuccess("User deleted", json.data.id, options);
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -574,7 +588,9 @@ class CUser {
                             Message.lineFeed();
                             Message.success(options);
                         }
-                        Message.log("finished!");
+                                        Message.log("finished! will exit!");
+                Exit.ok();
+
                     })
                     .catch(function(err) {
                         Message.unspin(spin);
@@ -639,7 +655,9 @@ class CUser {
                         }
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
@@ -700,7 +718,9 @@ class CUser {
                         }
                         Message.success(options);
                     }
-                    Message.log("finished!");
+                                    Message.log("finished! will exit!");
+                Exit.ok();
+
                 })
                 .catch(function(err) {
                     Message.unspin(spin);
