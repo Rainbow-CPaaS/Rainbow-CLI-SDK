@@ -1,6 +1,6 @@
 {
     "name": "rainbow-cli",
-    "version": "1.81.0-beta.0",
+    "version": "1.81.0-beta.1",
     "description": "Rainbow CLI application based on the Rainbow SDK for Node.js",
     "main": "index.js",
     "scripts": {
@@ -41,7 +41,7 @@
         "moment": "^2.29.1",
         "moment-timezone": "^0.5.32",
         "preferences": "^1.0.2",
-        "rainbow-node-sdk": "1.79.2",
+        "rainbow-node-sdk": "^1.80.0",
         "sitemap": "^2.2.0",
         "standard": "^12.0.1",
         "table": "^5.4.6",
