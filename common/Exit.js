@@ -8,13 +8,13 @@ class Exit {
     }
 
     ok() {
-        console.log("Exit::ok!");
+        // console.log("Exit::ok!");
         NodeSDK.stopAndExit();
         // process.exit(0);
     }
 
     error() {
-        console.log("Exit::error!");
+        // console.log("Exit::error!");
         NodeSDK.stopAndExit();
         // process.exit(1); 
     }
