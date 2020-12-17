@@ -125,10 +125,12 @@ class SDK {
         var that = this;
         Logger.logs('CLI/SDK - stop SDK and Exit.');
         // return await that._nodeSDK.stopProcess()();
-        return that._nodeSDK.stop().then(()=>{
-            Logger.logs('CLI/SDK - asynckit Exit.');
-            asynckit.exit();
-        });
+        if (that._nodeSDK) {
+            return that._nodeSDK.stop().then(()=>{
+                Logger.logs('CLI/SDK - asynckit Exit.');
+                asynckit.exit();
+            });    
+        }
     }
     
     signin() {
