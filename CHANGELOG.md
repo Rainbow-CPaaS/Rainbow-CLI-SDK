@@ -6,6 +6,10 @@ Here is the list of the changes and features provided by the Rainbow-CLI
 
 All notable changes to Rainbow-CLI will be documented in this file.
 
+## [1.81.0-beta.1] - 2020-12-17
+- Updated NodeSDK
+- Bug fix on exit
+
 ## [1.81.0-beta.0] - 2020-12-16
 - New command to get application analytics 'rbw application analytics'
 - Bug fix in rbw dashboard command

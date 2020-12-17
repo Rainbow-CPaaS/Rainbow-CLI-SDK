@@ -20,6 +20,7 @@ Welcome to the new release of the **Rainbow CLI**. There are a number of signifi
 
 -   New command to get application analytics 'rbw application analytics'
 -   Bug fix in rbw dashboard command
+-   Updated NodeSDK and bug fix on exit
 
 ### Rainbow CLI 1.71 (April 2020)
 
